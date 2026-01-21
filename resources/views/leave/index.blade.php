@@ -1,0 +1,228 @@
+@extends('layouts.app')
+
+@section('title', 'Leave - Leave List')
+
+@section('body')
+    <x-main-layout title="Leave">
+                    <!-- Top Navigation Tabs -->
+                    <div class="hr-sticky-tabs">
+                        <div class="flex items-center border-b border-purple-100 overflow-x-auto">
+                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                <span class="text-sm font-medium text-slate-700">Apply</span>
+                            </div>
+                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                <span class="text-sm font-medium text-slate-700">My Leave</span>
+                            </div>
+                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                <span class="text-sm font-medium text-slate-700">Entitlements</span>
+                                <span class="text-purple-400 ml-1">▼</span>
+                            </div>
+                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                <span class="text-sm font-medium text-slate-700">Reports</span>
+                                <span class="text-purple-400 ml-1">▼</span>
+                            </div>
+                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                <span class="text-sm font-medium text-slate-700">Configure</span>
+                                <span class="text-purple-400 ml-1">▼</span>
+                            </div>
+                            <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50">
+                                <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Leave List</span>
+                            </div>
+                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                <span class="text-sm font-medium text-slate-700">Assign Leave</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leave List Section -->
+                    <div>
+                        <div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
+                        <h2 class="text-sm font-bold text-slate-800 mb-3">Leave List</h2>
+
+                        <!-- Filter Form -->
+                        <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 mb-1">From Date</label>
+                                    <div class="relative">
+                                        <input type="date" value="2026-01-16" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-400 text-sm pointer-events-none">📅</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 mb-1">To Date</label>
+                                    <div class="relative">
+                                        <input type="date" value="2026-12-31" class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-400 text-sm pointer-events-none">📅</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 mb-1">Show Leave with Status*</label>
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                        <option>-- Select --</option>
+                                        <option>Pending Approval</option>
+                                        <option>Approved</option>
+                                        <option>Rejected</option>
+                                        <option>Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 mb-1">Leave Type</label>
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                        <option>-- Select --</option>
+                                        <option>Annual Leave</option>
+                                        <option>Sick Leave</option>
+                                        <option>Casual Leave</option>
+                                        <option>Personal Leave</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name <span class="text-red-500">*</span></label>
+                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
+                                    <div class="text-xs text-gray-500 mt-1">* Required</div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 mb-1">Sub Unit</label>
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                        <option>-- Select --</option>
+                                        <option>Engineering</option>
+                                        <option>Human Resources</option>
+                                        <option>Quality Assurance</option>
+                                        <option>Business Development</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="include-past-employees">
+                                        <span class="toggle-slider"></span>
+                                    </div>
+                                    <span class="text-xs text-slate-700 font-medium">Include Past Employees</span>
+                                </label>
+                            </div>
+                            <div class="flex justify-end gap-2">
+                                <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all">
+                                    Reset
+                                </button>
+                                <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Records Count -->
+                        @if(count($leaves) > 0)
+                        <div class="mb-3 text-xs text-slate-600 font-medium">
+                            ({{ count($leaves) }}) Records Found
+                        </div>
+                        @endif
+
+                        <!-- Table Wrapper -->
+                        <div class="hr-table-wrapper">
+                            <!-- Table Header - Always Visible -->
+                            <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
+                                <div class="flex-shrink-0" style="width: 24px;">
+                                    <input type="checkbox" class="rounded border-gray-300 text-[var(--color-hr-primary)] focus:ring-2 focus:ring-[var(--color-hr-primary)] w-3.5 h-3.5">
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Date</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Employee Name</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Leave Type</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Leave Balance (Days)</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Number of Days</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Status</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Comments</div>
+                                </div>
+                                <div class="flex-shrink-0" style="width: 70px;">
+                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center">Actions</div>
+                                </div>
+                            </div>
+
+                            <!-- Leave Cards List or No Records -->
+                            @if(count($leaves) === 0)
+                            <div class="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
+                                <div class="text-gray-500 text-lg font-medium">No Records Found</div>
+                            </div>
+                            @else
+                            <div class="border border-gray-200 border-t-0 rounded-b-lg">
+                            @foreach($leaves as $leave)
+                            <div class="bg-white border-b border-gray-200 last:border-b-0 px-2 py-1.5 hover:bg-gray-50 transition-colors flex items-center gap-1">
+                                <!-- Checkbox -->
+                                <div class="flex-shrink-0" style="width: 24px;">
+                                    <input type="checkbox" class="rounded border-gray-300 text-[var(--color-hr-primary)] focus:ring-2 focus:ring-[var(--color-hr-primary)] w-3.5 h-3.5">
+                                </div>
+                                
+                                <!-- Date -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave['date'] ?? '-' }}</div>
+                                </div>
+                                
+                                <!-- Employee Name -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave['employee_name'] ?? '-' }}</div>
+                                </div>
+                                
+                                <!-- Leave Type -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave['leave_type'] ?? '-' }}</div>
+                                </div>
+                                
+                                <!-- Leave Balance -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave['leave_balance'] ?? '-' }}</div>
+                                </div>
+                                
+                                <!-- Number of Days -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave['number_of_days'] ?? '-' }}</div>
+                                </div>
+                                
+                                <!-- Status -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave['status'] ?? '-' }}</div>
+                                </div>
+                                
+                                <!-- Comments -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave['comments'] ?? '-' }}</div>
+                                </div>
+                                
+                                <!-- Actions -->
+                                <div class="flex-shrink-0" style="width: 70px;">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button class="p-0.5 rounded text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all flex-shrink-0" title="Delete">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                        <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="Edit">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    </div>
+    </x-main-layout>
+@endsection
+

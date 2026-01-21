@@ -1,0 +1,370 @@
+# TOAI HR Suite
+
+A modern, professional Human Resource Management System built with Laravel and Tailwind CSS, featuring a beautiful lavender-themed UI with complete dark mode support.
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel Version">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP Version">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Dark_Mode-Enabled-8B5CF6?style=for-the-badge" alt="Dark Mode">
+</p>
+
+## 🎨 Features
+
+- **Modern Dashboard**: Professional HR dashboard with interactive charts and widgets
+- **Complete Dark Mode**: Full dark mode support with theme toggle and localStorage persistence
+- **Session-based Authentication**: Simple and secure login system
+- **Employee Management**: Track employee distribution by sub-units and locations
+- **Admin Panel**: User management with role-based access
+- **PIM (Personal Information Management)**: Employee list and information management
+- **Leave Management**: Manage leave requests, approvals, and tracking
+- **Time Tracking**: Monitor work hours, attendance, and timesheets
+- **Recruitment**: Candidate management and vacancy tracking
+- **Performance Management**: Employee performance reviews and tracking
+- **My Info**: Personal employee information and document management
+- **Directory**: Employee directory with search and filtering
+- **Claim Management**: Employee claims submission and management
+- **Buzz Feed**: Social feed for company announcements and updates
+- **Maintenance**: System maintenance and data purge utilities
+- **Interactive Charts**: Beautiful pie charts with hover tooltips
+- **Responsive Design**: Mobile-friendly interface
+- **Lavender Theme**: Elegant purple/lavender color scheme
+
+## 🏗️ Architecture
+
+This project follows the **MVC (Model-View-Controller)** architectural pattern:
+
+- **Models** (`app/Models/`): Handle data logic and database interactions
+- **Views** (`resources/views/`): Present data to users (Blade templates)
+- **Controllers** (`app/Http/Controllers/`): Handle user requests and coordinate between Models and Views
+- **Routes** (`routes/web.php`): Define URL endpoints and map them to controllers
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- XAMPP (or any local server environment)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd HR
+   ```
+
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
+
+3. **Install Node dependencies**
+   ```bash
+   npm install
+   ```
+
+4. **Configure environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+5. **Build assets**
+   ```bash
+   npm run build
+   ```
+
+6. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
+
+## 🔐 Login Credentials
+
+**Login URL**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/) or [http://localhost:8000/](http://localhost:8000/)
+
+**Demo Credentials:**
+- **Username**: `admin`
+- **Password**: `admin123`
+
+After successful login, you'll be redirected to the dashboard at `/dashboard`.
+
+## 📁 Project Structure (MVC Architecture)
+
+```
+HR/
+├── app/                                    # Application Core (MVC)
+│   ├── Http/
+│   │   ├── Controllers/                    # Controllers (C)
+│   │   │   ├── Auth/
+│   │   │   │   └── LoginController.php     # Authentication logic
+│   │   │   ├── AdminController.php         # Admin panel management
+│   │   │   ├── DashboardController.php      # Dashboard data
+│   │   │   ├── PIMController.php           # Personal Info Management
+│   │   │   ├── LeaveController.php         # Leave management
+│   │   │   ├── TimeController.php          # Time tracking
+│   │   │   ├── RecruitmentController.php   # Recruitment management
+│   │   │   ├── MyInfoController.php        # Employee self-service
+│   │   │   ├── PerformanceController.php   # Performance reviews
+│   │   │   ├── DirectoryController.php     # Employee directory
+│   │   │   ├── MaintenanceController.php   # System maintenance
+│   │   │   ├── ClaimController.php         # Claims management
+│   │   │   └── BuzzController.php          # Social feed
+│   │   └── Middleware/
+│   │       └── AuthSession.php             # Session authentication middleware
+│   └── Models/                             # Models (M)
+│       └── User.php                        # User model
+├── resources/
+│   ├── css/
+│   │   └── app.css                        # Main stylesheet with lavender theme & dark mode
+│   ├── js/
+│   │   └── app.js                         # JavaScript (theme toggle, dropdowns)
+│   └── views/                             # Views (V)
+│       ├── auth/
+│       │   └── login.blade.php            # Login page
+│       ├── components/
+│       │   ├── header.blade.php           # Header component
+│       │   ├── sidebar.blade.php          # Sidebar navigation
+│       │   └── main-layout.blade.php      # Main layout wrapper
+│       ├── layouts/
+│       │   └── app.blade.php              # Base layout
+│       ├── dashboard/
+│       │   └── index.blade.php            # Dashboard view
+│       ├── admin/
+│       │   └── index.blade.php            # Admin panel view
+│       ├── pim/
+│       │   └── index.blade.php            # PIM view
+│       ├── leave/
+│       │   └── index.blade.php            # Leave management view
+│       ├── time/
+│       │   └── index.blade.php            # Time tracking view
+│       ├── recruitment/
+│       │   └── index.blade.php            # Recruitment view
+│       ├── myinfo/
+│       │   └── index.blade.php            # My Info view
+│       ├── performance/
+│       │   └── index.blade.php            # Performance view
+│       ├── directory/
+│       │   └── index.blade.php            # Directory view
+│       ├── maintenance/
+│       │   ├── auth.blade.php             # Maintenance auth
+│       │   ├── purge-employee.blade.php   # Purge employee records
+│       │   ├── purge-candidate.blade.php  # Purge candidate records
+│       │   └── access-records.blade.php   # Access records
+│       ├── claim/
+│       │   └── index.blade.php            # Claims view
+│       └── buzz/
+│           └── index.blade.php            # Buzz feed view
+├── routes/
+│   └── web.php                            # Application routes
+├── database/
+│   ├── migrations/                        # Database migrations
+│   └── seeders/                           # Database seeders
+└── public/                                # Public assets
+```
+
+## 🎯 Key Routes
+
+### Authentication Routes
+- `GET /` - Login page
+- `POST /login` - Authentication
+- `POST /logout` - Logout
+
+### Protected Routes (Require Authentication)
+- `GET /dashboard` - Dashboard (main page)
+- `GET /admin` - Admin panel
+- `GET /pim` - Personal Information Management
+- `GET /leave` - Leave management
+- `GET /time` - Time tracking
+- `GET /recruitment` - Recruitment management
+- `GET /my-info` - Employee self-service
+- `GET /performance` - Performance management
+- `GET /directory` - Employee directory
+- `GET /claim` - Claims management
+- `GET /buzz` - Social feed
+
+### Maintenance Routes (Require Additional Auth)
+- `GET /maintenance/auth` - Maintenance authentication
+- `POST /maintenance/auth` - Maintenance auth submission
+- `GET /maintenance` - Maintenance dashboard
+- `GET /maintenance/purge-employee` - Purge employee records
+- `GET /maintenance/purge-candidate` - Purge candidate records
+- `GET /maintenance/access-records` - Access records
+
+## 🛠️ Technology Stack
+
+- **Backend**: Laravel 11.x
+- **Frontend**: Tailwind CSS 3.x
+- **Build Tool**: Vite
+- **Authentication**: Session-based (custom middleware)
+- **Styling**: Custom CSS with lavender theme
+- **JavaScript**: Vanilla JS for theme toggle and interactions
+- **Architecture**: MVC (Model-View-Controller)
+
+## 🎨 Theme & Dark Mode
+
+The application features a professional lavender/purple color scheme with complete dark mode support:
+
+### Light Theme Colors
+- Primary Color: `#8B5CF6` (Lavender Purple)
+- Primary Dark: `#6D28D9`
+- Primary Soft: `#A78BFA`
+- Background: `#F5F3FF` (Light Lavender)
+- Text: `#1E293B` (Dark Slate)
+
+### Dark Theme Colors
+- Background Main: `#0F172A` (Slate-900)
+- Background Surface: `#111827` (Gray-900)
+- Background Card: `#1F2937` (Gray-800)
+- Text Primary: `#E5E7EB` (Gray-200)
+- Text Muted: `#9CA3AF` (Gray-400)
+- Border: `#334155` (Slate-700)
+- Primary Accent: `#8B5CF6` (Purple retained)
+
+### Dark Mode Features
+- **Theme Toggle**: Click the 🌙/☀️ button in the header
+- **Persistent**: Theme preference saved in localStorage
+- **System Preference**: Respects system dark mode on first visit
+- **Smooth Transitions**: All color changes animate smoothly
+- **Complete Coverage**: All pages, components, and elements support dark mode
+
+## 📊 Dashboard Features
+
+- **Time at Work**: Track daily and weekly work hours with visual charts
+- **My Actions**: Pending tasks and reviews
+- **Quick Launch**: Quick access to common functions (Leave, Timesheets, etc.)
+- **Buzz Latest Posts**: Social feed updates
+- **Employee Distribution**: Interactive pie charts showing:
+  - Distribution by Sub Unit
+  - Distribution by Location
+- **Employees on Leave**: Today's leave status
+
+## 🎛️ Module Details
+
+### Admin Module
+- User management with roles (Admin/ESS)
+- User status management (Enabled/Disabled)
+- Search and filter functionality
+
+### PIM Module
+- Employee list management
+- Employee information tracking
+- Search and filter capabilities
+
+### Leave Module
+- Leave list management
+- Leave status tracking (Pending, Approved, Rejected)
+- Leave type management
+
+### Time Module
+- Timesheet management
+- Employee time tracking
+- Pending approvals
+
+### Recruitment Module
+- Candidate management
+- Vacancy tracking
+- Candidate search and filtering
+
+### Performance Module
+- Performance reviews
+- Review status tracking
+- Employee performance metrics
+
+### My Info Module
+- Personal details management
+- Custom fields
+- Document attachments
+
+### Directory Module
+- Employee directory
+- Search by name, job title, location
+- Employee profile cards
+
+### Claim Module
+- Employee claims submission
+- Claim status tracking
+- Claim assignment
+
+### Buzz Module
+- Social feed for announcements
+- Post creation and interaction
+- Upcoming anniversaries widget
+
+### Maintenance Module
+- System maintenance utilities
+- Data purge (Employee/Candidate records)
+- Access records management
+
+## 🔧 Development
+
+### Building Assets
+
+For production:
+```bash
+npm run build
+```
+
+For development with hot reload:
+```bash
+npm run dev
+```
+
+### Running Tests
+
+```bash
+php artisan test
+```
+
+### Code Structure Guidelines
+
+This project follows MVC architecture:
+
+1. **Controllers**: Handle HTTP requests, validate input, call models, return views
+   - Location: `app/Http/Controllers/`
+   - Naming: `{Module}Controller.php`
+
+2. **Models**: Handle database interactions and business logic
+   - Location: `app/Models/`
+   - Naming: Singular (e.g., `User.php`)
+
+3. **Views**: Present data to users using Blade templates
+   - Location: `resources/views/`
+   - Naming: `{module}/index.blade.php`
+
+4. **Routes**: Define URL endpoints
+   - Location: `routes/web.php`
+   - Pattern: `Route::get('/{path}', [Controller::class, 'method'])->name('route.name');`
+
+5. **Middleware**: Handle cross-cutting concerns (auth, logging, etc.)
+   - Location: `app/Http/Middleware/`
+
+## 📝 Notes
+
+- The application uses session-based authentication (no database required for basic functionality)
+- All assets are compiled using Vite
+- The UI is fully responsive and optimized for modern browsers
+- Dark mode preference persists across sessions
+- All components follow the centralized CSS variable system for consistent theming
+
+## 🔒 Security
+
+- Session-based authentication with custom middleware
+- CSRF protection enabled
+- Password hashing for user credentials
+- Maintenance module requires additional authentication
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## 👥 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+**Built with ❤️ using Laravel**
