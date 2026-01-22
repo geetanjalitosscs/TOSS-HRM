@@ -11,7 +11,7 @@ class LeaveController extends Controller
         // Sample leave data (empty for now as shown in image)
         $leaves = [];
 
-        return view('leave.index', compact('leaves'));
+        return view('leave.leave', compact('leaves'));
     }
 }
 

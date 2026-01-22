@@ -25,7 +25,7 @@ class PIMController extends Controller
             ['id' => '010', 'first_name' => 'Kavita', 'last_name' => 'Nair', 'job_title' => 'Frontend Developer', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Engineering', 'supervisor' => 'Chris Anderson'],
         ];
 
-        return view('pim.index', compact('employees'));
+        return view('pim.pim', compact('employees'));
     }
 }
 

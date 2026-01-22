@@ -10,7 +10,7 @@
                     <section class="hr-card p-6">
                         <div class="flex items-center justify-between mb-5">
                             <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                <span class="text-purple-500">⏰</span> Time at Work
+                                <i class="fas fa-clock text-purple-500"></i> Time at Work
                             </h2>
                         </div>
                         <div class="flex items-start gap-4 mb-5">
@@ -42,18 +42,18 @@
                     <!-- My Actions Card -->
                     <section class="hr-card p-6">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                            <span class="text-purple-500">📋</span> My Actions
+                            <i class="fas fa-clipboard-list text-purple-500"></i> My Actions
                         </h2>
                         <ul class="space-y-3">
                             <li class="flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 transition-all">
                                 <div class="flex items-center gap-2.5">
-                                    <span class="text-lg">👤</span>
+                                    <i class="fas fa-user text-purple-500"></i>
                                     <span class="text-xs text-slate-700 font-medium">(1) Pending Self Review</span>
                                 </div>
                             </li>
                             <li class="flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 transition-all">
                                 <div class="flex items-center gap-2.5">
-                                    <span class="text-lg">👤</span>
+                                    <i class="fas fa-user text-purple-500"></i>
                                     <span class="text-xs text-slate-700 font-medium">(1) Candidate to Interview</span>
                                 </div>
                             </li>
@@ -63,33 +63,33 @@
                     <!-- Quick Launch Card -->
                     <section class="hr-card p-6">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                            <span class="text-purple-500">⚡</span> Quick Launch
+                            <i class="fas fa-bolt text-purple-500"></i> Quick Launch
                         </h2>
                         <div class="grid grid-cols-3 gap-3">
-                            <div class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all">✓</div>
+                            <a href="{{ route('leave') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
+                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-check"></i></div>
                                 <span class="text-[10px] text-slate-700 text-center font-medium">Assign Leave</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all">📋</div>
+                            </a>
+                            <a href="{{ route('leave') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
+                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-list"></i></div>
                                 <span class="text-[10px] text-slate-700 text-center font-medium">Leave List</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all">⏰</div>
+                            </a>
+                            <a href="{{ route('time') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
+                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-clock"></i></div>
                                 <span class="text-[10px] text-slate-700 text-center font-medium">Timesheets</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all">→</div>
+                            </a>
+                            <a href="{{ route('leave') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
+                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-paper-plane"></i></div>
                                 <span class="text-[10px] text-slate-700 text-center font-medium">Apply Leave</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all">👤</div>
+                            </a>
+                            <a href="{{ route('leave') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
+                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-user"></i></div>
                                 <span class="text-[10px] text-slate-700 text-center font-medium">My Leave</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all">⏰</div>
+                            </a>
+                            <a href="{{ route('time') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
+                                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-clock"></i></div>
                                 <span class="text-[10px] text-slate-700 text-center font-medium">My Timesheet</span>
-                            </div>
+                            </a>
                         </div>
                     </section>
                 </div>
@@ -98,7 +98,7 @@
                     <!-- Buzz Latest Posts -->
                     <section class="hr-card p-6">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                            <span class="text-purple-500">📷</span> Buzz Latest Posts
+                            <i class="fas fa-camera text-purple-500"></i> Buzz Latest Posts
                         </h2>
                         <div class="space-y-3 max-h-80 overflow-y-auto">
                             @for ($i = 0; $i < 3; $i++)
@@ -119,10 +119,10 @@
                     <!-- Employees on Leave Today -->
                     <section class="hr-card p-6">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                            <span class="text-purple-500">👤</span> Employees on Leave Today
+                            <i class="fas fa-user text-purple-500"></i> Employees on Leave Today
                         </h2>
                         <div class="flex flex-col items-center justify-center h-48 text-center">
-                            <div class="text-5xl mb-3 opacity-60">📋</div>
+                            <i class="fas fa-clipboard text-5xl mb-3 opacity-60 text-purple-400"></i>
                             <p class="text-xs text-slate-600 font-medium">No Employees are on Leave Today</p>
                         </div>
                     </section>
@@ -130,7 +130,7 @@
                     <!-- Employee Distribution by Sub Unit -->
                     <section class="hr-card p-6">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                            <span class="text-purple-500">📊</span> Employee Distribution by Sub Unit
+                            <i class="fas fa-chart-pie text-purple-500"></i> Employee Distribution by Sub Unit
                         </h2>
                         <div class="flex items-center justify-center mb-3 py-4">
                             <div class="relative flex items-center justify-center" style="width: 200px; height: 200px; padding: 10px;">

@@ -7,19 +7,18 @@
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b border-purple-100 overflow-y-visible">
-                <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 relative group cursor-pointer" onclick="toggleDropdown(event)" style="overflow: visible;">
-                    <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Purge Records</span>
-                    <span class="text-purple-400 ml-1">▼</span>
-                    <!-- Dropdown Menu -->
-                    <div class="hr-dropdown-menu absolute top-full left-0 mt-0 w-48 bg-white rounded-lg shadow-lg border border-purple-100" style="z-index: 9999; display: none;">
-                        <a href="{{ route('maintenance.purge-employee') }}" class="block px-4 py-2 text-xs text-gray-700 hover:bg-purple-50">
-                            Employee Records
-                        </a>
-                        <a href="{{ route('maintenance.purge-candidate') }}" class="block px-4 py-2 text-xs text-gray-700 hover:bg-purple-50 bg-purple-50 text-purple-600 font-medium">
-                            Candidate Records
-                        </a>
+                <x-dropdown-menu 
+                    :items="[
+                        ['url' => route('maintenance.purge-employee'), 'label' => 'Employee Records', 'active' => false],
+                        ['url' => route('maintenance.purge-candidate'), 'label' => 'Candidate Records', 'active' => true]
+                    ]"
+                    position="left"
+                    width="w-48">
+                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer">
+                        <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Purge Records</span>
+                        <span class="text-purple-400 ml-1">▼</span>
                     </div>
-                </div>
+                </x-dropdown-menu>
                 <a href="{{ route('maintenance.access-records') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                     <span class="text-sm font-medium text-slate-700">Access Records</span>
                 </a>

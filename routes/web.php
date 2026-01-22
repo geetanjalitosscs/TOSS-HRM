@@ -14,8 +14,12 @@ use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ClaimController;
 use App\Http\Controllers\BuzzController;
+use App\Http\Controllers\ProfileController;
 
-Route::get('/', [LoginController::class, 'show'])->name('login');
+Route::get('/login', [LoginController::class, 'show'])->name('login');
+Route::get('/', function() {
+    return redirect()->route('login');
+});
 
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -33,7 +37,43 @@ Route::middleware('auth.session')->group(function () {
 
 Route::middleware('auth.session')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Admin routes
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::get('/admin/job-titles', [AdminController::class, 'jobTitles'])->name('admin.job-titles');
+    Route::get('/admin/pay-grades', [AdminController::class, 'payGrades'])->name('admin.pay-grades');
+    Route::get('/admin/employment-status', [AdminController::class, 'employmentStatus'])->name('admin.employment-status');
+    Route::get('/admin/job-categories', [AdminController::class, 'jobCategories'])->name('admin.job-categories');
+    Route::get('/admin/work-shifts', [AdminController::class, 'workShifts'])->name('admin.work-shifts');
+    
+    // Organization routes
+    Route::get('/admin/organization/general-information', [AdminController::class, 'organizationGeneral'])->name('admin.organization.general-information');
+    Route::get('/admin/organization/locations', [AdminController::class, 'organizationLocations'])->name('admin.organization.locations');
+    Route::get('/admin/organization/structure', [AdminController::class, 'organizationStructure'])->name('admin.organization.structure');
+    
+    // Qualifications routes
+    Route::get('/admin/qualifications/skills', [AdminController::class, 'qualificationsSkills'])->name('admin.qualifications.skills');
+    Route::get('/admin/qualifications/education', [AdminController::class, 'qualificationsEducation'])->name('admin.qualifications.education');
+    Route::get('/admin/qualifications/licenses', [AdminController::class, 'qualificationsLicenses'])->name('admin.qualifications.licenses');
+    Route::get('/admin/qualifications/languages', [AdminController::class, 'qualificationsLanguages'])->name('admin.qualifications.languages');
+    Route::get('/admin/qualifications/memberships', [AdminController::class, 'qualificationsMemberships'])->name('admin.qualifications.memberships');
+    
+    // Nationalities route
+    Route::get('/admin/nationalities', [AdminController::class, 'nationalities'])->name('admin.nationalities');
+    
+    // Corporate Branding route
+    Route::get('/admin/corporate-branding', [AdminController::class, 'corporateBranding'])->name('admin.corporate-branding');
+    
+    // Configuration routes
+    Route::get('/admin/configuration/email-configuration', [AdminController::class, 'emailConfiguration'])->name('admin.configuration.email-configuration');
+    Route::get('/admin/configuration/email-subscriptions', [AdminController::class, 'emailSubscriptions'])->name('admin.configuration.email-subscriptions');
+    Route::get('/admin/configuration/localization', [AdminController::class, 'localization'])->name('admin.configuration.localization');
+    Route::get('/admin/configuration/language-packages', [AdminController::class, 'languagePackages'])->name('admin.configuration.language-packages');
+    Route::get('/admin/configuration/modules', [AdminController::class, 'moduleConfiguration'])->name('admin.configuration.modules');
+    Route::get('/admin/configuration/social-media-authentication', [AdminController::class, 'socialMediaAuthentication'])->name('admin.configuration.social-media-authentication');
+    Route::get('/admin/configuration/oauth-client-list', [AdminController::class, 'oauthClientList'])->name('admin.configuration.oauth-client-list');
+    Route::get('/admin/configuration/ldap', [AdminController::class, 'ldapConfiguration'])->name('admin.configuration.ldap');
+    
     Route::get('/pim', [PIMController::class, 'index'])->name('pim');
     Route::get('/leave', [LeaveController::class, 'index'])->name('leave');
     Route::get('/time', [TimeController::class, 'index'])->name('time');
@@ -43,4 +83,10 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/directory', [DirectoryController::class, 'index'])->name('directory');
     Route::get('/claim', [ClaimController::class, 'index'])->name('claim');
     Route::get('/buzz', [BuzzController::class, 'index'])->name('buzz');
+    
+    // Profile routes
+    Route::get('/profile/about', [ProfileController::class, 'about'])->name('profile.about');
+    Route::get('/profile/support', [ProfileController::class, 'support'])->name('profile.support');
+    Route::get('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+    Route::post('/profile/change-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 });

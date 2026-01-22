@@ -3,6 +3,35 @@
 @section('title', 'Login')
 
 @section('body')
+<script>
+    // Force light mode on login page and reset theme preference
+    (function() {
+        // Always force light mode on login page
+        document.documentElement.setAttribute('data-theme', 'light');
+        
+        // Reset theme to light when user logs out (comes to login page)
+        // This ensures login page always opens in light mode
+        localStorage.setItem('hr-theme', 'light');
+        
+        // Monitor and prevent any theme changes on login page
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        // Force back to light mode
+                        document.documentElement.setAttribute('data-theme', 'light');
+                    }
+                }
+            });
+        });
+        
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme']
+        });
+    })();
+</script>
     <div class="min-h-screen flex items-center justify-center px-4 py-8 bg-hr-gradient">
         <div class="max-w-5xl w-full bg-white shadow-2xl rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-[1.3fr_1fr]">
             <!-- Left: Login form -->
@@ -45,9 +74,7 @@
                         </label>
                         <div class="relative">
                             <span class="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0v.75H4.5v-.75Z" />
-                                </svg>
+                                <i class="fas fa-user h-4 w-4"></i>
                             </span>
                             <input
                                 id="username"
@@ -67,9 +94,7 @@
                         </label>
                         <div class="relative">
                             <span class="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 10.5V7.5a4.5 4.5 0 1 0-9 0v3M6.75 10.5h10.5v9.75H6.75V10.5Z" />
-                                </svg>
+                                <i class="fas fa-lock h-4 w-4"></i>
                             </span>
                             <input
                                 id="password"

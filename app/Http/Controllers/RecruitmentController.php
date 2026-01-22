@@ -21,7 +21,7 @@ class RecruitmentController extends Controller
             ['vacancy' => '', 'candidate' => 'Manoj Regmi', 'hiring_manager' => 'manda akhil user', 'date' => '2023-10-12', 'status' => 'Shortlisted'],
         ];
 
-        return view('recruitment.index', compact('candidates'));
+        return view('recruitment.recruitment', compact('candidates'));
     }
 }
 

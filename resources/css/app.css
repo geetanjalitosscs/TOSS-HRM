@@ -334,14 +334,127 @@ input:focus + .toggle-slider {
     left: 0 !important;
     top: 0 !important;
     height: 100vh !important;
-    width: 16rem;
+    width: 18rem;
     background: var(--bg-elevated);
     box-shadow: 0 4px 6px -1px var(--shadow-md);
     display: flex;
     flex-direction: column;
     z-index: 30;
     border-right: 1px solid var(--border-default);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: width 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    overflow-x: visible;
+    overflow-y: auto;
+}
+
+.hr-sidebar.collapsed {
+    width: 6rem;
+}
+
+.hr-sidebar.collapsed .sidebar-logo-text,
+.hr-sidebar.collapsed .hr-sidebar-search,
+.hr-sidebar.collapsed .sidebar-link span:not(:first-child),
+.hr-sidebar.collapsed .hr-sidebar-footer {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+}
+
+.hr-sidebar.collapsed .sidebar-link {
+    justify-content: center;
+    padding: 0.65rem 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+.hr-sidebar.collapsed .sidebar-link span:first-child {
+    margin-right: 0;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    display: inline-block;
+}
+
+/* Sidebar Toggle Button */
+.hr-sidebar-toggle {
+    position: absolute;
+    right: 0.25rem;
+    top: 1rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--color-hr-primary);
+    color: white;
+    border: 2px solid var(--bg-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 2px 4px var(--shadow-md);
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    font-weight: bold;
+    line-height: 1;
+    pointer-events: auto;
+    flex-shrink: 0;
+}
+
+.hr-sidebar-toggle:hover {
+    background: var(--color-hr-primary-dark);
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px var(--shadow-lg);
+}
+
+.sidebar-toggle-icon {
+    transition: transform 0.3s ease;
+    display: inline-block;
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1;
+}
+
+.hr-sidebar.collapsed .sidebar-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.hr-sidebar-nav .sidebar-link i {
+    width: 1.25rem;
+    text-align: center;
+    margin-right: 0.75rem;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hr-sidebar.collapsed .sidebar-link i {
+    margin-right: 0;
+}
+
+/* FontAwesome Icon Styling */
+.fas, .far, .fab, .fal, .fad {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+/* Ensure icons in buttons and action items are properly sized */
+button i, .hr-btn-primary i, .hr-btn-secondary i {
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Table action icons */
+.hr-table-wrapper button i {
+    width: 1rem;
+    height: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hr-sidebar-logo {
@@ -447,7 +560,7 @@ input:focus + .toggle-slider {
     position: fixed !important;
     top: 0 !important;
     right: 0 !important;
-    left: 16rem !important;
+    left: 18rem !important;
     height: 4rem;
     background: var(--bg-elevated);
     border-bottom: 1px solid var(--border-default);
@@ -457,7 +570,11 @@ input:focus + .toggle-slider {
     padding: 0 1.5rem;
     box-shadow: 0 1px 3px 0 var(--shadow-sm);
     z-index: 30;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: left 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.sidebar-collapsed .hr-header {
+    left: 6rem !important;
 }
 
 .hr-header-title {
@@ -471,6 +588,8 @@ input:focus + .toggle-slider {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    overflow: visible !important;
+    position: relative;
 }
 
 .hr-btn-upgrade {
@@ -503,6 +622,12 @@ input:focus + .toggle-slider {
     border-radius: 0.5rem;
     transition: all 0.2s;
     color: var(--text-primary);
+}
+
+.hr-user-menu.group {
+    position: relative !important;
+    overflow: visible !important;
+    z-index: 10001 !important;
 }
 
 .hr-user-menu:hover {
@@ -554,14 +679,24 @@ input:focus + .toggle-slider {
    MAIN LAYOUT WRAPPER
    ============================================ */
 .hr-main-wrapper {
-    margin-left: 16rem;
+    margin-left: 18rem;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    width: calc(100% - 16rem);
+    width: calc(100% - 18rem);
     padding-top: 4rem;
     background-color: var(--bg-main);
-    transition: background-color 0.3s ease;
+    transition: margin-left 0.3s ease, width 0.3s ease, background-color 0.3s ease;
+}
+
+body.sidebar-collapsed .hr-main-wrapper {
+    margin-left: 4rem;
+    width: calc(100% - 4rem);
+}
+
+body.sidebar-collapsed .hr-main-wrapper {
+    margin-left: 4rem;
+    width: calc(100% - 4rem);
 }
 
 .hr-main-content {
@@ -573,6 +708,10 @@ input:focus + .toggle-slider {
     padding-bottom: 1rem;
     padding-top: 1.5rem;
     transition: background-color 0.3s ease;
+}
+
+body.sidebar-collapsed .hr-main-content {
+    padding-left: 3rem;
 }
 
 .hr-content-padding {
@@ -590,7 +729,7 @@ input:focus + .toggle-slider {
     position: sticky;
     top: 0;
     z-index: 25;
-    height: 3.5rem;
+    min-height: 3.5rem;
     overflow: visible !important;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -618,6 +757,16 @@ input:focus + .toggle-slider {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+.hr-dropdown-menu.right-0,
+.hr-header .hr-dropdown-menu.right-0,
+.hr-user-menu .hr-dropdown-menu.right-0,
+.hr-header-actions .hr-dropdown-menu.right-0 {
+    left: auto !important;
+    right: 0 !important;
+    position: absolute !important;
+    top: 100% !important;
+}
+
 .hr-dropdown-menu.show {
     display: block !important;
     visibility: visible !important;
@@ -636,6 +785,66 @@ input:focus + .toggle-slider {
     background: var(--bg-hover);
     color: var(--color-hr-primary-dark);
 }
+
+/* Portal-based Profile Dropdown */
+#hr-dropdown-portal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 99999;
+}
+
+.hr-profile-dropdown-portal {
+    pointer-events: auto;
+}
+
+.hr-dropdown-menu-portal {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px var(--shadow-md);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.hr-dropdown-menu-portal a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.hr-dropdown-menu-portal a:hover {
+    background: var(--bg-hover);
+    color: var(--color-hr-primary-dark);
+}
+
+.hr-dropdown-menu-portal form {
+    margin: 0;
+}
+
+.hr-dropdown-menu-portal form button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+}
+
+.hr-dropdown-menu-portal form button:hover {
+    background: var(--bg-hover);
+    color: var(--color-hr-primary-dark);
+}
+
 
 .hr-sticky-tabs .group {
     cursor: pointer;
@@ -878,13 +1087,16 @@ input[type="date"].hr-input {
 }
 
 .hr-sidebar {
-    overflow-x: hidden;
+    overflow-x: visible;
+    overflow-y: auto;
 }
 
 .hr-header {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
     max-width: 100%;
 }
+
 
 .hr-sticky-tabs {
     overflow-x: visible;
@@ -1107,4 +1319,298 @@ html[data-theme="dark"] #pie-tooltip {
     background-color: var(--bg-card) !important;
     color: var(--text-primary) !important;
     border-color: var(--border-default) !important;
+}
+
+/* About Modal Styles */
+.hr-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hr-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hr-modal-content {
+    background: var(--bg-card);
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.hr-modal-overlay.show .hr-modal-content {
+    transform: scale(1);
+}
+
+.hr-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-default);
+}
+
+.hr-modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.hr-modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+}
+
+.hr-modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.hr-modal-body {
+    padding: 1.5rem;
+}
+
+/* Dark Mode Modal */
+html[data-theme="dark"] .hr-modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+}
+
+html[data-theme="dark"] .hr-modal-header {
+    border-bottom-color: var(--border-default);
+}
+
+/* Organization Tree Styles - Theme Integrated */
+.org-tree-container {
+    background: var(--bg-main);
+    padding: 1.5rem;
+    border-radius: 8px;
+    min-height: 400px;
+}
+
+.org-tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.org-tree-node {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.org-tree-node-box {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    position: relative;
+    z-index: 2;
+}
+
+.org-tree-node-label {
+    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+}
+
+.org-tree-node-root .org-tree-node-label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.org-tree-node-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.org-tree-action-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-hover);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.org-tree-action-btn:hover {
+    background: var(--bg-hover);
+    transform: scale(1.05);
+}
+
+.org-tree-action-delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.org-tree-action-edit:hover {
+    background: var(--color-hr-primary-light);
+    color: var(--color-hr-primary-dark);
+}
+
+.org-tree-action-add:hover {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.org-tree-toggle {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--color-hr-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.org-tree-toggle:hover {
+    transform: scale(1.1);
+    color: var(--color-hr-primary-dark);
+}
+
+.org-tree-children {
+    list-style: none;
+    margin: 0.5rem 0 0 2rem;
+    padding: 0;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+/* Vertical line connecting parent to children */
+.org-tree-children::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-hr-primary);
+    z-index: 0;
+}
+
+/* For expandable nodes, vertical line only goes to first child */
+.org-tree-node-expandable .org-tree-children::before {
+    bottom: auto;
+    height: 1.5rem;
+}
+
+.org-tree-node-collapsed .org-tree-children {
+    display: none;
+}
+
+/* Horizontal line connecting vertical line to each child node */
+.org-tree-node:not(.org-tree-node-root)::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 1.5rem;
+    width: 1rem;
+    height: 2px;
+    background: var(--color-hr-primary);
+    z-index: 1;
+}
+
+/* Hide vertical line continuation after last child */
+.org-tree-node:not(.org-tree-node-root):last-child::after {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 1.5rem;
+    bottom: -0.5rem;
+    width: 2px;
+    background: var(--bg-main);
+    z-index: 0;
+}
+
+/* Hide connector lines for root's first and last children */
+.org-tree-node-root > .org-tree-children > .org-tree-node:first-child::before {
+    left: -1.5rem;
+    width: 1rem;
+}
+
+.org-tree-node-root > .org-tree-children > .org-tree-node:last-child::after {
+    display: none;
+}
+
+/* Color Picker Styles */
+.color-picker-field {
+    position: relative;
+}
+
+.color-picker-overlay {
+    border-radius: 8px;
+    padding: 1rem;
+    min-width: 220px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.color-picker-overlay canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.color-picker-overlay > div {
+    position: relative;
+}
+
+.color-picker-overlay canvas[id^="canvas-"] {
+    cursor: crosshair;
+}
+
+.color-picker-overlay canvas[id^="hue-"] {
+    cursor: pointer;
+}
+
+/* Ensure color picker overlays everything */
+.color-picker-overlay {
+    z-index: 99999 !important;
 }

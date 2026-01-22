@@ -57,7 +57,7 @@ class BuzzController extends Controller
             ],
         ];
 
-        return view('buzz.index', compact('posts'));
+        return view('buzz.buzz', compact('posts'));
     }
 }
 

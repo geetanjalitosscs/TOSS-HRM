@@ -93,7 +93,7 @@
                 <!-- Assign Claim Button -->
                 <div class="mb-3">
                     <button class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-green-600 to-green-700 rounded-lg hover:shadow-lg hover:shadow-green-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform">
-                        <span class="text-sm font-bold">+</span> Assign Claim
+                        <i class="fas fa-plus"></i> Assign Claim
                     </button>
                 </div>
 
@@ -109,19 +109,19 @@
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words flex items-center gap-1">
                                 Reference Id
-                                <span class="text-gray-400">↑↓</span>
+                                <i class="fas fa-sort text-gray-400 text-xs"></i>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words flex items-center gap-1">
                                 Employee Name
-                                <span class="text-gray-400">↑↓</span>
+                                <i class="fas fa-sort text-gray-400 text-xs"></i>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words flex items-center gap-1">
                                 Event Name
-                                <span class="text-gray-400">↑↓</span>
+                                <i class="fas fa-sort text-gray-400 text-xs"></i>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
@@ -130,25 +130,25 @@
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words flex items-center gap-1">
                                 Currency
-                                <span class="text-gray-400">↑↓</span>
+                                <i class="fas fa-sort text-gray-400 text-xs"></i>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words flex items-center gap-1">
                                 Submitted Date
-                                <span class="text-gray-400">↑↓</span>
+                                <i class="fas fa-sort text-gray-400 text-xs"></i>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words flex items-center gap-1">
                                 Status
-                                <span class="text-gray-400">↑↓</span>
+                                <i class="fas fa-sort text-gray-400 text-xs"></i>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words flex items-center gap-1">
                                 Amount
-                                <span class="text-gray-400">↑↓</span>
+                                <i class="fas fa-sort text-gray-400 text-xs"></i>
                             </div>
                         </div>
                         <div class="flex-shrink-0" style="width: 100px;">

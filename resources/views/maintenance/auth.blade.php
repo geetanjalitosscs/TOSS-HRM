@@ -23,9 +23,7 @@
 
                 <div class="space-y-1">
                     <label for="username" class="flex items-center gap-2 text-xs font-medium text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0v.75H4.5v-.75Z" />
-                        </svg>
+                        <i class="fas fa-user h-4 w-4"></i>
                         Username
                     </label>
                     <input
@@ -40,9 +38,7 @@
 
                 <div class="space-y-1">
                     <label for="password" class="flex items-center gap-2 text-xs font-medium text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 10.5V7.5a4.5 4.5 0 1 0-9 0v3M6.75 10.5h10.5v9.75H6.75V10.5Z" />
-                        </svg>
+                        <i class="fas fa-lock h-4 w-4"></i>
                         Password
                     </label>
                     <input

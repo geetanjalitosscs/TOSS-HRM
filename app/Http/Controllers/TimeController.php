@@ -14,7 +14,7 @@ class TimeController extends Controller
             ['employee_name' => 'manda akhil user', 'timesheet_period' => '2022-15-08 - 2022-21-08'],
             ['employee_name' => 'manda akhil user', 'timesheet_period' => '2020-14-09 - 2020-20-09'],
         ];
-        return view('time.index', compact('timesheets'));
+        return view('time.time', compact('timesheets'));
     }
 }
 

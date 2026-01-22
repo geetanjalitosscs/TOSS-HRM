@@ -5,17 +5,16 @@
     <h1 class="hr-header-title">{{ $title }}</h1>
     <div class="hr-header-actions">
         <button class="hr-theme-toggle" data-theme-toggle title="Toggle theme">
-            <span class="theme-icon">🌙</span>
+            <i class="fas fa-moon theme-icon"></i>
         </button>
         <button class="hr-btn-upgrade">
-            <span>⬆</span> Upgrade
+            <i class="fas fa-arrow-up"></i> Upgrade
         </button>
-        <div class="hr-user-menu">
+        <div class="hr-user-menu relative group" data-profile-dropdown-trigger data-logout-url="{{ route('logout') }}" onclick="toggleProfileDropdown(event)">
             <div class="hr-user-avatar">A</div>
             <span class="hr-user-name">Admin</span>
-            <span class="text-purple-400">▼</span>
+            <i class="fas fa-chevron-down text-purple-400"></i>
         </div>
-        <button class="hr-btn-help">?</button>
     </div>
 </header>
 

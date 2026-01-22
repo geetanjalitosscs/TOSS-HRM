@@ -30,7 +30,7 @@ class DirectoryController extends Controller
             ['id' => '018', 'name' => 'Jennifer Martinez', 'job_title' => 'Customer Support', 'department' => 'Support', 'has_photo' => false],
         ];
 
-        return view('directory.index', compact('employees'));
+        return view('directory.directory', compact('employees'));
     }
 }
 

@@ -15,17 +15,17 @@
                         <div class="bg-purple-50/30 rounded-lg p-4 mb-4 border border-purple-100">
                             <div class="flex gap-3 items-start">
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                    👤
+                                    <i class="fas fa-user"></i>
                                 </div>
                                 <div class="flex-1">
                                     <input type="text" class="hr-input w-full px-4 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="What's on your mind?">
                                     <div class="flex items-center justify-between mt-3">
                                         <div class="flex gap-3">
                                             <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-purple-100 rounded-lg transition-all">
-                                                <span>📷</span> Share Photos
+                                                <i class="fas fa-camera"></i> Share Photos
                                             </button>
                                             <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-purple-100 rounded-lg transition-all">
-                                                <span>🎥</span> Share Video
+                                                <i class="fas fa-video"></i> Share Video
                                             </button>
                                         </div>
                                         <button class="hr-btn-primary px-4 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all">
@@ -42,10 +42,10 @@
                                 Most Recent Posts
                             </button>
                             <button class="px-4 py-2 text-sm font-medium text-slate-700 hover:bg-purple-50/30 rounded-t-lg transition-all flex items-center gap-1">
-                                <span>❤️</span> Most Liked Posts
+                                <i class="fas fa-heart"></i> Most Liked Posts
                             </button>
                             <button class="px-4 py-2 text-sm font-medium text-slate-700 hover:bg-purple-50/30 rounded-t-lg transition-all flex items-center gap-1">
-                                <span>💬</span> Most Commented Posts
+                                <i class="fas fa-comments"></i> Most Commented Posts
                             </button>
                         </div>
 
@@ -82,15 +82,15 @@
                                         <!-- Interaction Icons -->
                                         <div class="flex items-center gap-6 pt-3 border-t border-purple-100">
                                             <button class="flex items-center gap-2 text-xs text-slate-600 hover:text-[var(--color-hr-primary)] transition-all">
-                                                <span>❤️</span>
+                                                <i class="fas fa-heart"></i>
                                                 <span>{{ $post['likes'] }} Like{{ $post['likes'] != 1 ? 's' : '' }}</span>
                                             </button>
                                             <button class="flex items-center gap-2 text-xs text-slate-600 hover:text-[var(--color-hr-primary)] transition-all">
-                                                <span>💬</span>
+                                                <i class="fas fa-comments"></i>
                                                 <span>{{ $post['comments'] }} Comment{{ $post['comments'] != 1 ? 's' : '' }}</span>
                                             </button>
                                             <button class="flex items-center gap-2 text-xs text-slate-600 hover:text-[var(--color-hr-primary)] transition-all">
-                                                <span>🔗</span>
+                                                <i class="fas fa-share"></i>
                                                 <span>{{ $post['shares'] }} Share{{ $post['shares'] != 1 ? 's' : '' }}</span>
                                             </button>
                                         </div>

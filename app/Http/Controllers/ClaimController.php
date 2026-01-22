@@ -42,7 +42,7 @@ class ClaimController extends Controller
             ],
         ];
 
-        return view('claim.index', compact('claims'));
+        return view('claim.claim', compact('claims'));
     }
 }
 

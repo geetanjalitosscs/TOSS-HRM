@@ -80,14 +80,14 @@
                                     <label class="block text-xs font-medium text-slate-700 mb-1">From Date</label>
                                     <div class="relative">
                                         <input type="date" value="2026-01-01" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white pr-8">
-                                        <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-400 text-sm pointer-events-none">📅</span>
+                                        <i class="fas fa-calendar-alt absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-400 text-sm pointer-events-none"></i>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">To Date</label>
                                     <div class="relative">
                                         <input type="date" value="2026-12-31" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white pr-8">
-                                        <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-400 text-sm pointer-events-none">📅</span>
+                                        <i class="fas fa-calendar-alt absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-400 text-sm pointer-events-none"></i>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-center gap-1">
                                                 <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Employee</span>
-                                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
                                             </div>
                                         </div>
                                         <div class="flex-1 min-w-0">
@@ -127,19 +127,19 @@
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-center gap-1">
                                                 <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Review Period</span>
-                                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
                                             </div>
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-center gap-1">
                                                 <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Due Date</span>
-                                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
                                             </div>
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-center gap-1">
                                                 <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Review Status</span>
-                                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
                                             </div>
                                         </div>
                                         <div class="flex-shrink-0" style="width: 70px;">

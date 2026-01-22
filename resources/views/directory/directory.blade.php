@@ -69,7 +69,7 @@
                                 </div>
                             @else
                                 <div class="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 text-2xl">
-                                    👤
+                                    <i class="fas fa-user"></i>
                                 </div>
                             @endif
                         </div>

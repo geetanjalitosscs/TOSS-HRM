@@ -11,7 +11,7 @@ class PerformanceController extends Controller
         // Empty array for "No Records Found" state
         $reviews = [];
 
-        return view('performance.index', compact('reviews'));
+        return view('performance.performance', compact('reviews'));
     }
 }
 

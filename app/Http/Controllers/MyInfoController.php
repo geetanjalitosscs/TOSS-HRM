@@ -16,7 +16,7 @@ class MyInfoController extends Controller
             ['file_name' => 'DataTable.txt', 'description' => '', 'size' => '484.00 B', 'type' => 'text/plain', 'date_added' => '2026-21-01', 'added_by' => 'Admin'],
         ];
 
-        return view('myinfo.index', compact('attachments'));
+        return view('myinfo.myinfo', compact('attachments'));
     }
 }
 
