@@ -8,11 +8,11 @@
 
         <!-- Candidate Search/Filter Section -->
         <div>
-            <div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4 mb-3">
-            <h2 class="text-sm font-bold text-slate-800 mb-3">Candidate Search</h2>
+            <div class="rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4 mb-3" style="background-color: var(--bg-card);">
+            <h2 class="text-sm font-bold mb-3" style="color: var(--text-primary);">Candidate Search</h2>
 
             <!-- Filter Form -->
-            <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
+            <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
@@ -96,66 +96,66 @@
             <!-- Table Wrapper -->
             <div class="hr-table-wrapper">
                 <!-- Table Header -->
-                <div class="bg-gray-50 rounded-t-lg border border-gray-200 border-b-0 px-2 py-1.5 mb-0">
+                <div class="rounded-t-lg border border-b-0 px-2 py-1.5 mb-0" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                     <div class="flex items-center gap-1">
                         <div class="flex-shrink-0" style="width: 24px;">
-                            <input type="checkbox" class="rounded border-gray-300 text-[var(--color-hr-primary)] focus:ring-[var(--color-hr-primary)] w-3.5 h-3.5">
+                            <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
-                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Vacancy</span>
-                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Vacancy</span>
+                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
-                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Candidate</span>
-                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Candidate</span>
+                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
-                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Hiring Manager</span>
-                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Hiring Manager</span>
+                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
-                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Date of Application</span>
-                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Date of Application</span>
+                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
-                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Status</span>
-                                <span class="text-purple-400 flex-shrink-0 text-xs">⇅</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</span>
+                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
                             </div>
                         </div>
                         <div class="flex-shrink-0" style="width: 70px;">
-                            <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center">Actions</span>
+                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Candidate Rows -->
-                <div class="border border-gray-200 border-t-0 rounded-b-lg">
+                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
                 @foreach($candidates as $index => $candidate)
-                    <div class="bg-white border-b border-gray-200 last:border-b-0 px-2 py-1.5 hover:bg-gray-50 transition-colors">
+                    <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                         <div class="flex items-center gap-1">
                             <div class="flex-shrink-0" style="width: 24px;">
-                                <input type="checkbox" class="rounded border-purple-300 text-[var(--color-hr-primary)] focus:ring-[var(--color-hr-primary)] w-3.5 h-3.5">
+                                <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs text-gray-700 break-words">{{ $candidate['vacancy'] ?: '-' }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['vacancy'] ?: '-' }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs text-gray-700 break-words">{{ $candidate['candidate'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['candidate'] }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs text-gray-700 break-words">{{ $candidate['hiring_manager'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['hiring_manager'] }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs text-gray-700 break-words">{{ $candidate['date'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['date'] }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
                                 <span class="px-1.5 py-0.5 text-xs rounded-full 
@@ -168,13 +168,13 @@
                             </div>
                             <div class="flex-shrink-0" style="width: 70px;">
                                 <div class="flex items-center justify-center gap-1">
-                                    <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="View">
+                                    <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="View">
                                         <i class="fas fa-eye w-4 h-4"></i>
                                     </button>
-                                    <button class="p-0.5 rounded text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all flex-shrink-0" title="Delete">
+                                    <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
                                         <i class="fas fa-trash-alt w-4 h-4"></i>
                                     </button>
-                                    <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="Download">
+                                    <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Download">
                                         <i class="fas fa-download w-4 h-4"></i>
                                     </button>
                                 </div>

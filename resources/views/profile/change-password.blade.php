@@ -94,10 +94,10 @@
                         <span class="text-red-500">*</span> Required
                     </p>
                     <div class="flex gap-3">
-                        <a href="{{ route('dashboard') }}" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50">
+                        <a href="{{ route('dashboard') }}" class="hr-btn-secondary px-4 py-2 text-sm">
                             Cancel
                         </a>
-                        <button type="submit" class="px-4 py-2 bg-[var(--color-hr-primary)] text-white rounded-lg text-sm hover:bg-[var(--color-hr-primary-dark)]">
+                        <button type="submit" class="hr-btn-primary px-4 py-2 text-sm">
                             Save
                         </button>
                     </div>

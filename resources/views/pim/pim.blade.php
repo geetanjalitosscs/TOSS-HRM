@@ -187,10 +187,10 @@
                                 <!-- Actions -->
                                 <div class="flex-shrink-0" style="width: 70px;">
                                     <div class="flex items-center justify-center gap-1">
-                                        <button class="p-0.5 rounded text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all flex-shrink-0" title="Delete">
+                                        <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
                                             <i class="fas fa-trash-alt w-4 h-4"></i>
                                         </button>
-                                        <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="Edit">
+                                        <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Edit">
                                             <i class="fas fa-edit w-4 h-4"></i>
                                         </button>
                                     </div>

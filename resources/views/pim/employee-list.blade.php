@@ -66,10 +66,10 @@
                     </div>
                 </div>
                 <div class="flex justify-end gap-2">
-                    <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all">
+                    <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium">
                         Reset
                     </button>
-                    <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
+                    <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium">
                         Search
                     </button>
                 </div>
@@ -77,7 +77,7 @@
 
             <!-- Add Button -->
             <div class="mb-3">
-                <button class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-purple-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform">
+                <button class="hr-btn-primary px-4 py-1.5 text-xs font-bold flex items-center gap-1">
                     + Add
                 </button>
             </div>

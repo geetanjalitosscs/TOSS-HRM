@@ -65,63 +65,63 @@
                         <!-- Table Wrapper -->
                         <div class="hr-table-wrapper">
                             <!-- Table Header -->
-                            <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
+                            <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                                 <div class="flex-shrink-0" style="width: 24px;">
-                                    <input type="checkbox" class="rounded border-gray-300 text-[var(--color-hr-primary)] focus:ring-2 focus:ring-[var(--color-hr-primary)] w-3.5 h-3.5">
+                                    <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
                                 </div>
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Username</div>
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Username</div>
                                 </div>
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">User Role</div>
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">User Role</div>
                                 </div>
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Employee Name</div>
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee Name</div>
                                 </div>
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Status</div>
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</div>
                                 </div>
                                 <div class="flex-shrink-0" style="width: 70px;">
-                                    <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center">Actions</div>
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
                                 </div>
                             </div>
 
                             <!-- User Cards List -->
-                            <div class="border border-gray-200 border-t-0 rounded-b-lg">
+                            <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
                             @foreach($users as $user)
-                            <div class="bg-white border-b border-gray-200 last:border-b-0 px-2 py-1.5 hover:bg-gray-50 transition-colors flex items-center gap-1">
+                            <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <!-- Checkbox -->
                                 <div class="flex-shrink-0" style="width: 24px;">
-                                    <input type="checkbox" class="rounded border-gray-300 text-[var(--color-hr-primary)] focus:ring-2 focus:ring-[var(--color-hr-primary)] w-3.5 h-3.5">
+                                    <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
                                 </div>
                                 
                                 <!-- Username -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-medium text-gray-900 break-words">{{ $user['username'] }}</div>
+                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $user['username'] }}</div>
                                 </div>
                                 
                                 <!-- User Role -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $user['role'] }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user['role'] }}</div>
                                 </div>
                                 
                                 <!-- Employee Name -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $user['employee_name'] }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user['employee_name'] }}</div>
                                 </div>
                                 
                                 <!-- Status -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $user['status'] }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user['status'] }}</div>
                                 </div>
                                 
                                 <!-- Actions -->
                                 <div class="flex-shrink-0" style="width: 70px;">
                                     <div class="flex items-center justify-center gap-1">
-                                        <button class="p-0.5 rounded text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all flex-shrink-0" title="Delete">
+                                        <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
                                             <i class="fas fa-trash-alt w-4 h-4"></i>
                                         </button>
-                                        <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="Edit">
+                                        <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Edit">
                                             <i class="fas fa-edit w-4 h-4"></i>
                                         </button>
                                     </div>

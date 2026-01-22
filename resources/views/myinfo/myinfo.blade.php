@@ -8,7 +8,7 @@
             <!-- Left Sidebar - Sub Navigation -->
             <aside class="w-64 flex-shrink-0 mr-6 flex flex-col">
                 <!-- User Profile Section -->
-                <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4 mb-3">
+                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
                     <h2 class="text-sm font-bold text-slate-800 mb-2">manda user</h2>
                     <div class="flex justify-center mb-3">
                         <div class="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
@@ -18,35 +18,35 @@
                 </div>
 
                 <!-- Sub Navigation Tabs -->
-                <div class="bg-white rounded-lg shadow-sm border border-purple-100 overflow-hidden flex-1">
-                    <a href="#" class="block px-4 py-3 bg-purple-50 border-l-4 border-[var(--color-hr-primary)] text-sm font-semibold text-[var(--color-hr-primary-dark)]">
+                <div class="rounded-lg shadow-sm border border-purple-100 overflow-hidden flex-1" style="background-color: var(--bg-card);">
+                    <a href="#" class="block px-4 py-3 border-l-4 border-[var(--color-hr-primary)] text-sm font-semibold transition-colors" style="background-color: var(--bg-hover); color: var(--color-hr-primary-dark);">
                         Personal Details
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Contact Details
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Emergency Contacts
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Dependents
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Immigration
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Job
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Salary
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Report-to
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Qualifications
                     </a>
-                    <a href="#" class="block px-4 py-3 hover:bg-purple-50/30 text-sm font-medium text-slate-700 transition-colors">
+                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         Memberships
                     </a>
                 </div>
@@ -55,13 +55,13 @@
             <!-- Right Content Area -->
             <div class="flex-1">
                 <!-- Personal Details Form -->
-                <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4 mb-3">
+                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Personal Details</h2>
 
                     <div class="space-y-3">
                         <!-- Employee Full Name -->
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Employee Full Name*</label>
+                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Full Name*</label>
                             <div class="grid grid-cols-3 gap-2">
                                 <input type="text" class="hr-input" value="manda" placeholder="First Name">
                                 <input type="text" class="hr-input" value="akhil" placeholder="Middle Name">
@@ -152,7 +152,7 @@
                 </div>
 
                 <!-- Custom Fields Section -->
-                <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4 mb-3">
+                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Custom Fields</h2>
 
                     <div class="space-y-3">
@@ -224,7 +224,7 @@
                     <!-- Table Rows -->
                     <div class="border border-purple-100 border-t-0 rounded-b-lg overflow-hidden">
                         @foreach($attachments as $attachment)
-                            <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 hover:bg-purple-50/30 transition-colors">
+                            <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <div class="flex items-center gap-1">
                                     <div class="flex-1" style="min-width: 0;">
                                         <div class="text-xs text-slate-700 break-words">{{ $attachment['file_name'] }}</div>
@@ -243,13 +243,13 @@
                                     </div>
                                     <div class="flex-shrink-0" style="width: 70px;">
                                         <div class="flex items-center justify-center gap-1">
-                                            <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="Edit">
+                                            <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Edit">
                                                 <i class="fas fa-edit w-4 h-4"></i>
                                             </button>
-                                            <button class="p-0.5 rounded text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all flex-shrink-0" title="Delete">
+                                            <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
                                                 <i class="fas fa-trash-alt w-4 h-4"></i>
                                             </button>
-                                            <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="Download">
+                                            <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Download">
                                                 <i class="fas fa-download w-4 h-4"></i>
                                             </button>
                                         </div>

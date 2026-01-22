@@ -3,14 +3,13 @@
 <div class="hr-sticky-tabs">
     <div class="flex items-stretch border-b border-purple-100 overflow-x-auto overflow-y-visible">
         <!-- Candidates Tab -->
-        <a href="{{ route('recruitment') }}" class="px-4 py-3 {{ $activeTab === 'candidates' ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-200' : 'hover:bg-purple-100' }} cursor-pointer transition-all min-w-0 block">
-            <span class="text-sm {{ $activeTab === 'candidates' ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }} break-words">Candidates</span>
+        <a href="{{ route('recruitment') }}" class="px-4 py-3 {{ $activeTab === 'candidates' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all min-w-0 block hr-tab-hover" style="{{ $activeTab === 'candidates' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if('{{ $activeTab }}' !== 'candidates') { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if('{{ $activeTab }}' !== 'candidates') { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
+            <span class="text-sm break-words" style="{{ $activeTab === 'candidates' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Candidates</span>
         </a>
         
         <!-- Vacancies Tab -->
-        <a href="{{ route('recruitment.vacancies') }}" class="px-4 py-3 {{ $activeTab === 'vacancies' ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-200' : 'hover:bg-purple-100' }} cursor-pointer transition-all min-w-0 block">
-            <span class="text-sm {{ $activeTab === 'vacancies' ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }} break-words">Vacancies</span>
+        <a href="{{ route('recruitment.vacancies') }}" class="px-4 py-3 {{ $activeTab === 'vacancies' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all min-w-0 block hr-tab-hover" style="{{ $activeTab === 'vacancies' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if('{{ $activeTab }}' !== 'vacancies') { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if('{{ $activeTab }}' !== 'vacancies') { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
+            <span class="text-sm break-words" style="{{ $activeTab === 'vacancies' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Vacancies</span>
         </a>
     </div>
 </div>
-

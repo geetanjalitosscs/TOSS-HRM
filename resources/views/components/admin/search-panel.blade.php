@@ -8,11 +8,11 @@
     $panelId = 'search-panel-' . uniqid();
 @endphp
 
-<div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
+<div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
     <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-bold text-slate-800">{{ $title }}</h3>
+        <h3 class="text-sm font-bold" style="color: var(--text-primary);">{{ $title }}</h3>
         @if($collapsible)
-        <button onclick="toggleSearchPanel{{ $panelId }}()" class="text-gray-400 hover:text-gray-600 transition-colors">
+        <button onclick="toggleSearchPanel{{ $panelId }}()" class="transition-colors" style="color: var(--text-muted);" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
             <i class="fas fa-chevron-up text-sm" id="chevron-{{ $panelId }}"></i>
         </button>
         @endif
