@@ -353,6 +353,17 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('hr-sidebar-collapsed', collapsed ? 'true' : 'false');
     });
     
+    // Handle sidebar link clicks to set active state (for immediate feedback)
+    const sidebarLinks = sidebar.querySelectorAll('.sidebar-link');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Remove active class from all links
+            sidebarLinks.forEach(l => l.classList.remove('sidebar-link--active'));
+            // Add active class to clicked link
+            this.classList.add('sidebar-link--active');
+        });
+    });
+    
     // Scroll to active sidebar link
     const activeLink = sidebar.querySelector('.sidebar-link--active');
     const sidebarNav = sidebar.querySelector('.hr-sidebar-nav');

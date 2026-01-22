@@ -36,31 +36,31 @@
         <a href="{{ route('myinfo') }}" class="sidebar-link {{ request()->routeIs('myinfo') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-user-circle"></i> My Info
         </a>
-        <a href="{{ route('pim') }}" class="sidebar-link {{ request()->routeIs('pim') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('pim') }}" class="sidebar-link {{ request()->routeIs('pim*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-users"></i> PIM
         </a>
-        <a href="{{ route('leave') }}" class="sidebar-link {{ request()->routeIs('leave') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('leave') }}" class="sidebar-link {{ request()->routeIs('leave*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-calendar-alt"></i> Leave
         </a>
-        <a href="{{ route('time') }}" class="sidebar-link {{ request()->routeIs('time') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('time') }}" class="sidebar-link {{ request()->routeIs('time*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-user-clock"></i> Time
         </a>
-        <a href="{{ route('performance') }}" class="sidebar-link {{ request()->routeIs('performance') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('performance') }}" class="sidebar-link {{ request()->routeIs('performance*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-star"></i> Performance
         </a>
-        <a href="{{ route('recruitment') }}" class="sidebar-link {{ request()->routeIs('recruitment') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('recruitment') }}" class="sidebar-link {{ request()->routeIs('recruitment*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-briefcase"></i> Recruitment
         </a>
-        <a href="{{ route('directory') }}" class="sidebar-link {{ request()->routeIs('directory') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('directory') }}" class="sidebar-link {{ request()->routeIs('directory*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-search"></i> Directory
         </a>
-        <a href="{{ route('claim') }}" class="sidebar-link {{ request()->routeIs('claim') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('claim') }}" class="sidebar-link {{ request()->routeIs('claim*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-hand-holding-usd"></i> Claim
         </a>
-        <a href="{{ route('buzz') }}" class="sidebar-link {{ request()->routeIs('buzz') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('buzz') }}" class="sidebar-link {{ request()->routeIs('buzz*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-comments"></i> Buzz
         </a>
-        <a href="{{ route('admin') }}" class="sidebar-link {{ request()->routeIs('admin') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('admin') }}" class="sidebar-link {{ request()->routeIs('admin*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-id-card"></i> Admin
         </a>
         <a href="{{ route('maintenance.auth') }}" class="sidebar-link {{ request()->routeIs('maintenance.*') ? 'sidebar-link--active' : '' }}">

@@ -88,6 +88,10 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/pim/configuration/reporting-methods', [PIMController::class, 'reportingMethods'])->name('pim.configuration.reporting-methods');
     Route::get('/pim/configuration/termination-reasons', [PIMController::class, 'terminationReasons'])->name('pim.configuration.termination-reasons');
     Route::get('/leave', [LeaveController::class, 'index'])->name('leave');
+    Route::get('/leave/apply', [LeaveController::class, 'apply'])->name('leave.apply');
+    Route::get('/leave/my-leave', [LeaveController::class, 'myLeave'])->name('leave.my-leave');
+    Route::get('/leave/leave-list', [LeaveController::class, 'leaveList'])->name('leave.leave-list');
+    Route::get('/leave/assign-leave', [LeaveController::class, 'assignLeave'])->name('leave.assign-leave');
     Route::get('/time', [TimeController::class, 'index'])->name('time');
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
     Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');

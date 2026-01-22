@@ -3,60 +3,66 @@
 @section('title', 'Administrator Access')
 
 @section('body')
-<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-gray-50">
+<div class="min-h-screen flex items-center justify-center px-4 py-8" style="background-color: var(--bg-main);">
     <div class="max-w-md w-full">
         <!-- Administrator Access Card -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h1 class="text-lg font-bold text-gray-900 mb-2">Administrator Access</h1>
-            <p class="text-xs text-gray-600 mb-6">
+        <div class="rounded-xl shadow-lg p-8" style="background-color: var(--bg-card); border: 1px solid var(--border-default);">
+            <h1 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Administrator Access</h1>
+            <p class="text-sm mb-6 leading-relaxed" style="color: var(--text-secondary);">
                 You have requested to access a critical Administrator function in TOAI HR and are required to validate your credentials below.
             </p>
 
-            <form action="{{ route('maintenance.auth.post') }}" method="POST" class="space-y-4">
+            <form action="{{ route('maintenance.auth.post') }}" method="POST" class="space-y-5">
                 @csrf
 
                 @if ($errors->has('login'))
-                    <p class="text-xs text-red-500 bg-red-50 border border-red-100 rounded-lg px-3 py-1.5">
-                        {{ $errors->first('login') }}
-                    </p>
+                    <div class="rounded-lg px-4 py-3 text-sm" style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #DC2626;">
+                        <i class="fas fa-exclamation-circle mr-2"></i>{{ $errors->first('login') }}
+                    </div>
                 @endif
 
-                <div class="space-y-1">
-                    <label for="username" class="flex items-center gap-2 text-xs font-medium text-gray-700">
-                        <i class="fas fa-user h-4 w-4"></i>
+                <div class="space-y-2">
+                    <label for="username" class="flex items-center gap-2 text-sm font-medium" style="color: var(--text-primary);">
+                        <i class="fas fa-user" style="color: var(--color-hr-primary);"></i>
                         Username
                     </label>
                     <input
                         id="username"
                         name="username"
                         type="text"
-                        class="block w-full rounded-lg border border-gray-300 bg-purple-50/30 px-3 py-2 text-xs text-gray-900 shadow-sm focus:border-[var(--color-hr-primary)] focus:ring-2 focus:ring-[var(--color-hr-primary)]/30 focus:outline-none transition"
+                        class="block w-full rounded-lg px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2"
+                        style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);"
+                        onfocus="this.style.borderColor='var(--color-hr-primary)'; this.style.boxShadow='0 0 0 2px var(--color-hr-primary-soft)';"
+                        onblur="this.style.borderColor='var(--border-default)'; this.style.boxShadow='none';"
                         placeholder="Admin"
                         value="{{ old('username', 'admin') }}"
                     />
                 </div>
 
-                <div class="space-y-1">
-                    <label for="password" class="flex items-center gap-2 text-xs font-medium text-gray-700">
-                        <i class="fas fa-lock h-4 w-4"></i>
+                <div class="space-y-2">
+                    <label for="password" class="flex items-center gap-2 text-sm font-medium" style="color: var(--text-primary);">
+                        <i class="fas fa-lock" style="color: var(--color-hr-primary);"></i>
                         Password
                     </label>
                     <input
                         id="password"
                         name="password"
                         type="password"
-                        class="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs text-gray-900 shadow-sm focus:border-[var(--color-hr-primary)] focus:ring-2 focus:ring-[var(--color-hr-primary)]/30 focus:outline-none transition"
+                        class="block w-full rounded-lg px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2"
+                        style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);"
+                        onfocus="this.style.borderColor='var(--color-hr-primary)'; this.style.boxShadow='0 0 0 2px var(--color-hr-primary-soft)';"
+                        onblur="this.style.borderColor='var(--border-default)'; this.style.boxShadow='none';"
                         placeholder="Enter password"
                     />
                 </div>
 
-                <div class="flex gap-2 pt-2">
-                    <a href="{{ route('dashboard') }}" class="flex-1 inline-flex items-center justify-center rounded-lg border border-green-500 bg-white px-4 py-2 text-xs font-medium text-green-600 hover:bg-green-50 transition">
+                <div class="flex gap-3 pt-4">
+                    <a href="{{ route('dashboard') }}" class="hr-btn-secondary flex-1 text-center">
                         Cancel
                     </a>
                     <button
                         type="submit"
-                        class="flex-1 inline-flex items-center justify-center rounded-lg bg-green-600 px-4 py-2 text-xs font-medium text-white hover:bg-green-700 transition shadow-sm"
+                        class="hr-btn-primary flex-1"
                     >
                         Confirm
                     </button>
@@ -65,9 +71,9 @@
         </div>
 
         <!-- Footer -->
-        <div class="text-center mt-6 text-xs text-gray-500">
-            <p>TOAI HR Suite Professional Edition</p>
-            <p>© {{ date('Y') }} TOAI HR. All rights reserved.</p>
+        <div class="text-center mt-8 text-sm" style="color: var(--text-muted);">
+            <p class="font-medium">TOAI HR Suite Professional Edition</p>
+            <p class="mt-1">© {{ date('Y') }} TOAI HR. All rights reserved.</p>
         </div>
     </div>
 </div>
