@@ -4,9 +4,9 @@
 
 @section('body')
     <x-main-layout title="PIM">
-        <div class="flex gap-6">
+        <div class="flex items-stretch">
             <!-- Left Sidebar - Sub Navigation -->
-            <aside class="w-64 flex-shrink-0">
+            <aside class="w-64 flex-shrink-0 mr-6 flex flex-col">
                 <!-- User Profile Section -->
                 <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4 mb-3">
                     <h2 class="text-sm font-bold text-slate-800 mb-2">manda user</h2>
@@ -18,7 +18,7 @@
                 </div>
 
                 <!-- Sub Navigation Tabs -->
-                <div class="bg-white rounded-lg shadow-sm border border-purple-100 overflow-hidden">
+                <div class="bg-white rounded-lg shadow-sm border border-purple-100 overflow-hidden flex-1">
                     <a href="#" class="block px-4 py-3 bg-purple-50 border-l-4 border-[var(--color-hr-primary)] text-sm font-semibold text-[var(--color-hr-primary-dark)]">
                         Personal Details
                     </a>

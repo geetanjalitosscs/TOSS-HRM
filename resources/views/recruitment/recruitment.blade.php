@@ -4,17 +4,7 @@
 
 @section('body')
     <x-main-layout title="Recruitment">
-        <!-- Top Navigation Tabs -->
-        <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto">
-                <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50">
-                    <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Candidates</span>
-                </div>
-                <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Vacancies</span>
-                </div>
-            </div>
-        </div>
+        <x-recruitment.tabs activeTab="candidates" />
 
         <!-- Candidate Search/Filter Section -->
         <div>

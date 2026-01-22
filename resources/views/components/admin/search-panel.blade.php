@@ -1,27 +1,37 @@
 @props([
+    'title' => 'Search',
     'collapsible' => true,
     'collapsed' => false
 ])
 
-<div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4 mb-4">
+@php
+    $panelId = 'search-panel-' . uniqid();
+@endphp
+
+<div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
     <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-semibold text-gray-700">Search</h3>
+        <h3 class="text-sm font-bold text-slate-800">{{ $title }}</h3>
         @if($collapsible)
-        <button onclick="toggleSearchPanel()" class="text-gray-400 hover:text-gray-600 transition-colors">
-            <i class="fas fa-chevron-up text-sm"></i>
+        <button onclick="toggleSearchPanel{{ $panelId }}()" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <i class="fas fa-chevron-up text-sm" id="chevron-{{ $panelId }}"></i>
         </button>
         @endif
     </div>
-    <div id="search-panel-content" class="{{ $collapsed ? 'hidden' : '' }}">
+    <div id="search-panel-content-{{ $panelId }}" class="{{ $collapsed ? 'hidden' : '' }}">
         {{ $slot }}
     </div>
 </div>
 
 <script>
-function toggleSearchPanel() {
-    const panel = document.getElementById('search-panel-content');
+function toggleSearchPanel{{ $panelId }}() {
+    const panel = document.getElementById('search-panel-content-{{ $panelId }}');
+    const chevron = document.getElementById('chevron-{{ $panelId }}');
     if (panel) {
         panel.classList.toggle('hidden');
+        if (chevron) {
+            chevron.classList.toggle('fa-chevron-up');
+            chevron.classList.toggle('fa-chevron-down');
+        }
     }
 }
 </script>

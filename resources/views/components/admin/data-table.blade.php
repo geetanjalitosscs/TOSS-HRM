@@ -3,7 +3,8 @@
     'records' => [],
     'columns' => [],
     'addButton' => true,
-    'addButtonText' => '+ Add'
+    'addButtonText' => '+ Add',
+    'showActions' => true
 ])
 
 <div>
@@ -39,9 +40,11 @@
                     </div>
                 </div>
                 @endforeach
+                @if($showActions)
                 <div class="flex-shrink-0" style="width: 70px;">
                     <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center">Actions</div>
                 </div>
+                @endif
             </div>
 
             <!-- Data Rows -->

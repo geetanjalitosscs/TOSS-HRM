@@ -23,5 +23,20 @@ class RecruitmentController extends Controller
 
         return view('recruitment.recruitment', compact('candidates'));
     }
+
+    public function vacancies()
+    {
+        $vacancies = [
+            ['vacancy' => 'Junior Account Assistant', 'job_title' => 'Account Assistant', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
+            ['vacancy' => 'Payroll Administrator', 'job_title' => 'Payroll Administrator', 'hiring_manager' => 'Jason Miller', 'status' => 'Active'],
+            ['vacancy' => 'Sales Representative', 'job_title' => 'Sales Representative', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
+            ['vacancy' => 'Senior QA Lead', 'job_title' => 'QA Lead', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
+            ['vacancy' => 'Senior Support Specialist', 'job_title' => 'Support Specialist', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
+            ['vacancy' => 'Software Engineer', 'job_title' => 'Software Engineer', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
+            ['vacancy' => 'test', 'job_title' => 'Account Assistant', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
+        ];
+
+        return view('recruitment.vacancies', compact('vacancies'));
+    }
 }
 

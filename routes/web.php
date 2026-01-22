@@ -75,9 +75,22 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/admin/configuration/ldap', [AdminController::class, 'ldapConfiguration'])->name('admin.configuration.ldap');
     
     Route::get('/pim', [PIMController::class, 'index'])->name('pim');
+    
+    // PIM routes
+    Route::get('/pim/employee-list', [PIMController::class, 'employeeList'])->name('pim.employee-list');
+    Route::get('/pim/add-employee', [PIMController::class, 'addEmployee'])->name('pim.add-employee');
+    Route::get('/pim/reports', [PIMController::class, 'reports'])->name('pim.reports');
+    
+    // PIM Configuration routes
+    Route::get('/pim/configuration/optional-fields', [PIMController::class, 'optionalFields'])->name('pim.configuration.optional-fields');
+    Route::get('/pim/configuration/custom-fields', [PIMController::class, 'customFields'])->name('pim.configuration.custom-fields');
+    Route::get('/pim/configuration/data-import', [PIMController::class, 'dataImport'])->name('pim.configuration.data-import');
+    Route::get('/pim/configuration/reporting-methods', [PIMController::class, 'reportingMethods'])->name('pim.configuration.reporting-methods');
+    Route::get('/pim/configuration/termination-reasons', [PIMController::class, 'terminationReasons'])->name('pim.configuration.termination-reasons');
     Route::get('/leave', [LeaveController::class, 'index'])->name('leave');
     Route::get('/time', [TimeController::class, 'index'])->name('time');
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
+    Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');
     Route::get('/my-info', [MyInfoController::class, 'index'])->name('myinfo');
     Route::get('/performance', [PerformanceController::class, 'index'])->name('performance');
     Route::get('/directory', [DirectoryController::class, 'index'])->name('directory');
