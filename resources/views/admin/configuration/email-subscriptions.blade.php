@@ -40,9 +40,9 @@
                         <div class="flex-1">
                             <div class="text-xs text-gray-500">{{ $subscription['subscribers'] ?: '-' }}</div>
                         </div>
-                        <div class="flex-shrink-0 flex items-center justify-center gap-2" style="width: 120px;">
-                            <button class="w-6 h-6 rounded-full flex items-center justify-center hover:bg-purple-50 transition-colors" title="Add Subscriber">
-                                <i class="fas fa-user-plus text-xs" style="color: var(--color-hr-primary);"></i>
+                        <div class="flex-shrink-0 flex items-center justify-center gap-1.5" style="width: 120px;">
+                            <button class="w-5 h-5 flex items-center justify-center hover:bg-gray-100 transition-colors rounded" title="Add Subscriber">
+                                <i class="fas fa-user-plus text-xs text-gray-600"></i>
                             </button>
                             <div class="relative">
                                 <input type="checkbox" class="sr-only toggle-switch" id="toggle-{{ $subscription['id'] }}">

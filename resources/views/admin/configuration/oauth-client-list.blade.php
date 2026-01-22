@@ -27,12 +27,9 @@
                         {{ $client['status'] }}
                     </span>
                 </x-admin.table-cell>
-                <div class="flex-shrink-0 flex items-center justify-center gap-2" style="width: 70px;">
-                    <button class="w-6 h-6 rounded-full flex items-center justify-center hover:bg-purple-50 transition-colors" title="Edit">
-                        <i class="fas fa-edit text-xs" style="color: var(--color-hr-primary);"></i>
-                    </button>
-                    <button class="w-6 h-6 rounded-full flex items-center justify-center hover:bg-red-50 transition-colors" title="Delete">
-                        <i class="fas fa-trash-alt text-xs text-red-600"></i>
+                <div class="flex-shrink-0 flex items-center justify-end" style="width: 70px;">
+                    <button class="w-7 h-7 flex items-center justify-center hover:bg-gray-100 transition-colors rounded" title="Copy">
+                        <i class="fas fa-copy text-sm text-gray-600"></i>
                     </button>
                 </div>
             </x-admin.table-row>

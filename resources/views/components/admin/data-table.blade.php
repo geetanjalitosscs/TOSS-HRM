@@ -12,7 +12,7 @@
             <h2 class="text-sm font-bold text-slate-800">{{ $title }}</h2>
             @if($addButton)
             <button class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-purple-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform">
-                <span class="text-sm font-bold">+</span> {{ $addButtonText }}
+                {{ $addButtonText }}
             </button>
             @endif
         </div>

@@ -20,15 +20,12 @@
                         <div class="text-xs text-gray-500">{{ $language['native'] }}</div>
                     </div>
                 </x-admin.table-cell>
-                <div class="flex-shrink-0 flex items-center justify-center gap-2" style="width: 70px;">
-                    <button class="w-6 h-6 rounded-full flex items-center justify-center hover:bg-purple-50 transition-colors" title="Upload">
-                        <i class="fas fa-upload text-xs" style="color: var(--color-hr-primary);"></i>
+                <div class="flex-shrink-0 flex items-center justify-center gap-1.5" style="width: 70px;">
+                    <button class="w-5 h-5 flex items-center justify-center hover:bg-gray-100 transition-colors rounded" title="Move Up">
+                        <i class="fas fa-arrow-up text-xs text-gray-600"></i>
                     </button>
-                    <button class="w-6 h-6 rounded-full flex items-center justify-center hover:bg-purple-50 transition-colors" title="Download">
-                        <i class="fas fa-download text-xs" style="color: var(--color-hr-primary);"></i>
-                    </button>
-                    <button class="w-6 h-6 rounded-full flex items-center justify-center hover:bg-red-50 transition-colors" title="Delete">
-                        <i class="fas fa-trash-alt text-xs text-red-600"></i>
+                    <button class="w-5 h-5 flex items-center justify-center hover:bg-gray-100 transition-colors rounded" title="Move Down">
+                        <i class="fas fa-arrow-down text-xs text-gray-600"></i>
                     </button>
                 </div>
             </x-admin.table-row>
