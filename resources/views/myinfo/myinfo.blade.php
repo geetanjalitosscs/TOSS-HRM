@@ -215,14 +215,14 @@
                             <div class="flex-1" style="min-width: 0;">
                                 <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">Date Added</span>
                             </div>
-                            <div class="flex-shrink-0" style="width: 70px;">
+                            <div class="flex-shrink-0" style="width: 90px;">
                                 <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words text-center">Actions</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Table Rows -->
-                    <div class="border border-purple-100 border-t-0 rounded-b-lg overflow-hidden">
+                    <div class="border border-purple-100 border-t-0 rounded-b-lg" style="overflow: visible;">
                         @foreach($attachments as $attachment)
                             <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <div class="flex items-center gap-1">
@@ -241,16 +241,16 @@
                                     <div class="flex-1" style="min-width: 0;">
                                         <div class="text-xs text-slate-700 break-words">{{ $attachment['date_added'] }}</div>
                                     </div>
-                                    <div class="flex-shrink-0" style="width: 70px;">
-                                        <div class="flex items-center justify-center gap-1">
-                                            <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Edit">
-                                                <i class="fas fa-edit w-4 h-4"></i>
+                                    <div class="flex-shrink-0" style="width: 90px; overflow: visible;">
+                                        <div class="flex items-center justify-center gap-2" style="overflow: visible;">
+                                            <button class="hr-action-edit flex-shrink-0" title="Edit">
+                                                <i class="fas fa-edit text-sm"></i>
                                             </button>
-                                            <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
-                                                <i class="fas fa-trash-alt w-4 h-4"></i>
+                                            <button class="hr-action-delete flex-shrink-0" title="Delete">
+                                                <i class="fas fa-trash-alt text-sm"></i>
                                             </button>
-                                            <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Download">
-                                                <i class="fas fa-download w-4 h-4"></i>
+                                            <button class="hr-action-download flex-shrink-0" title="Download">
+                                                <i class="fas fa-download text-sm"></i>
                                             </button>
                                         </div>
                                     </div>

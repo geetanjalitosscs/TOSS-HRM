@@ -27,9 +27,9 @@
                         {{ $client['status'] }}
                     </span>
                 </x-admin.table-cell>
-                <div class="flex-shrink-0 flex items-center justify-end" style="width: 70px;">
-                    <button class="w-7 h-7 flex items-center justify-center hover:bg-gray-100 transition-colors rounded" title="Copy">
-                        <i class="fas fa-copy text-sm text-gray-600"></i>
+                <div class="flex-shrink-0 flex items-center justify-end" style="width: 30px;">
+                    <button class="hr-action-copy flex-shrink-0" title="Copy">
+                        <i class="fas fa-copy text-sm"></i>
                     </button>
                 </div>
             </x-admin.table-row>

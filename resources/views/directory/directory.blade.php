@@ -5,9 +5,10 @@
 @section('body')
     <x-main-layout title="Directory">
         <!-- Directory Search/Filter Section -->
-        <div>
-            <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
-                <h2 class="text-sm font-bold text-slate-800 mb-3">Directory</h2>
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-address-book text-purple-500"></i> <span class="mt-0.5">Directory</span>
+            </h2>
 
                 <!-- Filter Form -->
                 <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
@@ -42,14 +43,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="flex justify-end gap-2">
-                        <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all">
-                            Reset
-                        </button>
-                        <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
-                            Search
-                        </button>
-                    </div>
+                    <x-admin.action-buttons />
                 </div>
 
                 <!-- Records Count -->
@@ -60,7 +54,7 @@
                 <!-- Employee Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach($employees as $employee)
-                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-4 hover:shadow-md transition-shadow">
+                    <div class="rounded-lg border shadow-sm p-4 transition-all" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.boxShadow='var(--shadow-md)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                         <!-- Profile Picture -->
                         <div class="flex justify-center mb-3">
                             @if($employee['has_photo'])
@@ -95,8 +89,7 @@
                     </div>
                     @endforeach
                 </div>
-            </div>
-        </div>
+        </section>
     </x-main-layout>
 @endsection
 

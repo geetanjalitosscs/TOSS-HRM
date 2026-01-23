@@ -7,8 +7,10 @@
         <x-leave.tabs activeTab="assign-leave" />
         
         <!-- Assign Leave Section -->
-        <div class="rounded-lg shadow-sm border p-6" style="background-color: var(--bg-card); border-color: var(--border-default);">
-            <h2 class="text-lg font-bold mb-6" style="color: var(--text-primary);">Assign Leave</h2>
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-user-check text-purple-500"></i> <span class="mt-0.5">Assign Leave</span>
+            </h2>
             
             <form>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -77,7 +79,7 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
     </x-main-layout>
 @endsection
 

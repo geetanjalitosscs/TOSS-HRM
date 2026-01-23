@@ -7,8 +7,11 @@
         <x-leave.tabs activeTab="leave-list" />
         
         <!-- Leave List Section -->
-        <div class="rounded-lg shadow-sm border p-4" style="background-color: var(--bg-card); border-color: var(--border-default);">
-            <x-admin.search-panel title="Leave List" :collapsed="false">
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-list-alt text-purple-500"></i> <span class="mt-0.5">Leave List</span>
+            </h2>
+            <x-admin.search-panel title="" :collapsed="false">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                     <div>
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">From Date</label>
@@ -66,26 +69,19 @@
                         <div class="relative inline-block w-10 h-5">
                             <input type="checkbox" class="sr-only peer" id="include-past-employees">
                             <div class="absolute inset-0 rounded-full transition-colors peer-checked:bg-[var(--color-hr-primary)]" style="background-color: var(--bg-hover);"></div>
-                            <div class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5" style="background-color: var(--bg-card);"></div>
+                            <div class="absolute top-1/2 left-0.5 w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 -translate-y-1/2" style="background-color: var(--bg-card);"></div>
                         </div>
                         <span class="text-xs font-medium" style="color: var(--text-primary);">Include Past Employees</span>
                     </label>
                 </div>
-                <div class="flex justify-end gap-2">
-                    <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium">
-                        Reset
-                    </button>
-                    <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium">
-                        Search
-                    </button>
-                </div>
+                <x-admin.action-buttons />
             </x-admin.search-panel>
             
             <!-- No Records Found -->
             <div class="text-center py-12 rounded-lg border" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                 <div class="text-sm font-medium" style="color: var(--text-muted);">No Records Found</div>
             </div>
-        </div>
+        </section>
     </x-main-layout>
 @endsection
 

@@ -103,14 +103,7 @@
                                     <span class="text-xs text-slate-700 font-medium">Include Past Employees</span>
                                 </label>
                             </div>
-                            <div class="flex justify-end gap-2">
-                                <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all">
-                                    Reset
-                                </button>
-                                <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
-                                    Search
-                                </button>
-                            </div>
+                            <x-admin.action-buttons />
                         </div>
 
                         <!-- Records Count -->

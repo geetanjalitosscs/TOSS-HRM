@@ -23,9 +23,10 @@
                     </div>
 
                     <!-- Employee Reviews Section -->
-                    <div>
-                        <div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-                        <h2 class="text-sm font-bold text-slate-800 mb-3">Employee Reviews</h2>
+                    <section class="hr-card p-6">
+                        <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                            <i class="fas fa-star text-purple-500"></i> <span class="mt-0.5">Employee Reviews</span>
+                        </h2>
 
                         <!-- Filter Form -->
                         <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
@@ -91,18 +92,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex justify-end gap-2">
-                                <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all">
-                                    Reset
-                                </button>
-                                <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
-                                    Search
-                                </button>
-                            </div>
+                            <x-admin.action-buttons />
                         </div>
 
                         <!-- No Records Found Message -->
-                        <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
+                        <div class="rounded-lg shadow-sm border p-4" style="background-color: var(--bg-card); border-color: var(--border-default);">
                             <div class="mb-3 text-xs text-slate-600 font-medium">
                                 No Records Found
                             </div>
@@ -149,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
     </x-main-layout>
 @endsection
 

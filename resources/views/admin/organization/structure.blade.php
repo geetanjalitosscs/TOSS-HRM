@@ -6,15 +6,17 @@
     <x-main-layout title="Admin / Organization">
         <x-admin.tabs activeTab="organization-structure" />
 
-        <div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-bold text-slate-800">Organization Structure</h2>
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
+                    <i class="fas fa-sitemap text-purple-500"></i> <span class="mt-0.5">Organization Structure</span>
+                </h2>
                 <label class="flex items-center gap-2 cursor-pointer">
                     <span class="text-sm text-gray-700">Edit</span>
                     <div class="relative">
                         <input type="checkbox" class="sr-only" id="edit-toggle" onchange="toggleEditMode()">
-                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200" id="toggle-bg">
-                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="toggle-circle" style="margin-top: 2px;"></div>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="toggle-bg">
+                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="toggle-circle"></div>
                         </div>
                     </div>
                 </label>
@@ -306,7 +308,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </section>
     </x-main-layout>
 
     <script>

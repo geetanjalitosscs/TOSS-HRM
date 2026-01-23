@@ -254,6 +254,7 @@ aside[class*="fixed"] {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid var(--border-subtle);
     color: var(--text-primary);
+    overflow: visible;
 }
 
 .hr-card:hover {
@@ -297,28 +298,157 @@ aside[class*="fixed"] {
    ACTION BUTTONS HOVER EFFECTS
    ============================================ */
 .hr-action-delete {
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-secondary);
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
 }
 
 .hr-action-delete:hover {
-    color: #EF4444 !important; /* Red for delete */
+    color: #EF4444 !important;
     background-color: rgba(239, 68, 68, 0.1) !important;
+    border-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+.hr-action-delete:active {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    transform: scale(0.95);
 }
 
 html[data-theme="dark"] .hr-action-delete:hover {
-    color: #F87171 !important; /* Lighter red for dark mode */
-    background-color: rgba(239, 68, 68, 0.2) !important;
+    color: #F87171 !important;
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
 }
 
 .hr-action-edit {
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-secondary);
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
 }
 
 .hr-action-edit:hover {
-    color: var(--color-hr-primary) !important; /* Purple for edit */
-    background-color: var(--bg-hover) !important;
+    color: var(--color-hr-primary) !important;
+    background-color: rgba(139, 92, 246, 0.1) !important;
+    border-color: rgba(139, 92, 246, 0.2) !important;
+}
+
+.hr-action-edit:active {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+    transform: scale(0.95);
+}
+
+html[data-theme="dark"] .hr-action-edit:hover {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+.hr-action-copy {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-secondary);
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.hr-action-copy:hover {
+    color: #3B82F6 !important;
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.hr-action-copy:active {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    transform: scale(0.95);
+}
+
+html[data-theme="dark"] .hr-action-copy:hover {
+    color: #60A5FA !important;
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.hr-action-view {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-secondary);
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.hr-action-view:hover {
+    color: #10B981 !important;
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    border-color: rgba(16, 185, 129, 0.2) !important;
+}
+
+.hr-action-view:active {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    transform: scale(0.95);
+}
+
+html[data-theme="dark"] .hr-action-view:hover {
+    color: #34D399 !important;
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.hr-action-download {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-secondary);
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.hr-action-download:hover {
+    color: #F59E0B !important;
+    background-color: rgba(245, 158, 11, 0.1) !important;
+    border-color: rgba(245, 158, 11, 0.2) !important;
+}
+
+.hr-action-download:active {
+    background-color: rgba(245, 158, 11, 0.15) !important;
+    transform: scale(0.95);
+}
+
+html[data-theme="dark"] .hr-action-download:hover {
+    color: #FBBF24 !important;
+    background-color: rgba(245, 158, 11, 0.15) !important;
+    border-color: rgba(245, 158, 11, 0.3) !important;
 }
 
 /* ============================================

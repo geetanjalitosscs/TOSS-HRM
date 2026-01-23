@@ -6,9 +6,12 @@
     <x-main-layout title="Recruitment">
         <x-recruitment.tabs activeTab="vacancies" />
 
-        <div class="bg-[var(--bg-card)] rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <!-- Vacancies Search Panel -->
-            <x-admin.search-panel title="Vacancies" :collapsed="false">
+        <div class="space-y-6">
+            <!-- Vacancies Search Panel Card -->
+            <section class="hr-card p-6">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
+                    <i class="fas fa-search text-purple-500"></i> Vacancies
+                </h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
@@ -52,30 +55,25 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex justify-end gap-2">
-                    <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all">
-                        Reset
-                    </button>
-                    <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
-                        Search
-                    </button>
+                <x-admin.action-buttons />
+            </section>
+
+            <!-- Vacancies List Card -->
+            <section class="hr-card p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-briefcase text-purple-500"></i> Vacancies List
+                    </h2>
+                    <x-admin.add-button />
                 </div>
-            </x-admin.search-panel>
 
-            <!-- Add Button -->
-            <div class="mb-3">
-                <button class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-purple-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform">
-                    + Add
-                </button>
-            </div>
+                <!-- Records Count -->
+                <div class="mb-4 text-xs text-slate-600 font-medium">
+                    ({{ count($vacancies) }}) Records Found
+                </div>
 
-            <!-- Records Count -->
-            <div class="mb-3 text-xs text-slate-600 font-medium">
-                ({{ count($vacancies) }}) Records Found
-            </div>
-
-            <!-- Table -->
-            <x-admin.data-table 
+                <!-- Table -->
+                <x-admin.data-table 
                 title="" 
                 :records="$vacancies"
                 :columns="[
@@ -104,6 +102,7 @@
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>
+            </section>
         </div>
     </x-main-layout>
 @endsection

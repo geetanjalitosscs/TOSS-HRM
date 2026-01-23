@@ -6,8 +6,10 @@
     <x-main-layout title="Admin / Corporate Branding">
         <x-admin.tabs activeTab="corporate-branding" />
 
-        <div class="bg-[var(--bg-card)] rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <h2 class="text-lg font-bold mb-6" style="color: var(--text-primary);">Corporate Branding</h2>
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-palette text-purple-500"></i> <span class="mt-0.5">Corporate Branding</span>
+            </h2>
 
             <form class="space-y-6">
                 <!-- Color Pickers Section -->
@@ -70,7 +72,7 @@
                         </label>
                         <div class="flex items-center gap-3 px-3 py-2 rounded-md border" style="border-color: var(--border-default); background: var(--bg-input);">
                             <input type="file" name="client_logo" accept=".jpg,.jpeg,.png,.gif,.svg" class="hidden" id="client-logo-input" onchange="handleFileSelect(this, 'client-logo-name')">
-                            <button type="button" onclick="document.getElementById('client-logo-input').click()" class="px-4 py-2 rounded-md text-sm font-medium transition-colors" style="background: var(--bg-hover); border: 1px solid var(--border-default); color: var(--text-secondary);" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='var(--bg-hover)'">
+                            <button type="button" onclick="document.getElementById('client-logo-input').click()" class="hr-btn-secondary px-4 py-2 text-sm font-medium">
                                 Browse
                             </button>
                             <span class="text-sm" style="color: var(--text-muted);" id="client-logo-name">No file selected</span>
@@ -85,7 +87,7 @@
                         </label>
                         <div class="flex items-center gap-3 px-3 py-2 rounded-md border" style="border-color: var(--border-default); background: var(--bg-input);">
                             <input type="file" name="client_banner" accept=".jpg,.jpeg,.png,.gif,.svg" class="hidden" id="client-banner-input" onchange="handleFileSelect(this, 'client-banner-name')">
-                            <button type="button" onclick="document.getElementById('client-banner-input').click()" class="px-4 py-2 rounded-md text-sm font-medium transition-colors" style="background: var(--bg-hover); border: 1px solid var(--border-default); color: var(--text-secondary);" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='var(--bg-hover)'">
+                            <button type="button" onclick="document.getElementById('client-banner-input').click()" class="hr-btn-secondary px-4 py-2 text-sm font-medium">
                                 Browse
                             </button>
                             <span class="text-sm" style="color: var(--text-muted);" id="client-banner-name">No file selected</span>
@@ -100,7 +102,7 @@
                         </label>
                         <div class="flex items-center gap-3 px-3 py-2 rounded-md border" style="border-color: var(--border-default); background: var(--bg-input);">
                             <input type="file" name="login_banner" accept=".jpg,.jpeg,.png,.gif,.svg" class="hidden" id="login-banner-input" onchange="handleFileSelect(this, 'login-banner-name')">
-                            <button type="button" onclick="document.getElementById('login-banner-input').click()" class="px-4 py-2 rounded-md text-sm font-medium transition-colors" style="background: var(--bg-hover); border: 1px solid var(--border-default); color: var(--text-secondary);" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='var(--bg-hover)'">
+                            <button type="button" onclick="document.getElementById('login-banner-input').click()" class="hr-btn-secondary px-4 py-2 text-sm font-medium">
                                 Browse
                             </button>
                             <span class="text-sm" style="color: var(--text-muted);" id="login-banner-name">No file selected</span>
@@ -115,8 +117,8 @@
                         <span class="text-sm font-medium" style="color: var(--text-secondary);">Social Media Images</span>
                         <div class="relative">
                             <input type="checkbox" class="sr-only" id="social-media-toggle" checked>
-                            <div class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200" id="social-media-toggle-bg">
-                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5" id="social-media-toggle-circle" style="margin-top: 2px;"></div>
+                            <div class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200 flex items-center" id="social-media-toggle-bg">
+                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5" id="social-media-toggle-circle"></div>
                             </div>
                         </div>
                     </label>
@@ -129,18 +131,18 @@
 
                 <!-- Action Buttons -->
                 <div class="flex justify-end gap-3 mt-8 pt-6" style="border-top: 1px solid var(--border-default);">
-                    <button type="button" class="px-4 py-2 rounded-md text-sm font-medium transition-colors" style="border: 1px solid var(--color-hr-primary); color: var(--color-hr-primary); background: var(--bg-card);" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='var(--bg-card)'">
+                    <button type="button" class="hr-btn-secondary px-4 py-2 text-sm font-medium">
                         Reset to Default
                     </button>
-                    <button type="button" class="px-4 py-2 rounded-md text-sm font-medium transition-colors" style="border: 1px solid var(--color-hr-primary); color: var(--color-hr-primary); background: var(--bg-card);" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='var(--bg-card)'">
+                    <button type="button" class="hr-btn-secondary px-4 py-2 text-sm font-medium">
                         Preview
                     </button>
-                    <button type="submit" class="px-4 py-2 rounded-md text-sm font-medium text-white transition-colors" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'" onmouseout="this.style.background='var(--color-hr-primary)'">
+                    <button type="submit" class="hr-btn-primary px-4 py-2 text-sm font-medium">
                         Publish
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
     </x-main-layout>
 
     <!-- Color Picker JavaScript -->

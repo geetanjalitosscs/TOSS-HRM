@@ -23,12 +23,15 @@
                     </div>
 
                     <!-- Employee Information Section -->
-                    <div>
-                        <div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-                        <h2 class="text-sm font-bold text-slate-800 mb-3">Employee Information</h2>
+                    <div class="space-y-6">
+                        <!-- Employee Information Search Panel Card -->
+                        <section class="hr-card p-6">
+                            <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
+                                <i class="fas fa-search text-purple-500"></i> Employee Information
+                            </h2>
 
-                        <!-- Filter Form -->
-                        <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
+                            <!-- Filter Form -->
+                            <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
@@ -93,22 +96,26 @@
                                     Search
                                 </button>
                             </div>
+                            <x-admin.action-buttons />
                         </div>
+                        </section>
 
-                        <!-- Add Button -->
-                        <div class="mb-3">
-                            <button class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-purple-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform">
-                                <span class="text-sm font-bold">+</span> Add
-                            </button>
-                        </div>
+                        <!-- Employee List Card -->
+                        <section class="hr-card p-6">
+                            <div class="flex items-center justify-between mb-5">
+                                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                    <i class="fas fa-users text-purple-500"></i> Employee List
+                                </h2>
+                                <x-admin.add-button label="+ Add" />
+                            </div>
 
-                        <!-- Records Count -->
-                        <div class="mb-3 text-xs text-slate-600 font-medium">
-                            ({{ count($employees) }}) Records Found
-                        </div>
+                            <!-- Records Count -->
+                            <div class="mb-4 text-xs text-slate-600 font-medium">
+                                ({{ count($employees) }}) Records Found
+                            </div>
 
-                        <!-- Table Wrapper -->
-                        <div class="hr-table-wrapper">
+                            <!-- Table Wrapper -->
+                            <div class="hr-table-wrapper">
                             <!-- Table Header -->
                             <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
                                 <div class="flex-shrink-0" style="width: 24px;">
@@ -185,13 +192,13 @@
                                 </div>
                                 
                                 <!-- Actions -->
-                                <div class="flex-shrink-0" style="width: 70px;">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
-                                            <i class="fas fa-trash-alt w-4 h-4"></i>
+                                <div class="flex-shrink-0" style="width: 90px;">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button class="hr-action-delete flex-shrink-0" title="Delete">
+                                            <i class="fas fa-trash-alt text-sm"></i>
                                         </button>
-                                        <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Edit">
-                                            <i class="fas fa-edit w-4 h-4"></i>
+                                        <button class="hr-action-edit flex-shrink-0" title="Edit">
+                                            <i class="fas fa-edit text-sm"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -208,7 +215,7 @@
                             <button class="px-3 py-1.5 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">4</button>
                             <button class="px-3 py-1.5 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">></button>
                         </div>
-                    </div>
+                        </section>
                     </div>
     </x-main-layout>
 @endsection

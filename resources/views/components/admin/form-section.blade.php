@@ -10,16 +10,18 @@
     $circleId = 'toggle-circle-' . uniqid();
 @endphp
 
-<div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold text-slate-800">{{ $title }}</h2>
+<section class="hr-card p-6">
+    <div class="flex items-center justify-between mb-5">
+        <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
+            <i class="fas fa-info-circle text-purple-500"></i> <span class="mt-0.5">{{ $title }}</span>
+        </h2>
         @if($showEditToggle)
         <label class="flex items-center gap-2 cursor-pointer">
             <span class="text-sm text-gray-700">Edit</span>
             <div class="relative">
                 <input type="checkbox" class="sr-only" id="{{ $toggleId }}" {{ $editMode ? 'checked' : '' }} onchange="toggleEditModeForm(this, '{{ $bgId }}', '{{ $circleId }}')">
-                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 {{ $editMode ? 'bg-[var(--color-hr-primary)]' : '' }}" id="{{ $bgId }}">
-                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 {{ $editMode ? 'translate-x-5' : 'translate-x-0.5' }}" id="{{ $circleId }}" style="margin-top: 2px;"></div>
+                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center {{ $editMode ? 'bg-[var(--color-hr-primary)]' : '' }}" id="{{ $bgId }}">
+                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 {{ $editMode ? 'translate-x-5' : 'translate-x-0.5' }}" id="{{ $circleId }}"></div>
                 </div>
             </div>
         </label>
@@ -35,7 +37,7 @@
         {{ $footer }}
     </div>
     @endif
-</div>
+</section>
 
 @if($showEditToggle)
 <script>

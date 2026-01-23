@@ -26,9 +26,10 @@
         </div>
 
         <!-- Download Personal Data Section -->
-        <div>
-            <div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-                <h2 class="text-sm font-bold text-slate-800 mb-3">Download Personal Data</h2>
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-download text-purple-500"></i> <span class="mt-0.5">Download Personal Data</span>
+            </h2>
 
                 <!-- Filter Form -->
                 <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
@@ -39,7 +40,7 @@
                             <div class="text-xs text-gray-500 mt-1">* Required</div>
                         </div>
                         <div class="pt-5">
-                            <button class="hr-btn-primary px-4 py-2.5 text-xs font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-lg hover:shadow-md transition-all shadow-sm whitespace-nowrap">
+                            <button class="hr-btn-primary px-4 py-2.5 text-xs font-medium whitespace-nowrap">
                                 Search
                             </button>
                         </div>
@@ -53,8 +54,7 @@
                         Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to <span class="font-medium text-purple-600">Data@toaihr.com</span> with the subject "Purge Records (Instance Identifier: TOAI_HR_{{ date('Ymd') }}_{{ strtoupper(substr(md5('toaihr'), 0, 8)) }})".
                     </p>
                 </div>
-            </div>
-        </div>
+        </section>
     </x-main-layout>
 @endsection
 

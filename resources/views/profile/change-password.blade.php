@@ -4,8 +4,10 @@
 
 @section('body')
     <x-main-layout title="Update Password">
-        <div class="hr-card p-8 max-w-4xl mx-auto">
-            <h1 class="text-xl font-semibold text-gray-900 mb-6">Update Password</h1>
+        <section class="hr-card p-6 max-w-4xl mx-auto">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-key text-purple-500"></i> <span class="mt-0.5">Update Password</span>
+            </h2>
             
             @if(session('success'))
                 <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
@@ -103,7 +105,7 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </section>
     </x-main-layout>
 @endsection
 

@@ -5,13 +5,19 @@
         <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
     </div>
     {{ $slot }}
-    <div class="flex-shrink-0" style="width: 70px;">
-        <div class="flex items-center justify-center gap-1">
-            <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
-                <i class="fas fa-trash-alt w-4 h-4"></i>
+    <div class="flex-shrink-0" style="width: 90px;">
+        <div class="flex items-center justify-center gap-2">
+            <button 
+                class="hr-action-delete flex-shrink-0" 
+                title="Delete"
+            >
+                <i class="fas fa-trash-alt text-sm"></i>
             </button>
-            <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Edit">
-                <i class="fas fa-edit w-4 h-4"></i>
+            <button 
+                class="hr-action-edit flex-shrink-0" 
+                title="Edit"
+            >
+                <i class="fas fa-edit text-sm"></i>
             </button>
         </div>
     </div>

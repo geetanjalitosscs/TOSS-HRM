@@ -6,13 +6,15 @@
     <x-main-layout title="Recruitment">
         <x-recruitment.tabs activeTab="candidates" />
 
-        <!-- Candidate Search/Filter Section -->
-        <div>
-            <div class="rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4 mb-3" style="background-color: var(--bg-card);">
-            <h2 class="text-sm font-bold mb-3" style="color: var(--text-primary);">Candidate Search</h2>
+        <div class="space-y-6">
+            <!-- Candidate Search Panel Card -->
+            <section class="hr-card p-6">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
+                    <i class="fas fa-search text-purple-500"></i> Candidate Search
+                </h2>
 
-            <!-- Filter Form -->
-            <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
+                <!-- Filter Form -->
+                <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
@@ -80,21 +82,25 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex justify-end gap-2">
-                    <button class="hr-btn-secondary">Reset</button>
-                    <button class="hr-btn-primary">Search</button>
+                <x-admin.action-buttons />
+            </div>
+            </section>
+
+            <!-- Candidate List Card -->
+            <section class="hr-card p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-user-tie text-purple-500"></i> Candidate List
+                    </h2>
                 </div>
-            </div>
-        </div>
 
-        <!-- Candidate List Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
-            <div class="flex justify-between items-center mb-3">
-                <h2 class="text-sm font-bold text-slate-800">({{ count($candidates) }}) Records Found</h2>
-            </div>
+                <!-- Records Count -->
+                <div class="mb-4 text-xs text-slate-600 font-medium">
+                    ({{ count($candidates) }}) Records Found
+                </div>
 
-            <!-- Table Wrapper -->
-            <div class="hr-table-wrapper">
+                <!-- Table Wrapper -->
+                <div class="hr-table-wrapper">
                 <!-- Table Header -->
                 <div class="rounded-t-lg border border-b-0 px-2 py-1.5 mb-0" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                     <div class="flex items-center gap-1">
@@ -166,16 +172,16 @@
                                     {{ $candidate['status'] }}
                                 </span>
                             </div>
-                            <div class="flex-shrink-0" style="width: 70px;">
-                                <div class="flex items-center justify-center gap-1">
-                                    <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="View">
-                                        <i class="fas fa-eye w-4 h-4"></i>
+                            <div class="flex-shrink-0" style="width: 120px;">
+                                <div class="flex items-center justify-center gap-2">
+                                    <button class="hr-action-view flex-shrink-0" title="View">
+                                        <i class="fas fa-eye text-sm"></i>
                                     </button>
-                                    <button class="p-0.5 rounded hr-action-delete flex-shrink-0" title="Delete">
-                                        <i class="fas fa-trash-alt w-4 h-4"></i>
+                                    <button class="hr-action-delete flex-shrink-0" title="Delete">
+                                        <i class="fas fa-trash-alt text-sm"></i>
                                     </button>
-                                    <button class="p-0.5 rounded hr-action-edit flex-shrink-0" title="Download">
-                                        <i class="fas fa-download w-4 h-4"></i>
+                                    <button class="hr-action-download flex-shrink-0" title="Download">
+                                        <i class="fas fa-download text-sm"></i>
                                     </button>
                                 </div>
                             </div>
@@ -195,7 +201,7 @@
                     </svg>
                 </button>
             </div>
-        </div>
+            </section>
         </div>
     </x-main-layout>
 @endsection

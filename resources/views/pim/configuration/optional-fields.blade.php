@@ -27,12 +27,7 @@
                                 <p class="text-xs mt-1" style="color: var(--text-muted);">Show Nick Name, Smoker and Military Service in Personal Details</p>
                             </div>
                             <div class="flex-shrink-0 ml-4">
-                                <div class="relative">
-                                    <input type="checkbox" class="sr-only toggle-switch" id="show-deprecated" checked>
-                                    <label for="show-deprecated" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer block border" style="background: var(--color-hr-primary); border-color: var(--border-strong);">
-                                        <div class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 translate-x-5" style="background: white; margin-top: 2px;"></div>
-                                    </label>
-                                </div>
+                                <x-admin.toggle-switch id="show-deprecated" :checked="true" />
                             </div>
                         </div>
                     </div>
@@ -48,12 +43,7 @@
                                 <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">Show SSN field in Personal Details</label>
                             </div>
                             <div class="flex-shrink-0 ml-4">
-                                <div class="relative">
-                                    <input type="checkbox" class="sr-only toggle-switch" id="show-ssn" checked>
-                                    <label for="show-ssn" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer block border" style="background: var(--color-hr-primary); border-color: var(--border-strong);">
-                                        <div class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 translate-x-5" style="background: white; margin-top: 2px;"></div>
-                                    </label>
-                                </div>
+                                <x-admin.toggle-switch id="show-ssn" :checked="true" />
                             </div>
                         </div>
 
@@ -63,12 +53,7 @@
                                 <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">Show SIN field in Personal Details</label>
                             </div>
                             <div class="flex-shrink-0 ml-4">
-                                <div class="relative">
-                                    <input type="checkbox" class="sr-only toggle-switch" id="show-sin">
-                                    <label for="show-sin" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer block border" style="background: #E5E7EB; border-color: #D1D5DB;">
-                                        <div class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" style="background: white; margin-top: 2px;"></div>
-                                    </label>
-                                </div>
+                                <x-admin.toggle-switch id="show-sin" :checked="false" />
                             </div>
                         </div>
 
@@ -78,19 +63,14 @@
                                 <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">Show US Tax Exemptions menu</label>
                             </div>
                             <div class="flex-shrink-0 ml-4">
-                                <div class="relative">
-                                    <input type="checkbox" class="sr-only toggle-switch" id="show-tax">
-                                    <label for="show-tax" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer block border" style="background: #E5E7EB; border-color: #D1D5DB;">
-                                        <div class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" style="background: white; margin-top: 2px;"></div>
-                                    </label>
-                                </div>
+                                <x-admin.toggle-switch id="show-tax" :checked="false" />
                             </div>
                         </div>
                     </div>
 
                     <!-- Footer Action Button -->
                     <div class="flex justify-end pt-6 mt-6" style="border-top: 1px solid var(--border-default);">
-                        <button type="submit" class="px-6 py-2.5 rounded-full text-sm font-medium text-white transition-all shadow-md hover:shadow-lg" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'" onmouseout="this.style.background='var(--color-hr-primary)'">
+                        <button type="submit" class="hr-btn-primary px-6 py-2.5 text-sm font-medium">
                             Save
                         </button>
                     </div>
@@ -99,40 +79,4 @@
         </div>
     </x-main-layout>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggles = document.querySelectorAll('.toggle-switch');
-            toggles.forEach(toggle => {
-                // Set initial state
-                const label = toggle.nextElementSibling;
-                const circle = label.querySelector('div');
-                if (toggle.checked) {
-                    label.style.background = 'var(--color-hr-primary)';
-                    label.style.borderColor = 'var(--border-strong)';
-                    circle.classList.add('translate-x-5');
-                    circle.classList.remove('translate-x-0.5');
-                } else {
-                    label.style.background = '#E5E7EB';
-                    label.style.borderColor = '#D1D5DB';
-                    circle.classList.remove('translate-x-5');
-                    circle.classList.add('translate-x-0.5');
-                }
-
-                // Handle changes
-                toggle.addEventListener('change', function() {
-                    if (this.checked) {
-                        label.style.background = 'var(--color-hr-primary)';
-                        label.style.borderColor = 'var(--border-strong)';
-                        circle.classList.add('translate-x-5');
-                        circle.classList.remove('translate-x-0.5');
-                    } else {
-                        label.style.background = '#E5E7EB';
-                        label.style.borderColor = '#D1D5DB';
-                        circle.classList.remove('translate-x-5');
-                        circle.classList.add('translate-x-0.5');
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

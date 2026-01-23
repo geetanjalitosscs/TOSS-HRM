@@ -6,8 +6,10 @@
     <x-main-layout title="Admin / Configuration">
         <x-admin.tabs activeTab="configuration-oauth-client" />
 
-        <div class="bg-[var(--bg-card)] rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <h2 class="text-lg font-bold mb-6" style="color: var(--text-primary);">Register OAuth Client</h2>
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-key text-purple-500"></i> <span class="mt-0.5">Register OAuth Client</span>
+            </h2>
 
             <form class="space-y-6">
                 <!-- Client ID -->
@@ -61,7 +63,7 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
     </x-main-layout>
 @endsection
 

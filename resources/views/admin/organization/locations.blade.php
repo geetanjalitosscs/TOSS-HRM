@@ -7,7 +7,11 @@
         <x-admin.tabs activeTab="organization-locations" />
 
         <!-- Search Panel -->
-        <x-admin.search-panel>
+        <section class="hr-card p-6 mb-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-search text-purple-500"></i> <span class="mt-0.5">Location Search</span>
+            </h2>
+            <x-admin.search-panel title="">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <x-admin.form-field 
                     label="Name" 
@@ -32,37 +36,40 @@
                     </select>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <button class="px-4 py-2 border border-green-600 text-green-600 rounded-md text-sm font-medium hover:bg-green-50 transition-colors">
-                    Reset
-                </button>
-                <button class="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors">
-                    Search
-                </button>
-            </div>
+            <x-admin.action-buttons />
         </x-admin.search-panel>
+        </section>
 
         <!-- Locations Table -->
-        <x-admin.data-table 
-            title="Locations" 
-            :records="$locations"
-            :columns="[
-                ['label' => 'Name', 'sortable' => true],
-                ['label' => 'City', 'sortable' => true],
-                ['label' => 'Country', 'sortable' => true],
-                ['label' => 'Phone', 'sortable' => true],
-                ['label' => 'Number of Employees', 'sortable' => true]
-            ]">
-            @foreach($locations as $location)
-            <x-admin.table-row :record="$location">
-                <x-admin.table-cell bold>{{ $location['name'] }}</x-admin.table-cell>
-                <x-admin.table-cell>{{ $location['city'] }}</x-admin.table-cell>
-                <x-admin.table-cell>{{ $location['country'] }}</x-admin.table-cell>
-                <x-admin.table-cell>{{ $location['phone'] }}</x-admin.table-cell>
-                <x-admin.table-cell>{{ $location['num_employees'] }}</x-admin.table-cell>
-            </x-admin.table-row>
-            @endforeach
-        </x-admin.data-table>
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt text-purple-500"></i> Locations
+                </h2>
+                <x-admin.add-button />
+            </div>
+            <x-admin.data-table 
+                title="" 
+                :records="$locations"
+                :columns="[
+                    ['label' => 'Name', 'sortable' => true],
+                    ['label' => 'City', 'sortable' => true],
+                    ['label' => 'Country', 'sortable' => true],
+                    ['label' => 'Phone', 'sortable' => true],
+                    ['label' => 'Number of Employees', 'sortable' => true]
+                ]"
+                :addButton="false">
+                @foreach($locations as $location)
+                <x-admin.table-row :record="$location">
+                    <x-admin.table-cell bold>{{ $location['name'] }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location['city'] }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location['country'] }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location['phone'] }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location['num_employees'] }}</x-admin.table-cell>
+                </x-admin.table-row>
+                @endforeach
+            </x-admin.data-table>
+        </section>
     </x-main-layout>
 @endsection
 

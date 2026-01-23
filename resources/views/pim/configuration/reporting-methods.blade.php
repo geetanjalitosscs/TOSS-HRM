@@ -6,16 +6,16 @@
     <x-main-layout title="PIM">
         <x-pim.tabs activeTab="configuration-reporting-methods" />
 
-        <div class="bg-[var(--bg-card)] rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="text-sm font-bold text-slate-800">Reporting Methods</h2>
-                <button class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-purple-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform">
-                    + Add
-                </button>
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-chart-line text-purple-500"></i> Reporting Methods
+                </h2>
+                <x-admin.add-button />
             </div>
 
             <!-- Records Count -->
-            <div class="mb-3 text-xs text-slate-600 font-medium">
+            <div class="mb-4 text-xs text-slate-600 font-medium">
                 ({{ count($reportingMethods) }}) Records Found
             </div>
 
@@ -35,6 +35,6 @@
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>
-        </div>
+        </section>
     </x-main-layout>
 @endsection

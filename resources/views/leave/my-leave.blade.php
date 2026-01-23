@@ -7,8 +7,11 @@
         <x-leave.tabs activeTab="my-leave" />
         
         <!-- My Leave List Section -->
-        <div class="rounded-lg shadow-sm border p-4" style="background-color: var(--bg-card); border-color: var(--border-default);">
-            <x-admin.search-panel title="My Leave List" :collapsed="false">
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-calendar-check text-purple-500"></i> <span class="mt-0.5">My Leave List</span>
+            </h2>
+            <x-admin.search-panel title="" :collapsed="false">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                     <div>
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">From Date</label>
@@ -48,21 +51,14 @@
                         <option>Casual Leave</option>
                     </select>
                 </div>
-                <div class="flex justify-end gap-2">
-                    <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium">
-                        Reset
-                    </button>
-                    <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium">
-                        Search
-                    </button>
-                </div>
+                <x-admin.action-buttons />
             </x-admin.search-panel>
             
             <!-- No Records Found -->
             <div class="text-center py-12 rounded-lg border" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                 <div class="text-sm font-medium" style="color: var(--text-muted);">No Records Found</div>
             </div>
-        </div>
+        </section>
     </x-main-layout>
 @endsection
 

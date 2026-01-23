@@ -27,9 +27,10 @@
                     </div>
 
                     <!-- Select Employee Section -->
-                    <div>
-                        <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4 mb-3">
-                        <h2 class="text-lg font-bold text-slate-800 mb-4">Select Employee</h2>
+                    <section class="hr-card p-6 mb-6">
+                        <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                            <i class="fas fa-user-check text-purple-500"></i> <span class="mt-0.5">Select Employee</span>
+                        </h2>
                         <div class="bg-purple-50/30 rounded-lg p-4 border border-purple-100">
                             <div class="flex items-end gap-4">
                                 <div class="flex-1">
@@ -38,17 +39,19 @@
                                     <div class="text-xs text-gray-500 mt-1">* Required</div>
                                 </div>
                                 <div>
-                                    <button class="px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
+                                    <button class="hr-btn-primary px-4 py-2.5 text-sm font-medium">
                                         View
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     <!-- Timesheets Pending Action Section -->
-                    <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-6">
-                        <h2 class="text-lg font-bold text-slate-800 mb-4">Timesheets Pending Action</h2>
+                    <section class="hr-card p-6">
+                        <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                            <i class="fas fa-clock text-purple-500"></i> <span class="mt-0.5">Timesheets Pending Action</span>
+                        </h2>
                         
                         <!-- Records Count -->
                         <div class="mb-4 text-sm text-slate-600 font-medium">
@@ -85,7 +88,7 @@
                                 <!-- Actions -->
                                 <div class="flex-shrink-0" style="width: 70px;">
                                     <div class="flex items-center justify-center">
-                                        <button class="px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 hover:text-gray-900 transition-all">
+                                        <button class="hr-btn-primary px-2 py-1 text-xs font-medium">
                                             View
                                         </button>
                                     </div>
@@ -93,8 +96,7 @@
                             </div>
                             @endforeach
                         </div>
-                    </div>
-                    </div>
+                    </section>
     </x-main-layout>
 @endsection
 

@@ -6,8 +6,10 @@
     <x-main-layout title="Admin / Configuration">
         <x-admin.tabs activeTab="configuration-modules" />
 
-        <div class="bg-[var(--bg-card)] rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <h2 class="text-lg font-bold mb-6" style="color: var(--text-primary);">Module Configuration</h2>
+        <section class="hr-card p-6">
+            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                <i class="fas fa-cogs text-purple-500"></i> <span class="mt-0.5">Module Configuration</span>
+            </h2>
 
             <form class="space-y-4">
                 @foreach($modules as $module)
@@ -17,8 +19,8 @@
                     </label>
                     <div class="relative">
                         <input type="checkbox" class="sr-only module-toggle" id="module-{{ $module['id'] }}" {{ $module['enabled'] ? 'checked' : '' }}>
-                        <label for="module-{{ $module['id'] }}" class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200 cursor-pointer block">
-                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5" style="margin-top: 2px;"></div>
+                        <label for="module-{{ $module['id'] }}" class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200 cursor-pointer flex items-center">
+                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5"></div>
                         </label>
                     </div>
                 </div>
@@ -26,12 +28,12 @@
 
                 <!-- Action Button -->
                 <div class="flex justify-end gap-3 mt-8 pt-6" style="border-top: 1px solid var(--border-default);">
-                    <button type="submit" class="px-4 py-2 rounded-md text-sm font-medium text-white transition-colors" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'" onmouseout="this.style.background='var(--color-hr-primary)'">
+                    <button type="submit" class="hr-btn-primary px-4 py-2 text-sm font-medium">
                         Save
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
     </x-main-layout>
 
     <script>

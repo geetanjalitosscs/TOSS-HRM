@@ -8,8 +8,10 @@
         <div class="flex gap-6">
             <!-- Main Newsfeed -->
             <div class="flex-1">
-                <div class="rounded-lg shadow-sm border p-4" style="background-color: var(--bg-card); border-color: var(--border-default);">
-                    <h2 class="text-lg font-bold mb-4" style="color: var(--text-primary);">Buzz Newsfeed</h2>
+                <section class="hr-card p-6">
+                    <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
+                        <i class="fas fa-comments text-purple-500"></i> <span class="mt-0.5">Buzz Newsfeed</span>
+                    </h2>
 
                     <!-- Post Creation Widget -->
                     <div class="rounded-lg p-4 mb-4" style="background-color: var(--bg-hover); border: 1px solid var(--border-strong);">
@@ -104,18 +106,18 @@
                         </div>
                         @endforeach
                     </div>
-                </div>
+                </section>
             </div>
 
             <!-- Right Sidebar Widget -->
             <div class="w-80 flex-shrink-0">
-                <div class="rounded-lg shadow-sm border p-4" style="background-color: var(--bg-card); border-color: var(--border-default);">
+                <section class="hr-card p-6">
                     <h3 class="text-sm font-bold mb-4" style="color: var(--text-primary);">Upcoming Anniversaries</h3>
                     <div class="flex flex-col items-center justify-center py-8">
                         <img src="{{ asset('images/buzz_no_anniversaries.png') }}" alt="No anniversaries" class="w-24 h-24 object-contain mb-3">
                         <p class="text-sm" style="color: var(--text-muted);">No Records Found</p>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     </x-main-layout>

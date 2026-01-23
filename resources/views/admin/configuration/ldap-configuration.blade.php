@@ -6,13 +6,15 @@
     <x-main-layout title="Admin / Configuration">
         <x-admin.tabs activeTab="configuration-ldap" />
 
-        <div class="bg-[var(--bg-card)] rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-lg font-bold" style="color: var(--text-primary);">LDAP Configuration</h2>
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
+                    <i class="fas fa-server text-purple-500"></i> <span class="mt-0.5">LDAP Configuration</span>
+                </h2>
                 <div class="relative">
                     <input type="checkbox" class="sr-only" id="ldap-enable-toggle">
-                    <label for="ldap-enable-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer block">
-                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" style="margin-top: 2px;"></div>
+                    <label for="ldap-enable-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
+                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
                     </label>
                 </div>
             </div>
@@ -73,8 +75,8 @@
                             <span class="text-sm font-medium" style="color: var(--text-secondary);">Bind Anonymously</span>
                             <div class="relative">
                                 <input type="checkbox" class="sr-only" id="bind-anonymous-toggle">
-                                <label for="bind-anonymous-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer block">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" style="margin-top: 2px;"></div>
+                                <label for="bind-anonymous-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
+                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
                                 </label>
                             </div>
                         </label>
@@ -235,8 +237,8 @@
                                 <input type="text" value="" readonly class="flex-1 px-3 py-2 border rounded-md text-sm bg-gray-50" style="border-color: var(--border-default); color: var(--text-muted);">
                                 <div class="relative">
                                     <input type="checkbox" class="sr-only" id="work-email-toggle">
-                                    <label for="work-email-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer block">
-                                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" style="margin-top: 2px;"></div>
+                                    <label for="work-email-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
+                                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
                                     </label>
                                 </div>
                             </div>
@@ -256,8 +258,8 @@
                                 <input type="text" value="" readonly class="flex-1 px-3 py-2 border rounded-md text-sm bg-gray-50" style="border-color: var(--border-default); color: var(--text-muted);">
                                 <div class="relative">
                                     <input type="checkbox" class="sr-only" id="employee-id-toggle">
-                                    <label for="employee-id-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer block">
-                                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" style="margin-top: 2px;"></div>
+                                    <label for="employee-id-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
+                                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
                                     </label>
                                 </div>
                             </div>
@@ -278,8 +280,8 @@
                             <span class="text-sm font-medium" style="color: var(--text-secondary);">Merge LDAP Users With Existing System Users</span>
                             <div class="relative">
                                 <input type="checkbox" class="sr-only" id="merge-users-toggle">
-                                <label for="merge-users-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer block">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" style="margin-top: 2px;"></div>
+                                <label for="merge-users-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
+                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
                                 </label>
                             </div>
                         </label>
@@ -302,15 +304,15 @@
 
                 <!-- Action Buttons -->
                 <div class="flex justify-end gap-3 mt-8 pt-6" style="border-top: 1px solid var(--border-default);">
-                    <button type="button" class="px-4 py-2 rounded-md text-sm font-medium transition-colors" style="border: 1px solid var(--color-hr-primary); color: var(--color-hr-primary); background: var(--bg-card);" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='var(--bg-card)'">
+                    <button type="button" class="hr-btn-secondary px-4 py-2 text-sm font-medium">
                         Test Connection
                     </button>
-                    <button type="submit" class="px-4 py-2 rounded-md text-sm font-medium text-white transition-colors" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'" onmouseout="this.style.background='var(--color-hr-primary)'">
+                    <button type="submit" class="hr-btn-primary px-4 py-2 text-sm font-medium">
                         Save
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
     </x-main-layout>
 
     <script>

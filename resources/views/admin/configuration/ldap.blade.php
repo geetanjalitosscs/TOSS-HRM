@@ -6,15 +6,17 @@
     <x-main-layout title="Admin / Configuration">
         <x-admin.tabs activeTab="configuration-ldap" />
 
-        <div class="bg-[var(--bg-card)] rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-lg font-bold" style="color: var(--text-primary);">LDAP Configuration</h2>
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
+                    <i class="fas fa-server text-purple-500"></i> <span class="mt-0.5">LDAP Configuration</span>
+                </h2>
                 <label class="flex items-center gap-3 cursor-pointer">
                     <span class="text-sm font-medium" style="color: var(--text-secondary);">Enable</span>
                     <div class="relative">
                         <input type="checkbox" class="sr-only" id="ldap-enable-toggle">
-                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200" id="ldap-enable-toggle-bg">
-                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="ldap-enable-toggle-circle" style="margin-top: 2px;"></div>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="ldap-enable-toggle-bg">
+                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="ldap-enable-toggle-circle"></div>
                         </div>
                     </div>
                 </label>
@@ -91,8 +93,8 @@
                             <span class="text-sm font-medium" style="color: var(--text-secondary);">Bind Anonymously</span>
                             <div class="relative">
                                 <input type="checkbox" class="sr-only" id="bind-anonymously-toggle">
-                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200" id="bind-anonymously-toggle-bg">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="bind-anonymously-toggle-circle" style="margin-top: 2px;"></div>
+                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="bind-anonymously-toggle-bg">
+                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="bind-anonymously-toggle-circle"></div>
                                 </div>
                             </div>
                         </label>
@@ -277,8 +279,8 @@
                                 style="border-color: var(--border-default); color: var(--text-primary); background: var(--bg-input);">
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" class="sr-only" id="work-email-mapping-toggle">
-                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200" id="work-email-mapping-toggle-bg">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="work-email-mapping-toggle-circle" style="margin-top: 2px;"></div>
+                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="work-email-mapping-toggle-bg">
+                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="work-email-mapping-toggle-circle"></div>
                                 </div>
                             </label>
                         </div>
@@ -297,8 +299,8 @@
                                 style="border-color: var(--border-default); color: var(--text-primary); background: var(--bg-input);">
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" class="sr-only" id="employee-id-mapping-toggle">
-                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200" id="employee-id-mapping-toggle-bg">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="employee-id-mapping-toggle-circle" style="margin-top: 2px;"></div>
+                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="employee-id-mapping-toggle-bg">
+                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="employee-id-mapping-toggle-circle"></div>
                                 </div>
                             </label>
                         </div>
@@ -315,8 +317,8 @@
                             <span class="text-sm font-medium" style="color: var(--text-secondary);">Merge LDAP Users With Existing System Users</span>
                             <div class="relative">
                                 <input type="checkbox" class="sr-only" id="merge-users-toggle">
-                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200" id="merge-users-toggle-bg">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="merge-users-toggle-circle" style="margin-top: 2px;"></div>
+                                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="merge-users-toggle-bg">
+                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="merge-users-toggle-circle"></div>
                                 </div>
                             </div>
                         </label>
@@ -353,15 +355,15 @@
 
                 <!-- Action Buttons -->
                 <div class="flex justify-end gap-3 mt-8 pt-6" style="border-top: 1px solid var(--border-default);">
-                    <button type="button" class="px-4 py-2 rounded-md text-sm font-medium transition-colors" style="border: 1px solid var(--color-hr-primary); color: var(--color-hr-primary); background: var(--bg-card);" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='var(--bg-card)'">
+                    <button type="button" class="hr-btn-secondary px-4 py-2 text-sm font-medium">
                         Test Connection
                     </button>
-                    <button type="submit" class="px-4 py-2 rounded-md text-sm font-medium text-white transition-colors" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'" onmouseout="this.style.background='var(--color-hr-primary)'">
+                    <button type="submit" class="hr-btn-primary px-4 py-2 text-sm font-medium">
                         Save
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
     </x-main-layout>
 
     <script>
