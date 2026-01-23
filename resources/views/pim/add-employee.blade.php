@@ -14,7 +14,7 @@
             <div class="flex gap-6">
                 <!-- Left: Employee Photo -->
                 <div class="flex-shrink-0">
-                    <div class="relative w-32 h-32 rounded-full flex items-center justify-center overflow-hidden" style="background: var(--bg-hover); border: 2px solid var(--border-default);">
+                    <div class="relative w-32 h-32 rounded-full flex items-center justify-center overflow-visible" style="background: var(--bg-hover); border: 2px solid var(--border-default);">
                         <i class="fas fa-user text-4xl" style="color: var(--text-muted);"></i>
                         <button class="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='var(--color-hr-primary)'; this.style.transform='scale(1)'">
                             <i class="fas fa-camera text-xs"></i>

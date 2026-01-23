@@ -935,6 +935,48 @@ body.sidebar-collapsed .hr-main-content {
     padding-top: 0;
 }
 
+/* Add a little top breathing room for headings inside cards */
+.hr-card > h2:first-child {
+    margin-top: 0.5rem;
+}
+
+/* And for card headers with title + Add button toolbars */
+.hr-card > .flex.items-center.justify-between:first-child {
+    margin-top: 0.5rem;
+}
+
+/* Compact time status pill used in dashboard */
+.hr-time-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    max-width: 220px;
+}
+
+.hr-time-pill-text {
+    white-space: nowrap;
+}
+
+.hr-time-pill-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--color-hr-primary), var(--color-hr-primary-dark));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.45);
+}
+
 /* ============================================
    DROPDOWN MENU
    ============================================ */
