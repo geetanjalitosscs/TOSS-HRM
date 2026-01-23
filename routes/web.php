@@ -108,6 +108,14 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/leave/work-week', [LeaveController::class, 'workWeek'])->name('leave.work-week');
     Route::get('/leave/holidays', [LeaveController::class, 'holidays'])->name('leave.holidays');
     Route::get('/time', [TimeController::class, 'index'])->name('time');
+    Route::get('/time/my-timesheets', [TimeController::class, 'myTimesheets'])->name('time.my-timesheets');
+    Route::get('/time/my-timesheets/edit', [TimeController::class, 'editMyTimesheet'])->name('time.my-timesheets.edit');
+
+    // Time - Attendance routes
+    Route::get('/time/attendance/my-records', [TimeController::class, 'attendanceMyRecords'])->name('time.attendance.my-records');
+    Route::get('/time/attendance/punch-in-out', [TimeController::class, 'attendancePunchInOut'])->name('time.attendance.punch-in-out');
+    Route::get('/time/attendance/employee-records', [TimeController::class, 'attendanceEmployeeRecords'])->name('time.attendance.employee-records');
+    Route::get('/time/attendance/configuration', [TimeController::class, 'attendanceConfiguration'])->name('time.attendance.configuration');
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
     Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');
     Route::get('/my-info', [MyInfoController::class, 'index'])->name('myinfo');
@@ -120,6 +128,13 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/performance/employee-reviews', [PerformanceController::class, 'employeeReviews'])->name('performance.employee-reviews');
     Route::get('/directory', [DirectoryController::class, 'index'])->name('directory');
     Route::get('/claim', [ClaimController::class, 'index'])->name('claim');
+    Route::get('/claim/submit', [ClaimController::class, 'submit'])->name('claim.submit');
+    Route::get('/claim/my-claims', [ClaimController::class, 'myClaims'])->name('claim.my-claims');
+    Route::get('/claim/assign', [ClaimController::class, 'assignClaim'])->name('claim.assign');
+    Route::get('/claim/configuration/events', [ClaimController::class, 'events'])->name('claim.configuration.events');
+    Route::get('/claim/configuration/events/add', [ClaimController::class, 'addEvent'])->name('claim.configuration.events.add');
+    Route::get('/claim/configuration/expenses-types', [ClaimController::class, 'expensesTypes'])->name('claim.configuration.expenses-types');
+    Route::get('/claim/configuration/expenses-types/add', [ClaimController::class, 'addExpenseType'])->name('claim.configuration.expenses-types.add');
     Route::get('/buzz', [BuzzController::class, 'index'])->name('buzz');
     
     // Profile routes
