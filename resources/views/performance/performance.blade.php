@@ -6,26 +6,45 @@
     <x-main-layout title="Performance / Manage Reviews">
                     <!-- Top Navigation Tabs -->
                     <div class="hr-sticky-tabs">
-                        <div class="flex items-center border-b border-purple-100 overflow-x-auto">
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                                <span class="text-sm font-medium text-slate-700">Configure</span>
-                            </div>
-                            <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50">
-                                <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Manage Reviews</span>
-                            </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                        <div class="flex items-center border-b border-purple-100 overflow-y-visible">
+                            <x-dropdown-menu 
+                                :items="[
+                                    ['url' => route('performance.kpis'), 'label' => 'KPIs'],
+                                    ['url' => route('performance.trackers'), 'label' => 'Trackers']
+                                ]"
+                                position="left"
+                                width="w-48">
+                                <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                    <span class="text-sm font-medium text-slate-700">Configure</span>
+                                    <span class="text-purple-400 ml-1">▼</span>
+                                </div>
+                            </x-dropdown-menu>
+                <x-dropdown-menu 
+                    :items="[
+                        ['url' => route('performance'), 'label' => 'Manage Reviews', 'active' => true],
+                        ['url' => route('performance.my-reviews'), 'label' => 'My Reviews'],
+                        ['url' => route('performance.employee-reviews'), 'label' => 'Employee Reviews']
+                    ]"
+                    position="left"
+                    width="w-48">
+                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer">
+                        <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Manage Reviews</span>
+                        <span class="text-purple-400 ml-1">▼</span>
+                    </div>
+                </x-dropdown-menu>
+                            <a href="{{ route('performance.my-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">My Trackers</span>
-                            </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            </a>
+                            <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Employee Trackers</span>
-                            </div>
+                            </a>
                         </div>
                     </div>
 
-                    <!-- Employee Reviews Section -->
+                    <!-- Manage Performance Reviews Section -->
                     <section class="hr-card p-6">
                         <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                            <i class="fas fa-star text-purple-500"></i> <span class="mt-0.5">Employee Reviews</span>
+                            <i class="fas fa-star text-purple-500"></i> <span class="mt-0.5">Manage Performance Reviews</span>
                         </h2>
 
                         <!-- Filter Form -->
@@ -66,7 +85,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Review Status</label>
                                     <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
@@ -75,7 +94,12 @@
                                         <option>In Progress</option>
                                         <option>Completed</option>
                                         <option>Cancelled</option>
+                                        <option>Activated</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 mb-1">Reviewer</label>
+                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">From Date</label>
@@ -95,54 +119,96 @@
                             <x-admin.action-buttons />
                         </div>
 
-                        <!-- No Records Found Message -->
-                        <div class="rounded-lg shadow-sm border p-4" style="background-color: var(--bg-card); border-color: var(--border-default);">
-                            <div class="mb-3 text-xs text-slate-600 font-medium">
-                                No Records Found
-                            </div>
+                        <!-- Add Button -->
+                        <div class="mb-3">
+                            <x-admin.add-button label="+ Add" />
+                        </div>
 
-                            <!-- Table Wrapper -->
-                            <div class="hr-table-wrapper">
-                                <!-- Table Header -->
-                                <div class="bg-gray-50 rounded-t-lg border border-gray-200 border-b-0 px-2 py-1.5 mb-0">
-                                    <div class="flex items-center gap-1">
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-1">
-                                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Employee</span>
-                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Job Title</span>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Sub Unit</span>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-1">
-                                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Review Period</span>
-                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-1">
-                                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Due Date</span>
-                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-1">
-                                                <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Review Status</span>
-                                                <i class="fas fa-sort text-purple-400 flex-shrink-0 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-shrink-0" style="width: 70px;">
-                                            <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center block">Actions</span>
-                                        </div>
+                        @if(count($reviews) > 0)
+                        <!-- Records Count -->
+                        <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
+                            ({{ count($reviews) }}) Records Found
+                        </div>
+                        @endif
+
+                        <!-- No Records Found Message -->
+                        @if(count($reviews) == 0)
+                        <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
+                            No Records Found
+                        </div>
+                        @endif
+
+                        @if(count($reviews) > 0)
+                        <!-- Table Header -->
+                        <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee</span>
+                                    <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Job Title</span>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Period</span>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</span>
+                                    <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Reviewer</span>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</span>
+                                    <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0" style="width: 90px;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
+                            </div>
+                        </div>
+
+                        <!-- Table Rows -->
+                        <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                            @foreach($reviews as $review)
+                            <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $review['employee'] }}</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['job_title'] }}</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['review_period'] }}</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['due_date'] }}</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['reviewer'] }}</div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['review_status'] }}</div>
+                                </div>
+                                <div class="flex-shrink-0" style="width: 90px;">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button class="hr-action-view flex-shrink-0" title="View">
+                                            <i class="fas fa-file-alt text-sm"></i>
+                                        </button>
+                                        <button class="hr-action-edit flex-shrink-0" title="Edit">
+                                            <i class="fas fa-edit text-sm"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
+                        @endif
                     </section>
     </x-main-layout>
 @endsection

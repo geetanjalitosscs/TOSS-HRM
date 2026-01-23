@@ -92,11 +92,32 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/leave/my-leave', [LeaveController::class, 'myLeave'])->name('leave.my-leave');
     Route::get('/leave/leave-list', [LeaveController::class, 'leaveList'])->name('leave.leave-list');
     Route::get('/leave/assign-leave', [LeaveController::class, 'assignLeave'])->name('leave.assign-leave');
+    
+    // Entitlements
+    Route::get('/leave/add-entitlement', [LeaveController::class, 'addEntitlement'])->name('leave.add-entitlement');
+    Route::get('/leave/my-entitlements', [LeaveController::class, 'myEntitlements'])->name('leave.my-entitlements');
+    Route::get('/leave/employee-entitlements', [LeaveController::class, 'employeeEntitlements'])->name('leave.employee-entitlements');
+    
+    // Reports
+    Route::get('/leave/entitlements-usage-report', [LeaveController::class, 'entitlementsUsageReport'])->name('leave.entitlements-usage-report');
+    Route::get('/leave/my-entitlements-usage-report', [LeaveController::class, 'myEntitlementsUsageReport'])->name('leave.my-entitlements-usage-report');
+    
+    // Configure
+    Route::get('/leave/leave-types', [LeaveController::class, 'leaveTypes'])->name('leave.leave-types');
+    Route::get('/leave/leave-period', [LeaveController::class, 'leavePeriod'])->name('leave.leave-period');
+    Route::get('/leave/work-week', [LeaveController::class, 'workWeek'])->name('leave.work-week');
+    Route::get('/leave/holidays', [LeaveController::class, 'holidays'])->name('leave.holidays');
     Route::get('/time', [TimeController::class, 'index'])->name('time');
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
     Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');
     Route::get('/my-info', [MyInfoController::class, 'index'])->name('myinfo');
     Route::get('/performance', [PerformanceController::class, 'index'])->name('performance');
+    Route::get('/performance/my-trackers', [PerformanceController::class, 'myTrackers'])->name('performance.my-trackers');
+    Route::get('/performance/employee-trackers', [PerformanceController::class, 'employeeTrackers'])->name('performance.employee-trackers');
+    Route::get('/performance/kpis', [PerformanceController::class, 'kpis'])->name('performance.kpis');
+    Route::get('/performance/trackers', [PerformanceController::class, 'trackers'])->name('performance.trackers');
+    Route::get('/performance/my-reviews', [PerformanceController::class, 'myReviews'])->name('performance.my-reviews');
+    Route::get('/performance/employee-reviews', [PerformanceController::class, 'employeeReviews'])->name('performance.employee-reviews');
     Route::get('/directory', [DirectoryController::class, 'index'])->name('directory');
     Route::get('/claim', [ClaimController::class, 'index'])->name('claim');
     Route::get('/buzz', [BuzzController::class, 'index'])->name('buzz');

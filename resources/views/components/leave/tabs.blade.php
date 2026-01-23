@@ -15,11 +15,12 @@
         <!-- Entitlements Dropdown -->
         <x-dropdown-menu 
             :items="[
-                ['url' => '#', 'label' => 'My Entitlements'],
-                ['url' => '#', 'label' => 'Employee Entitlements']
+                ['url' => route('leave.add-entitlement'), 'label' => 'Add Leave Entitlement'],
+                ['url' => route('leave.my-entitlements'), 'label' => 'My Entitlements'],
+                ['url' => route('leave.employee-entitlements'), 'label' => 'Employee Entitlements']
             ]"
             position="left"
-            width="w-48">
+            width="w-56">
             @php
                 $isEntitlementsActive = in_array($activeTab, ['my-entitlements', 'employee-entitlements']);
             @endphp
@@ -32,8 +33,8 @@
         <!-- Reports Dropdown -->
         <x-dropdown-menu 
             :items="[
-                ['url' => '#', 'label' => 'Leave Entitlements and Usage Report'],
-                ['url' => '#', 'label' => 'My Leave Entitlements and Usage Report']
+                ['url' => route('leave.entitlements-usage-report'), 'label' => 'Leave Entitlements and Usage Report'],
+                ['url' => route('leave.my-entitlements-usage-report'), 'label' => 'My Leave Entitlements and Usage Report']
             ]"
             position="left"
             width="w-64">
@@ -49,10 +50,10 @@
         <!-- Configure Dropdown -->
         <x-dropdown-menu 
             :items="[
-                ['url' => '#', 'label' => 'Leave Types'],
-                ['url' => '#', 'label' => 'Leave Period'],
-                ['url' => '#', 'label' => 'Work Week'],
-                ['url' => '#', 'label' => 'Holidays']
+                ['url' => route('leave.leave-types'), 'label' => 'Leave Types'],
+                ['url' => route('leave.leave-period'), 'label' => 'Leave Period'],
+                ['url' => route('leave.work-week'), 'label' => 'Work Week'],
+                ['url' => route('leave.holidays'), 'label' => 'Holidays']
             ]"
             position="left"
             width="w-48">

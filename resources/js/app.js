@@ -280,22 +280,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Regular Dropdown Toggle Functionality (for maintenance dropdowns)
 function toggleDropdown(event) {
+    // If clicking on a link inside dropdown, allow navigation
+    if (event.target.tagName === 'A' || event.target.closest('a')) {
+        const link = event.target.tagName === 'A' ? event.target : event.target.closest('a');
+        if (link && link.closest('.hr-dropdown-menu')) {
+            // Allow navigation - don't prevent default
+            const clickedElement = event.currentTarget || event.target.closest('.group');
+            if (clickedElement) {
+                const dropdown = clickedElement.querySelector('.hr-dropdown-menu');
+                if (dropdown) {
+                    dropdown.classList.add('hidden');
+                    dropdown.classList.remove('show');
+                }
+            }
+            return; // Allow default link behavior
+        }
+    }
+    
     event.stopPropagation();
     
     const clickedElement = event.currentTarget || event.target.closest('.group');
     if (!clickedElement) return;
     
-    // If clicking on a link, allow navigation
-    if (event.target.tagName === 'A' || event.target.closest('a')) {
-        return;
-    }
-    
     const dropdown = clickedElement.querySelector('.hr-dropdown-menu');
     if (!dropdown) return;
     
     // Close all other dropdowns
-    document.querySelectorAll('.hr-dropdown-menu.show').forEach(menu => {
+    document.querySelectorAll('.hr-dropdown-menu').forEach(menu => {
         if (menu !== dropdown) {
+            menu.classList.add('hidden');
             menu.classList.remove('show');
         }
     });
@@ -303,8 +316,10 @@ function toggleDropdown(event) {
     // Toggle current dropdown
     const isOpen = dropdown.classList.contains('show');
     if (isOpen) {
+        dropdown.classList.add('hidden');
         dropdown.classList.remove('show');
     } else {
+        dropdown.classList.remove('hidden');
         dropdown.classList.add('show');
     }
 }
