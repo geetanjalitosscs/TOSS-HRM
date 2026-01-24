@@ -44,58 +44,61 @@
             <!-- Sample Data for Display -->
             <x-records-found :count="11" />
             
-            <!-- Table Header -->
-            <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b overflow-x-auto" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                <div class="flex-shrink-0" style="min-width: 150px;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Type</span>
-                </div>
-                <div class="flex-shrink-0" style="min-width: 120px;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Entitlements...</span>
-                </div>
-                <div class="flex-shrink-0" style="min-width: 120px;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Pending Ap...</span>
-                </div>
-                <div class="flex-shrink-0" style="min-width: 120px;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Scheduled (...</span>
-                </div>
-                <div class="flex-shrink-0" style="min-width: 120px;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Taken (Days)</span>
-                </div>
-                <div class="flex-shrink-0" style="min-width: 120px;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Balance (Da...</span>
-                </div>
-            </div>
-            
-            <!-- Table Rows -->
-            <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                @php
-                    $leaveTypes = [
-                        'CAN - Bereavement', 'CAN - FMLA', 'CAN - Maternity', 'CAN - Personal', 'CAN - Vacation',
-                        'Sick Leave (Deleted)', 'US - Bereavement', 'US - FMLA', 'US - Maternity', 'US - Personal', 'US - Vacation'
-                    ];
-                @endphp
-                @foreach($leaveTypes as $type)
-                <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1 overflow-x-auto" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
-                    <div class="flex-shrink-0" style="min-width: 150px;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $type }}</div>
+            <!-- Table Wrapper -->
+            <div class="hr-table-wrapper">
+                <!-- Table Header -->
+                <div class="rounded-t-lg px-2 py-1.5 flex items-start gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                    <div class="flex-shrink-0" style="width: 150px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Type</div>
                     </div>
-                    <div class="flex-shrink-0" style="min-width: 120px;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                    <div class="flex-shrink-0" style="width: 140px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Entitlements (Days)</div>
                     </div>
-                    <div class="flex-shrink-0" style="min-width: 120px;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                    <div class="flex-shrink-0" style="width: 140px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Pending Approval (Days)</div>
                     </div>
-                    <div class="flex-shrink-0" style="min-width: 120px;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                    <div class="flex-shrink-0" style="width: 140px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Scheduled (Days)</div>
                     </div>
-                    <div class="flex-shrink-0" style="min-width: 120px;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                    <div class="flex-shrink-0" style="width: 130px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Taken (Days)</div>
                     </div>
-                    <div class="flex-shrink-0" style="min-width: 120px;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                    <div class="flex-shrink-0" style="width: 140px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Balance (Days)</div>
                     </div>
                 </div>
-                @endforeach
+                
+                <!-- Table Rows -->
+                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                    @php
+                        $leaveTypes = [
+                            'CAN - Bereavement', 'CAN - FMLA', 'CAN - Maternity', 'CAN - Personal', 'CAN - Vacation',
+                            'Sick Leave (Deleted)', 'US - Bereavement', 'US - FMLA', 'US - Maternity', 'US - Personal', 'US - Vacation'
+                        ];
+                    @endphp
+                    @foreach($leaveTypes as $type)
+                    <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                        <div class="flex-shrink-0" style="width: 150px;">
+                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $type }}</div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 140px;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 140px;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 140px;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 130px;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 140px;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
             @endif
         </section>

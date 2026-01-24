@@ -8,7 +8,7 @@
     $panelId = 'search-panel-' . uniqid();
 @endphp
 
-<div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
+<div class="rounded-lg p-3 mb-3 border" style="background-color: var(--color-hr-primary-light); border-color: var(--border-default);">
     <div class="flex items-center justify-between mb-3">
         <h3 class="text-sm font-bold" style="color: var(--text-primary);">{{ $title }}</h3>
         @if($collapsible)

@@ -13,7 +13,7 @@
     $isChecked = $checked;
 @endphp
 
-<div class="relative flex items-center">
+<div class="relative inline-flex items-center flex-shrink-0" style="width: auto; min-width: 0; min-height: auto;">
     <input 
         type="checkbox" 
         class="sr-only toggle-switch" 
@@ -23,7 +23,7 @@
     >
     <label 
         for="{{ $toggleId }}" 
-        class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center border"
+        class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center border flex-shrink-0"
         id="{{ $toggleBgId }}"
         style="{{ $isChecked ? 'background: var(--color-hr-primary); border-color: var(--border-strong);' : 'background: var(--bg-input); border-color: var(--border-default);' }}"
     >

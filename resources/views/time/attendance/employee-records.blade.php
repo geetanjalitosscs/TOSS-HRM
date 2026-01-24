@@ -6,7 +6,7 @@
     <x-main-layout title="Time / Attendance / Employee Records">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
                 @php
                     $timesheetsItems = [
                         [
@@ -70,8 +70,8 @@
                     position="left"
                     width="w-48">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Timesheets</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Timesheets</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -79,8 +79,8 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Attendance</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -88,54 +88,60 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Project Info</span>
-                    <span class="text-purple-400 ml-1">▼</span>
+                    <span class="text-sm font-medium" style="color: var(--text-primary);">Project Info</span>
+                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                 </div>
             </div>
         </div>
 
         <!-- Employee Attendance Records Filter Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-6 mb-3">
+        <section class="hr-card p-6 mb-3 border-t-0 rounded-t-none">
             <!-- Header -->
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-bold text-slate-800">Employee Attendance Records</h2>
+                <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
+                    <i class="fas fa-users" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Employee Attendance Records</span>
+                </h2>
                 <button class="w-6 h-6 rounded bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
                     <span class="text-xs text-gray-600">▲</span>
                 </button>
             </div>
 
             <!-- Filter Form -->
-            <div class="flex items-end gap-4">
+            <div class="flex gap-4">
                 <!-- Employee Name Input -->
                 <div class="flex-1">
-                    <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name</label>
                     <input 
                         type="text" 
                         name="employee_name" 
-                        class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                        class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
                         placeholder="Type for hints..."
                     >
                 </div>
 
                 <!-- Date Input with Calendar Icon -->
                 <div class="w-64">
-                    <label class="block text-xs font-medium text-slate-700 mb-1">Date<span class="text-red-500">*</span></label>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date<span class="text-red-500">*</span></label>
                     <div class="flex items-stretch">
                         <input 
                             type="text" 
                             name="date" 
                             value="{{ $selectedDate }}" 
-                            class="flex-1 px-3 py-2.5 text-sm border border-purple-200 rounded-l-lg rounded-r-none focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                            class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
                             readonly
                         >
                         <button 
                             type="button" 
-                            class="px-3 py-2.5 flex items-center justify-center text-gray-400 bg-gray-50 border border-l-0 border-purple-200 rounded-r-lg hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                            class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
+                            style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
+                            onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
+                            onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
                             onclick="document.getElementById('datePicker').showPicker()"
                         >
                             <i class="fas fa-calendar text-sm"></i>
@@ -150,11 +156,8 @@
                 </div>
 
                 <!-- View Button -->
-                <div class="flex-shrink-0">
-                    <button 
-                        type="button" 
-                        class="px-6 py-2.5 text-sm font-medium text-white bg-[var(--color-hr-primary)] rounded-lg hover:bg-[var(--color-hr-primary-dark)] transition-all shadow-sm"
-                    >
+                <div class="flex-shrink-0 flex items-start pt-6">
+                    <button type="button" class="hr-btn-primary">
                         View
                     </button>
                 </div>
@@ -165,10 +168,10 @@
         </div>
 
         <!-- Records Found Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-purple-100">
+        <section class="hr-card">
             <!-- Header -->
             <div class="px-6 pt-6 pb-4">
-                <h2 class="text-sm font-medium text-slate-700">({{ count($records) }}) Records Found</h2>
+                <x-records-found :count="count($records)" />
             </div>
 
             <!-- Table -->
@@ -176,23 +179,20 @@
                 <table class="w-full">
                     <!-- Table Header -->
                     <thead>
-                        <tr class="bg-gray-50 border-b border-gray-200">
-                            <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Employee Name</th>
-                            <th class="px-4 py-2.5 text-center text-xs font-semibold text-gray-700 uppercase tracking-wide">Total Duration (Hours)</th>
-                            <th class="px-4 py-2.5 text-center text-xs font-semibold text-gray-700 uppercase tracking-wide">Actions</th>
+                        <tr class="border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                            <th class="px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wide" style="color: var(--text-primary);">Employee Name</th>
+                            <th class="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide" style="color: var(--text-primary);">Total Duration (Hours)</th>
+                            <th class="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide" style="color: var(--text-primary);">Actions</th>
                         </tr>
                     </thead>
                     <!-- Table Body -->
                     <tbody>
                         @foreach($records as $index => $record)
-                        <tr class="border-b border-gray-200 {{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100 transition-colors">
-                            <td class="px-4 py-2.5 text-sm text-slate-700">{{ $record['employee_name'] }}</td>
-                            <td class="px-4 py-2.5 text-sm text-slate-700 text-center">{{ number_format($record['total_duration'], 2) }}</td>
+                        <tr class="border-b transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                            <td class="px-4 py-2.5 text-sm" style="color: var(--text-primary);">{{ $record['employee_name'] }}</td>
+                            <td class="px-4 py-2.5 text-sm text-center" style="color: var(--text-primary);">{{ number_format($record['total_duration'], 2) }}</td>
                             <td class="px-4 py-2.5 text-center">
-                                <button 
-                                    type="button" 
-                                    class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-all"
-                                >
+                                <button type="button" class="hr-btn-primary">
                                     View
                                 </button>
                             </td>
@@ -201,7 +201,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -224,8 +224,9 @@
                             this.classList.remove('hover:bg-purple-50/30');
                             const span = this.querySelector('span:first-of-type');
                             if (span) {
-                                span.classList.remove('font-medium', 'text-slate-700');
-                                span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
+                                span.classList.remove('font-medium');
+                                span.classList.add('font-semibold');
+                                span.style.color = 'var(--color-hr-primary-dark)';
                             }
                         }
                     });
@@ -239,8 +240,9 @@
                                 this.classList.add('hover:bg-purple-50/30');
                                 const span = this.querySelector('span:first-of-type');
                                 if (span) {
-                                    span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                    span.classList.add('font-medium', 'text-slate-700');
+                                    span.classList.remove('font-semibold');
+                                    span.classList.add('font-medium');
+                                    span.style.color = 'var(--text-primary)';
                                 }
                             }
                         }
@@ -261,17 +263,19 @@
                                         trigger.classList.remove('hover:bg-purple-50/30');
                                         const span = trigger.querySelector('span:first-of-type');
                                         if (span) {
-                                            span.classList.remove('font-medium', 'text-slate-700');
-                                            span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                        }
-                                    } else if (!trigger.dataset.hasActive) {
-                                        // Dropdown closed - remove border only if not active
-                                        trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                                        trigger.classList.add('hover:bg-purple-50/30');
-                                        const span = trigger.querySelector('span:first-of-type');
-                                        if (span) {
-                                            span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                            span.classList.add('font-medium', 'text-slate-700');
+                                        span.classList.remove('font-medium');
+                                        span.classList.add('font-semibold');
+                                        span.style.color = 'var(--color-hr-primary-dark)';
+                                    }
+                                } else if (!trigger.dataset.hasActive) {
+                                    // Dropdown closed - remove border only if not active
+                                    trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
+                                    trigger.classList.add('hover:bg-purple-50/30');
+                                    const span = trigger.querySelector('span:first-of-type');
+                                    if (span) {
+                                        span.classList.remove('font-semibold');
+                                        span.classList.add('font-medium');
+                                        span.style.color = 'var(--text-primary)';
                                         }
                                     }
                                 }

@@ -17,12 +17,21 @@
         </h2>
         @if($showEditToggle)
         <label class="flex items-center gap-2 cursor-pointer">
-            <span class="text-sm text-gray-700">Edit</span>
+            <span class="text-sm" style="color: var(--text-primary);">Edit</span>
             <div class="relative">
                 <input type="checkbox" class="sr-only" id="{{ $toggleId }}" {{ $editMode ? 'checked' : '' }} onchange="toggleEditModeForm(this, '{{ $bgId }}', '{{ $circleId }}')">
-                <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center {{ $editMode ? 'bg-[var(--color-hr-primary)]' : '' }}" id="{{ $bgId }}">
-                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 {{ $editMode ? 'translate-x-5' : 'translate-x-0.5' }}" id="{{ $circleId }}"></div>
-                </div>
+                <label 
+                    for="{{ $toggleId }}" 
+                    class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center border"
+                    id="{{ $bgId }}"
+                    style="{{ $editMode ? 'background: var(--color-hr-primary); border-color: var(--border-strong);' : 'background: var(--bg-input); border-color: var(--border-default);' }}"
+                >
+                    <div 
+                        class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 {{ $editMode ? 'translate-x-5' : 'translate-x-0.5' }}"
+                        id="{{ $circleId }}"
+                        style="background: var(--bg-card);"
+                    ></div>
+                </label>
             </div>
         </label>
         @endif
@@ -44,32 +53,41 @@
     function toggleEditModeForm(checkbox, bgId, circleId) {
         const bg = document.getElementById(bgId);
         const circle = document.getElementById(circleId);
-        const inputs = checkbox.closest('.bg-white').querySelectorAll('input[type="text"], input[type="email"], textarea');
+        const section = checkbox.closest('section') || checkbox.closest('.hr-card');
+        if (!section) return;
+        
+        const inputs = section.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], input[type="tel"], textarea, select');
         
         // Update toggle visual state
         if (checkbox.checked) {
-            bg.classList.add('bg-[var(--color-hr-primary)]');
-            bg.classList.remove('bg-gray-200');
+            bg.style.background = 'var(--color-hr-primary)';
+            bg.style.borderColor = 'var(--border-strong)';
             circle.classList.remove('translate-x-0.5');
             circle.classList.add('translate-x-5');
         } else {
-            bg.classList.remove('bg-[var(--color-hr-primary)]');
-            bg.classList.add('bg-gray-200');
+            bg.style.background = 'var(--bg-input)';
+            bg.style.borderColor = 'var(--border-default)';
             circle.classList.remove('translate-x-5');
             circle.classList.add('translate-x-0.5');
         }
         
         // Update input fields
         inputs.forEach(input => {
-            if (!input.id.includes('edit-toggle')) {
+            if (!input.id.includes('edit-toggle') && !input.closest('label')) {
                 input.readOnly = !checkbox.checked;
-                input.classList.toggle('bg-gray-50', !checkbox.checked);
-                input.classList.toggle('bg-white', checkbox.checked);
-                input.classList.toggle('text-gray-600', !checkbox.checked);
-                input.classList.toggle('text-gray-900', checkbox.checked);
+                if (checkbox.checked) {
+                    input.style.background = 'var(--bg-input)';
+                    input.style.color = 'var(--text-primary)';
+                } else {
+                    input.style.background = 'var(--bg-hover)';
+                    input.style.color = 'var(--text-primary)';
+                }
             }
         });
     }
+    
+    // Make function globally available
+    window.toggleEditModeForm = toggleEditModeForm;
 </script>
 @endif
 

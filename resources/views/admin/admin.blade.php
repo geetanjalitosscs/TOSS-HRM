@@ -78,7 +78,7 @@
                                 <div class="flex-1" style="min-width: 0;">
                                     <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</div>
                                 </div>
-                                <div class="flex-shrink-0" style="width: 70px;">
+                                <div class="flex-shrink-0" style="width: 90px;">
                                     <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
                                 </div>
                             </div>

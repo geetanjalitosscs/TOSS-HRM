@@ -6,7 +6,7 @@
     <x-main-layout title="Time / Attendance / Configuration">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
                 @php
                     $timesheetsItems = [
                         [
@@ -70,8 +70,8 @@
                     position="left"
                     width="w-48">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Timesheets</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Timesheets</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -79,8 +79,8 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Attendance</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -88,67 +88,55 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Project Info</span>
-                    <span class="text-purple-400 ml-1">▼</span>
+                    <span class="text-sm font-medium" style="color: var(--text-primary);">Project Info</span>
+                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                 </div>
             </div>
         </div>
 
         <!-- Attendance Configuration -->
-        <div class="flex justify-center mt-4">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-full max-w-2xl">
+        <div class="flex justify-center">
+            <section class="hr-card p-6 w-full max-w-2xl border-t-0 rounded-t-none">
                 <!-- Header -->
-                <h2 class="text-lg font-bold text-slate-800 mb-4">Attendance Configuration</h2>
-                <div class="border-b border-gray-200 mb-6"></div>
+                <h2 class="text-sm font-bold flex items-baseline gap-2 mb-4" style="color: var(--text-primary);">
+                    <i class="fas fa-cog" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Attendance Configuration</span>
+                </h2>
+                <div class="border-b mb-6" style="border-color: var(--border-default);"></div>
 
                 <!-- Configuration Options -->
                 <div class="space-y-6 mb-6">
                     <!-- Option 1 -->
                     <div class="flex items-center justify-between">
-                        <label class="text-sm text-slate-600 flex-1">Employee can change current time when punching in/out</label>
-                        <div class="relative flex-shrink-0">
-                            <input type="checkbox" class="sr-only" id="toggle-1" checked onchange="toggleSwitch(this, 'toggle-bg-1', 'toggle-circle-1')">
-                            <label for="toggle-1" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center" id="toggle-bg-1" style="background-color: var(--color-hr-primary);">
-                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5" id="toggle-circle-1"></div>
-                            </label>
-                        </div>
+                        <label class="text-sm flex-1" style="color: var(--text-primary);">Employee can change current time when punching in/out</label>
+                        <x-admin.toggle-switch toggleId="toggle-1" :isChecked="true" />
                     </div>
 
                     <!-- Option 2 -->
                     <div class="flex items-center justify-between">
-                        <label class="text-sm text-slate-600 flex-1">Employee can edit/delete own attendance records</label>
-                        <div class="relative flex-shrink-0">
-                            <input type="checkbox" class="sr-only" id="toggle-2" checked onchange="toggleSwitch(this, 'toggle-bg-2', 'toggle-circle-2')">
-                            <label for="toggle-2" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center" id="toggle-bg-2" style="background-color: var(--color-hr-primary);">
-                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5" id="toggle-circle-2"></div>
-                            </label>
-                        </div>
+                        <label class="text-sm flex-1" style="color: var(--text-primary);">Employee can edit/delete own attendance records</label>
+                        <x-admin.toggle-switch toggleId="toggle-2" :isChecked="true" />
                     </div>
 
                     <!-- Option 3 -->
                     <div class="flex items-center justify-between">
-                        <label class="text-sm text-slate-600 flex-1">Supervisor can add/edit/delete attendance records of subordinates</label>
-                        <div class="relative flex-shrink-0">
-                            <input type="checkbox" class="sr-only" id="toggle-3" checked onchange="toggleSwitch(this, 'toggle-bg-3', 'toggle-circle-3')">
-                            <label for="toggle-3" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center" id="toggle-bg-3" style="background-color: var(--color-hr-primary);">
-                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5" id="toggle-circle-3"></div>
-                            </label>
-                        </div>
+                        <label class="text-sm flex-1" style="color: var(--text-primary);">Supervisor can add/edit/delete attendance records of subordinates</label>
+                        <x-admin.toggle-switch toggleId="toggle-3" :isChecked="true" />
                     </div>
                 </div>
 
                 <!-- Save Button -->
-                <div class="flex justify-end">
-                    <button type="button" class="px-6 py-2.5 text-sm font-medium text-white rounded-lg transition-colors hover:opacity-90" style="background-color: var(--color-hr-primary);">
+                <div class="flex justify-end items-center">
+                    <button type="button" class="hr-btn-primary">
                         Save
                     </button>
                 </div>
-            </div>
+            </section>
         </div>
 
         <script>
@@ -172,8 +160,9 @@
                             this.classList.remove('hover:bg-purple-50/30');
                             const span = this.querySelector('span:first-of-type');
                             if (span) {
-                                span.classList.remove('font-medium', 'text-slate-700');
-                                span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
+                                span.classList.remove('font-medium');
+                                span.classList.add('font-semibold');
+                                span.style.color = 'var(--color-hr-primary-dark)';
                             }
                         }
                     });
@@ -187,8 +176,9 @@
                                 this.classList.add('hover:bg-purple-50/30');
                                 const span = this.querySelector('span:first-of-type');
                                 if (span) {
-                                    span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                    span.classList.add('font-medium', 'text-slate-700');
+                                    span.classList.remove('font-semibold');
+                                    span.classList.add('font-medium');
+                                    span.style.color = 'var(--text-primary)';
                                 }
                             }
                         }
@@ -209,17 +199,19 @@
                                         trigger.classList.remove('hover:bg-purple-50/30');
                                         const span = trigger.querySelector('span:first-of-type');
                                         if (span) {
-                                            span.classList.remove('font-medium', 'text-slate-700');
-                                            span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                        }
-                                    } else if (!trigger.dataset.hasActive) {
-                                        // Dropdown closed - remove border only if not active
-                                        trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                                        trigger.classList.add('hover:bg-purple-50/30');
-                                        const span = trigger.querySelector('span:first-of-type');
-                                        if (span) {
-                                            span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                            span.classList.add('font-medium', 'text-slate-700');
+                                        span.classList.remove('font-medium');
+                                        span.classList.add('font-semibold');
+                                        span.style.color = 'var(--color-hr-primary-dark)';
+                                    }
+                                } else if (!trigger.dataset.hasActive) {
+                                    // Dropdown closed - remove border only if not active
+                                    trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
+                                    trigger.classList.add('hover:bg-purple-50/30');
+                                    const span = trigger.querySelector('span:first-of-type');
+                                    if (span) {
+                                        span.classList.remove('font-semibold');
+                                        span.classList.add('font-medium');
+                                        span.style.color = 'var(--text-primary)';
                                         }
                                     }
                                 }
@@ -233,20 +225,6 @@
                 });
             });
 
-            function toggleSwitch(checkbox, bgId, circleId) {
-                const bg = document.getElementById(bgId);
-                const circle = document.getElementById(circleId);
-                
-                if (checkbox.checked) {
-                    bg.style.backgroundColor = 'var(--color-hr-primary)';
-                    circle.classList.add('translate-x-5');
-                    circle.classList.remove('translate-x-0.5');
-                } else {
-                    bg.style.backgroundColor = '#E5E7EB';
-                    circle.classList.remove('translate-x-5');
-                    circle.classList.add('translate-x-0.5');
-                }
-            }
         </script>
     </x-main-layout>
 @endsection

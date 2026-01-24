@@ -6,7 +6,7 @@
     <x-main-layout title="Time / Reports / Attendance Summary">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
                 @php
                     $timesheetsItems = [
                         [
@@ -70,8 +70,8 @@
                     position="left"
                     width="w-48">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Timesheets</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Timesheets</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -79,8 +79,8 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Attendance</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -88,25 +88,28 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Project Info</span>
-                    <span class="text-purple-400 ml-1">▼</span>
+                    <span class="text-sm font-medium" style="color: var(--text-primary);">Project Info</span>
+                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                 </div>
             </div>
         </div>
 
         <!-- Attendance Summary Content -->
-        <div class="flex justify-center mt-4">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-full max-w-4xl">
-                <h2 class="text-lg font-bold text-slate-800 mb-4">Attendance Summary</h2>
-                <div class="border-b border-gray-200 mb-6"></div>
+        <div class="flex justify-center">
+            <section class="hr-card p-6 w-full max-w-4xl border-t-0 rounded-t-none">
+                <h2 class="text-sm font-bold flex items-baseline gap-2 mb-4" style="color: var(--text-primary);">
+                    <i class="fas fa-calendar-check" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Attendance Summary</span>
+                </h2>
+                <div class="border-b mb-6" style="border-color: var(--border-default);"></div>
                 
-                <p class="text-sm text-slate-600">Attendance summary page content will be implemented here.</p>
-            </div>
+                <p class="text-sm" style="color: var(--text-muted);">Attendance summary page content will be implemented here.</p>
+            </section>
         </div>
 
         <script>
@@ -130,8 +133,9 @@
                             this.classList.remove('hover:bg-purple-50/30');
                             const span = this.querySelector('span:first-of-type');
                             if (span) {
-                                span.classList.remove('font-medium', 'text-slate-700');
-                                span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
+                                span.classList.remove('font-medium');
+                                span.classList.add('font-semibold');
+                                span.style.color = 'var(--color-hr-primary-dark)';
                             }
                         }
                     });
@@ -145,8 +149,9 @@
                                 this.classList.add('hover:bg-purple-50/30');
                                 const span = this.querySelector('span:first-of-type');
                                 if (span) {
-                                    span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                    span.classList.add('font-medium', 'text-slate-700');
+                                    span.classList.remove('font-semibold');
+                                    span.classList.add('font-medium');
+                                    span.style.color = 'var(--text-primary)';
                                 }
                             }
                         }
@@ -167,17 +172,19 @@
                                         trigger.classList.remove('hover:bg-purple-50/30');
                                         const span = trigger.querySelector('span:first-of-type');
                                         if (span) {
-                                            span.classList.remove('font-medium', 'text-slate-700');
-                                            span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                        }
-                                    } else if (!trigger.dataset.hasActive) {
-                                        // Dropdown closed - remove border only if not active
-                                        trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                                        trigger.classList.add('hover:bg-purple-50/30');
-                                        const span = trigger.querySelector('span:first-of-type');
-                                        if (span) {
-                                            span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                            span.classList.add('font-medium', 'text-slate-700');
+                                        span.classList.remove('font-medium');
+                                        span.classList.add('font-semibold');
+                                        span.style.color = 'var(--color-hr-primary-dark)';
+                                    }
+                                } else if (!trigger.dataset.hasActive) {
+                                    // Dropdown closed - remove border only if not active
+                                    trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
+                                    trigger.classList.add('hover:bg-purple-50/30');
+                                    const span = trigger.querySelector('span:first-of-type');
+                                    if (span) {
+                                        span.classList.remove('font-semibold');
+                                        span.classList.add('font-medium');
+                                        span.style.color = 'var(--text-primary)';
                                         }
                                     }
                                 }

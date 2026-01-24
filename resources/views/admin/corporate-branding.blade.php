@@ -295,15 +295,31 @@
                 return;
             }
             
-            // Get swatch position
-            const rect = swatch.getBoundingClientRect();
-            
-            // Position picker below swatch (fixed positioning relative to viewport)
+            // Position picker in center of viewport
             picker.style.position = 'fixed';
-            picker.style.top = (rect.bottom + 8) + 'px';
-            picker.style.left = rect.left + 'px';
-            picker.style.display = 'block';
             picker.style.zIndex = '99999';
+            
+            // Show picker temporarily to get dimensions
+            picker.style.visibility = 'hidden';
+            picker.style.display = 'block';
+            
+            // Force reflow to get accurate dimensions
+            void picker.offsetWidth;
+            
+            const pickerRect = picker.getBoundingClientRect();
+            const pickerWidth = pickerRect.width || 220; // fallback to min-width
+            const pickerHeight = pickerRect.height || 250; // estimated height
+            
+            // Center on viewport
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const centerX = Math.max(10, (viewportWidth - pickerWidth) / 2);
+            const centerY = Math.max(10, (viewportHeight - pickerHeight) / 2);
+            
+            picker.style.top = centerY + 'px';
+            picker.style.left = centerX + 'px';
+            picker.style.visibility = 'visible';
+            picker.style.display = 'block';
             
             // Initialize if not already done
             if (!colorPickers[uniqueId]) {

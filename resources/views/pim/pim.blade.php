@@ -31,7 +31,7 @@
                             </h2>
 
                             <!-- Filter Form -->
-                            <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
+                            <div class="rounded-lg p-3 mb-3 border" style="background-color: var(--color-hr-primary-light); border-color: var(--border-default);">
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
@@ -140,7 +140,7 @@
                                 <div class="flex-1" style="min-width: 0;">
                                     <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Supervisor</div>
                                 </div>
-                                <div class="flex-shrink-0" style="width: 70px;">
+                                <div class="flex-shrink-0" style="width: 90px;">
                                     <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center">Actions</div>
                                 </div>
                             </div>

@@ -11,12 +11,7 @@
                 <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
                     <i class="fas fa-server text-purple-500"></i> <span class="mt-0.5">LDAP Configuration</span>
                 </h2>
-                <div class="relative">
-                    <input type="checkbox" class="sr-only" id="ldap-enable-toggle">
-                    <label for="ldap-enable-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
-                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
-                    </label>
-                </div>
+                <x-admin.toggle-switch id="ldap-enable-toggle" :checked="false" />
             </div>
 
             <form class="space-y-6">
@@ -73,12 +68,7 @@
                     <div class="mb-4">
                         <label class="flex items-center gap-3 cursor-pointer">
                             <span class="text-sm font-medium" style="color: var(--text-secondary);">Bind Anonymously</span>
-                            <div class="relative">
-                                <input type="checkbox" class="sr-only" id="bind-anonymous-toggle">
-                                <label for="bind-anonymous-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
-                                </label>
-                            </div>
+                            <x-admin.toggle-switch id="bind-anonymous-toggle" :checked="false" />
                         </label>
                     </div>
                     
@@ -235,12 +225,7 @@
                             </div>
                             <div class="flex-1 flex items-center gap-2">
                                 <input type="text" value="" readonly class="flex-1 px-3 py-2 border rounded-md text-sm bg-gray-50" style="border-color: var(--border-default); color: var(--text-muted);">
-                                <div class="relative">
-                                    <input type="checkbox" class="sr-only" id="work-email-toggle">
-                                    <label for="work-email-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
-                                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
-                                    </label>
-                                </div>
+                                <x-admin.toggle-switch id="work-email-toggle" :checked="false" />
                             </div>
                         </div>
                         
@@ -256,12 +241,7 @@
                             </div>
                             <div class="flex-1 flex items-center gap-2">
                                 <input type="text" value="" readonly class="flex-1 px-3 py-2 border rounded-md text-sm bg-gray-50" style="border-color: var(--border-default); color: var(--text-muted);">
-                                <div class="relative">
-                                    <input type="checkbox" class="sr-only" id="employee-id-toggle">
-                                    <label for="employee-id-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
-                                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
-                                    </label>
-                                </div>
+                                <x-admin.toggle-switch id="employee-id-toggle" :checked="false" />
                             </div>
                         </div>
                         
@@ -278,12 +258,7 @@
                     <div class="mb-4">
                         <label class="flex items-center gap-3 cursor-pointer">
                             <span class="text-sm font-medium" style="color: var(--text-secondary);">Merge LDAP Users With Existing System Users</span>
-                            <div class="relative">
-                                <input type="checkbox" class="sr-only" id="merge-users-toggle">
-                                <label for="merge-users-toggle" class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer flex items-center">
-                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5"></div>
-                                </label>
-                            </div>
+                            <x-admin.toggle-switch id="merge-users-toggle" :checked="false" />
                         </label>
                     </div>
                     
@@ -315,47 +290,5 @@
         </section>
     </x-main-layout>
 
-    <script>
-        // LDAP Enable toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const enableToggle = document.getElementById('ldap-enable-toggle');
-            if (enableToggle) {
-                enableToggle.addEventListener('change', function() {
-                    const label = this.nextElementSibling;
-                    const circle = label.querySelector('div');
-                    if (this.checked) {
-                        label.style.background = 'var(--color-hr-primary)';
-                        circle.classList.add('translate-x-5');
-                        circle.classList.remove('translate-x-0.5');
-                    } else {
-                        label.style.background = 'var(--bg-hover)';
-                        circle.classList.remove('translate-x-5');
-                        circle.classList.add('translate-x-0.5');
-                    }
-                });
-            }
-
-            // Other toggles
-            const toggles = ['bind-anonymous-toggle', 'work-email-toggle', 'employee-id-toggle', 'merge-users-toggle'];
-            toggles.forEach(toggleId => {
-                const toggle = document.getElementById(toggleId);
-                if (toggle) {
-                    toggle.addEventListener('change', function() {
-                        const label = this.nextElementSibling;
-                        const circle = label.querySelector('div');
-                        if (this.checked) {
-                            label.style.background = 'var(--color-hr-primary)';
-                            circle.classList.add('translate-x-5');
-                            circle.classList.remove('translate-x-0.5');
-                        } else {
-                            label.style.background = 'var(--bg-hover)';
-                            circle.classList.remove('translate-x-5');
-                            circle.classList.add('translate-x-0.5');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
 @endsection
 

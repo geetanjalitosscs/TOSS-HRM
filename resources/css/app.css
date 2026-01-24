@@ -23,7 +23,7 @@
     --bg-surface: #FFFFFF;
     --bg-card: #FFFFFF;
     --bg-elevated: #FFFFFF;
-    --bg-hover: rgba(139, 92, 246, 0.05);
+    --bg-hover: rgba(139, 92, 246, 0.18);
     --bg-input: #FFFFFF;
     
     /* Text Colors */
@@ -1518,6 +1518,50 @@ html[data-theme="dark"] select.bg-white {
 html[data-theme="dark"] .text-purple-400,
 html[data-theme="dark"] .text-purple-500 {
     color: var(--color-hr-primary-soft) !important;
+}
+
+/* ============================================
+   DASHBOARD HOVER EFFECTS - LIGHT THEME
+   ============================================ */
+
+/* Light Theme - Make hover effects darker but slightly lighter */
+.hover\:bg-purple-50:hover {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+}
+
+.hover\:bg-purple-50\/50:hover {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+}
+
+.hover\:bg-purple-50\/30:hover {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+}
+
+/* ============================================
+   TOGGLE SWITCH - LIGHT THEME (DARKER FOR VISIBILITY)
+   ============================================ */
+
+/* Make toggle switch background darker in light theme only (unchecked state) */
+html:not([data-theme="dark"]) label.w-11.h-6.rounded-full[style*="var(--bg-input)"] {
+    background-color: #E5E7EB !important; /* Light gray instead of white */
+    border-color: #D1D5DB !important; /* Slightly darker border */
+}
+
+/* Make toggle circle darker in light theme only (unchecked state) */
+html:not([data-theme="dark"]) label.w-11.h-6.rounded-full[style*="var(--bg-input)"] > div[style*="var(--bg-card)"] {
+    background-color: #F9FAFB !important; /* Very light gray, almost white */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* When toggle is checked in light theme, keep purple color */
+html:not([data-theme="dark"]) label.w-11.h-6.rounded-full[style*="var(--color-hr-primary)"] {
+    background-color: var(--color-hr-primary) !important;
+    border-color: var(--border-strong) !important;
+}
+
+/* When toggle is checked in light theme, circle should be white */
+html:not([data-theme="dark"]) label.w-11.h-6.rounded-full[style*="var(--color-hr-primary)"] > div {
+    background-color: #FFFFFF !important;
 }
 
 /* ============================================

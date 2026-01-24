@@ -11,42 +11,40 @@
                 <i class="fas fa-bell text-purple-500"></i> <span class="mt-0.5">Email Subscriptions</span>
             </h2>
             
-            <div class="border-b border-gray-200 mb-3"></div>
-            
-            <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
-                ({{ count($subscriptions) }}) Records Found
-            </div>
+            <x-records-found :count="count($subscriptions)" />
 
             <!-- Table -->
             <div class="hr-table-wrapper">
                 <!-- Table Header -->
-                <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
+                <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                     <div class="flex-1">
-                        <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Notification Type</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Notification Type</div>
                     </div>
                     <div class="flex-1">
-                        <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Subscribers</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Subscribers</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 120px;">
-                        <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide text-center">Actions</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
                     </div>
                 </div>
 
                 <!-- Data Rows -->
-                <div class="border border-gray-200 border-t-0 rounded-b-lg">
+                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
                     @foreach($subscriptions as $subscription)
-                    <div class="px-2 py-2 border-b border-gray-100 flex items-center gap-1 hover:bg-gray-50 last:border-b-0">
+                    <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                         <div class="flex-1">
-                            <div class="text-xs text-gray-700">{{ $subscription['notification_type'] }}</div>
+                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $subscription['notification_type'] }}</div>
                         </div>
                         <div class="flex-1">
-                            <div class="text-xs text-gray-500">{{ $subscription['subscribers'] ?: '-' }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-muted);">{{ $subscription['subscribers'] ?: '-' }}</div>
                         </div>
-                        <div class="flex-shrink-0 flex items-center justify-center gap-1.5" style="width: 120px;">
-                            <button class="hr-action-view flex-shrink-0" title="Add Subscriber">
+                        <div class="flex-shrink-0 flex items-center justify-center" style="width: 120px; gap: 0;">
+                            <button class="hr-action-view flex-shrink-0" title="Add Subscriber" style="margin-right: 0;">
                                 <i class="fas fa-user-plus text-xs"></i>
                             </button>
-                            <x-admin.toggle-switch id="toggle-{{ $subscription['id'] }}" :checked="false" />
+                            <div class="flex-shrink-0" style="margin-left: 0;">
+                                <x-admin.toggle-switch id="toggle-{{ $subscription['id'] }}" :checked="false" />
+                            </div>
                         </div>
                     </div>
                     @endforeach

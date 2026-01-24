@@ -6,7 +6,7 @@
     <x-main-layout title="Time / Edit Timesheet">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
                 <x-dropdown-menu 
                     :items="[
                         [
@@ -24,7 +24,7 @@
                     width="w-48">
                     <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer transition-all flex items-center">
                         <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Timesheets</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -53,8 +53,8 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center">
-                        <span class="text-sm font-medium text-slate-700">Attendance</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm font-medium" style="color: var(--text-primary);">Attendance</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -78,23 +78,24 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center tab-trigger">
-                        <span class="text-sm font-medium text-slate-700">Reports</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm font-medium" style="color: var(--text-primary);">Reports</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Project Info</span>
-                    <span class="text-purple-400 ml-1">▼</span>
+                    <span class="text-sm font-medium" style="color: var(--text-primary);">Project Info</span>
+                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                 </div>
             </div>
         </div>
 
         <!-- Edit Timesheet Card -->
-        <section class="hr-card mt-4 p-6">
+        <section class="hr-card p-6 border-t-0 rounded-t-none">
             <!-- Header Row -->
             <div class="flex items-center justify-between gap-6 mb-4">
-                <h2 class="text-sm font-bold text-[var(--text-primary)]">
-                    Edit Timesheet
+                <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
+                    <i class="fas fa-edit" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Edit Timesheet</span>
                 </h2>
 
                 <div class="flex items-center gap-2">
@@ -174,7 +175,7 @@
 
                             <!-- Delete row icon -->
                             <div class="px-3 py-3 flex items-center justify-center">
-                                <button type="button" class="rounded-full border border-[var(--border-default)] bg-[var(--bg-card)] w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:bg-[var(--bg-hover)] transition-all">
+                                <button type="button" class="hr-btn-secondary !w-8 !h-8 !p-0 rounded-full">
                                     🗑
                                 </button>
                             </div>
@@ -183,7 +184,7 @@
 
                     <!-- Add Row -->
                     <div class="border-t border-[var(--border-default)] px-4 py-4 flex items-center gap-2">
-                        <button type="button" class="rounded-full border border-[var(--border-default)] bg-[var(--bg-card)] w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:bg-[var(--bg-hover)] transition-all">
+                        <button type="button" class="hr-btn-secondary !w-8 !h-8 !p-0 rounded-full">
                             +
                         </button>
                         <span class="text-xs font-medium text-[var(--text-primary)]">

@@ -23,7 +23,7 @@
             </div>
 
             <div class="mb-4" id="add-button-container" style="display: none;">
-                <button class="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-1">
+                <button class="hr-btn-primary px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-1 shadow-md hover:shadow-lg hover:shadow-purple-300/50 hover:scale-105 transform">
                     <span class="text-sm font-bold">+</span> Add
                 </button>
             </div>

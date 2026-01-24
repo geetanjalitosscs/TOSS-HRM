@@ -6,7 +6,7 @@
     <x-main-layout title="Time / Attendance / Punch In/Out">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
                 @php
                     $timesheetsItems = [
                         [
@@ -70,8 +70,8 @@
                     position="left"
                     width="w-48">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Timesheets</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Timesheets</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -79,8 +79,8 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Attendance</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -88,27 +88,30 @@
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Project Info</span>
-                    <span class="text-purple-400 ml-1">▼</span>
+                    <span class="text-sm font-medium" style="color: var(--text-primary);">Project Info</span>
+                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                 </div>
             </div>
         </div>
 
         <!-- Punch In/Out Form -->
-        <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-6">
-            <h2 class="text-lg font-bold text-slate-800 mb-6">Punch In</h2>
+        <section class="hr-card p-6 border-t-0 rounded-t-none">
+            <h2 class="text-sm font-bold flex items-baseline gap-2 mb-6" style="color: var(--text-primary);">
+                <i class="fas fa-clock" style="color: var(--color-hr-primary);"></i>
+                <span class="mt-0.5">Punch In</span>
+            </h2>
             
             <form id="punchInForm" class="space-y-5">
                 <!-- Date and Time Fields in Same Row -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Date Field -->
                     <div>
-                        <label for="punchDate" class="block text-xs font-medium text-slate-700 mb-1">
+                        <label for="punchDate" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                             Date<span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -118,7 +121,7 @@
                                 name="date" 
                                 value="{{ $currentDate }}"
                                 required
-                                class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white pr-10"
+                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg pr-10"
                             >
                             <button 
                                 type="button" 
@@ -132,7 +135,7 @@
 
                     <!-- Time Field -->
                     <div>
-                        <label for="punchTime" class="block text-xs font-medium text-slate-700 mb-1">
+                        <label for="punchTime" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                             Time<span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -144,7 +147,7 @@
                                 required
                                 pattern="^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$"
                                 placeholder="HH:MM AM/PM"
-                                class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white pr-10"
+                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg pr-10"
                             >
                             <button 
                                 type="button" 
@@ -159,7 +162,7 @@
 
                 <!-- Note Field -->
                 <div>
-                    <label for="punchNote" class="block text-xs font-medium text-slate-700 mb-1">
+                    <label for="punchNote" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Note
                     </label>
                     <textarea 
@@ -167,22 +170,19 @@
                         name="note" 
                         rows="4"
                         placeholder="Type here"
-                        class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white resize-y"
+                        class="hr-input w-full px-3 py-2.5 text-sm rounded-lg resize-y"
                     ></textarea>
                 </div>
 
                 <!-- Footer with Required indicator and Submit button -->
                 <div class="flex items-center justify-between pt-2">
-                    <div class="text-xs text-gray-500">* Required</div>
-                    <button 
-                        type="submit" 
-                        class="px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm"
-                    >
+                    <div class="text-xs" style="color: var(--text-muted);">* Required</div>
+                    <button type="submit" class="hr-btn-primary">
                         In
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -205,8 +205,9 @@
                             this.classList.remove('hover:bg-purple-50/30');
                             const span = this.querySelector('span:first-of-type');
                             if (span) {
-                                span.classList.remove('font-medium', 'text-slate-700');
-                                span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
+                                span.classList.remove('font-medium');
+                                span.classList.add('font-semibold');
+                                span.style.color = 'var(--color-hr-primary-dark)';
                             }
                         }
                     });
@@ -220,8 +221,9 @@
                                 this.classList.add('hover:bg-purple-50/30');
                                 const span = this.querySelector('span:first-of-type');
                                 if (span) {
-                                    span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                    span.classList.add('font-medium', 'text-slate-700');
+                                    span.classList.remove('font-semibold');
+                                    span.classList.add('font-medium');
+                                    span.style.color = 'var(--text-primary)';
                                 }
                             }
                         }
@@ -242,17 +244,19 @@
                                         trigger.classList.remove('hover:bg-purple-50/30');
                                         const span = trigger.querySelector('span:first-of-type');
                                         if (span) {
-                                            span.classList.remove('font-medium', 'text-slate-700');
-                                            span.classList.add('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                        }
-                                    } else if (!trigger.dataset.hasActive) {
-                                        // Dropdown closed - remove border only if not active
-                                        trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                                        trigger.classList.add('hover:bg-purple-50/30');
-                                        const span = trigger.querySelector('span:first-of-type');
-                                        if (span) {
-                                            span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
-                                            span.classList.add('font-medium', 'text-slate-700');
+                                        span.classList.remove('font-medium');
+                                        span.classList.add('font-semibold');
+                                        span.style.color = 'var(--color-hr-primary-dark)';
+                                    }
+                                } else if (!trigger.dataset.hasActive) {
+                                    // Dropdown closed - remove border only if not active
+                                    trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
+                                    trigger.classList.add('hover:bg-purple-50/30');
+                                    const span = trigger.querySelector('span:first-of-type');
+                                    if (span) {
+                                        span.classList.remove('font-semibold');
+                                        span.classList.add('font-medium');
+                                        span.style.color = 'var(--text-primary)';
                                         }
                                     }
                                 }
