@@ -45,6 +45,25 @@
                         ],
                     ];
                     $attendanceHasActive = collect($attendanceItems)->contains('active', true);
+                    
+                    $reportsItems = [
+                        [
+                            'url' => route('time.reports.project-reports'),
+                            'label' => 'Project Reports',
+                            'active' => request()->routeIs('time.reports.project-reports')
+                        ],
+                        [
+                            'url' => route('time.reports.employee-reports'),
+                            'label' => 'Employee Reports',
+                            'active' => request()->routeIs('time.reports.employee-reports')
+                        ],
+                        [
+                            'url' => route('time.reports.attendance-summary'),
+                            'label' => 'Attendance Summary',
+                            'active' => request()->routeIs('time.reports.attendance-summary')
+                        ],
+                    ];
+                    $reportsHasActive = collect($reportsItems)->contains('active', true);
                 @endphp
                 <x-dropdown-menu 
                     :items="$timesheetsItems"
@@ -64,10 +83,15 @@
                         <span class="text-purple-400 ml-1">▼</span>
                     </div>
                 </x-dropdown-menu>
-                <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Reports</span>
-                    <span class="text-purple-400 ml-1">▼</span>
-                </div>
+                <x-dropdown-menu 
+                    :items="$reportsItems"
+                    position="left"
+                    width="w-56">
+                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
+                        <span class="text-purple-400 ml-1">▼</span>
+                    </div>
+                </x-dropdown-menu>
                 <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                     <span class="text-sm font-medium text-slate-700">Project Info</span>
                     <span class="text-purple-400 ml-1">▼</span>
@@ -99,7 +123,7 @@
                         <div class="text-xs text-gray-500 mt-1">* Required</div>
                     </div>
                     <div>
-                        <button type="button" class="px-4 py-2.5 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 transition-all shadow-sm">
+                        <button type="button" class="px-4 py-2.5 text-sm font-medium text-white bg-[var(--color-hr-primary)] rounded-lg hover:bg-[var(--color-hr-primary-dark)] transition-all shadow-sm">
                             View
                         </button>
                     </div>
@@ -147,7 +171,7 @@
                     <div class="flex-shrink-0" style="width: 100px;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center">Duration (Hours)</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 100px;">
+                    <div class="flex-shrink-0" style="width: 90px;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words text-center">Actions</div>
                     </div>
                 </div>
@@ -203,13 +227,13 @@
                                 </div>
 
                                 <!-- Actions -->
-                                <div class="flex-shrink-0" style="width: 100px;">
-                                    <div class="flex items-center justify-center gap-3">
-                                        <button type="button" class="w-8 h-8 rounded-full border border-red-200 bg-red-50 flex items-center justify-center text-red-500 hover:bg-red-100 hover:border-red-300 transition-all text-sm">
-                                            <i class="fas fa-trash-alt"></i>
+                                <div class="flex-shrink-0" style="width: 90px;">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button class="hr-action-delete flex-shrink-0" title="Delete">
+                                            <i class="fas fa-trash-alt text-sm"></i>
                                         </button>
-                                        <button type="button" class="w-8 h-8 rounded-full border border-blue-200 bg-blue-50 flex items-center justify-center text-blue-500 hover:bg-blue-100 hover:border-blue-300 transition-all text-sm">
-                                            ✏️
+                                        <button class="hr-action-edit flex-shrink-0" title="Edit">
+                                            <i class="fas fa-edit text-sm"></i>
                                         </button>
                                     </div>
                                 </div>

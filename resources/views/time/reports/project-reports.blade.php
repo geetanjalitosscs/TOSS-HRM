@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Time - Attendance - Punch In/Out')
+@section('title', 'Time - Reports - Project Reports')
 
 @section('body')
-    <x-main-layout title="Time / Attendance / Punch In/Out">
+    <x-main-layout title="Time / Reports / Project Reports">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible">
@@ -99,93 +99,113 @@
             </div>
         </div>
 
-        <!-- Punch In/Out Form -->
-        <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-6">
-            <h2 class="text-lg font-bold text-slate-800 mb-6">Punch In</h2>
-            
-            <form id="punchInForm" class="space-y-5">
-                <!-- Date and Time Fields in Same Row -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Date Field -->
-                    <div>
-                        <label for="punchDate" class="block text-xs font-medium text-slate-700 mb-1">
-                            Date<span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <input 
-                                type="date" 
-                                id="punchDate" 
-                                name="date" 
-                                value="{{ $currentDate }}"
-                                required
-                                class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white pr-10"
-                            >
-                            <button 
-                                type="button" 
-                                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-purple-400 hover:text-purple-600 transition-colors"
-                                onclick="document.getElementById('punchDate').showPicker()"
-                            >
-                                <i class="fas fa-calendar text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
+        <!-- Project Report Form Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-6 mb-3">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-bold text-slate-800">Project Report</h2>
+                <button class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                    <span class="text-xs text-gray-600">▲</span>
+                </button>
+            </div>
 
-                    <!-- Time Field -->
-                    <div>
-                        <label for="punchTime" class="block text-xs font-medium text-slate-700 mb-1">
-                            Time<span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <input 
-                                type="text" 
-                                id="punchTime" 
-                                name="time" 
-                                value="{{ $currentTime }}"
-                                required
-                                pattern="^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$"
-                                placeholder="HH:MM AM/PM"
-                                class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white pr-10"
-                            >
-                            <button 
-                                type="button" 
-                                id="timePickerBtn"
-                                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-purple-400 hover:text-purple-600 transition-colors"
-                            >
-                                <i class="fas fa-clock text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Note Field -->
+            <!-- Form Fields -->
+            <div class="space-y-4">
+                <!-- Project Name Input -->
                 <div>
-                    <label for="punchNote" class="block text-xs font-medium text-slate-700 mb-1">
-                        Note
-                    </label>
-                    <textarea 
-                        id="punchNote" 
-                        name="note" 
-                        rows="4"
-                        placeholder="Type here"
-                        class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white resize-y"
-                    ></textarea>
+                    <label class="block text-xs font-medium text-slate-700 mb-1">Project Name<span class="text-red-500">*</span></label>
+                    <input 
+                        type="text" 
+                        name="project_name" 
+                        class="w-full px-3 py-2.5 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                        placeholder="Type for hints..."
+                    >
                 </div>
 
-                <!-- Footer with Required indicator and Submit button -->
-                <div class="flex items-center justify-between pt-2">
-                    <div class="text-xs text-gray-500">* Required</div>
-                    <button 
-                        type="submit" 
-                        class="px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm"
-                    >
-                        In
-                    </button>
+                <!-- Project Date Range -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 mb-1">Project Date Range</label>
+                    <div class="flex items-center gap-4">
+                        <!-- From Date Input -->
+                        <div class="flex-1">
+                            <div class="flex items-stretch">
+                                <input 
+                                    type="text" 
+                                    name="date_from" 
+                                    placeholder="From"
+                                    class="flex-1 px-3 py-2.5 text-sm border border-purple-200 rounded-l-lg rounded-r-none focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    readonly
+                                >
+                                <button 
+                                    type="button" 
+                                    class="px-3 py-2.5 flex items-center justify-center text-gray-400 bg-gray-50 border border-l-0 border-purple-200 rounded-r-lg hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                                    onclick="document.getElementById('dateFromPicker').showPicker()"
+                                >
+                                    <i class="fas fa-calendar text-sm"></i>
+                                </button>
+                                <input 
+                                    type="date" 
+                                    id="dateFromPicker" 
+                                    class="hidden"
+                                    onchange="updateDateDisplay(this.value, 'date_from')"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- To Date Input -->
+                        <div class="flex-1">
+                            <div class="flex items-stretch">
+                                <input 
+                                    type="text" 
+                                    name="date_to" 
+                                    placeholder="To"
+                                    class="flex-1 px-3 py-2.5 text-sm border border-purple-200 rounded-l-lg rounded-r-none focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    readonly
+                                >
+                                <button 
+                                    type="button" 
+                                    class="px-3 py-2.5 flex items-center justify-center text-gray-400 bg-gray-50 border border-l-0 border-purple-200 rounded-r-lg hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                                    onclick="document.getElementById('dateToPicker').showPicker()"
+                                >
+                                    <i class="fas fa-calendar text-sm"></i>
+                                </button>
+                                <input 
+                                    type="date" 
+                                    id="dateToPicker" 
+                                    class="hidden"
+                                    onchange="updateDateDisplay(this.value, 'date_to')"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Only Include Approved Timesheets Toggle -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-slate-700 whitespace-nowrap">Only Include Approved Timesheets</span>
+                            <div class="relative flex-shrink-0">
+                                <input type="checkbox" class="sr-only" id="toggle-approved">
+                                <label for="toggle-approved" class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center" id="toggle-bg-approved" style="background-color: #E5E7EB;">
+                                    <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="toggle-circle-approved"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
+
+            <!-- Footer: Required Text and View Button -->
+            <div class="flex items-center justify-between mt-6">
+                <div class="text-xs text-gray-500">* Required</div>
+                <button 
+                    type="button" 
+                    class="px-6 py-2.5 text-sm font-medium text-white bg-[var(--color-hr-primary)] rounded-lg hover:bg-[var(--color-hr-primary-dark)] transition-all shadow-sm"
+                >
+                    View
+                </button>
+            </div>
         </div>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 // Handle tab hover and open states
                 const tabTriggers = document.querySelectorAll('.tab-trigger');
                 
@@ -264,94 +284,35 @@
                 document.querySelectorAll('.hr-dropdown-menu').forEach(menu => {
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
-                
-                const form = document.getElementById('punchInForm');
-                const dateInput = document.getElementById('punchDate');
-                const timeInput = document.getElementById('punchTime');
-                const timePickerBtn = document.getElementById('timePickerBtn');
-                
-                // Create a hidden time input for native time picker
-                const hiddenTimeInput = document.createElement('input');
-                hiddenTimeInput.type = 'time';
-                hiddenTimeInput.style.display = 'none';
-                document.body.appendChild(hiddenTimeInput);
-                
-                // Convert 12-hour to 24-hour format
-                function convert12to24(time12h) {
-                    if (!time12h) return '';
-                    const [time, period] = time12h.split(' ');
-                    if (!time || !period) return '';
-                    const [hours, minutes] = time.split(':');
-                    let hours24 = parseInt(hours);
-                    if (period === 'PM' && hours24 !== 12) {
-                        hours24 += 12;
-                    } else if (period === 'AM' && hours24 === 12) {
-                        hours24 = 0;
-                    }
-                    return String(hours24).padStart(2, '0') + ':' + minutes;
+
+                // Date picker functionality
+                function updateDateDisplay(dateValue, inputName) {
+                    if (!dateValue) return;
+                    // Convert YYYY-MM-DD to readable format
+                    const [year, month, day] = dateValue.split('-');
+                    const formattedDate = `${year}-${day}-${month}`;
+                    document.querySelector(`input[name="${inputName}"]`).value = formattedDate;
                 }
+
+                // Toggle switch functionality
+                const toggleCheckbox = document.getElementById('toggle-approved');
+                const toggleBg = document.getElementById('toggle-bg-approved');
+                const toggleCircle = document.getElementById('toggle-circle-approved');
                 
-                // Convert 24-hour to 12-hour format
-                function convert24to12(time24h) {
-                    if (!time24h) return '';
-                    const [hours, minutes] = time24h.split(':');
-                    let hours12 = parseInt(hours);
-                    const period = hours12 >= 12 ? 'PM' : 'AM';
-                    if (hours12 === 0) {
-                        hours12 = 12;
-                    } else if (hours12 > 12) {
-                        hours12 -= 12;
-                    }
-                    return String(hours12).padStart(2, '0') + ':' + minutes + ' ' + period;
-                }
-                
-                // Initialize hidden time input with current time
-                const currentTime12h = '{{ $currentTime }}';
-                if (currentTime12h) {
-                    hiddenTimeInput.value = convert12to24(currentTime12h);
-                }
-                
-                // Time picker button click handler
-                timePickerBtn.addEventListener('click', function() {
-                    hiddenTimeInput.showPicker();
-                });
-                
-                // Update visible input when hidden time input changes
-                hiddenTimeInput.addEventListener('change', function() {
-                    timeInput.value = convert24to12(hiddenTimeInput.value);
-                });
-                
-                // Validate time input format
-                timeInput.addEventListener('blur', function() {
-                    const timeValue = timeInput.value.trim();
-                    const timePattern = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
-                    if (timeValue && !timePattern.test(timeValue)) {
-                        // Try to fix common issues
-                        const fixed = timeValue.replace(/(\d{1,2}):(\d{2})\s*(am|pm)/i, function(match, h, m, p) {
-                            const hour = parseInt(h);
-                            const min = parseInt(m);
-                            if (hour >= 1 && hour <= 12 && min >= 0 && min <= 59) {
-                                return String(hour).padStart(2, '0') + ':' + String(min).padStart(2, '0') + ' ' + p.toUpperCase();
-                            }
-                            return match;
-                        });
-                        if (timePattern.test(fixed)) {
-                            timeInput.value = fixed;
+                if (toggleCheckbox && toggleBg && toggleCircle) {
+                    toggleCheckbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            toggleBg.style.backgroundColor = 'var(--color-hr-primary)';
+                            toggleCircle.classList.add('translate-x-5');
+                            toggleCircle.classList.remove('translate-x-0.5');
+                        } else {
+                            toggleBg.style.backgroundColor = '#E5E7EB';
+                            toggleCircle.classList.remove('translate-x-5');
+                            toggleCircle.classList.add('translate-x-0.5');
                         }
-                    }
-                });
-                
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    // TODO: Implement form submission logic
-                    console.log('Punch In submitted:', {
-                        date: dateInput.value,
-                        time: timeInput.value,
-                        note: document.getElementById('punchNote').value
                     });
-                });
+                }
             });
         </script>
     </x-main-layout>
 @endsection
-

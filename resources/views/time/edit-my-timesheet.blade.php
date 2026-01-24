@@ -57,10 +57,31 @@
                         <span class="text-purple-400 ml-1">▼</span>
                     </div>
                 </x-dropdown-menu>
-                <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium text-slate-700">Reports</span>
-                    <span class="text-purple-400 ml-1">▼</span>
-                </div>
+                <x-dropdown-menu 
+                    :items="[
+                        [
+                            'url' => route('time.reports.project-reports'),
+                            'label' => 'Project Reports',
+                            'active' => request()->routeIs('time.reports.project-reports')
+                        ],
+                        [
+                            'url' => route('time.reports.employee-reports'),
+                            'label' => 'Employee Reports',
+                            'active' => request()->routeIs('time.reports.employee-reports')
+                        ],
+                        [
+                            'url' => route('time.reports.attendance-summary'),
+                            'label' => 'Attendance Summary',
+                            'active' => request()->routeIs('time.reports.attendance-summary')
+                        ],
+                    ]"
+                    position="left"
+                    width="w-56">
+                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center tab-trigger">
+                        <span class="text-sm font-medium text-slate-700">Reports</span>
+                        <span class="text-purple-400 ml-1">▼</span>
+                    </div>
+                </x-dropdown-menu>
                 <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                     <span class="text-sm font-medium text-slate-700">Project Info</span>
                     <span class="text-purple-400 ml-1">▼</span>

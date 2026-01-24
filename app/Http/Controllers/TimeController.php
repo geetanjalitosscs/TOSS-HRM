@@ -147,7 +147,37 @@ class TimeController extends Controller
      */
     public function attendanceEmployeeRecords()
     {
-        return view('time.attendance.employee-records');
+        $today = Carbon::now();
+        $selectedDate = request()->get('date', $today->format('Y-d-m')); // Format: YYYY-DD-MM as shown in image
+        
+        // Sample employee attendance records data
+        $records = [
+            [
+                'employee_name' => 'TestFN1769171034965 TestLN',
+                'total_duration' => 0.00,
+            ],
+            [
+                'employee_name' => 'TestFN1769171012749 TestLN',
+                'total_duration' => 0.00,
+            ],
+            [
+                'employee_name' => 'A8DCo 010Z',
+                'total_duration' => 0.00,
+            ],
+        ];
+        
+        // Generate more sample records to reach 127 total
+        for ($i = 4; $i <= 127; $i++) {
+            $records[] = [
+                'employee_name' => 'Employee ' . $i . ' Name',
+                'total_duration' => 0.00,
+            ];
+        }
+        
+        return view('time.attendance.employee-records', [
+            'selectedDate' => $selectedDate,
+            'records' => $records,
+        ]);
     }
 
     /**
@@ -156,6 +186,30 @@ class TimeController extends Controller
     public function attendanceConfiguration()
     {
         return view('time.attendance.configuration');
+    }
+
+    /**
+     * Reports - Project Reports
+     */
+    public function projectReports()
+    {
+        return view('time.reports.project-reports');
+    }
+
+    /**
+     * Reports - Employee Reports
+     */
+    public function employeeReports()
+    {
+        return view('time.reports.employee-reports');
+    }
+
+    /**
+     * Reports - Attendance Summary
+     */
+    public function attendanceSummary()
+    {
+        return view('time.reports.attendance-summary');
     }
 }
 
