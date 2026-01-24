@@ -16,7 +16,7 @@
                     width="w-48">
                     <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer">
                         <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Purge Records</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <x-dropdown-arrow color="#a78bfa" />
                     </div>
                 </x-dropdown-menu>
                 <a href="{{ route('maintenance.access-records') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">

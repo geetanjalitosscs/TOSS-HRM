@@ -110,9 +110,7 @@
                             </div>
 
                             <!-- Records Count -->
-                            <div class="mb-4 text-xs text-slate-600 font-medium">
-                                ({{ count($employees) }}) Records Found
-                            </div>
+                            <x-records-found :count="count($employees)" />
 
                             <!-- Table Wrapper -->
                             <div class="hr-table-wrapper">

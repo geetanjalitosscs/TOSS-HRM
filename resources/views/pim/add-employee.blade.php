@@ -48,11 +48,9 @@
                     </div>
 
                     <!-- Create Login Details -->
-                    <div class="mb-4 flex items-center gap-2">
-                        <label class="text-xs font-medium text-slate-700">Create Login Details</label>
-                        <div class="relative">
-                            <x-admin.toggle-switch id="create-login-toggle" :checked="false" />
-                        </div>
+                    <div class="mb-4 flex items-center gap-3">
+                        <x-admin.toggle-switch id="create-login-toggle" :checked="false" />
+                        <label for="create-login-toggle" class="text-xs font-medium cursor-pointer" style="color: var(--text-primary);">Create Login Details</label>
                     </div>
 
                     <!-- Required Note -->

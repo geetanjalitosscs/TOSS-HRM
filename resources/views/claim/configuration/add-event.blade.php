@@ -6,11 +6,11 @@
     <x-main-layout title="Claim">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b overflow-y-visible" style="border-color: var(--border-default);">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible flex-nowrap" style="border-color: var(--border-default);">
                 <div class="relative group" onclick="toggleDropdown(event)" style="overflow: visible;">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center justify-between gap-2" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         <span class="text-sm font-medium" style="color: var(--text-primary);">Configuration</span>
-                        <span class="flex-shrink-0" style="color: #a78bfa;">▼</span>
+                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                     <div class="hr-dropdown-menu absolute top-full left-0 mt-0 w-48" style="z-index: 9999; display: none; background-color: var(--bg-card); border: 1px solid var(--border-default); border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); padding: 0.5rem 0;">
                         <a href="{{ route('claim.configuration.events') }}" class="block px-4 py-2 text-xs transition-all" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
@@ -21,16 +21,16 @@
                         </a>
                     </div>
                 </div>
-                <a href="{{ route('claim.submit') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim.submit') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">Submit Claim</span>
                 </a>
-                <a href="{{ route('claim.my-claims') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim.my-claims') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">My Claims</span>
                 </a>
-                <a href="{{ route('claim') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">Employee Claims</span>
                 </a>
-                <a href="{{ route('claim.assign') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim.assign') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">Assign Claim</span>
                 </a>
             </div>
@@ -38,8 +38,11 @@
 
         <!-- Add Event Section -->
         <div>
-            <div class="rounded-b-lg shadow-sm border border-t-0 p-6" style="background-color: var(--bg-card); border-color: var(--border-default);">
-                <h2 class="text-sm font-bold mb-5" style="color: var(--text-primary);">Add Event</h2>
+            <section class="hr-card p-6">
+                <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                    <i class="fas fa-calendar-plus" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Add Event</span>
+                </h2>
 
                 <form id="addEventForm" class="space-y-6" novalidate>
                     <!-- Event Name -->
@@ -70,13 +73,8 @@
 
                     <!-- Active Toggle -->
                     <div class="flex items-center gap-3">
-                        <label for="eventActive" class="block text-xs font-medium" style="color: var(--text-primary);">Active</label>
-                        <div class="relative cursor-pointer" onclick="document.getElementById('eventActive').click()">
-                            <input type="checkbox" class="sr-only" id="eventActive" checked onchange="toggleActive(this, 'eventActiveBg', 'eventActiveCircle')">
-                            <div class="w-11 h-6 rounded-full transition-colors duration-200 flex items-center" id="eventActiveBg" style="background-color: var(--color-hr-primary);">
-                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200" id="eventActiveCircle" style="margin-left: 24px;"></div>
-                            </div>
-                        </div>
+                        <x-admin.toggle-switch id="eventActive" :checked="true" />
+                        <label for="eventActive" class="text-xs font-medium cursor-pointer" style="color: var(--text-primary);">Active</label>
                     </div>
 
                     <div class="text-xs font-medium" style="color: var(--text-muted);">* Required</div>
@@ -98,7 +96,7 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </section>
         </div>
 
         <script>
@@ -123,22 +121,9 @@
                     return !eventNameInvalid;
                 }
 
-                saveBtn.addEventListener('click', validate);
-                eventNameEl.addEventListener('blur', validate);
-            })();
-
-            function toggleActive(checkbox, bgId, circleId) {
-                const bg = document.getElementById(bgId);
-                const circle = document.getElementById(circleId);
-                
-                if (checkbox.checked) {
-                    bg.style.backgroundColor = 'var(--color-hr-primary)';
-                    circle.style.marginLeft = '24px';
-                } else {
-                    bg.style.backgroundColor = 'var(--bg-hover)';
-                    circle.style.marginLeft = '2px';
-                }
-            }
+            saveBtn.addEventListener('click', validate);
+            eventNameEl.addEventListener('blur', validate);
+        })();
         </script>
     </x-main-layout>
 @endsection

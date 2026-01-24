@@ -95,9 +95,7 @@
                 </div>
 
                 <!-- Records Count -->
-                <div class="mb-4 text-xs text-slate-600 font-medium">
-                    ({{ count($candidates) }}) Records Found
-                </div>
+                <x-records-found :count="count($candidates)" />
 
                 <!-- Table Wrapper -->
                 <div class="hr-table-wrapper">
@@ -110,31 +108,46 @@
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
                                 <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Vacancy</span>
-                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
+                                <div class="flex items-center gap-0.5">
+                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
                                 <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Candidate</span>
-                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
+                                <div class="flex items-center gap-0.5">
+                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
                                 <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Hiring Manager</span>
-                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
+                                <div class="flex items-center gap-0.5">
+                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
                                 <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Date of Application</span>
-                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
+                                <div class="flex items-center gap-0.5">
+                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center gap-1">
                                 <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</span>
-                                <span class="flex-shrink-0 text-xs" style="color: var(--color-hr-primary);">⇅</span>
+                                <div class="flex items-center gap-0.5">
+                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0" style="width: 70px;">

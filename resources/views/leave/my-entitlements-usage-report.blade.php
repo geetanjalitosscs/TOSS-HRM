@@ -37,16 +37,12 @@
         <section class="hr-card p-6">
             @if(isset($reportData) && count($reportData) > 0)
             <!-- Records Count -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                ({{ count($reportData) }}) Records Found
-            </div>
+            <x-records-found :count="count($reportData)" />
             
             <!-- Table will go here -->
             @else
             <!-- Sample Data for Display -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                (11) Records Found
-            </div>
+            <x-records-found :count="11" />
             
             <!-- Table Header -->
             <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b overflow-x-auto" style="background-color: var(--bg-hover); border-color: var(--border-default);">

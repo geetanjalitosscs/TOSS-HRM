@@ -111,7 +111,7 @@
                         </h2>
                         <div class="space-y-3 max-h-80 overflow-y-auto">
                             @for ($i = 0; $i < 3; $i++)
-                                <div class="flex items-start gap-3 pb-3 border-b border-purple-100 last:border-0 hover:bg-purple-50/50 p-2 rounded-lg transition-all">
+                                <a href="{{ route('buzz') }}" class="flex items-start gap-3 pb-3 border-b border-purple-100 last:border-0 hover:bg-purple-50/50 p-2 rounded-lg transition-all cursor-pointer block">
                                     <div class="h-9 w-9 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-xs font-bold text-white flex-shrink-0 shadow-sm">
                                         RS
                                     </div>
@@ -120,7 +120,7 @@
                                         <div class="text-[10px] text-purple-500 mb-1 font-medium">2026-01-20 09:48 PM</div>
                                         <p class="text-xs text-slate-600 leading-relaxed">This is a sample update in the TOAI HR buzz feed.</p>
                                     </div>
-                                </div>
+                                </a>
                             @endfor
                         </div>
                     </section>

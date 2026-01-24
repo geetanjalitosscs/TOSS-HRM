@@ -195,7 +195,7 @@
                         </button>
                     </div>
 
-                    <p class="text-xs text-slate-600 mb-3">({{ count($attachments) }}) Records Found</p>
+                    <x-records-found :count="count($attachments)" />
 
                     <!-- Table Header -->
                     <div class="bg-purple-50/50 rounded-t-lg border border-purple-100 border-b-0 px-2 py-1.5 mb-0">

@@ -6,11 +6,11 @@
     <x-main-layout title="Claim">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b overflow-y-visible" style="border-color: var(--border-default);">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible flex-nowrap" style="border-color: var(--border-default);">
                 <div class="relative group" onclick="toggleDropdown(event)" style="overflow: visible;">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center justify-between gap-2" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         <span class="text-sm font-medium" style="color: var(--text-primary);">Configuration</span>
-                        <span class="flex-shrink-0" style="color: #a78bfa;">▼</span>
+                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                     <div class="hr-dropdown-menu absolute top-full left-0 mt-0 w-48" style="z-index: 9999; display: none; background-color: var(--bg-card); border: 1px solid var(--border-default); border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); padding: 0.5rem 0;">
                         <a href="{{ route('claim.configuration.events') }}" class="block px-4 py-2 text-xs transition-all" style="color: var(--text-primary); background-color: var(--bg-hover);">
@@ -21,10 +21,10 @@
                         </a>
                     </div>
                 </div>
-                <a href="{{ route('claim.submit') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim.submit') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">Submit Claim</span>
                 </a>
-                <a href="{{ route('claim.my-claims') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim.my-claims') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">My Claims</span>
                 </a>
                 <a href="{{ route('claim') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
@@ -38,14 +38,11 @@
 
         <!-- Events Configuration Section -->
         <div>
-            <div class="rounded-b-lg shadow-sm border border-t-0 p-4" style="background-color: var(--bg-card); border-color: var(--border-default);">
-                <!-- Page Header -->
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-sm font-bold" style="color: var(--text-primary);">Events</h2>
-                    <button type="button" class="w-9 h-9 rounded-lg flex items-center justify-center transition-all" style="background-color: var(--bg-hover); color: var(--text-muted);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-hover)'">
-                        <i class="fas fa-chevron-up text-xs"></i>
-                    </button>
-                </div>
+            <section class="hr-card p-6">
+                <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                    <i class="fas fa-calendar-alt" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Events</span>
+                </h2>
 
                 <!-- Search/Filter Section -->
                 <div class="rounded-lg p-3 mb-3 border" style="background-color: var(--color-hr-primary-light); border-color: var(--border-default);">
@@ -87,9 +84,7 @@
                 </div>
 
                 <!-- Records Count -->
-                <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
-                    ({{ count($events) }}) Records Found
-                </div>
+                <x-records-found :count="count($events)" />
 
                 <!-- Table Wrapper -->
                 <div class="hr-table-wrapper">
@@ -101,13 +96,19 @@
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
                                 Event Name
-                                <i class="fas fa-sort text-xs" style="color: var(--text-muted);"></i>
+                                <div class="flex items-center gap-0.5">
+                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
                                 Status
-                                <i class="fas fa-sort text-xs" style="color: var(--text-muted);"></i>
+                                <div class="flex items-center gap-0.5">
+                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0" style="width: 70px;">
@@ -149,7 +150,7 @@
                         @endforeach
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
         <style>

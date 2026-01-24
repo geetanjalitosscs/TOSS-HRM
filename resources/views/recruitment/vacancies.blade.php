@@ -67,11 +67,6 @@
                     <x-admin.add-button />
                 </div>
 
-                <!-- Records Count -->
-                <div class="mb-4 text-xs text-slate-600 font-medium">
-                    ({{ count($vacancies) }}) Records Found
-                </div>
-
                 <!-- Table -->
                 <x-admin.data-table 
                 title="" 

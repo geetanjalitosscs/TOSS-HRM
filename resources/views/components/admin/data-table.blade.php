@@ -23,9 +23,7 @@
 
     @if(count($records) > 0)
     <!-- Records Count -->
-    <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
-        ({{ count($records) }}) Records Found
-    </div>
+    <x-records-found :count="count($records)" />
     @endif
 
     <!-- Table Wrapper -->
@@ -40,7 +38,10 @@
                 <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words {{ isset($column['align']) && $column['align'] === 'center' ? 'text-center' : '' }} {{ isset($column['sortable']) && $column['sortable'] ? 'flex items-center gap-1' : '' }}" style="color: var(--text-primary);">
                     {{ $column['label'] }}
                     @if(isset($column['sortable']) && $column['sortable'])
-                    <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                    <div class="flex items-center gap-0.5">
+                        <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                        <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                    </div>
                     @endif
                 </div>
             </div>

@@ -6,7 +6,7 @@
     <x-main-layout title="Performance / My Trackers">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-y-visible">
+            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible flex-nowrap">
                 <x-dropdown-menu 
                     :items="[
                         ['url' => route('performance.kpis'), 'label' => 'KPIs'],
@@ -14,9 +14,9 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-medium text-slate-700">Configure</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -27,15 +27,15 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-medium text-slate-700">Manage Reviews</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50">
+                <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 flex items-center flex-shrink-0 whitespace-nowrap">
                     <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">My Trackers</span>
                 </div>
-                <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
                     <span class="text-sm font-medium text-slate-700">Employee Trackers</span>
                 </a>
             </div>
@@ -49,28 +49,35 @@
 
             @if(count($trackers) > 0)
             <!-- Records Count -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                ({{ count($trackers) }}) Records Found
-            </div>
+            <x-records-found :count="count($trackers)" />
 
             <!-- Table Header -->
             <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                 <div class="flex-1" style="min-width: 0;">
                     <div class="flex items-center gap-1">
                         <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Tracker</span>
-                        <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                        <div class="flex items-center gap-0.5">
+                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="flex-1" style="min-width: 0;">
                     <div class="flex items-center gap-1">
                         <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Added Date</span>
-                        <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                        <div class="flex items-center gap-0.5">
+                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="flex-1" style="min-width: 0;">
                     <div class="flex items-center gap-1">
                         <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Modified Date</span>
-                        <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                        <div class="flex items-center gap-0.5">
+                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="flex-shrink-0" style="width: 70px;">

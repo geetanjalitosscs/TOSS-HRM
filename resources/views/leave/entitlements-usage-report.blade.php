@@ -85,11 +85,9 @@
                         </div>
                         
                         <!-- Include Past Employees -->
-                        <div>
-                            <x-admin.toggle-switch 
-                                id="include-past-employees"
-                                label="Include Past Employees"
-                            />
+                        <div class="flex items-center gap-3">
+                            <x-admin.toggle-switch id="include-past-employees" />
+                            <label for="include-past-employees" class="text-xs font-medium cursor-pointer" style="color: var(--text-primary);">Include Past Employees</label>
                         </div>
                     </div>
                 </div>

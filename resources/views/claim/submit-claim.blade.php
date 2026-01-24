@@ -6,11 +6,11 @@
     <x-main-layout title="Claim">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b overflow-y-visible" style="border-color: var(--border-default);">
+            <div class="flex items-center border-b overflow-x-auto overflow-y-visible flex-nowrap" style="border-color: var(--border-default);">
                 <div class="relative group" onclick="toggleDropdown(event)" style="overflow: visible;">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center justify-between gap-2" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         <span class="text-sm font-medium" style="color: var(--text-primary);">Configuration</span>
-                        <span class="flex-shrink-0" style="color: #a78bfa;">▼</span>
+                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                     <div class="hr-dropdown-menu absolute top-full left-0 mt-0 w-48" style="z-index: 9999; display: none; background-color: var(--bg-card); border: 1px solid var(--border-default); border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); padding: 0.5rem 0;">
                         <a href="{{ route('claim.configuration.events') }}" class="block px-4 py-2 text-xs transition-all" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
@@ -21,16 +21,16 @@
                         </a>
                     </div>
                 </div>
-                <div class="px-6 py-3 border-b-2" style="border-bottom-color: var(--color-hr-primary); background-color: var(--color-hr-primary-light);">
+                <div class="px-6 py-3 border-b-2 flex items-center flex-shrink-0 whitespace-nowrap" style="border-bottom-color: var(--color-hr-primary); background-color: var(--color-hr-primary-light);">
                     <span class="text-sm font-semibold" style="color: var(--color-hr-primary-dark);">Submit Claim</span>
                 </div>
-                <a href="{{ route('claim.my-claims') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim.my-claims') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">My Claims</span>
                 </a>
-                <a href="{{ route('claim') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">Employee Claims</span>
                 </a>
-                <a href="{{ route('claim.assign') }}" class="px-6 py-3 cursor-pointer transition-all" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <a href="{{ route('claim.assign') }}" class="px-6 py-3 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                     <span class="text-sm font-medium" style="color: var(--text-primary);">Assign Claim</span>
                 </a>
             </div>
@@ -38,8 +38,11 @@
 
         <!-- Submit Claim Section -->
         <div>
-            <div class="rounded-b-lg shadow-sm border border-t-0 p-6" style="background-color: var(--bg-card); border-color: var(--border-default);">
-                <h2 class="text-sm font-bold mb-5" style="color: var(--text-primary);">Create Claim Request</h2>
+            <section class="hr-card p-6">
+                <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                    <i class="fas fa-plus-circle" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Create Claim Request</span>
+                </h2>
 
                 <form id="claimSubmitForm" class="space-y-6" novalidate>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -120,7 +123,7 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </section>
         </div>
 
         <script>

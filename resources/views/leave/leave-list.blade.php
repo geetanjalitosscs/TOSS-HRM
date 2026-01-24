@@ -65,14 +65,10 @@
                     </div>
                 </div>
                 <div class="mb-4">
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        <div class="relative inline-block w-10 h-5">
-                            <input type="checkbox" class="sr-only peer" id="include-past-employees">
-                            <div class="absolute inset-0 rounded-full transition-colors peer-checked:bg-[var(--color-hr-primary)]" style="background-color: var(--bg-hover);"></div>
-                            <div class="absolute top-1/2 left-0.5 w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 -translate-y-1/2" style="background-color: var(--bg-card);"></div>
-                        </div>
-                        <span class="text-xs font-medium" style="color: var(--text-primary);">Include Past Employees</span>
-                    </label>
+                    <div class="flex items-center gap-3">
+                        <x-admin.toggle-switch id="include-past-employees" />
+                        <label for="include-past-employees" class="text-xs font-medium cursor-pointer" style="color: var(--text-primary);">Include Past Employees</label>
+                    </div>
                 </div>
                 <x-admin.action-buttons />
             </x-admin.search-panel>

@@ -13,7 +13,7 @@
     $isChecked = $checked;
 @endphp
 
-<div class="relative">
+<div class="relative flex items-center">
     <input 
         type="checkbox" 
         class="sr-only toggle-switch" 
@@ -23,14 +23,14 @@
     >
     <label 
         for="{{ $toggleId }}" 
-        class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center border {{ $isChecked ? '' : 'bg-gray-200' }}"
+        class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center border"
         id="{{ $toggleBgId }}"
-        style="{{ $isChecked ? 'background: var(--color-hr-primary); border-color: var(--border-strong);' : 'background: #E5E7EB; border-color: #D1D5DB;' }}"
+        style="{{ $isChecked ? 'background: var(--color-hr-primary); border-color: var(--border-strong);' : 'background: var(--bg-input); border-color: var(--border-default);' }}"
     >
         <div 
             class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 {{ $isChecked ? 'translate-x-5' : 'translate-x-0.5' }}"
             id="{{ $toggleCircleId }}"
-            style="background: white;"
+            style="background: var(--bg-card);"
         ></div>
     </label>
 </div>
@@ -50,8 +50,8 @@
                     circle.classList.add('translate-x-5');
                     circle.classList.remove('translate-x-0.5');
                 } else {
-                    label.style.background = '#E5E7EB';
-                    label.style.borderColor = '#D1D5DB';
+                    label.style.background = 'var(--bg-input)';
+                    label.style.borderColor = 'var(--border-default)';
                     circle.classList.remove('translate-x-5');
                     circle.classList.add('translate-x-0.5');
                 }

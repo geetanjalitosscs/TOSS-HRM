@@ -13,7 +13,7 @@
         <div class="hr-user-menu relative group" data-profile-dropdown-trigger data-logout-url="{{ route('logout') }}" onclick="toggleProfileDropdown(event)">
             <div class="hr-user-avatar">A</div>
             <span class="hr-user-name">Admin</span>
-            <i class="fas fa-chevron-down text-purple-400"></i>
+            <x-dropdown-arrow color="#a78bfa" />
         </div>
     </div>
 </header>

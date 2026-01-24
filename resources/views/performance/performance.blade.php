@@ -6,7 +6,7 @@
     <x-main-layout title="Performance / Manage Reviews">
                     <!-- Top Navigation Tabs -->
                     <div class="hr-sticky-tabs">
-                        <div class="flex items-center border-b border-purple-100 overflow-y-visible">
+                        <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible flex-nowrap">
                             <x-dropdown-menu 
                                 :items="[
                                     ['url' => route('performance.kpis'), 'label' => 'KPIs'],
@@ -14,9 +14,9 @@
                                 ]"
                                 position="left"
                                 width="w-48">
-                                <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                                <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                                     <span class="text-sm font-medium text-slate-700">Configure</span>
-                                    <span class="text-purple-400 ml-1">▼</span>
+                                    <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                                 </div>
                             </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -27,15 +27,15 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer">
+                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Manage Reviews</span>
-                        <span class="text-purple-400 ml-1">▼</span>
+                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                            <a href="{{ route('performance.my-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <a href="{{ route('performance.my-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
                                 <span class="text-sm font-medium text-slate-700">My Trackers</span>
                             </a>
-                            <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
                                 <span class="text-sm font-medium text-slate-700">Employee Trackers</span>
                             </a>
                         </div>
@@ -126,9 +126,7 @@
 
                         @if(count($reviews) > 0)
                         <!-- Records Count -->
-                        <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                            ({{ count($reviews) }}) Records Found
-                        </div>
+                        <x-records-found :count="count($reviews)" />
                         @endif
 
                         <!-- No Records Found Message -->
@@ -144,7 +142,10 @@
                             <div class="flex-1" style="min-width: 0;">
                                 <div class="flex items-center gap-1">
                                     <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee</span>
-                                    <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                        <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
@@ -156,7 +157,10 @@
                             <div class="flex-1" style="min-width: 0;">
                                 <div class="flex items-center gap-1">
                                     <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</span>
-                                    <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                        <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
@@ -165,7 +169,10 @@
                             <div class="flex-1" style="min-width: 0;">
                                 <div class="flex items-center gap-1">
                                     <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</span>
-                                    <i class="fas fa-sort" style="color: var(--text-muted);"></i>
+                                    <div class="flex items-center gap-0.5">
+                                        <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
+                                        <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex-shrink-0" style="width: 90px;">

@@ -15,15 +15,15 @@
                             </div>
                             <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Entitlements</span>
-                                <i class="fas fa-chevron-down text-purple-400 ml-1 text-xs"></i>
+                                <x-dropdown-arrow color="#a78bfa" />
                             </div>
                             <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Reports</span>
-                                <i class="fas fa-chevron-down text-purple-400 ml-1 text-xs"></i>
+                                <x-dropdown-arrow color="#a78bfa" />
                             </div>
                             <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Configure</span>
-                                <i class="fas fa-chevron-down text-purple-400 ml-1 text-xs"></i>
+                                <x-dropdown-arrow color="#a78bfa" />
                             </div>
                             <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50">
                                 <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Leave List</span>
@@ -95,22 +95,17 @@
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label class="flex items-center gap-3 cursor-pointer group">
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" id="include-past-employees">
-                                        <span class="toggle-slider"></span>
-                                    </div>
-                                    <span class="text-xs text-slate-700 font-medium">Include Past Employees</span>
-                                </label>
+                                <div class="flex items-center gap-3">
+                                    <x-admin.toggle-switch id="include-past-employees" />
+                                    <label for="include-past-employees" class="text-xs font-medium cursor-pointer" style="color: var(--text-primary);">Include Past Employees</label>
+                                </div>
                             </div>
                             <x-admin.action-buttons />
                         </div>
 
                         <!-- Records Count -->
                         @if(count($leaves) > 0)
-                        <div class="mb-3 text-xs text-slate-600 font-medium">
-                            ({{ count($leaves) }}) Records Found
-                        </div>
+                        <x-records-found :count="count($leaves)" />
                         @endif
 
                         <!-- Table Wrapper -->

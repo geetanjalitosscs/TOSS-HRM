@@ -47,9 +47,7 @@
         <section class="hr-card p-6">
             @if(isset($entitlements) && count($entitlements) > 0)
             <!-- Records Count -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                ({{ count($entitlements) }}) Records Found
-            </div>
+            <x-records-found :count="count($entitlements)" />
             
             <!-- Table will go here -->
             @else

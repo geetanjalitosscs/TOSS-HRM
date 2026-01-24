@@ -43,14 +43,10 @@
         <section class="hr-card p-6">
             @if(isset($holidays) && count($holidays) > 0)
             <!-- Records Count -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                ({{ count($holidays) }}) Records Found
-            </div>
+            <x-records-found :count="count($holidays)" />
             @else
             <!-- Records Count -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                (16) Records Found
-            </div>
+            <x-records-found :count="16" />
             @endif
             
             <!-- Table Header -->

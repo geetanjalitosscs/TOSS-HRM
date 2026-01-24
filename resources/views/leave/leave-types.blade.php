@@ -18,14 +18,10 @@
             
             @if(isset($leaveTypes) && count($leaveTypes) > 0)
             <!-- Records Count -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                ({{ count($leaveTypes) }}) Records Found
-            </div>
+            <x-records-found :count="count($leaveTypes)" />
             @else
             <!-- Records Count -->
-            <div class="mb-4 text-xs font-medium" style="color: var(--text-muted);">
-                (10) Records Found
-            </div>
+            <x-records-found :count="10" />
             @endif
             
             <!-- Table Header -->
