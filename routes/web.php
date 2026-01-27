@@ -124,7 +124,7 @@ Route::middleware('auth.session')->group(function () {
     
     // Time - Project Info routes
     Route::get('/time/project-info/customers', [TimeController::class, 'projectInfoCustomers'])->name('time.project-info.customers');
-    Route::get('/time/project-info/projects', [TimeController::class, 'projectInfoProjects'])->name('time.project-info.projects');
+    Route::get('/time/project-info/projects', [TimeController::class, 'projectInfoProject'])->name('time.project-info.projects');
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
     Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');
     Route::get('/my-info', [MyInfoController::class, 'index'])->name('myinfo');

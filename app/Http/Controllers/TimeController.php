@@ -223,7 +223,7 @@ class TimeController extends Controller
     /**
      * Project Info - Projects
      */
-    public function projectInfoProjects()
+    public function projectInfoProject()
     {
         return view('time.project-info.projects');
     }

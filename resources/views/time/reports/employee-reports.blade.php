@@ -64,6 +64,20 @@
                         ],
                     ];
                     $reportsHasActive = collect($reportsItems)->contains('active', true);
+                    
+                    $projectInfoItems = [
+                        [
+                            'url' => route('time.project-info.customers'),
+                            'label' => 'Customers',
+                            'active' => request()->routeIs('time.project-info.customers')
+                        ],
+                        [
+                            'url' => route('time.project-info.projects'),
+                            'label' => 'Projects',
+                            'active' => request()->routeIs('time.project-info.projects')
+                        ],
+                    ];
+                    $projectInfoHasActive = collect($projectInfoItems)->contains('active', true);
                 @endphp
                 <x-dropdown-menu 
                     :items="$timesheetsItems"
@@ -92,25 +106,153 @@
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">Project Info</span>
-                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                </div>
+                <x-dropdown-menu 
+                    :items="$projectInfoItems"
+                    position="left"
+                    width="w-56">
+                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $projectInfoHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                        <span class="text-sm {{ $projectInfoHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $projectInfoHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Project Info</span>
+                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
+                    </div>
+                </x-dropdown-menu>
             </div>
         </div>
 
-        <!-- Employee Reports Content -->
-        <div class="flex justify-center">
-            <section class="hr-card p-6 w-full max-w-4xl border-t-0 rounded-t-none">
-                <h2 class="text-sm font-bold flex items-baseline gap-2 mb-4" style="color: var(--text-primary);">
-                    <i class="fas fa-user-tie" style="color: var(--color-hr-primary);"></i>
-                    <span class="mt-0.5">Employee Reports</span>
+        <!-- Employee Report Form Section -->
+        <section class="hr-card p-6 mb-3 border-t-0 rounded-t-none">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
+                    <span class="mt-0.5">Employee Report</span>
                 </h2>
-                <div class="border-b mb-6" style="border-color: var(--border-default);"></div>
-                
-                <p class="text-sm" style="color: var(--text-muted);">Employee reports page content will be implemented here.</p>
-            </section>
-        </div>
+                <button class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                    <span class="text-xs text-gray-600">▲</span>
+                </button>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="space-y-4">
+                <!-- Employee Name Input -->
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name<span class="text-red-500">*</span></label>
+                    <input 
+                        type="text" 
+                        name="employee_name" 
+                        class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                        placeholder="Type for hints..."
+                    >
+                </div>
+
+                <!-- Project Name and Activity Name Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Project Name Input -->
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Name</label>
+                        <input 
+                            type="text" 
+                            name="project_name" 
+                            class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                            placeholder="Type for hints..."
+                        >
+                    </div>
+
+                    <!-- Activity Name Dropdown -->
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Activity Name</label>
+                        <div class="relative">
+                            <select 
+                                name="activity_name" 
+                                class="hr-select appearance-none w-full px-3 py-2.5 text-sm rounded-lg pr-10"
+                                style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
+                            >
+                                <option value="">-- Select --</option>
+                            </select>
+                            <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-3">
+                                <i class="fas fa-chevron-down text-xs" style="color: var(--text-muted);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Date Range -->
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Date Range</label>
+                    <div class="flex items-center gap-4">
+                        <!-- From Date Input -->
+                        <div class="flex-1">
+                            <div class="flex items-stretch">
+                                <input 
+                                    type="text" 
+                                    name="date_from" 
+                                    placeholder="From"
+                                    class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
+                                    readonly
+                                >
+                                <button 
+                                    type="button" 
+                                    class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
+                                    style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
+                                    onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
+                                    onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
+                                    onclick="document.getElementById('dateFromPicker').showPicker()"
+                                >
+                                    <i class="fas fa-calendar text-sm"></i>
+                                </button>
+                                <input 
+                                    type="date" 
+                                    id="dateFromPicker" 
+                                    class="hidden"
+                                    onchange="updateDateDisplay(this.value, 'date_from')"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- To Date Input -->
+                        <div class="flex-1">
+                            <div class="flex items-stretch">
+                                <input 
+                                    type="text" 
+                                    name="date_to" 
+                                    placeholder="To"
+                                    class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
+                                    readonly
+                                >
+                                <button 
+                                    type="button" 
+                                    class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
+                                    style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
+                                    onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
+                                    onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
+                                    onclick="document.getElementById('dateToPicker').showPicker()"
+                                >
+                                    <i class="fas fa-calendar text-sm"></i>
+                                </button>
+                                <input 
+                                    type="date" 
+                                    id="dateToPicker" 
+                                    class="hidden"
+                                    onchange="updateDateDisplay(this.value, 'date_to')"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Only Include Approved Timesheets Toggle -->
+                <div class="flex items-center gap-2">
+                    <span class="text-sm whitespace-nowrap" style="color: var(--text-primary);">Only Include Approved Timesheets</span>
+                    <x-admin.toggle-switch toggleId="toggle-approved" :isChecked="false" />
+                </div>
+            </div>
+
+            <!-- Footer: Required Text and View Button -->
+            <div class="flex items-center justify-between mt-6">
+                <div class="text-xs" style="color: var(--text-primary);">* Required</div>
+                <button type="button" class="hr-btn-primary">
+                    View
+                </button>
+            </div>
+        </section>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -196,6 +338,15 @@
                 document.querySelectorAll('.hr-dropdown-menu').forEach(menu => {
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
+
+                // Date picker functionality
+                function updateDateDisplay(dateValue, inputName) {
+                    if (!dateValue) return;
+                    // Convert YYYY-MM-DD to readable format
+                    const [year, month, day] = dateValue.split('-');
+                    const formattedDate = `${year}-${day}-${month}`;
+                    document.querySelector(`input[name="${inputName}"]`).value = formattedDate;
+                }
             });
         </script>
     </x-main-layout>
