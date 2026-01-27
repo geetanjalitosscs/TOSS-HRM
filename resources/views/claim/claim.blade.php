@@ -78,12 +78,18 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                         <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">From Date</label>
-                            <input type="date" class="hr-input w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]" style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);">
+                            <x-date-picker 
+                                name="from_date"
+                                label="From Date"
+                                class="text-xs"
+                            />
                         </div>
                         <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">To Date</label>
-                            <input type="date" class="hr-input w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]" style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);">
+                            <x-date-picker 
+                                name="to_date"
+                                label="To Date"
+                                class="text-xs"
+                            />
                         </div>
                         <div>
                             <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Include</label>

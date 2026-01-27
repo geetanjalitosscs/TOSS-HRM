@@ -3,32 +3,42 @@
 A modern, professional Human Resource Management System built with Laravel and Tailwind CSS, featuring a beautiful lavender-themed UI with complete dark mode support.
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel Version">
+  <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel Version">
   <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP Version">
-  <img src="https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
   <img src="https://img.shields.io/badge/Dark_Mode-Enabled-8B5CF6?style=for-the-badge" alt="Dark Mode">
 </p>
 
 ## 🎨 Features
 
+### Core Features
 - **Modern Dashboard**: Professional HR dashboard with interactive charts and widgets
 - **Complete Dark Mode**: Full dark mode support with theme toggle and localStorage persistence
 - **Session-based Authentication**: Simple and secure login system
+- **Collapsible Sidebar**: Professional sidebar with toggle button, icon-only mode, and persistent state
+- **Active State Highlighting**: Visual feedback for current page with distinct active state styling
+- **Responsive Design**: Mobile-friendly interface that adapts to all screen sizes
+
+### HR Modules
 - **Employee Management**: Track employee distribution by sub-units and locations
-- **Admin Panel**: User management with role-based access
-- **PIM (Personal Information Management)**: Employee list and information management
-- **Leave Management**: Manage leave requests, approvals, and tracking
-- **Time Tracking**: Monitor work hours, attendance, and timesheets
-- **Recruitment**: Candidate management and vacancy tracking
-- **Performance Management**: Employee performance reviews and tracking
+- **Admin Panel**: User management with role-based access and comprehensive configuration options
+- **PIM (Personal Information Management)**: Employee list, information management, and custom fields
+- **Leave Management**: Manage leave requests, approvals, tracking, and leave assignments
+- **Time Tracking**: Monitor work hours, attendance, timesheets, and time reports
+- **Recruitment**: Candidate management, vacancy tracking, and recruitment workflows
+- **Performance Management**: Employee performance reviews, tracking, and metrics
 - **My Info**: Personal employee information and document management
-- **Directory**: Employee directory with search and filtering
-- **Claim Management**: Employee claims submission and management
-- **Buzz Feed**: Social feed for company announcements and updates
-- **Maintenance**: System maintenance and data purge utilities
-- **Interactive Charts**: Beautiful pie charts with hover tooltips
-- **Responsive Design**: Mobile-friendly interface
-- **Lavender Theme**: Elegant purple/lavender color scheme
+- **Directory**: Employee directory with search and filtering capabilities
+- **Claim Management**: Employee claims submission, tracking, and assignment
+- **Buzz Feed**: Social feed for company announcements, updates, and interactions
+- **Maintenance**: System maintenance and data purge utilities with additional security
+
+### UI/UX Features
+- **Interactive Charts**: Beautiful pie charts with hover tooltips and animations
+- **Lavender Theme**: Elegant purple/lavender color scheme throughout the application
+- **Smooth Transitions**: CSS transitions for theme changes and interactions
+- **Dropdown Menus**: Interactive dropdown menus with proper navigation handling
+- **Search Functionality**: Search bars in sidebar and various modules
 
 ## 🏗️ Architecture
 
@@ -45,10 +55,12 @@ This project follows the **MVC (Model-View-Controller)** architectural pattern:
 
 - PHP >= 8.2
 - Composer
-- Node.js & NPM
 - XAMPP (or any local server environment)
+- **Node.js & NPM** (Optional - only needed if you want to rebuild assets)
 
-### Installation
+### Installation (Without NPM - Recommended)
+
+**✅ Good News!** This project already includes pre-built assets and can run **without npm**!
 
 1. **Clone the repository**
    ```bash
@@ -61,25 +73,36 @@ This project follows the **MVC (Model-View-Controller)** architectural pattern:
    composer install
    ```
 
-3. **Install Node dependencies**
-   ```bash
-   npm install
-   ```
-
-4. **Configure environment**
+3. **Configure environment**
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
 
-5. **Build assets**
+4. **Start the development server** (That's it! No npm needed)
+   ```bash
+   php artisan serve
+   ```
+
+The `@vite` directive automatically uses the pre-built assets from `public/build/`. Your UI and all features will work perfectly!
+
+### Installation (With NPM - Only if you need to rebuild assets)
+
+If you need to modify CSS/JS and rebuild assets:
+
+1. **Install Node dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Build assets**
    ```bash
    npm run build
    ```
 
-6. **Start the development server**
+3. **For development with hot reload**
    ```bash
-   php artisan serve
+   npm run dev
    ```
 
 ## 🔐 Login Credentials
@@ -121,14 +144,16 @@ HR/
 │   ├── css/
 │   │   └── app.css                        # Main stylesheet with lavender theme & dark mode
 │   ├── js/
-│   │   └── app.js                         # JavaScript (theme toggle, dropdowns)
+│   │   └── app.js                         # JavaScript (theme toggle, sidebar, dropdowns, active states)
 │   └── views/                             # Views (V)
 │       ├── auth/
 │       │   └── login.blade.php            # Login page
 │       ├── components/
-│       │   ├── header.blade.php           # Header component
-│       │   ├── sidebar.blade.php          # Sidebar navigation
-│       │   └── main-layout.blade.php      # Main layout wrapper
+│       │   ├── header.blade.php           # Header component with theme toggle
+│       │   ├── sidebar.blade.php          # Collapsible sidebar navigation with active states
+│       │   ├── main-layout.blade.php      # Main layout wrapper
+│       │   ├── admin/                     # Admin-specific components
+│       │   └── pim/                       # PIM-specific components
 │       ├── layouts/
 │       │   └── app.blade.php              # Base layout
 │       ├── dashboard/
@@ -196,13 +221,14 @@ HR/
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Laravel 11.x
-- **Frontend**: Tailwind CSS 3.x
-- **Build Tool**: Vite
+- **Backend**: Laravel 12.x
+- **Frontend**: Tailwind CSS 4.x
+- **Build Tool**: Vite 7.x (pre-built assets included)
 - **Authentication**: Session-based (custom middleware)
-- **Styling**: Custom CSS with lavender theme
-- **JavaScript**: Vanilla JS for theme toggle and interactions
+- **Styling**: Custom CSS with lavender theme and CSS variables
+- **JavaScript**: Vanilla JS for theme toggle, sidebar interactions, and dropdowns
 - **Architecture**: MVC (Model-View-Controller)
+- **Package Manager**: Composer (PHP) - NPM optional (only for rebuilding assets)
 
 ## 🎨 Theme & Dark Mode
 
@@ -230,6 +256,15 @@ The application features a professional lavender/purple color scheme with comple
 - **System Preference**: Respects system dark mode on first visit
 - **Smooth Transitions**: All color changes animate smoothly
 - **Complete Coverage**: All pages, components, and elements support dark mode
+
+### Sidebar Features
+- **Collapsible Design**: Toggle button positioned at the top-right of sidebar
+- **Icon-Only Mode**: When collapsed, shows only icons for a clean, minimal look
+- **Persistent State**: Sidebar collapse state saved in localStorage
+- **Active State Highlighting**: Current page highlighted with distinct purple gradient
+- **Smooth Animations**: Smooth transitions when expanding/collapsing
+- **Overlapping Toggle**: Toggle button overlaps sidebar and navbar for easy access
+- **Route Matching**: Supports wildcard route matching for sub-routes (e.g., `leave*` matches all leave routes)
 
 ## 📊 Dashboard Features
 
@@ -299,19 +334,50 @@ The application features a professional lavender/purple color scheme with comple
 - Data purge (Employee/Candidate records)
 - Access records management
 
+## 🎯 Recent UI Improvements
+
+### Sidebar Enhancements
+- **Collapsible Sidebar**: Professional sidebar with toggle button at the top-right
+- **Icon-Only Mode**: When minimized, sidebar shows only icons for space efficiency
+- **Active State Styling**: Distinct purple gradient highlighting for current page
+- **Wildcard Route Matching**: Active state works for all sub-routes (e.g., `/leave/apply` highlights Leave menu)
+- **Persistent State**: Sidebar collapse state saved in browser localStorage
+- **Smooth Animations**: CSS transitions for expand/collapse actions
+
+### Navigation Improvements
+- **Dropdown Navigation**: Improved dropdown menus with proper link navigation
+- **Active Link Feedback**: Immediate visual feedback when clicking sidebar links
+- **Route-Based Highlighting**: Server-side route matching with wildcard support
+
 ## 🔧 Development
 
-### Building Assets
+### Running Without NPM (Default)
 
-For production:
+The project is configured to run **without npm** by default. Just start the Laravel server:
+
 ```bash
+php artisan serve
+```
+
+Laravel's `@vite` directive automatically detects and uses pre-built assets from `public/build/`. All UI features, dark mode, sidebar, and JavaScript functionality work perfectly without npm.
+
+### Building Assets (Optional - Only if modifying CSS/JS)
+
+If you need to modify CSS or JavaScript files, you'll need npm:
+
+**For production builds:**
+```bash
+npm install
 npm run build
 ```
 
-For development with hot reload:
+**For development with hot reload:**
 ```bash
+npm install
 npm run dev
 ```
+
+**Note:** After building, the assets will be in `public/build/` and you can run without npm again.
 
 ### Running Tests
 
@@ -344,11 +410,16 @@ This project follows MVC architecture:
 
 ## 📝 Notes
 
+- **No NPM Required**: The project includes pre-built assets and runs without npm/node
 - The application uses session-based authentication (no database required for basic functionality)
-- All assets are compiled using Vite
+- All assets are pre-compiled and ready to use (located in `public/build/`)
 - The UI is fully responsive and optimized for modern browsers
 - Dark mode preference persists across sessions
+- Sidebar collapse state persists across page reloads
 - All components follow the centralized CSS variable system for consistent theming
+- Active state highlighting works with wildcard route matching for sub-routes
+- JavaScript handles dropdown navigation and sidebar interactions seamlessly
+- Laravel's `@vite` directive automatically uses pre-built assets when available
 
 ## 🔒 Security
 

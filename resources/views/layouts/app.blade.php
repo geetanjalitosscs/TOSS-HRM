@@ -35,6 +35,77 @@
                 }
             })();
         </script>
+        
+        <!-- Prevent sidebar flicker: Apply collapsed state before first paint -->
+        <script>
+            (function() {
+                'use strict';
+                // Read localStorage synchronously
+                const isCollapsed = localStorage.getItem('hr-sidebar-collapsed') === 'true';
+                
+                if (isCollapsed) {
+                    // Function to apply collapsed state
+                    function applyCollapsedState() {
+                        const sidebar = document.getElementById('hr-sidebar');
+                        const body = document.body;
+                        if (sidebar) {
+                            sidebar.classList.add('collapsed');
+                            return true;
+                        }
+                        if (body) {
+                            body.classList.add('sidebar-collapsed');
+                        }
+                        return false;
+                    }
+                    
+                    // Apply immediately if possible
+                    if (document.body && document.getElementById('hr-sidebar')) {
+                        applyCollapsedState();
+                    } else {
+                        // Use requestAnimationFrame to catch before paint
+                        requestAnimationFrame(function() {
+                            if (applyCollapsedState()) return;
+                            
+                            // Also use MutationObserver for immediate detection
+                            const observer = new MutationObserver(function() {
+                                if (applyCollapsedState()) {
+                                    observer.disconnect();
+                                }
+                            });
+                            
+                            // Observe documentElement for faster detection
+                            if (document.documentElement) {
+                                observer.observe(document.documentElement, {
+                                    childList: true,
+                                    subtree: true
+                                });
+                            }
+                            
+                            // Also observe body when it exists
+                            if (document.body) {
+                                observer.observe(document.body, {
+                                    childList: true,
+                                    subtree: true
+                                });
+                            }
+                            
+                            // Fallback: DOMContentLoaded
+                            document.addEventListener('DOMContentLoaded', function() {
+                                applyCollapsedState();
+                                observer.disconnect();
+                            }, { once: true });
+                            
+                            // Additional fallback: immediate check after a microtask
+                            Promise.resolve().then(function() {
+                                if (applyCollapsedState()) {
+                                    observer.disconnect();
+                                }
+                            });
+                        });
+                    }
+                }
+            })();
+        </script>
     </head>
     <body class="font-sans antialiased bg-hr-body text-hr-text min-h-screen">
         @yield('body')

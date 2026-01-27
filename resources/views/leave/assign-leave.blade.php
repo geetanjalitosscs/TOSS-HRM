@@ -42,24 +42,20 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <!-- From Date -->
                     <div>
-                        <label class="block text-sm font-medium mb-2" style="color: var(--text-primary);">
-                            From Date <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <input type="date" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all pr-10" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);" placeholder="yyyy-dd-mm">
-                            <i class="fas fa-calendar-alt absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" style="color: var(--text-muted);"></i>
-                        </div>
+                        <x-date-picker 
+                            name="from_date"
+                            label="From Date"
+                            required="true"
+                        />
                     </div>
                     
                     <!-- To Date -->
                     <div>
-                        <label class="block text-sm font-medium mb-2" style="color: var(--text-primary);">
-                            To Date <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <input type="date" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all pr-10" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);" placeholder="yyyy-dd-mm">
-                            <i class="fas fa-calendar-alt absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" style="color: var(--text-muted);"></i>
-                        </div>
+                        <x-date-picker 
+                            name="to_date"
+                            label="To Date"
+                            required="true"
+                        />
                     </div>
                 </div>
                 

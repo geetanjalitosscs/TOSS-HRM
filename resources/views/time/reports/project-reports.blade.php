@@ -131,60 +131,22 @@
                     <div class="flex items-center gap-4">
                         <!-- From Date Input -->
                         <div class="flex-1">
-                            <div class="flex items-stretch">
-                                <input 
-                                    type="text" 
-                                    name="date_from" 
-                                    placeholder="From"
-                                    class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
-                                    readonly
-                                >
-                                <button 
-                                    type="button" 
-                                    class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
-                                    style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
-                                    onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
-                                    onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
-                                    onclick="document.getElementById('dateFromPicker').showPicker()"
-                                >
-                                    <i class="fas fa-calendar text-sm"></i>
-                                </button>
-                                <input 
-                                    type="date" 
-                                    id="dateFromPicker" 
-                                    class="hidden"
-                                    onchange="updateDateDisplay(this.value, 'date_from')"
-                                >
-                            </div>
+                            <x-date-picker 
+                                name="date_from" 
+                                placeholder="From"
+                                variant="split"
+                                dateFormat="updateDateDisplayFrom"
+                            />
                         </div>
 
                         <!-- To Date Input -->
                         <div class="flex-1">
-                            <div class="flex items-stretch">
-                                <input 
-                                    type="text" 
-                                    name="date_to" 
-                                    placeholder="To"
-                                    class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
-                                    readonly
-                                >
-                                <button 
-                                    type="button" 
-                                    class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
-                                    style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
-                                    onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
-                                    onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
-                                    onclick="document.getElementById('dateToPicker').showPicker()"
-                                >
-                                    <i class="fas fa-calendar text-sm"></i>
-                                </button>
-                                <input 
-                                    type="date" 
-                                    id="dateToPicker" 
-                                    class="hidden"
-                                    onchange="updateDateDisplay(this.value, 'date_to')"
-                                >
-                            </div>
+                            <x-date-picker 
+                                name="date_to" 
+                                placeholder="To"
+                                variant="split"
+                                dateFormat="updateDateDisplayTo"
+                            />
                         </div>
 
                         <!-- Only Include Approved Timesheets Toggle -->

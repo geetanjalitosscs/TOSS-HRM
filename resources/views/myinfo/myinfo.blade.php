@@ -89,11 +89,11 @@
 
                         <!-- License Expiry Date -->
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">License Expiry Date</label>
-                            <div class="relative">
-                                <input type="date" id="license-expiry-date" class="hr-input pr-12 w-full" value="2023-10-18">
-                                <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-500 text-sm cursor-pointer hover:text-purple-700 transition-colors z-10" onclick="document.getElementById('license-expiry-date').showPicker()">📅</span>
-                            </div>
+                            <x-date-picker 
+                                id="license-expiry-date"
+                                value="2023-10-18"
+                                label="License Expiry Date"
+                            />
                         </div>
 
                         <!-- Nationality -->
@@ -120,11 +120,11 @@
 
                         <!-- Date of Birth -->
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Date of Birth</label>
-                            <div class="relative">
-                                <input type="date" id="date-of-birth" class="hr-input pr-12 w-full" value="2023-10-21">
-                                <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-500 text-sm cursor-pointer hover:text-purple-700 transition-colors z-10" onclick="document.getElementById('date-of-birth').showPicker()">📅</span>
-                            </div>
+                            <x-date-picker 
+                                id="date-of-birth"
+                                value="2023-10-21"
+                                label="Date of Birth"
+                            />
                         </div>
 
                         <!-- Gender -->

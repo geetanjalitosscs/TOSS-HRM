@@ -116,13 +116,12 @@
             <div class="rounded-lg p-4 border mb-4" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                 <div class="flex gap-4">
                     <div class="w-full max-w-xs">
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <input type="date" name="date" value="{{ $selectedDate }}" class="hr-input w-full px-3 py-2.5 text-sm rounded-lg pr-10">
-                            <button type="button" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-purple-400 hover:text-purple-600 transition-colors" onclick="document.querySelector('input[name=date]').showPicker()">
-                                📅
-                            </button>
-                        </div>
+                        <x-date-picker 
+                            name="date" 
+                            value="{{ $selectedDate }}"
+                            label="Date"
+                            required="true"
+                        />
                         <div class="text-xs text-gray-500 mt-1">* Required</div>
                     </div>
                     <div class="flex items-start pt-6">
