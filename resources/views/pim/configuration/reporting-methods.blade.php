@@ -25,7 +25,7 @@
                 @foreach($reportingMethods as $method)
                 <x-admin.table-row>
                     <x-admin.table-cell>
-                        <div class="text-xs font-medium text-gray-700">{{ $method['name'] }}</div>
+                        <div class="text-xs font-medium text-gray-700">{{ $method->name }}</div>
                     </x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach

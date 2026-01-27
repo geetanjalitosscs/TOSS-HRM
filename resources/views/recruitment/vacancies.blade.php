@@ -81,17 +81,17 @@
                 @foreach($vacancies as $vacancy)
                 <x-admin.table-row>
                     <x-admin.table-cell>
-                        <div class="text-xs font-medium text-gray-700">{{ $vacancy['vacancy'] }}</div>
+                        <div class="text-xs font-medium text-gray-700">{{ $vacancy->vacancy }}</div>
                     </x-admin.table-cell>
                     <x-admin.table-cell>
-                        <div class="text-xs text-gray-700">{{ $vacancy['job_title'] }}</div>
+                        <div class="text-xs text-gray-700">{{ $vacancy->job_title }}</div>
                     </x-admin.table-cell>
                     <x-admin.table-cell>
-                        <div class="text-xs text-gray-700">{{ $vacancy['hiring_manager'] }}</div>
+                        <div class="text-xs text-gray-700">{{ $vacancy->hiring_manager }}</div>
                     </x-admin.table-cell>
                     <x-admin.table-cell>
                         <span class="px-1.5 py-0.5 text-xs rounded-full bg-green-100 text-green-700">
-                            {{ $vacancy['status'] }}
+                            {{ $vacancy->status }}
                         </span>
                     </x-admin.table-cell>
                 </x-admin.table-row>

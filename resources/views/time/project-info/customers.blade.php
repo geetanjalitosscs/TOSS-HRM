@@ -129,19 +129,6 @@
                 <x-admin.add-button />
             </div>
 
-            @php
-                $customers = [
-                    ['name' => 'ACME Ltd', 'description' => 'Leading apparel manufacturing chain.'],
-                    ['name' => 'Apache Software Foundation', 'description' => 'non-profit corporation to support Apache software projects'],
-                    ['name' => 'FreeWave Technologies, Inc.', 'description' => 'Its wireless data radios are utilized in industrial, government and defense, scientific, and commercial applications'],
-                    ['name' => 'Fresh Books Software Ltd', 'description' => ''],
-                    ['name' => 'Global Corp and Co', 'description' => 'Global Corp introduces itself as a leading manufacturer and exporter of a large number of products catering to high precision equipment, Scientific Laboratory Equipments & Institutional Health Care Products.'],
-                    ['name' => 'Customer 5', 'description' => ''],
-                    ['name' => 'Customer 6', 'description' => ''],
-                    ['name' => 'Customer 7', 'description' => ''],
-                ];
-            @endphp
-
             <x-admin.data-table
                 title=""
                 :records="$customers"
@@ -154,12 +141,12 @@
                     <x-admin.table-row>
                         <x-admin.table-cell>
                             <div class="text-xs font-medium break-words" style="color: var(--text-primary);">
-                                {{ $customer['name'] }}
+                                {{ $customer->name }}
                             </div>
                         </x-admin.table-cell>
                         <x-admin.table-cell>
                             <div class="text-xs break-words" style="color: var(--text-primary);">
-                                {{ $customer['description'] ?: '-' }}
+                                {{ $customer->description ?: '-' }}
                             </div>
                         </x-admin.table-cell>
                     </x-admin.table-row>

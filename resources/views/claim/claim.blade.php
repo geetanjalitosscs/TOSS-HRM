@@ -201,42 +201,44 @@
                         <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                             <!-- Reference Id -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $claim['reference_id'] }}</div>
+                                <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $claim->reference_id }}</div>
                             </div>
                             
                             <!-- Employee Name -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim['employee_name'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim->employee_name }}</div>
                             </div>
                             
                             <!-- Event Name -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim['event_name'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim->event_name }}</div>
                             </div>
                             
                             <!-- Description -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim['description'] ?: '-' }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim->description ?: '-' }}</div>
                             </div>
                             
                             <!-- Currency -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim['currency'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim->currency }}</div>
                             </div>
                             
                             <!-- Submitted Date -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim['submitted_date'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim->submitted_date }}</div>
                             </div>
                             
                             <!-- Status -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim['status'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim->status }}</div>
                             </div>
                             
                             <!-- Amount -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $claim['amount'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">
+                                    {{ number_format($claim->amount, 2) }}
+                                </div>
                             </div>
                             
                             <!-- Actions -->

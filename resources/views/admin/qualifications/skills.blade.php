@@ -23,8 +23,8 @@
                 :addButton="false">
                 @foreach($skills as $skill)
                     <x-admin.table-row>
-                        <x-admin.table-cell class="flex-1">{{ $skill['name'] }}</x-admin.table-cell>
-                        <x-admin.table-cell class="flex-1">{{ $skill['description'] ?: '-' }}</x-admin.table-cell>
+                        <x-admin.table-cell class="flex-1">{{ $skill->name }}</x-admin.table-cell>
+                        <x-admin.table-cell class="flex-1">{{ $skill->description ?: '-' }}</x-admin.table-cell>
                     </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

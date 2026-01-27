@@ -22,7 +22,7 @@
                 :addButton="false">
                 @foreach($licenses as $license)
                     <x-admin.table-row>
-                        <x-admin.table-cell class="flex-1">{{ $license['name'] }}</x-admin.table-cell>
+                        <x-admin.table-cell class="flex-1">{{ $license->name }}</x-admin.table-cell>
                     </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

@@ -129,16 +129,16 @@
                         <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $tracker['employee'] }}</div>
+                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $tracker->employee }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker['tracker'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->tracker }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker['added_date'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->added_date }}</div>
                     </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker['modified_date'] ?: '' }}</div>
+                    <div class="flex-1" style="min-width: 0%;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->modified_date }}</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 90px;">
                         <div class="flex items-center justify-center gap-2">

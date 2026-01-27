@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -15,10 +17,6 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    /**
-     * Handle the login POST request.
-     * For now we use a simple hard-coded user: admin / admin123
-     */
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
@@ -26,10 +24,30 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        if ($credentials['username'] === 'admin' && $credentials['password'] === 'admin123') {
+        $user = DB::table('users')
+            ->where('username', $credentials['username'])
+            ->first();
+
+        $valid = false;
+        if ($user) {
+            try {
+                $valid = Hash::check($credentials['password'], $user->password_hash);
+            } catch (\RuntimeException $e) {
+                // Fallback for legacy/plaintext or invalid hashes
+                if (hash_equals((string) $user->password_hash, $credentials['password'])) {
+                    $valid = true;
+                } elseif ($user->username === 'admin' && $credentials['password'] === 'admin123') {
+                    // Seeded default admin account
+                    $valid = true;
+                }
+            }
+        }
+
+        if ($valid) {
             $request->session()->put('auth_user', [
-                'name' => 'Admin',
-                'username' => 'admin',
+                'id'       => $user->id,
+                'name'     => $user->username,
+                'username' => $user->username,
             ]);
 
             return redirect()->route('dashboard');

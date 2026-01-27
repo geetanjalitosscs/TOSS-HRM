@@ -17,14 +17,14 @@
             @foreach($oauthClients as $client)
             <x-admin.table-row>
                 <x-admin.table-cell>
-                    <div class="text-xs font-medium text-gray-700">{{ $client['name'] }}</div>
+                    <div class="text-xs font-medium text-gray-700">{{ $client->name }}</div>
                 </x-admin.table-cell>
                 <x-admin.table-cell>
-                    <div class="text-xs text-gray-600">{{ $client['redirect_uri'] }}</div>
+                    <div class="text-xs text-gray-600">{{ $client->redirect_uri }}</div>
                 </x-admin.table-cell>
                 <x-admin.table-cell>
-                    <span class="text-xs px-2 py-1 rounded-full {{ $client['status'] === 'Enabled' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
-                        {{ $client['status'] }}
+                    <span class="text-xs px-2 py-1 rounded-full {{ $client->status === 'Enabled' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
+                        {{ $client->status }}
                     </span>
                 </x-admin.table-cell>
                 <div class="flex-shrink-0 flex items-center justify-end" style="width: 30px;">

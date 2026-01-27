@@ -153,36 +153,32 @@ HR/
 │       │   ├── sidebar.blade.php          # Collapsible sidebar navigation with active states
 │       │   ├── main-layout.blade.php      # Main layout wrapper
 │       │   ├── admin/                     # Admin-specific components
-│       │   └── pim/                       # PIM-specific components
+│       │   ├── pim/                       # PIM-specific components
+│       │   ├── leave/                     # Leave-specific components
+│       │   ├── recruitment/               # Recruitment-specific components
+│       │   └── date-picker.blade.php      # Shared date picker
 │       ├── layouts/
 │       │   └── app.blade.php              # Base layout
 │       ├── dashboard/
-│       │   └── index.blade.php            # Dashboard view
-│       ├── admin/
-│       │   └── index.blade.php            # Admin panel view
-│       ├── pim/
-│       │   └── index.blade.php            # PIM view
-│       ├── leave/
-│       │   └── index.blade.php            # Leave management view
-│       ├── time/
-│       │   └── index.blade.php            # Time tracking view
-│       ├── recruitment/
-│       │   └── index.blade.php            # Recruitment view
+│       │   └── dashboard.blade.php        # Dashboard view
+│       ├── admin/                         # Admin module views
+│       ├── pim/                           # PIM module views
+│       ├── leave/                         # Leave module views
+│       ├── time/                          # Time & attendance module views
+│       ├── recruitment/                   # Recruitment module views
 │       ├── myinfo/
-│       │   └── index.blade.php            # My Info view
-│       ├── performance/
-│       │   └── index.blade.php            # Performance view
+│       │   └── myinfo.blade.php           # My Info view
+│       ├── performance/                   # Performance module views
 │       ├── directory/
-│       │   └── index.blade.php            # Directory view
+│       │   └── directory.blade.php        # Directory view
 │       ├── maintenance/
 │       │   ├── auth.blade.php             # Maintenance auth
 │       │   ├── purge-employee.blade.php   # Purge employee records
 │       │   ├── purge-candidate.blade.php  # Purge candidate records
 │       │   └── access-records.blade.php   # Access records
-│       ├── claim/
-│       │   └── index.blade.php            # Claims view
+│       ├── claim/                         # Claim module views
 │       └── buzz/
-│           └── index.blade.php            # Buzz feed view
+│           └── buzz.blade.php             # Buzz feed view
 ├── routes/
 │   └── web.php                            # Application routes
 ├── database/

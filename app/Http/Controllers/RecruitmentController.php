@@ -3,38 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecruitmentController extends Controller
 {
     public function index()
     {
-        $candidates = [
-            ['vacancy' => 'Senior QA Lead', 'candidate' => 'Tanmay Anderson O\'Keefe', 'hiring_manager' => 'manda akhil user', 'date' => '2024-29-03', 'status' => 'Shortlisted'],
-            ['vacancy' => 'Payroll Administrator', 'candidate' => 'John Doe', 'hiring_manager' => 'manda akhil user', 'date' => '2024-06-02', 'status' => 'Rejected'],
-            ['vacancy' => '', 'candidate' => 'Manu K M', 'hiring_manager' => '(Deleted)', 'date' => '2024-05-02', 'status' => 'Application initiated'],
-            ['vacancy' => '', 'candidate' => 'madhav m', 'hiring_manager' => 'manda akhil user', 'date' => '2024-04-15', 'status' => 'Shortlisted'],
-            ['vacancy' => 'Senior QA Lead', 'candidate' => 'Gautham Raj R', 'hiring_manager' => 'manda akhil user', 'date' => '2024-03-20', 'status' => 'Rejected'],
-            ['vacancy' => '', 'candidate' => 'Cedric C Ross', 'hiring_manager' => '(Deleted)', 'date' => '2024-02-10', 'status' => 'Application initiated'],
-            ['vacancy' => 'Payroll Administrator', 'candidate' => 'TestFN TestMN TestLN', 'hiring_manager' => 'manda akhil user', 'date' => '2024-01-25', 'status' => 'Shortlisted'],
-            ['vacancy' => '', 'candidate' => 'AntoAnto 09:50 AM M Varghese', 'hiring_manager' => 'manda akhil user', 'date' => '2023-12-18', 'status' => 'Rejected'],
-            ['vacancy' => 'Senior QA Lead', 'candidate' => 'Murali13s Krishna700 Veerfal', 'hiring_manager' => '(Deleted)', 'date' => '2023-11-05', 'status' => 'Application initiated'],
-            ['vacancy' => '', 'candidate' => 'Manoj Regmi', 'hiring_manager' => 'manda akhil user', 'date' => '2023-10-12', 'status' => 'Shortlisted'],
-        ];
+        $candidates = DB::table('candidate_applications')
+            ->join('candidates', 'candidate_applications.candidate_id', '=', 'candidates.id')
+            ->join('vacancies', 'candidate_applications.vacancy_id', '=', 'vacancies.id')
+            ->leftJoin('employees as managers', 'vacancies.hiring_manager_id', '=', 'managers.id')
+            ->select(
+                'candidate_applications.id',
+                'vacancies.name as vacancy',
+                DB::raw("CONCAT(candidates.first_name, ' ', COALESCE(candidates.last_name, '')) as candidate"),
+                DB::raw("COALESCE(managers.display_name, '(Deleted)') as hiring_manager"),
+                DB::raw("DATE_FORMAT(candidate_applications.applied_date, '%Y-%m-%d') as date"),
+                DB::raw("CASE
+                    WHEN candidate_applications.status = 'shortlisted' THEN 'Shortlisted'
+                    WHEN candidate_applications.status = 'rejected' THEN 'Rejected'
+                    ELSE 'Application initiated'
+                END as status")
+            )
+            ->orderByDesc('candidate_applications.applied_date')
+            ->get();
 
         return view('recruitment.recruitment', compact('candidates'));
     }
 
     public function vacancies()
     {
-        $vacancies = [
-            ['vacancy' => 'Junior Account Assistant', 'job_title' => 'Account Assistant', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
-            ['vacancy' => 'Payroll Administrator', 'job_title' => 'Payroll Administrator', 'hiring_manager' => 'Jason Miller', 'status' => 'Active'],
-            ['vacancy' => 'Sales Representative', 'job_title' => 'Sales Representative', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
-            ['vacancy' => 'Senior QA Lead', 'job_title' => 'QA Lead', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
-            ['vacancy' => 'Senior Support Specialist', 'job_title' => 'Support Specialist', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
-            ['vacancy' => 'Software Engineer', 'job_title' => 'Software Engineer', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
-            ['vacancy' => 'test', 'job_title' => 'Account Assistant', 'hiring_manager' => '(Deleted)', 'status' => 'Active'],
-        ];
+        $vacancies = DB::table('vacancies')
+            ->join('job_titles', 'vacancies.job_title_id', '=', 'job_titles.id')
+            ->leftJoin('employees as managers', 'vacancies.hiring_manager_id', '=', 'managers.id')
+            ->select(
+                'vacancies.id',
+                'vacancies.name as vacancy',
+                'job_titles.name as job_title',
+                DB::raw("COALESCE(managers.display_name, '(Deleted)') as hiring_manager"),
+                DB::raw("CASE
+                    WHEN vacancies.status = 'open' THEN 'Active'
+                    WHEN vacancies.status = 'on_hold' THEN 'On Hold'
+                    ELSE 'Closed'
+                END as status")
+            )
+            ->orderBy('vacancies.name')
+            ->get();
 
         return view('recruitment.vacancies', compact('vacancies'));
     }

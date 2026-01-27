@@ -23,7 +23,7 @@
                 :addButton="false">
                 @foreach($categories as $category)
                 <x-admin.table-row :record="$category">
-                    <x-admin.table-cell bold>{{ $category['name'] }}</x-admin.table-cell>
+                    <x-admin.table-cell bold>{{ $category->name }}</x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

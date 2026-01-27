@@ -211,13 +211,13 @@
                         
                         <!-- Punch In -->
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record['punch_in'] }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in }}</div>
                         </div>
 
                         <!-- Punch In Note -->
                         <div class="flex-1" style="min-width: 0;">
-                            @if($record['punch_in_note'])
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record['punch_in_note'] }}</div>
+                            @if($record->punch_in_note)
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in_note }}</div>
                             @else
                                 <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
                             @endif
@@ -225,13 +225,13 @@
 
                         <!-- Punch Out -->
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record['punch_out'] }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out }}</div>
                         </div>
 
                         <!-- Punch Out Note -->
                         <div class="flex-1" style="min-width: 0;">
-                            @if($record['punch_out_note'])
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record['punch_out_note'] }}</div>
+                            @if($record->punch_out_note)
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out_note }}</div>
                             @else
                                 <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
                             @endif
@@ -239,7 +239,7 @@
 
                         <!-- Duration -->
                         <div class="flex-shrink-0" style="width: 100px;">
-                            <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record['duration'], 2) }}</div>
+                            <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record->duration, 2) }}</div>
                         </div>
 
                         <!-- Actions -->

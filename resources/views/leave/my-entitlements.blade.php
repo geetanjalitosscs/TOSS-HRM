@@ -48,8 +48,67 @@
             @if(isset($entitlements) && count($entitlements) > 0)
             <!-- Records Count -->
             <x-records-found :count="count($entitlements)" />
-            
-            <!-- Table will go here -->
+
+            <!-- Summary -->
+            <div class="flex items-center justify-between mb-3">
+                <div class="text-xs font-medium" style="color: var(--text-muted);">
+                    Showing entitlements for current employee
+                </div>
+                <div class="text-xs font-medium" style="color: var(--text-muted);">
+                    Total {{ number_format($entitlements->sum('balance'), 2) }} Day(s)
+                </div>
+            </div>
+
+            <!-- Table Header -->
+            <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                <div class="flex-shrink-0" style="width: 24px;">
+                    <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                </div>
+                <div class="flex-1" style="min-width: 0;">
+                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Type</span>
+                </div>
+                <div class="flex-1" style="min-width: 0;">
+                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Entitled (Days)</span>
+                </div>
+                <div class="flex-1" style="min-width: 0;">
+                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Used (Days)</span>
+                </div>
+                <div class="flex-1" style="min-width: 0;">
+                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Balance (Days)</span>
+                </div>
+            </div>
+
+            <!-- Table Rows -->
+            <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                @foreach($entitlements as $row)
+                <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                    <div class="flex-shrink-0" style="width: 24px;">
+                        <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">
+                            {{ $row->leave_type }}
+                        </div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">
+                            {{ number_format($row->days_entitled, 2) }}
+                        </div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">
+                            {{ number_format($row->days_used, 2) }}
+                        </div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">
+                            {{ number_format($row->balance, 2) }}
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
             @else
             <!-- No Records Found -->
             <div class="flex items-center justify-between mb-3">

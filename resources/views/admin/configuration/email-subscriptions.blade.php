@@ -33,17 +33,17 @@
                     @foreach($subscriptions as $subscription)
                     <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                         <div class="flex-1">
-                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $subscription['notification_type'] }}</div>
+                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $subscription->notification_type }}</div>
                         </div>
                         <div class="flex-1">
-                            <div class="text-xs break-words" style="color: var(--text-muted);">{{ $subscription['subscribers'] ?: '-' }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-muted);">{{ $subscription->subscribers ?: '-' }}</div>
                         </div>
                         <div class="flex-shrink-0 flex items-center justify-center" style="width: 120px; gap: 0;">
                             <button class="hr-action-view flex-shrink-0" title="Add Subscriber" style="margin-right: 0;">
                                 <i class="fas fa-user-plus text-xs"></i>
                             </button>
                             <div class="flex-shrink-0" style="margin-left: 0;">
-                                <x-admin.toggle-switch id="toggle-{{ $subscription['id'] }}" :checked="false" />
+                                <x-admin.toggle-switch id="toggle-{{ $subscription->id }}" :checked="false" />
                             </div>
                         </div>
                     </div>

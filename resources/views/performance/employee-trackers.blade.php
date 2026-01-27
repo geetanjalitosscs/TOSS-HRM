@@ -118,16 +118,16 @@
                 @foreach($trackers as $tracker)
                 <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $tracker['employee_name'] }}</div>
+                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $tracker->employee_name }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker['tracker'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->tracker }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker['added_date'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->added_date }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker['modified_date'] ?: '' }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->modified_date ?: '' }}</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 70px;">
                         <div class="flex items-center justify-center">

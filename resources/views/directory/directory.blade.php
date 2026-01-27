@@ -55,9 +55,9 @@
                     <div class="rounded-lg border shadow-sm p-4 transition-all" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.boxShadow='var(--shadow-md)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                         <!-- Profile Picture -->
                         <div class="flex justify-center mb-3">
-                            @if($employee['has_photo'])
+                            @if($employee->has_photo)
                                 <div class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-purple-200/50 overflow-hidden">
-                                    <img src="https://via.placeholder.com/80x80/8b5cf6/ffffff?text={{ substr($employee['name'], 0, 1) }}" alt="{{ $employee['name'] }}" class="w-full h-full object-cover">
+                                    <img src="https://via.placeholder.com/80x80/8b5cf6/ffffff?text={{ substr($employee->name, 0, 1) }}" alt="{{ $employee->name }}" class="w-full h-full object-cover">
                                 </div>
                             @else
                                 <div class="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 text-2xl">
@@ -68,20 +68,20 @@
 
                         <!-- Employee Name -->
                         <div class="text-center mb-2">
-                            <h3 class="text-sm font-semibold text-slate-800">{{ $employee['name'] }}</h3>
+                            <h3 class="text-sm font-semibold text-slate-800">{{ $employee->name }}</h3>
                         </div>
 
                         <!-- Job Title -->
-                        @if($employee['job_title'])
+                        @if($employee->job_title)
                         <div class="text-center mb-1">
-                            <p class="text-xs text-slate-600 font-medium">{{ $employee['job_title'] }}</p>
+                            <p class="text-xs text-slate-600 font-medium">{{ $employee->job_title }}</p>
                         </div>
                         @endif
 
                         <!-- Department -->
-                        @if($employee['department'])
+                        @if($employee->department)
                         <div class="text-center">
-                            <p class="text-xs text-purple-600">{{ $employee['department'] }}</p>
+                            <p class="text-xs text-purple-600">{{ $employee->department }}</p>
                         </div>
                         @endif
                     </div>

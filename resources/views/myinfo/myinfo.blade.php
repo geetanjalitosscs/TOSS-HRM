@@ -227,19 +227,19 @@
                             <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <div class="flex items-center gap-1">
                                     <div class="flex-1" style="min-width: 0;">
-                                        <div class="text-xs text-slate-700 break-words">{{ $attachment['file_name'] }}</div>
+                                        <div class="text-xs text-slate-700 break-words">{{ $attachment->file_name }}</div>
                                     </div>
                                     <div class="flex-1" style="min-width: 0;">
-                                        <div class="text-xs text-slate-700 break-words">{{ $attachment['description'] ?: '-' }}</div>
+                                        <div class="text-xs text-slate-700 break-words">{{ $attachment->description ?: '-' }}</div>
                                     </div>
                                     <div class="flex-1" style="min-width: 0;">
-                                        <div class="text-xs text-slate-700 break-words">{{ $attachment['size'] }}</div>
+                                        <div class="text-xs text-slate-700 break-words">{{ $attachment->size }}</div>
+                                    </div>
+                                    <div class="text-xs text-slate-700 break-words" style="flex: 1; min-width: 0;">
+                                        {{ $attachment->type }}
                                     </div>
                                     <div class="flex-1" style="min-width: 0;">
-                                        <div class="text-xs text-slate-700 break-words">{{ $attachment['type'] }}</div>
-                                    </div>
-                                    <div class="flex-1" style="min-width: 0;">
-                                        <div class="text-xs text-slate-700 break-words">{{ $attachment['date_added'] }}</div>
+                                        <div class="text-xs text-slate-700 break-words">{{ $attachment->date_added }}</div>
                                     </div>
                                     <div class="flex-shrink-0" style="width: 90px; overflow: visible;">
                                         <div class="flex items-center justify-center gap-2" style="overflow: visible;">

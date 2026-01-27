@@ -61,11 +61,11 @@
                 :addButton="false">
                 @foreach($locations as $location)
                 <x-admin.table-row :record="$location">
-                    <x-admin.table-cell bold>{{ $location['name'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $location['city'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $location['country'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $location['phone'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $location['num_employees'] }}</x-admin.table-cell>
+                    <x-admin.table-cell bold>{{ $location->name }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location->city }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location->country }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location->phone }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $location->num_employees }}</x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

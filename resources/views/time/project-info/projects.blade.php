@@ -194,14 +194,6 @@
                     <x-admin.add-button />
                 </div>
 
-                @php
-                    $projects = [
-                        ['customer' => 'ACME Ltd', 'project' => 'ACME Ltd', 'admins' => ''],
-                        ['customer' => 'Apache Software Foundation', 'project' => 'ASF - Phase 1', 'admins' => ''],
-                        ['customer' => 'The Coca-Cola Company', 'project' => 'Coke - Phase 1', 'admins' => ''],
-                    ];
-                @endphp
-
                 <x-admin.data-table
                     title=""
                     :records="$projects"
@@ -215,17 +207,17 @@
                         <x-admin.table-row>
                             <x-admin.table-cell>
                                 <div class="text-xs font-medium break-words" style="color: var(--text-primary);">
-                                    {{ $project['customer'] }}
+                                    {{ $project->customer_name }}
                                 </div>
                             </x-admin.table-cell>
                             <x-admin.table-cell>
                                 <div class="text-xs break-words" style="color: var(--text-primary);">
-                                    {{ $project['project'] }}
+                                    {{ $project->project_name }}
                                 </div>
                             </x-admin.table-cell>
                             <x-admin.table-cell>
                                 <div class="text-xs break-words" style="color: var(--text-primary);">
-                                    {{ $project['admins'] ?: '-' }}
+                                    {{ $project->admins ?: '-' }}
                                 </div>
                             </x-admin.table-cell>
                         </x-admin.table-row>

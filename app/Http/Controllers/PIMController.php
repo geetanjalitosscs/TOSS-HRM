@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PIMController extends Controller
 {
@@ -13,22 +14,23 @@ class PIMController extends Controller
 
     public function employeeList()
     {
-        // Sample employee data
-        $employees = [
-            ['id' => '0295', 'first_name' => '99N75426', 'last_name' => 'STIV', 'job_title' => 'Automation Tester', 'employment_status' => 'Full-Time Contract', 'sub_unit' => 'Engineering', 'supervisor' => ''],
-            ['id' => '04562214', 'first_name' => 'Abhay kumar', 'last_name' => 'Kasuhik', 'job_title' => '', 'employment_status' => '', 'sub_unit' => '', 'supervisor' => ''],
-            ['id' => '04272214', 'first_name' => 'Abhay kumar', 'last_name' => 'Kasuhik', 'job_title' => '', 'employment_status' => '', 'sub_unit' => '', 'supervisor' => ''],
-            ['id' => '001', 'first_name' => 'ATPValue', 'last_name' => 'Test', 'job_title' => 'Software Engineer', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Engineering', 'supervisor' => 'John Doe'],
-            ['id' => '002', 'first_name' => 'ATPValue', 'last_name' => 'Sample', 'job_title' => 'QA Engineer', 'employment_status' => 'Part-Time Contract', 'sub_unit' => 'Quality Assurance', 'supervisor' => 'Jane Smith'],
-            ['id' => '003', 'first_name' => 'Raman', 'last_name' => 'Sharma', 'job_title' => 'HR Manager', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Human Resources', 'supervisor' => ''],
-            ['id' => '004', 'first_name' => 'Priya', 'last_name' => 'Patel', 'job_title' => 'Business Analyst', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Business Development', 'supervisor' => 'Mike Johnson'],
-            ['id' => '005', 'first_name' => 'Amit', 'last_name' => 'Kumar', 'job_title' => 'DevOps Engineer', 'employment_status' => 'Full-Time Contract', 'sub_unit' => 'Engineering', 'supervisor' => 'Sarah Williams'],
-            ['id' => '006', 'first_name' => 'Sneha', 'last_name' => 'Reddy', 'job_title' => 'UI/UX Designer', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Design', 'supervisor' => 'David Brown'],
-            ['id' => '007', 'first_name' => 'Vikram', 'last_name' => 'Singh', 'job_title' => 'Project Manager', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Management', 'supervisor' => ''],
-            ['id' => '008', 'first_name' => 'Anjali', 'last_name' => 'Mehta', 'job_title' => 'Data Analyst', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Analytics', 'supervisor' => 'Robert Taylor'],
-            ['id' => '009', 'first_name' => 'Rajesh', 'last_name' => 'Verma', 'job_title' => 'Backend Developer', 'employment_status' => 'Full-Time Contract', 'sub_unit' => 'Engineering', 'supervisor' => 'Emily Davis'],
-            ['id' => '010', 'first_name' => 'Kavita', 'last_name' => 'Nair', 'job_title' => 'Frontend Developer', 'employment_status' => 'Full-Time Permanent', 'sub_unit' => 'Engineering', 'supervisor' => 'Chris Anderson'],
-        ];
+        $employees = DB::table('employees')
+            ->leftJoin('job_titles', 'employees.job_title_id', '=', 'job_titles.id')
+            ->leftJoin('employment_statuses', 'employees.employment_status_id', '=', 'employment_statuses.id')
+            ->leftJoin('organization_units', 'employees.organization_unit_id', '=', 'organization_units.id')
+            ->leftJoin('employees as supervisors', 'employees.supervisor_id', '=', 'supervisors.id')
+            ->select(
+                'employees.id',
+                'employees.employee_number as employee_number',
+                'employees.first_name',
+                'employees.last_name',
+                'job_titles.name as job_title',
+                'employment_statuses.name as employment_status',
+                'organization_units.name as sub_unit',
+                DB::raw("COALESCE(supervisors.display_name, '') as supervisor")
+            )
+            ->orderBy('employees.employee_number')
+            ->get();
 
         return view('pim.employee-list', compact('employees'));
     }
@@ -40,11 +42,15 @@ class PIMController extends Controller
 
     public function reports()
     {
-        $reports = [
-            ['id' => 1, 'name' => 'All Employee Sub Unit Hierarchy Report'],
-            ['id' => 2, 'name' => 'Employee Contact info report'],
-            ['id' => 3, 'name' => 'PIM Sample Report'],
-        ];
+        $reports = DB::table('employee_qualifications')
+            ->join('employees', 'employee_qualifications.employee_id', '=', 'employees.id')
+            ->join('qualifications', 'employee_qualifications.qualification_id', '=', 'qualifications.id')
+            ->select(
+                DB::raw('DISTINCT qualifications.name as name')
+            )
+            ->orderBy('name')
+            ->get();
+
         return view('pim.reports', compact('reports'));
     }
 
@@ -56,10 +62,10 @@ class PIMController extends Controller
 
     public function customFields()
     {
-        $customFields = [
-            ['id' => 1, 'name' => 'Blood Type', 'screen' => 'Personal Details', 'field_type' => 'Drop Down'],
-            ['id' => 2, 'name' => 'Test_Field', 'screen' => 'Personal Details', 'field_type' => 'Text or Number'],
-        ];
+        $customFields = DB::table('custom_fields')
+            ->select('id', 'name', 'module as screen', 'data_type as field_type')
+            ->orderBy('name')
+            ->get();
         return view('pim.configuration.custom-fields', compact('customFields'));
     }
 
@@ -70,32 +76,21 @@ class PIMController extends Controller
 
     public function reportingMethods()
     {
-        $reportingMethods = [
-            ['id' => 1, 'name' => 'Annual Report'],
-            ['id' => 2, 'name' => 'Direct'],
-            ['id' => 3, 'name' => 'Indirect'],
-            ['id' => 4, 'name' => 'Test_Reporting'],
-        ];
+        $reportingMethods = DB::table('reporting_methods')
+            ->select('id', 'name')
+            ->where('is_active', 1)
+            ->orderBy('name')
+            ->get();
         return view('pim.configuration.reporting-methods', compact('reportingMethods'));
     }
 
     public function terminationReasons()
     {
-        $terminationReasons = [
-            ['id' => 1, 'name' => 'Attendance Issue'],
-            ['id' => 2, 'name' => 'Contract Not Renewed'],
-            ['id' => 3, 'name' => 'Deceased'],
-            ['id' => 4, 'name' => 'Dismissed'],
-            ['id' => 5, 'name' => 'fever'],
-            ['id' => 6, 'name' => 'Laid-off'],
-            ['id' => 7, 'name' => 'Other'],
-            ['id' => 8, 'name' => 'Physically Disabled/Compensated'],
-            ['id' => 9, 'name' => 'Resigned'],
-            ['id' => 10, 'name' => 'Resigned - Company Requested'],
-            ['id' => 11, 'name' => 'Resigned - Self Proposed'],
-            ['id' => 12, 'name' => 'Retired'],
-            ['id' => 13, 'name' => 'Test_Termination'],
-        ];
+        $terminationReasons = DB::table('termination_reasons')
+            ->select('id', 'name')
+            ->where('is_active', 1)
+            ->orderBy('name')
+            ->get();
         return view('pim.configuration.termination-reasons', compact('terminationReasons'));
     }
 }

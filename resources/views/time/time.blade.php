@@ -167,12 +167,12 @@
                             <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <!-- Employee Name -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $timesheet['employee_name'] }}</div>
+                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $timesheet->employee_name }}</div>
                                 </div>
                                 
                                 <!-- Timesheet Period -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $timesheet['timesheet_period'] }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $timesheet->timesheet_period }}</div>
                                 </div>
                                 
                                 <!-- Actions -->

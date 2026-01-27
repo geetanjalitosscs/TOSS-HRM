@@ -24,8 +24,8 @@
                 :addButton="false">
                 @foreach($jobTitles as $jobTitle)
                 <x-admin.table-row :record="$jobTitle">
-                    <x-admin.table-cell bold>{{ $jobTitle['title'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $jobTitle['description'] ?: '-' }}</x-admin.table-cell>
+                    <x-admin.table-cell bold>{{ $jobTitle->title }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $jobTitle->description ?: '-' }}</x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

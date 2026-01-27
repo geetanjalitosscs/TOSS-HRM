@@ -13,7 +13,7 @@
             <x-admin.form-field 
                 label="Organization Name" 
                 name="organization_name" 
-                value="OrangeHRM" 
+                value="TOAIHRM" 
                 :required="true"
                 :readonly="true" />
             
@@ -51,7 +51,7 @@
                 label="Email" 
                 name="email" 
                 type="email"
-                value="info@orangehrm.com" 
+                value="info@toaihrm.com" 
                 :readonly="true" />
             
             <x-admin.form-field 

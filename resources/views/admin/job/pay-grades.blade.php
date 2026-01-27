@@ -24,8 +24,8 @@
                 :addButton="false">
                 @foreach($payGrades as $payGrade)
                 <x-admin.table-row :record="$payGrade">
-                    <x-admin.table-cell bold>{{ $payGrade['name'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $payGrade['currency'] }}</x-admin.table-cell>
+                    <x-admin.table-cell bold>{{ $payGrade->name }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $payGrade->currency }}</x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

@@ -275,10 +275,10 @@ Comprehensive leave management system for employees and administrators.
 - **Main Route:** `GET /leave` (redirects to Leave List)
 - **Route Name:** `leave`
 - **Controller:** `App\Http\Controllers\LeaveController`
-- **Default View:** `resources/views/leave/leave-list.blade.php`
+- **Default View:** `resources/views/leave/leave.blade.php` (wrapper that loads lists)
 
 ### Navigation Tabs
-The Leave module uses a tab-based navigation system with the following options:
+The Leave module uses a tab-based navigation system (`x-leave.tabs`) with the following options:
 
 #### 1. Apply
 - **Route:** `GET /leave/apply`
@@ -290,7 +290,7 @@ The Leave module uses a tab-based navigation system with the following options:
   - Leave type selection
   - Date range selection
   - Comments field
-  - "No Leave Types with Leave Balance" message when no balance available
+  - “No Leave Types with Leave Balance” state when no balance available
 
 #### 2. My Leave
 - **Route:** `GET /leave/my-leave`
@@ -309,38 +309,46 @@ The Leave module uses a tab-based navigation system with the following options:
 
 #### 3. Entitlements (Dropdown)
 - **My Entitlements**
-  - Route: `#` (placeholder)
-  - Features: Personal leave entitlements view
+  - **Route:** `GET /leave/my-entitlements`
+  - **Route Name:** `leave.my-entitlements`
+  - **View:** `resources/views/leave/my-entitlements.blade.php`
 
 - **Employee Entitlements**
-  - Route: `#` (placeholder)
-  - Features: Admin view of employee entitlements
+  - **Route:** `GET /leave/employee-entitlements`
+  - **Route Name:** `leave.employee-entitlements`
+  - **View:** `resources/views/leave/employee-entitlements.blade.php`
 
 #### 4. Reports (Dropdown)
-- **Leave Entitlements and Usage Report**
-  - Route: `#` (placeholder)
-  - Features: Comprehensive leave usage reporting
+- **Entitlements Usage Report**
+  - **Route:** `GET /leave/entitlements-usage-report`
+  - **Route Name:** `leave.entitlements-usage-report`
+  - **View:** `resources/views/leave/entitlements-usage-report.blade.php`
 
-- **My Leave Entitlements and Usage Report**
-  - Route: `#` (placeholder)
-  - Features: Personal leave usage report
+- **My Entitlements Usage Report**
+  - **Route:** `GET /leave/my-entitlements-usage-report`
+  - **Route Name:** `leave.my-entitlements-usage-report`
+  - **View:** `resources/views/leave/my-entitlements-usage-report.blade.php`
 
 #### 5. Configure (Dropdown)
 - **Leave Types**
-  - Route: `#` (placeholder)
-  - Features: Manage leave types
+  - **Route:** `GET /leave/leave-types`
+  - **Route Name:** `leave.leave-types`
+  - **View:** `resources/views/leave/leave-types.blade.php`
 
 - **Leave Period**
-  - Route: `#` (placeholder)
-  - Features: Configure leave periods
+  - **Route:** `GET /leave/leave-period`
+  - **Route Name:** `leave.leave-period`
+  - **View:** `resources/views/leave/leave-period.blade.php`
 
 - **Work Week**
-  - Route: `#` (placeholder)
-  - Features: Define work week structure
+  - **Route:** `GET /leave/work-week`
+  - **Route Name:** `leave.work-week`
+  - **View:** `resources/views/leave/work-week.blade.php`
 
 - **Holidays**
-  - Route: `#` (placeholder)
-  - Features: Manage holiday calendar
+  - **Route:** `GET /leave/holidays`
+  - **Route Name:** `leave.holidays`
+  - **View:** `resources/views/leave/holidays.blade.php`
 
 #### 6. Leave List
 - **Route:** `GET /leave/leave-list`
@@ -388,45 +396,134 @@ The Leave module uses a tab-based navigation system with the following options:
 ## Time Module
 
 ### Overview
-Time tracking and attendance management module.
+Time tracking and attendance management module covering timesheets, attendance, project reports, and summaries.
 
-### Route
+### Main Route
 - **Main Route:** `GET /time`
 - **Route Name:** `time`
 - **Controller:** `App\Http\Controllers\TimeController`
-- **View:** `resources/views/time/time.blade.php`
+- **Default View:** `resources/views/time/time.blade.php`
 
-### Features
-- Timesheet management
-- Employee time tracking
-- Attendance records
-- Pending approvals
-- Time entry forms
+### Navigation Structure
+The Time module uses top-level tabs and dropdowns (backed by `x-dropdown-menu`) with the following sections:
 
-### Status
-*Note: This module is currently in development. Full documentation will be added as features are implemented.*
+#### 1. Timesheets
+- **My Timesheets**
+  - **Route:** `GET /time/my-timesheets`
+  - **Route Name:** `time.my-timesheets`
+  - **View:** `resources/views/time/my-timesheets.blade.php`
+
+- **Employee Timesheets**
+  - **Route:** `GET /time`
+  - **Route Name:** `time`
+  - **View:** `resources/views/time/time.blade.php`
+
+- **Edit My Timesheet**
+  - **Route:** `GET /time/my-timesheets/edit`
+  - **Route Name:** `time.my-timesheets.edit`
+  - **View:** `resources/views/time/edit-my-timesheet.blade.php`
+
+#### 2. Attendance
+- **My Records**
+  - **Route:** `GET /time/attendance/my-records`
+  - **Route Name:** `time.attendance.my-records`
+  - **View:** `resources/views/time/attendance/my-records.blade.php`
+
+- **Punch In/Out**
+  - **Route:** `GET /time/attendance/punch-in-out`
+  - **Route Name:** `time.attendance.punch-in-out`
+  - **View:** `resources/views/time/attendance/punch-in-out.blade.php`
+
+- **Employee Records**
+  - **Route:** `GET /time/attendance/employee-records`
+  - **Route Name:** `time.attendance.employee-records`
+  - **View:** `resources/views/time/attendance/employee-records.blade.php`
+
+- **Configuration**
+  - **Route:** `GET /time/attendance/configuration`
+  - **Route Name:** `time.attendance.configuration`
+  - **View:** `resources/views/time/attendance/configuration.blade.php`
+
+#### 3. Reports
+- **Project Reports**
+  - **Route:** `GET /time/reports/project-reports`
+  - **Route Name:** `time.reports.project-reports`
+  - **View:** `resources/views/time/reports/project-reports.blade.php`
+
+- **Employee Reports**
+  - **Route:** `GET /time/reports/employee-reports`
+  - **Route Name:** `time.reports.employee-reports`
+  - **View:** `resources/views/time/reports/employee-reports.blade.php`
+
+- **Attendance Summary**
+  - **Route:** `GET /time/reports/attendance-summary`
+  - **Route Name:** `time.reports.attendance-summary`
+  - **View:** `resources/views/time/reports/attendance-summary.blade.php`
+
+#### 4. Project Info
+- **Customers**
+  - **Route:** `GET /time/project-info/customers`
+  - **Route Name:** `time.project-info.customers`
+  - **View:** `resources/views/time/project-info/customers.blade.php`
+
+- **Projects**
+  - **Route:** `GET /time/project-info/projects`
+  - **Route Name:** `time.project-info.projects`
+  - **View:** `resources/views/time/project-info/projects.blade.php`
 
 ---
 
 ## Performance Module
 
 ### Overview
-Performance review and evaluation management system.
+Performance review and evaluation management system including reviews, trackers, and KPIs.
 
-### Route
+### Main Route
 - **Main Route:** `GET /performance`
 - **Route Name:** `performance`
 - **Controller:** `App\Http\Controllers\PerformanceController`
-- **View:** `resources/views/performance/performance.blade.php`
+- **Default View:** `resources/views/performance/performance.blade.php`
 
-### Features
-- Performance reviews
-- Review status tracking
-- Employee performance metrics
-- Review cycle management
+### Navigation Structure
+The Performance module uses a combination of dropdown menus and direct links:
 
-### Status
-*Note: This module is currently in development. Full documentation will be added as features are implemented.*
+#### 1. Manage Reviews
+- **Manage Reviews**
+  - **Route:** `GET /performance`
+  - **Route Name:** `performance`
+  - **View:** `resources/views/performance/performance.blade.php`
+
+- **My Reviews**
+  - **Route:** `GET /performance/my-reviews`
+  - **Route Name:** `performance.my-reviews`
+  - **View:** `resources/views/performance/my-reviews.blade.php`
+
+- **Employee Reviews**
+  - **Route:** `GET /performance/employee-reviews`
+  - **Route Name:** `performance.employee-reviews`
+  - **View:** `resources/views/performance/employee-reviews.blade.php`
+
+#### 2. Trackers
+- **My Trackers**
+  - **Route:** `GET /performance/my-trackers`
+  - **Route Name:** `performance.my-trackers`
+  - **View:** `resources/views/performance/my-trackers.blade.php`
+
+- **Employee Trackers**
+  - **Route:** `GET /performance/employee-trackers`
+  - **Route Name:** `performance.employee-trackers`
+  - **View:** `resources/views/performance/employee-trackers.blade.php`
+
+- **Trackers Configuration**
+  - **Route:** `GET /performance/trackers`
+  - **Route Name:** `performance.trackers`
+  - **View:** `resources/views/performance/trackers.blade.php`
+
+#### 3. KPIs
+- **KPIs Configuration**
+  - **Route:** `GET /performance/kpis`
+  - **Route Name:** `performance.kpis`
+  - **View:** `resources/views/performance/kpis.blade.php`
 
 ---
 

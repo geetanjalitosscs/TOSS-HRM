@@ -26,10 +26,10 @@
                 :addButton="false">
                 @foreach($shifts as $shift)
                 <x-admin.table-row :record="$shift">
-                    <x-admin.table-cell bold>{{ $shift['name'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $shift['from'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $shift['to'] }}</x-admin.table-cell>
-                    <x-admin.table-cell>{{ $shift['hours'] }}</x-admin.table-cell>
+                    <x-admin.table-cell bold>{{ $shift->name }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $shift->start_time_formatted }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $shift->end_time_formatted }}</x-admin.table-cell>
+                    <x-admin.table-cell>{{ $shift->hours }}</x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

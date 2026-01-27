@@ -127,12 +127,12 @@
 
                             <!-- Name -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $type['name'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $type->name }}</div>
                             </div>
 
                             <!-- Status -->
                             <div class="flex-1" style="min-width: 0%;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $type['status'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $type->status }}</div>
                             </div>
 
                             <!-- Actions -->

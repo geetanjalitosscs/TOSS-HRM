@@ -30,13 +30,13 @@
                 @foreach($customFields as $field)
                 <x-admin.table-row>
                     <x-admin.table-cell>
-                        <div class="text-xs font-medium text-gray-700">{{ $field['name'] }}</div>
+                        <div class="text-xs font-medium text-gray-700">{{ $field->name }}</div>
                     </x-admin.table-cell>
                     <x-admin.table-cell>
-                        <div class="text-xs text-gray-700">{{ $field['screen'] }}</div>
+                        <div class="text-xs text-gray-700">{{ $field->screen }}</div>
                     </x-admin.table-cell>
                     <x-admin.table-cell>
-                        <div class="text-xs text-gray-700">{{ $field['field_type'] }}</div>
+                        <div class="text-xs text-gray-700">{{ $field->field_type }}</div>
                     </x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach

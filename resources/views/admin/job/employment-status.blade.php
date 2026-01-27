@@ -23,7 +23,7 @@
                 :addButton="false">
                 @foreach($statuses as $status)
                 <x-admin.table-row :record="$status">
-                    <x-admin.table-cell bold>{{ $status['name'] }}</x-admin.table-cell>
+                    <x-admin.table-cell bold>{{ $status->name }}</x-admin.table-cell>
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

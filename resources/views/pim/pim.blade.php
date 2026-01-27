@@ -156,37 +156,37 @@
                                 
                                 <!-- ID -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-medium text-gray-900 break-words">{{ $employee['id'] }}</div>
+                                    <div class="text-xs font-medium text-gray-900 break-words">{{ $employee->employee_number }}</div>
                                 </div>
                                 
                                 <!-- First Name -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $employee['first_name'] }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $employee->first_name }}</div>
                                 </div>
                                 
                                 <!-- Last Name -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $employee['last_name'] }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $employee->last_name }}</div>
                                 </div>
                                 
                                 <!-- Job Title -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $employee['job_title'] ?: '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $employee->job_title ?: '-' }}</div>
                                 </div>
                                 
                                 <!-- Employment Status -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $employee['employment_status'] ?: '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $employee->employment_status ?: '-' }}</div>
                                 </div>
                                 
                                 <!-- Sub Unit -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $employee['sub_unit'] ?: '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $employee->sub_unit ?: '-' }}</div>
                                 </div>
                                 
                                 <!-- Supervisor -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $employee['supervisor'] ?: '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $employee->supervisor ?: '-' }}</div>
                                 </div>
                                 
                                 <!-- Actions -->

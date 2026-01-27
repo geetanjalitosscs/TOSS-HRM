@@ -158,37 +158,37 @@
                                 
                                 <!-- Date -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave['date'] ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave->date ?? '-' }}</div>
                                 </div>
                                 
                                 <!-- Employee Name -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave['employee_name'] ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave->employee_name ?? '-' }}</div>
                                 </div>
                                 
                                 <!-- Leave Type -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave['leave_type'] ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave->leave_type ?? '-' }}</div>
                                 </div>
                                 
                                 <!-- Leave Balance -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave['leave_balance'] ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave->leave_balance ?? '-' }}</div>
                                 </div>
                                 
                                 <!-- Number of Days -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave['number_of_days'] ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave->number_of_days ?? '-' }}</div>
                                 </div>
                                 
                                 <!-- Status -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave['status'] ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave->status ?? '-' }}</div>
                                 </div>
                                 
                                 <!-- Comments -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave['comments'] ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">{{ $leave->comments ?? '-' }}</div>
                                 </div>
                                 
                                 <!-- Actions -->

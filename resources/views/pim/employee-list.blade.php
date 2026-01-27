@@ -97,25 +97,25 @@
                     @foreach($employees as $employee)
                     <x-admin.table-row>
                         <x-admin.table-cell>
-                            <div class="text-xs font-medium text-gray-900">{{ $employee['id'] }}</div>
+                            <div class="text-xs font-medium text-gray-900">{{ $employee->employee_number }}</div>
                         </x-admin.table-cell>
                         <x-admin.table-cell>
-                            <div class="text-xs text-gray-700">{{ $employee['first_name'] }}</div>
+                            <div class="text-xs text-gray-700">{{ $employee->first_name }}</div>
                         </x-admin.table-cell>
                         <x-admin.table-cell>
-                            <div class="text-xs text-gray-700">{{ $employee['last_name'] }}</div>
+                            <div class="text-xs text-gray-700">{{ $employee->last_name }}</div>
                         </x-admin.table-cell>
                         <x-admin.table-cell>
-                            <div class="text-xs text-gray-700">{{ $employee['job_title'] ?: '-' }}</div>
+                            <div class="text-xs text-gray-700">{{ $employee->job_title ?: '-' }}</div>
                         </x-admin.table-cell>
                         <x-admin.table-cell>
-                            <div class="text-xs text-gray-700">{{ $employee['employment_status'] ?: '-' }}</div>
+                            <div class="text-xs text-gray-700">{{ $employee->employment_status ?: '-' }}</div>
                         </x-admin.table-cell>
                         <x-admin.table-cell>
-                            <div class="text-xs text-gray-700">{{ $employee['sub_unit'] ?: '-' }}</div>
+                            <div class="text-xs text-gray-700">{{ $employee->sub_unit ?: '-' }}</div>
                         </x-admin.table-cell>
                         <x-admin.table-cell>
-                            <div class="text-xs text-gray-700">{{ $employee['supervisor'] ?: '-' }}</div>
+                            <div class="text-xs text-gray-700">{{ $employee->supervisor ?: '-' }}</div>
                         </x-admin.table-cell>
                     </x-admin.table-row>
                     @endforeach

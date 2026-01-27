@@ -16,8 +16,8 @@
             <x-admin.table-row>
                 <x-admin.table-cell>
                     <div>
-                        <div class="text-xs font-medium text-gray-700">{{ $language['name'] }}</div>
-                        <div class="text-xs text-gray-500">{{ $language['native'] }}</div>
+                        <div class="text-xs font-medium text-gray-700">{{ $language->name }}</div>
+                        <div class="text-xs text-gray-500">{{ $language->native }}</div>
                     </div>
                 </x-admin.table-cell>
                 <div class="flex-shrink-0 flex items-center justify-center gap-1.5" style="width: 70px;">

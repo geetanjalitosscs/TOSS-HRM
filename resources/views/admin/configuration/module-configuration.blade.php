@@ -15,11 +15,11 @@
                 @foreach($modules as $module)
                 <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                     <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">
-                        {{ $module['name'] }}
+                        {{ $module->name }}
                     </label>
                     <div class="relative">
-                        <input type="checkbox" class="sr-only module-toggle" id="module-{{ $module['id'] }}" {{ $module['enabled'] ? 'checked' : '' }}>
-                        <label for="module-{{ $module['id'] }}" class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200 cursor-pointer flex items-center">
+                        <input type="checkbox" class="sr-only module-toggle" id="module-{{ $module->id }}" {{ $module->enabled ? 'checked' : '' }}>
+                        <label for="module-{{ $module->id }}" class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200 cursor-pointer flex items-center">
                             <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5"></div>
                         </label>
                     </div>

@@ -57,16 +57,16 @@
                         <div class="border rounded-lg p-4 transition-all" style="background-color: var(--bg-card); border: 1px solid var(--border-default);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='none'">
                             <div class="flex gap-3 items-start">
                                 <!-- Profile Picture -->
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $post['profile_color'] ?? 'from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)]' }} flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                    {{ $post['profile_pic'] }}
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $post->profile_color ?? 'from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)]' }} flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                                    {{ $post->profile_pic }}
                                 </div>
                                 
                                 <!-- Post Content -->
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between mb-1">
                                         <div class="flex items-center gap-2">
-                                            <span class="text-sm font-semibold" style="color: var(--text-primary);">{{ $post['user_name'] }}</span>
-                                            <span class="text-xs" style="color: var(--text-muted);">{{ $post['timestamp'] }}</span>
+                                            <span class="text-sm font-semibold" style="color: var(--text-primary);">{{ $post->user_name }}</span>
+                                            <span class="text-xs" style="color: var(--text-muted);">{{ $post->timestamp }}</span>
                                         </div>
                                         <button class="p-1 rounded transition-all" style="color: var(--text-muted);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                                             <i class="fas fa-ellipsis-h text-xs"></i>
@@ -74,31 +74,22 @@
                                     </div>
                                     
                                     <p class="text-sm mb-3 leading-relaxed" style="color: var(--text-primary);">
-                                        {{ $post['content'] }}
-                                        @if(isset($post['has_read_more']) && $post['has_read_more'])
-                                        <a href="#" class="text-[var(--color-hr-primary)] hover:underline">Read More</a>
-                                        @endif
+                                        {{ $post->content }}
                                     </p>
-
-                                    @if(isset($post['image']) && $post['image'])
-                                    <div class="mb-3 rounded-lg overflow-hidden">
-                                        <img src="{{ $post['image'] }}" alt="Post image" class="w-full h-auto rounded-lg">
-                                    </div>
-                                    @endif
 
                                     <!-- Interaction Icons -->
                                     <div class="flex items-center gap-6 pt-3 border-t" style="border-color: var(--border-default);">
                                         <button class="flex items-center gap-2 text-xs transition-all" style="color: var(--text-muted);" onmouseover="this.style.color='var(--color-hr-primary)'" onmouseout="this.style.color='var(--text-muted)'">
                                             <i class="fas fa-heart"></i>
-                                            <span>{{ $post['likes'] }} Like{{ $post['likes'] != 1 ? 's' : '' }}</span>
+                                            <span>0 Likes</span>
                                         </button>
                                         <button class="flex items-center gap-2 text-xs transition-all" style="color: var(--text-muted);" onmouseover="this.style.color='var(--color-hr-primary)'" onmouseout="this.style.color='var(--text-muted)'">
                                             <i class="fas fa-comments"></i>
-                                            <span>{{ $post['comments'] }} Comment{{ $post['comments'] != 1 ? 's' : '' }}</span>
+                                            <span>0 Comments</span>
                                         </button>
                                         <button class="flex items-center gap-2 text-xs transition-all" style="color: var(--text-muted);" onmouseover="this.style.color='var(--color-hr-primary)'" onmouseout="this.style.color='var(--text-muted)'">
                                             <i class="fas fa-share"></i>
-                                            <span>{{ $post['shares'] }} Share{{ $post['shares'] != 1 ? 's' : '' }}</span>
+                                            <span>0 Shares</span>
                                         </button>
                                     </div>
                                 </div>

@@ -94,22 +94,22 @@
                                 
                                 <!-- Username -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $user['username'] }}</div>
+                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $user->username }}</div>
                                 </div>
                                 
                                 <!-- User Role -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user['role'] }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user->role }}</div>
                                 </div>
                                 
                                 <!-- Employee Name -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user['employee_name'] }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user->employee_name }}</div>
                                 </div>
                                 
                                 <!-- Status -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user['status'] }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user->status }}</div>
                                 </div>
                                 
                                 <!-- Actions -->

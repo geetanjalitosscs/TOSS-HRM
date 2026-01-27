@@ -188,8 +188,8 @@
                     <tbody>
                         @foreach($records as $index => $record)
                         <tr class="border-b transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
-                            <td class="px-4 py-2.5 text-sm" style="color: var(--text-primary);">{{ $record['employee_name'] }}</td>
-                            <td class="px-4 py-2.5 text-sm text-center" style="color: var(--text-primary);">{{ number_format($record['total_duration'], 2) }}</td>
+                            <td class="px-4 py-2.5 text-sm" style="color: var(--text-primary);">{{ $record->employee_name }}</td>
+                            <td class="px-4 py-2.5 text-sm text-center" style="color: var(--text-primary);">{{ number_format($record->total_duration, 2) }}</td>
                             <td class="px-4 py-2.5 text-center">
                                 <button type="button" class="hr-btn-primary">
                                     View

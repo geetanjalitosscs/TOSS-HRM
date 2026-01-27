@@ -93,22 +93,22 @@
                 @foreach($reviews as $review)
                 <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $review['job_title'] }}</div>
+                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $review->job_title }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['sub_unit'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->sub_unit }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['review_period'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_period }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['due_date'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->due_date }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['self_evaluation_status'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->self_evaluation_status }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review['review_status'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_status }}</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 70px;">
                         <div class="flex items-center justify-center">

@@ -39,19 +39,13 @@
             
             <!-- Table Rows -->
             <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                @php
-                    $leaveTypes = [
-                        'CAN - Bereavement', 'CAN - FMLA', 'CAN - Maternity', 'CAN - Personal', 'CAN - Vacation',
-                        'US - Bereavement', 'US - FMLA', 'US - Maternity', 'US - Personal', 'US - Vacation'
-                    ];
-                @endphp
                 @foreach($leaveTypes as $type)
                 <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                     <div class="flex-shrink-0" style="width: 24px;">
                         <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $type }}</div>
+                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $type->name }}</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 90px;">
                         <div class="flex items-center justify-center gap-2">

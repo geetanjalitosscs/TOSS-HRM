@@ -1,8 +1,8 @@
 # TOAI HR Suite – Professional Edition
 ## Project Rulebook & Development Guidelines
 
-**Version:** 1.0  
-**Last Updated:** 2024  
+**Version:** 1.1  
+**Last Updated:** January 27, 2026  
 **Status:** MANDATORY GOVERNANCE DOCUMENT
 
 ---
@@ -14,7 +14,7 @@
 
 ### 1.2 Quality Benchmark
 This application must meet or exceed the quality standards of industry-leading HR platforms:
-- **OrangeHRM** (functionality and UX)
+
 - **Workday** (enterprise-grade reliability)
 - **SAP SuccessFactors** (professional polish)
 
@@ -38,6 +38,13 @@ The application follows a **clean, professional, calm, and premium** design phil
 - A professional SaaS application
 - A long-term maintained product
 - A system requiring enterprise-level quality standards
+
+### 1.5 Data & Database Requirements
+
+- All features must be backed by **real, normalized MySQL data**, never hardcoded dummy data in views.
+- The authoritative schema lives in `db.sql` (utf8mb4, InnoDB, foreign keys, indexes) and must be kept in sync with models and migrations.
+- Every page, table, filter, and report visible in the UI must have a corresponding table / relation in the database.
+- Schema design must follow at least **3NF**, with audit fields (`created_at`, `updated_at`, `deleted_at` where needed) and proper indexing for search and reporting.
 
 ---
 

@@ -73,42 +73,22 @@
             
             <!-- Table Rows -->
             <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                @php
-                    $holidays = [
-                        ['name' => "New Year's Day", 'date' => '2026-01-01', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => "St. Patrick's Day (Canada)", 'date' => '2026-16-03', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => "St. George's Day (Canada)", 'date' => '2026-20-04', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Victoria Day (Canada)', 'date' => '2026-18-05', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'National Aboriginal Day (Canada)', 'date' => '2026-21-06', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'June Day (Canada)', 'date' => '2026-22-06', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'The National Holiday of Quebec (Canada)', 'date' => '2026-24-06', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Canada Day (Canada)', 'date' => '2026-01-07', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Independence Day (US)', 'date' => '2026-04-07', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Nunavut Day (Canada)', 'date' => '2026-09-07', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => "Orangeman's Day (Canada)", 'date' => '2026-13-07', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Remembrance Day (Canada)', 'date' => '2026-11-11', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Veterans Day (US)', 'date' => '2026-12-11', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Christmas Day', 'date' => '2026-25-12', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Boxing Day', 'date' => '2026-26-12', 'type' => 'Full Day', 'repeats' => 'Yes'],
-                        ['name' => 'Boxing Day (Canada)', 'date' => '2026-28-12', 'type' => 'Full Day', 'repeats' => 'Yes']
-                    ];
-                @endphp
                 @foreach($holidays as $holiday)
                 <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                     <div class="flex-shrink-0" style="width: 24px;">
                         <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $holiday['name'] }}</div>
+                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $holiday->name }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $holiday['date'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $holiday->date }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $holiday['type'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $holiday->type }}</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $holiday['repeats'] }}</div>
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $holiday->repeats }}</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 90px;">
                         <div class="flex items-center justify-center gap-2">

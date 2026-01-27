@@ -22,7 +22,7 @@
                 :addButton="false">
                 @foreach($education as $edu)
                     <x-admin.table-row>
-                        <x-admin.table-cell class="flex-1">{{ $edu['name'] }}</x-admin.table-cell>
+                        <x-admin.table-cell class="flex-1">{{ $edu->name }}</x-admin.table-cell>
                     </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>

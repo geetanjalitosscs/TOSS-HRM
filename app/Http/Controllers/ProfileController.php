@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
     public function about()
     {
-        // Return JSON for modal or view
+        $totalEmployees = DB::table('employees')->count();
+        $activeEmployees = DB::table('employees')->where('status', 'active')->count();
+        $terminatedEmployees = DB::table('employees')->where('status', 'terminated')->count();
+
+        // Version is still static (no dedicated table for it yet)
         return response()->json([
-            'company_name' => 'TOAI HR',
-            'version' => 'TOAI HR OS 1.0',
-            'active_employees' => 151,
-            'employees' => 3,
-            'terminated' => ''
+            'company_name'      => 'TOAI HR',
+            'version'           => 'TOAI HR OS 1.0',
+            'active_employees'  => $activeEmployees,
+            'employees'         => $totalEmployees,
+            'terminated'        => $terminatedEmployees,
         ]);
     }
 

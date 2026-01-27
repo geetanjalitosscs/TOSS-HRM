@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class MaintenanceController extends Controller
 {
@@ -28,8 +30,26 @@ class MaintenanceController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        // Simple authentication: admin / admin123
-        if ($credentials['username'] === 'admin' && $credentials['password'] === 'admin123') {
+        $user = DB::table('users')
+            ->where('username', $credentials['username'])
+            ->first();
+
+        $valid = false;
+        if ($user) {
+            try {
+                $valid = Hash::check($credentials['password'], $user->password_hash);
+            } catch (\RuntimeException $e) {
+                // Fallback for legacy/plaintext or invalid hashes
+                if (hash_equals((string) $user->password_hash, $credentials['password'])) {
+                    $valid = true;
+                } elseif ($user->username === 'admin' && $credentials['password'] === 'admin123') {
+                    // Seeded default admin account
+                    $valid = true;
+                }
+            }
+        }
+
+        if ($valid) {
             $request->session()->put('maintenance_auth', true);
             return redirect()->route('maintenance.purge-employee');
         }

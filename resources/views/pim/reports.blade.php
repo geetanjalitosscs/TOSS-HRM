@@ -40,7 +40,7 @@
                 @foreach($reports as $report)
                 <x-admin.table-row>
                     <x-admin.table-cell>
-                        <div class="text-xs font-medium text-gray-700">{{ $report['name'] }}</div>
+                        <div class="text-xs font-medium text-gray-700">{{ $report->name }}</div>
                     </x-admin.table-cell>
                     <div class="flex-shrink-0 flex items-center justify-end" style="width: 30px;">
                         <button class="hr-action-copy flex-shrink-0" title="Copy">

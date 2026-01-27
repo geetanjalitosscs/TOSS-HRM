@@ -127,12 +127,12 @@
                             
                             <!-- Event Name -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $event['event_name'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $event->name }}</div>
                             </div>
                             
                             <!-- Status -->
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $event['status'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $event->status }}</div>
                             </div>
                             
                             <!-- Actions -->

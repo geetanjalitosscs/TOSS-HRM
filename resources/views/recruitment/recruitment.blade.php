@@ -165,24 +165,24 @@
                                 <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['vacancy'] ?: '-' }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate->vacancy ?: '-' }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['candidate'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate->candidate }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['hiring_manager'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate->hiring_manager }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate['date'] }}</div>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $candidate->date }}</div>
                             </div>
                             <div class="flex-1" style="min-width: 0;">
                                 <span class="px-1.5 py-0.5 text-xs rounded-full 
-                                    @if($candidate['status'] == 'Shortlisted') bg-green-100 text-green-700
-                                    @elseif($candidate['status'] == 'Rejected') bg-red-100 text-red-700
+                                    @if($candidate->status === 'Shortlisted') bg-green-100 text-green-700
+                                    @elseif($candidate->status === 'Rejected') bg-red-100 text-red-700
                                     @else bg-blue-100 text-blue-700
                                     @endif">
-                                    {{ $candidate['status'] }}
+                                    {{ $candidate->status }}
                                 </span>
                             </div>
                             <div class="flex-shrink-0" style="width: 120px;">

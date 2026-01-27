@@ -16,26 +16,15 @@
             <form>
                 <!-- Days of Week -->
                 <div class="space-y-4 mb-6">
-                    @php
-                        $days = [
-                            ['name' => 'Monday', 'value' => 'full_day', 'label' => 'Full Day'],
-                            ['name' => 'Tuesday', 'value' => 'full_day', 'label' => 'Full Day'],
-                            ['name' => 'Wednesday', 'value' => 'full_day', 'label' => 'Full Day'],
-                            ['name' => 'Thursday', 'value' => 'full_day', 'label' => 'Full Day'],
-                            ['name' => 'Friday', 'value' => 'full_day', 'label' => 'Full Day'],
-                            ['name' => 'Saturday', 'value' => 'non_working', 'label' => 'Non-working Day'],
-                            ['name' => 'Sunday', 'value' => 'non_working', 'label' => 'Non-working Day']
-                        ];
-                    @endphp
                     @foreach($days as $day)
                     <div>
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                            {{ $day['name'] }} <span style="color: var(--color-danger);">*</span>
+                            {{ $day->name }} <span style="color: var(--color-danger);">*</span>
                         </label>
                         <select class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);">
-                            <option value="full_day" {{ $day['value'] === 'full_day' ? 'selected' : '' }}>Full Day</option>
-                            <option value="half_day" {{ $day['value'] === 'half_day' ? 'selected' : '' }}>Half Day</option>
-                            <option value="non_working" {{ $day['value'] === 'non_working' ? 'selected' : '' }}>Non-working Day</option>
+                            <option value="full_day" {{ $day->value === 'full_day' ? 'selected' : '' }}>Full Day</option>
+                            <option value="half_day" {{ $day->value === 'half_day' ? 'selected' : '' }}>Half Day</option>
+                            <option value="non_working" {{ $day->value === 'non_working' ? 'selected' : '' }}>Non-working Day</option>
                         </select>
                     </div>
                     @endforeach
