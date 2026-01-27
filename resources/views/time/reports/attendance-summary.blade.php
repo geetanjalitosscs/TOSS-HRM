@@ -123,6 +123,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
+                    <i class="fas fa-calendar-check" style="color: var(--color-hr-primary);"></i>
                     <span class="mt-0.5">Attendance Total Summary Report</span>
                 </h2>
                 <button class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
@@ -203,62 +204,17 @@
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date Range</label>
                         <div class="flex items-center gap-4">
-                            <!-- From Date Input -->
                             <div class="flex-1">
-                                <div class="flex items-stretch">
-                                    <input 
-                                        type="text" 
-                                        name="date_from" 
-                                        placeholder="From"
-                                        class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
-                                        readonly
-                                    >
-                                    <button 
-                                        type="button" 
-                                        class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
-                                        style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
-                                        onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
-                                        onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
-                                        onclick="document.getElementById('dateFromPicker').showPicker()"
-                                    >
-                                        <i class="fas fa-calendar text-sm"></i>
-                                    </button>
-                                    <input 
-                                        type="date" 
-                                        id="dateFromPicker" 
-                                        class="hidden"
-                                        onchange="updateDateDisplay(this.value, 'date_from')"
-                                    >
-                                </div>
+                                <x-date-picker 
+                                    name="date_from" 
+                                    label="From"
+                                />
                             </div>
-
-                            <!-- To Date Input -->
                             <div class="flex-1">
-                                <div class="flex items-stretch">
-                                    <input 
-                                        type="text" 
-                                        name="date_to" 
-                                        placeholder="To"
-                                        class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
-                                        readonly
-                                    >
-                                    <button 
-                                        type="button" 
-                                        class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
-                                        style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
-                                        onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
-                                        onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
-                                        onclick="document.getElementById('dateToPicker').showPicker()"
-                                    >
-                                        <i class="fas fa-calendar text-sm"></i>
-                                    </button>
-                                    <input 
-                                        type="date" 
-                                        id="dateToPicker" 
-                                        class="hidden"
-                                        onchange="updateDateDisplay(this.value, 'date_to')"
-                                    >
-                                </div>
+                                <x-date-picker 
+                                    name="date_to" 
+                                    label="To"
+                                />
                             </div>
                         </div>
                     </div>
@@ -358,14 +314,6 @@
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
 
-                // Date picker functionality
-                function updateDateDisplay(dateValue, inputName) {
-                    if (!dateValue) return;
-                    // Convert YYYY-MM-DD to readable format
-                    const [year, month, day] = dateValue.split('-');
-                    const formattedDate = `${year}-${day}-${month}`;
-                    document.querySelector(`input[name="${inputName}"]`).value = formattedDate;
-                }
             });
         </script>
     </x-main-layout>

@@ -119,315 +119,53 @@
         </div>
 
         <!-- Customers List Section -->
-        <div class="mt-4">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-                <!-- Header with Title and Add Button -->
-                <div class="px-6 pt-6 pb-4">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-lg font-bold text-slate-800">Customers</h2>
-                        <button 
-                            type="button" 
-                            class="px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors hover:opacity-90 flex items-center gap-1"
-                            style="background-color: var(--color-hr-primary);"
-                        >
-                            <span>+</span>
-                            <span>Add</span>
-                        </button>
-                    </div>
-                    <h2 class="text-sm font-medium text-slate-700">(8) Records Found</h2>
-                </div>
-
-                <!-- Table -->
-                <div class="px-6 pb-6">
-                    <table class="w-full">
-                        <!-- Table Header -->
-                        <thead>
-                            <tr class="bg-gray-50 border-b border-gray-200">
-                                <th class="px-4 py-2.5 text-left">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </th>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
-                                    <div class="flex items-center gap-1">
-                                        <span>Name</span>
-                                        <div class="flex flex-col gap-0.5">
-                                            <span class="text-[10px] text-gray-400 leading-none">▲</span>
-                                            <span class="text-[10px] text-gray-400 leading-none">▼</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Description</th>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Actions</th>
-                            </tr>
-                        </thead>
-                        <!-- Table Body -->
-                        <tbody>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">ACME Ltd</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Leading apparel manufacturing chain.</td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Apache Software Foundation</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">non-profit corporation to support Apache software projects</td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">FreeWave Technologies, Inc.</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Its wireless data radios are utilized in industrial, government and defense, scientific, and commercial applications</td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Fresh Books Software Ltd</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Global Corp and Co</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Global Corp introduces itself as a leading manufacturer and exporter of a large number of products catering to high precision equipment, Scientific Laboratory Equipments & Institutional Health Care Products.</td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Additional rows to reach 8 total -->
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Customer 5</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Customer 6</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Customer 7</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Customer 8</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <section class="hr-card p-6 border-t-0 rounded-t-none">
+            <!-- Header with Title and Add Button -->
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
+                    <i class="fas fa-users" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Customers</span>
+                </h2>
+                <x-admin.add-button />
             </div>
-        </div>
+
+            @php
+                $customers = [
+                    ['name' => 'ACME Ltd', 'description' => 'Leading apparel manufacturing chain.'],
+                    ['name' => 'Apache Software Foundation', 'description' => 'non-profit corporation to support Apache software projects'],
+                    ['name' => 'FreeWave Technologies, Inc.', 'description' => 'Its wireless data radios are utilized in industrial, government and defense, scientific, and commercial applications'],
+                    ['name' => 'Fresh Books Software Ltd', 'description' => ''],
+                    ['name' => 'Global Corp and Co', 'description' => 'Global Corp introduces itself as a leading manufacturer and exporter of a large number of products catering to high precision equipment, Scientific Laboratory Equipments & Institutional Health Care Products.'],
+                    ['name' => 'Customer 5', 'description' => ''],
+                    ['name' => 'Customer 6', 'description' => ''],
+                    ['name' => 'Customer 7', 'description' => ''],
+                ];
+            @endphp
+
+            <x-admin.data-table
+                title=""
+                :records="$customers"
+                :columns="[
+                    ['label' => 'Name', 'sortable' => true],
+                    ['label' => 'Description', 'sortable' => false],
+                ]"
+                :addButton="false">
+                @foreach($customers as $customer)
+                    <x-admin.table-row>
+                        <x-admin.table-cell>
+                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">
+                                {{ $customer['name'] }}
+                            </div>
+                        </x-admin.table-cell>
+                        <x-admin.table-cell>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">
+                                {{ $customer['description'] ?: '-' }}
+                            </div>
+                        </x-admin.table-cell>
+                    </x-admin.table-row>
+                @endforeach
+            </x-admin.data-table>
+        </section>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {

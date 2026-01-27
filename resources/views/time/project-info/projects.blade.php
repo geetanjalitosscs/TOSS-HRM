@@ -118,229 +118,122 @@
             </div>
         </div>
 
-        <!-- Projects Filter Section -->
-        <div class="mt-4">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-full">
-                <!-- Header -->
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold text-slate-800">Projects</h2>
+        <!-- Projects Filter + List Card -->
+        <section class="hr-card p-6 border-t-0 rounded-t-none">
+            <!-- Header -->
+            <div class="flex items-center mb-4">
+                <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
+                    <i class="fas fa-project-diagram" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Projects</span>
+                </h2>
+            </div>
+
+            <div id="projectsBody">
+            <!-- Filter Form (Initially Visible) -->
+            <div id="filterSection" class="mb-4">
+                <!-- Form Fields -->
+                <div class="flex gap-4 mb-4">
+                    <!-- Customer Name -->
+                    <div class="flex-1">
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Customer Name</label>
+                        <input 
+                            type="text" 
+                            name="customer_name" 
+                            class="hr-input"
+                            placeholder="Type for hints..."
+                        >
+                    </div>
+
+                    <!-- Project -->
+                    <div class="flex-1">
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project</label>
+                        <input 
+                            type="text" 
+                            name="project" 
+                            class="hr-input"
+                            placeholder="Type for hints..."
+                        >
+                    </div>
+
+                    <!-- Project Admin -->
+                    <div class="flex-1">
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Admin</label>
+                        <input 
+                            type="text" 
+                            name="project_admin" 
+                            class="hr-input"
+                            placeholder="Type for hints..."
+                        >
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t mb-4" style="border-color: var(--border-default);"></div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end gap-3">
                     <button 
-                        id="toggleProjectsFilter" 
-                        class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                        onclick="toggleFilterSection()"
+                        type="button" 
+                        class="hr-btn-secondary"
+                        onclick="resetFilters()"
                     >
-                        <span class="text-xs text-gray-600" id="toggleIcon">▲</span>
+                        Reset
+                    </button>
+                    <button 
+                        type="button" 
+                        class="hr-btn-primary"
+                    >
+                        Search
                     </button>
                 </div>
-
-                <!-- Filter Form (Initially Visible) -->
-                <div id="filterSection">
-                    <!-- Form Fields -->
-                    <div class="flex gap-4 mb-4">
-                        <!-- Customer Name -->
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Customer Name</label>
-                            <input 
-                                type="text" 
-                                name="customer_name" 
-                                class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
-                                placeholder="Type for hints..."
-                            >
-                        </div>
-
-                        <!-- Project -->
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Project</label>
-                            <input 
-                                type="text" 
-                                name="project" 
-                                class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
-                                placeholder="Type for hints..."
-                            >
-                        </div>
-
-                        <!-- Project Admin -->
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Project Admin</label>
-                            <input 
-                                type="text" 
-                                name="project_admin" 
-                                class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
-                                placeholder="Type for hints..."
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Divider -->
-                    <div class="border-t border-gray-200 mb-4"></div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex items-center justify-end gap-3">
-                        <button 
-                            type="button" 
-                            class="px-6 py-2.5 text-sm font-medium text-green-600 bg-white border border-green-500 rounded-lg hover:bg-green-50 transition-colors"
-                            onclick="resetFilters()"
-                        >
-                            Reset
-                        </button>
-                        <button 
-                            type="button" 
-                            class="px-6 py-2.5 text-sm font-medium text-white rounded-lg transition-colors hover:opacity-90"
-                            style="background-color: var(--color-hr-primary);"
-                        >
-                            Search
-                        </button>
-                    </div>
-                </div>
             </div>
-        </div>
 
-        <!-- Projects List Section -->
-        <div class="mt-4">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-                <!-- Header with Add Button -->
-                <div class="px-6 pt-6 pb-4">
-                    <div class="flex items-center justify-between mb-4">
-                        <button 
-                            type="button" 
-                            class="px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors hover:opacity-90 flex items-center gap-1"
-                            style="background-color: var(--color-hr-primary);"
-                        >
-                            <span>+</span>
-                            <span>Add</span>
-                        </button>
-                    </div>
-                    <h2 class="text-sm font-medium text-slate-700">(11) Records Found</h2>
+            <!-- Projects List Section -->
+            <div class="mt-2">
+                <div class="flex items-center justify-between mb-3">
+                    <x-admin.add-button />
                 </div>
 
-                <!-- Table -->
-                <div class="px-6 pb-6">
-                    <table class="w-full">
-                        <!-- Table Header -->
-                        <thead>
-                            <tr class="bg-gray-50 border-b border-gray-200">
-                                <th class="px-4 py-2.5 text-left">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </th>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
-                                    <div class="flex items-center gap-1">
-                                        <span>Customer Name</span>
-                                        <div class="flex flex-col gap-0.5">
-                                            <span class="text-[10px] text-gray-400 leading-none">▲</span>
-                                            <span class="text-[10px] text-gray-400 leading-none">▼</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
-                                    <div class="flex items-center gap-1">
-                                        <span>Project</span>
-                                        <div class="flex flex-col gap-0.5">
-                                            <span class="text-[10px] text-gray-400 leading-none">▲</span>
-                                            <span class="text-[10px] text-gray-400 leading-none">▼</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Project Admins</th>
-                                <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Actions</th>
-                            </tr>
-                        </thead>
-                        <!-- Table Body -->
-                        <tbody>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">ACME Ltd</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">ACME Ltd</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Apache Software Foundation</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">ASF - Phase 1</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-                                <td class="px-4 py-2.5">
-                                    <input type="checkbox" class="rounded w-4 h-4 border-gray-300" style="accent-color: var(--color-hr-primary);">
-                                </td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">The Coca-Cola Company</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700">Coke - Phase 1</td>
-                                <td class="px-4 py-2.5 text-sm text-slate-700"></td>
-                                <td class="px-4 py-2.5">
-                                    <div class="flex items-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Delete"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button" 
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
-                                            title="Edit"
-                                        >
-                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                @php
+                    $projects = [
+                        ['customer' => 'ACME Ltd', 'project' => 'ACME Ltd', 'admins' => ''],
+                        ['customer' => 'Apache Software Foundation', 'project' => 'ASF - Phase 1', 'admins' => ''],
+                        ['customer' => 'The Coca-Cola Company', 'project' => 'Coke - Phase 1', 'admins' => ''],
+                    ];
+                @endphp
+
+                <x-admin.data-table
+                    title=""
+                    :records="$projects"
+                    :columns="[
+                        ['label' => 'Customer Name', 'sortable' => true],
+                        ['label' => 'Project', 'sortable' => true],
+                        ['label' => 'Project Admins', 'sortable' => false],
+                    ]"
+                    :addButton="false">
+                    @foreach($projects as $project)
+                        <x-admin.table-row>
+                            <x-admin.table-cell>
+                                <div class="text-xs font-medium break-words" style="color: var(--text-primary);">
+                                    {{ $project['customer'] }}
+                                </div>
+                            </x-admin.table-cell>
+                            <x-admin.table-cell>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">
+                                    {{ $project['project'] }}
+                                </div>
+                            </x-admin.table-cell>
+                            <x-admin.table-cell>
+                                <div class="text-xs break-words" style="color: var(--text-primary);">
+                                    {{ $project['admins'] ?: '-' }}
+                                </div>
+                            </x-admin.table-cell>
+                        </x-admin.table-row>
+                    @endforeach
+                </x-admin.data-table>
             </div>
-        </div>
+            </div>
+        </section>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
