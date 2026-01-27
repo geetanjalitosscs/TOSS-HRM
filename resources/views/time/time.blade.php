@@ -72,9 +72,9 @@
                                         'active' => request()->routeIs('time.project-info.customers')
                                     ],
                                     [
-                                        'url' => route('time.project-info.project'),
-                                        'label' => 'Project',
-                                        'active' => request()->routeIs('time.project-info.project')
+                                        'url' => route('time.project-info.projects'),
+                                        'label' => 'Projects',
+                                        'active' => request()->routeIs('time.project-info.projects')
                                     ],
                                 ];
                                 $projectInfoHasActive = collect($projectInfoItems)->contains('active', true);

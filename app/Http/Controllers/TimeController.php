@@ -221,11 +221,11 @@ class TimeController extends Controller
     }
 
     /**
-     * Project Info - Project
+     * Project Info - Projects
      */
     public function projectInfoProject()
     {
-        return view('time.project-info.project');
+        return view('time.project-info.projects');
     }
 }
 
