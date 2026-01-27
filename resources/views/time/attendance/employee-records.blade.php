@@ -127,32 +127,15 @@
 
                 <!-- Date Input with Calendar Icon -->
                 <div class="w-64">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date<span class="text-red-500">*</span></label>
-                    <div class="flex items-stretch">
-                        <input 
-                            type="text" 
-                            name="date" 
-                            value="{{ $selectedDate }}" 
-                            class="hr-input flex-1 px-3 py-2.5 text-sm rounded-l-lg rounded-r-none"
-                            readonly
-                        >
-                        <button 
-                            type="button" 
-                            class="px-3 py-2.5 flex items-center justify-center rounded-r-lg transition-colors" 
-                            style="color: var(--text-muted); background-color: var(--bg-hover); border: 1px solid var(--border-default); border-left: 0;"
-                            onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-primary)';"
-                            onmouseout="this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--text-muted)';"
-                            onclick="document.getElementById('datePicker').showPicker()"
-                        >
-                            <i class="fas fa-calendar text-sm"></i>
-                        </button>
-                        <input 
-                            type="date" 
-                            id="datePicker" 
-                            class="hidden"
-                            onchange="updateDateDisplay(this.value)"
-                        >
-                    </div>
+                    <x-date-picker 
+                        name="date" 
+                        value="{{ $selectedDate }}" 
+                        label="Date"
+                        required="true"
+                        variant="split"
+                        dateFormat="updateDateDisplay"
+                        wrapperClass=""
+                    />
                 </div>
 
                 <!-- View Button -->

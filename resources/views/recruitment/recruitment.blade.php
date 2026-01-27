@@ -67,8 +67,8 @@
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Date of Application</label>
                         <div class="flex gap-2">
-                            <input type="date" class="hr-input flex-1" placeholder="From">
-                            <input type="date" class="hr-input flex-1" placeholder="To">
+                            <x-date-picker name="from_date" placeholder="From" wrapperClass="flex-1" />
+                            <x-date-picker name="to_date" placeholder="To" wrapperClass="flex-1" />
                         </div>
                     </div>
                     <div>

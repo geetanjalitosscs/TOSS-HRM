@@ -73,3 +73,50 @@
     </div>
 </aside>
 
+<!-- Apply collapsed state and scroll position immediately after sidebar renders to prevent flicker -->
+<script>
+(function() {
+    'use strict';
+    // Check localStorage and apply collapsed state immediately
+    if (localStorage.getItem('hr-sidebar-collapsed') === 'true') {
+        const sidebar = document.getElementById('hr-sidebar');
+        const body = document.body;
+        if (sidebar) {
+            sidebar.classList.add('collapsed');
+        }
+        if (body) {
+            body.classList.add('sidebar-collapsed');
+        }
+    }
+    
+    // Apply scroll position to active link immediately to prevent scroll jump
+    function scrollToActiveLink() {
+        const sidebarNav = document.querySelector('.hr-sidebar-nav');
+        const activeLink = document.querySelector('.sidebar-link--active');
+        
+        if (sidebarNav && activeLink) {
+            const navHeight = sidebarNav.offsetHeight;
+            const linkTop = activeLink.offsetTop;
+            const linkHeight = activeLink.offsetHeight;
+            
+            if (navHeight > 0 && linkTop > 0) {
+                // Center the active link in the visible area
+                const scrollPosition = linkTop - (navHeight / 2) + (linkHeight / 2);
+                // Apply scroll immediately without animation
+                sidebarNav.scrollTop = Math.max(0, scrollPosition);
+            }
+        }
+    }
+    
+    // Try immediately
+    scrollToActiveLink();
+    
+    // Fallback: If layout not ready, use requestAnimationFrame
+    if (document.readyState === 'loading') {
+        requestAnimationFrame(function() {
+            scrollToActiveLink();
+        });
+    }
+})();
+</script>
+

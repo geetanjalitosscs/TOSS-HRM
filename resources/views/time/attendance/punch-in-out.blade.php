@@ -111,26 +111,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Date Field -->
                     <div>
-                        <label for="punchDate" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                            Date<span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <input 
-                                type="date" 
-                                id="punchDate" 
-                                name="date" 
-                                value="{{ $currentDate }}"
-                                required
-                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg pr-10"
-                            >
-                            <button 
-                                type="button" 
-                                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-purple-400 hover:text-purple-600 transition-colors"
-                                onclick="document.getElementById('punchDate').showPicker()"
-                            >
-                                <i class="fas fa-calendar text-sm"></i>
-                            </button>
-                        </div>
+                        <x-date-picker 
+                            id="punchDate"
+                            name="date" 
+                            value="{{ $currentDate }}"
+                            label="Date"
+                            required="true"
+                        />
                     </div>
 
                     <!-- Time Field -->
@@ -148,11 +135,15 @@
                                 pattern="^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$"
                                 placeholder="HH:MM AM/PM"
                                 class="hr-input w-full px-3 py-2.5 text-sm rounded-lg pr-10"
+                                style="border-color: var(--border-strong); background-color: var(--bg-input); color: var(--text-primary);"
                             >
                             <button 
                                 type="button" 
                                 id="timePickerBtn"
-                                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-purple-400 hover:text-purple-600 transition-colors"
+                                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center transition-colors"
+                                style="color: var(--color-hr-primary-soft);"
+                                onmouseover="this.style.color='var(--color-hr-primary)';"
+                                onmouseout="this.style.color='var(--color-hr-primary-soft)';"
                             >
                                 <i class="fas fa-clock text-sm"></i>
                             </button>
@@ -277,7 +268,26 @@
                 // Create a hidden time input for native time picker
                 const hiddenTimeInput = document.createElement('input');
                 hiddenTimeInput.type = 'time';
-                hiddenTimeInput.style.display = 'none';
+                hiddenTimeInput.style.position = 'fixed';
+                hiddenTimeInput.style.opacity = '0';
+                hiddenTimeInput.style.pointerEvents = 'none';
+                hiddenTimeInput.style.border = 'none';
+                hiddenTimeInput.style.padding = '0';
+                hiddenTimeInput.style.margin = '0';
+                hiddenTimeInput.style.zIndex = '-1';
+                // Set color-scheme for dark mode compatibility
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                hiddenTimeInput.style.colorScheme = currentTheme === 'dark' ? 'dark' : 'light';
+                // Update color-scheme when theme changes
+                const themeObserver = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                            const newTheme = document.documentElement.getAttribute('data-theme');
+                            hiddenTimeInput.style.colorScheme = newTheme === 'dark' ? 'dark' : 'light';
+                        }
+                    });
+                });
+                themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
                 document.body.appendChild(hiddenTimeInput);
                 
                 // Convert 12-hour to 24-hour format
@@ -315,9 +325,37 @@
                     hiddenTimeInput.value = convert12to24(currentTime12h);
                 }
                 
-                // Time picker button click handler
-                timePickerBtn.addEventListener('click', function() {
-                    hiddenTimeInput.showPicker();
+                // Time picker button click handler - position hidden input exactly at visible input location
+                timePickerBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Get exact position and dimensions of visible time input
+                    const timeInputRect = timeInput.getBoundingClientRect();
+                    
+                    // Position hidden input exactly where visible input is
+                    // Use fixed positioning to match viewport coordinates
+                    hiddenTimeInput.style.position = 'fixed';
+                    hiddenTimeInput.style.left = timeInputRect.left + 'px';
+                    hiddenTimeInput.style.top = timeInputRect.top + 'px';
+                    hiddenTimeInput.style.width = timeInputRect.width + 'px';
+                    hiddenTimeInput.style.height = timeInputRect.height + 'px';
+                    hiddenTimeInput.style.zIndex = '9999';
+                    
+                    // Ensure it's visible to browser (but transparent to user) for proper anchoring
+                    hiddenTimeInput.style.opacity = '0';
+                    hiddenTimeInput.style.pointerEvents = 'auto';
+                    
+                    // Small delay to ensure positioning is applied before showPicker
+                    requestAnimationFrame(function() {
+                        hiddenTimeInput.focus();
+                        hiddenTimeInput.showPicker();
+                        
+                        // Reset pointer events after picker opens
+                        setTimeout(function() {
+                            hiddenTimeInput.style.pointerEvents = 'none';
+                        }, 100);
+                    });
                 });
                 
                 // Update visible input when hidden time input changes

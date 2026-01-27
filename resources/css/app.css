@@ -1239,6 +1239,17 @@ input[type="date"].hr-input {
 }
 
 /* ============================================
+   TIME INPUTS
+   ============================================ */
+input[type="time"] {
+    color-scheme: light;
+}
+
+html[data-theme="dark"] input[type="time"] {
+    color-scheme: dark;
+}
+
+/* ============================================
    TABLE STYLING
    ============================================ */
 .hr-table-wrapper {

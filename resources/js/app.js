@@ -379,13 +379,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Scroll to active sidebar link
+    // Scroll to active sidebar link - apply immediately to prevent scroll jump
     const activeLink = sidebar.querySelector('.sidebar-link--active');
     const sidebarNav = sidebar.querySelector('.hr-sidebar-nav');
     
     if (activeLink && sidebarNav) {
-        // Wait a bit for layout to settle
-        setTimeout(function() {
+        // Function to calculate and apply scroll position
+        function scrollToActiveLink() {
             const navHeight = sidebarNav.offsetHeight;
             const linkTop = activeLink.offsetTop;
             const linkHeight = activeLink.offsetHeight;
@@ -401,11 +401,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Center the active link in the visible area
                 const scrollPosition = linkTop - (navHeight / 2) + (linkHeight / 2);
                 
-                sidebarNav.scrollTo({
-                    top: Math.max(0, scrollPosition),
-                    behavior: 'smooth'
-                });
+                // Apply scroll immediately without animation to prevent jump
+                sidebarNav.scrollTop = Math.max(0, scrollPosition);
             }
-        }, 150);
+        }
+        
+        // Try to apply immediately
+        scrollToActiveLink();
+        
+        // Fallback: If layout not ready, wait for next frame
+        if (sidebarNav.offsetHeight === 0 || activeLink.offsetTop === 0) {
+            requestAnimationFrame(function() {
+                scrollToActiveLink();
+            });
+        }
     }
 });

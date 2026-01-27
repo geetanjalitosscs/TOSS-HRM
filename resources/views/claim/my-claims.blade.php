@@ -89,18 +89,18 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
                         <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">From Date</label>
-                            <div class="relative">
-                                <input type="date" class="hr-input w-full px-3 py-2 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] pr-8" style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);" placeholder="yyyy-dd-mm">
-                                <i class="fas fa-calendar-alt absolute right-3 top-1/2 transform -translate-y-1/2 text-sm pointer-events-none" style="color: var(--color-hr-primary-soft);"></i>
-                            </div>
+                            <x-date-picker 
+                                name="from_date"
+                                label="From Date"
+                                class="text-xs"
+                            />
                         </div>
                         <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">To Date</label>
-                            <div class="relative">
-                                <input type="date" class="hr-input w-full px-3 py-2 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] pr-8" style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);" placeholder="yyyy-dd-mm">
-                                <i class="fas fa-calendar-alt absolute right-3 top-1/2 transform -translate-y-1/2 text-sm pointer-events-none" style="color: var(--color-hr-primary-soft);"></i>
-                            </div>
+                            <x-date-picker 
+                                name="to_date"
+                                label="To Date"
+                                class="text-xs"
+                            />
                         </div>
                         <div></div>
                     </div>
