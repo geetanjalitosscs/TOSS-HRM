@@ -137,12 +137,18 @@
                             
                             <!-- Actions -->
                             <div class="flex-shrink-0" style="width: 70px;">
-                                <div class="flex items-center justify-center gap-1">
-                                    <button class="p-0.5 rounded transition-all flex-shrink-0" style="color: var(--text-muted);" onmouseover="this.style.color='#dc3545'; this.style.backgroundColor='rgba(220, 53, 69, 0.1)'" onmouseout="this.style.color='var(--text-muted)'; this.style.backgroundColor='transparent'" title="Delete">
-                                        <i class="fas fa-trash-alt w-4 h-4"></i>
+                                <div class="flex items-center justify-center gap-2">
+                                    <button 
+                                        class="hr-action-delete flex-shrink-0" 
+                                        title="Delete"
+                                    >
+                                        <i class="fas fa-trash-alt text-sm"></i>
                                     </button>
-                                    <button class="p-0.5 rounded transition-all flex-shrink-0" style="color: var(--text-muted);" onmouseover="this.style.color='var(--color-hr-primary-dark)'; this.style.backgroundColor='var(--color-hr-primary-light)'" onmouseout="this.style.color='var(--text-muted)'; this.style.backgroundColor='transparent'" title="Edit">
-                                        <i class="fas fa-edit w-4 h-4"></i>
+                                    <button 
+                                        class="hr-action-edit flex-shrink-0" 
+                                        title="Edit"
+                                    >
+                                        <i class="fas fa-edit text-sm"></i>
                                     </button>
                                 </div>
                             </div>

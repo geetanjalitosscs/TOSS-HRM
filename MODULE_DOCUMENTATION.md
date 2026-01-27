@@ -1319,7 +1319,3 @@ Located in `resources/views/components/admin/`:
 **Document Maintained By:** Development Team  
 **For Support:** Contact system administrator  
 **Last Review:** 2025-01-27
-
-
-
-

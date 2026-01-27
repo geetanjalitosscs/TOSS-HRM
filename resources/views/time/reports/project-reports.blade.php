@@ -133,9 +133,7 @@
                         <div class="flex-1">
                             <x-date-picker 
                                 name="date_from" 
-                                placeholder="From"
-                                variant="split"
-                                dateFormat="updateDateDisplayFrom"
+                                label="From"
                             />
                         </div>
 
@@ -143,9 +141,7 @@
                         <div class="flex-1">
                             <x-date-picker 
                                 name="date_to" 
-                                placeholder="To"
-                                variant="split"
-                                dateFormat="updateDateDisplayTo"
+                                label="To"
                             />
                         </div>
 
@@ -252,14 +248,6 @@
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
 
-                // Date picker functionality
-                function updateDateDisplay(dateValue, inputName) {
-                    if (!dateValue) return;
-                    // Convert YYYY-MM-DD to readable format
-                    const [year, month, day] = dateValue.split('-');
-                    const formattedDate = `${year}-${day}-${month}`;
-                    document.querySelector(`input[name="${inputName}"]`).value = formattedDate;
-                }
 
             });
         </script>

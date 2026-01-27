@@ -47,7 +47,7 @@
             </div>
             @endforeach
             @if($showActions)
-            <div class="flex-shrink-0" style="width: 70px;">
+            <div class="flex-shrink-0" style="width: 90px;">
                 <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
             </div>
             @endif

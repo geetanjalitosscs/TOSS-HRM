@@ -132,9 +132,6 @@
                         value="{{ $selectedDate }}" 
                         label="Date"
                         required="true"
-                        variant="split"
-                        dateFormat="updateDateDisplay"
-                        wrapperClass=""
                     />
                 </div>
 
@@ -271,25 +268,6 @@
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
 
-                // Date picker functionality
-                function updateDateDisplay(dateValue) {
-                    if (!dateValue) return;
-                    // Convert YYYY-MM-DD to YYYY-DD-MM format as shown in image
-                    const [year, month, day] = dateValue.split('-');
-                    const formattedDate = `${year}-${day}-${month}`;
-                    document.querySelector('input[name="date"]').value = formattedDate;
-                }
-
-                // Initialize date picker with current value
-                const dateInput = document.querySelector('input[name="date"]');
-                const datePicker = document.getElementById('datePicker');
-                if (dateInput && dateInput.value) {
-                    // Convert YYYY-DD-MM to YYYY-MM-DD for date input
-                    const [year, day, month] = dateInput.value.split('-');
-                    if (year && month && day) {
-                        datePicker.value = `${year}-${month}-${day}`;
-                    }
-                }
             });
         </script>
     </x-main-layout>
