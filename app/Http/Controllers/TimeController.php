@@ -211,5 +211,21 @@ class TimeController extends Controller
     {
         return view('time.reports.attendance-summary');
     }
+
+    /**
+     * Project Info - Customers
+     */
+    public function projectInfoCustomers()
+    {
+        return view('time.project-info.customers');
+    }
+
+    /**
+     * Project Info - Project
+     */
+    public function projectInfoProject()
+    {
+        return view('time.project-info.project');
+    }
 }
 
