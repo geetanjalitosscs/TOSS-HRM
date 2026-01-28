@@ -44,7 +44,7 @@
                     <!-- Employee ID -->
                     <div class="mb-4">
                         <label class="block text-xs font-medium text-slate-700 mb-1">Employee Id</label>
-                        <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" value="0386">
+                        <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Auto-generated or enter manually">
                     </div>
 
                     <!-- Create Login Details -->

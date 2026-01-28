@@ -11,7 +11,35 @@ class MyInfoController extends Controller
     {
         $authUser = session('auth_user');
         $userId = $authUser['id'] ?? null;
+        
+        // Get employee_id from users table
+        $employeeId = null;
+        $employee = null;
+        $personalDetails = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                // Fetch employee basic info
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+                
+                // Fetch personal details
+                $personalDetails = DB::table('employee_personal_details')
+                    ->where('employee_id', $employeeId)
+                    ->first();
+            }
+        }
+        
+        // Fetch nationalities for dropdown
+        $nationalities = DB::table('nationalities')
+            ->orderBy('name')
+            ->get();
 
+        // Fetch attachments
         $query = DB::table('file_uploads')
             ->leftJoin('users', 'file_uploads.uploaded_by', '=', 'users.id')
             ->select(
@@ -37,7 +65,12 @@ class MyInfoController extends Controller
             return $row;
         });
 
-        return view('myinfo.myinfo', compact('attachments'));
+        return view('myinfo.myinfo', compact(
+            'attachments',
+            'employee',
+            'personalDetails',
+            'nationalities'
+        ));
     }
 }
 

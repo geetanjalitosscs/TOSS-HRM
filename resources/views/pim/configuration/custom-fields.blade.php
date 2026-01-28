@@ -12,7 +12,7 @@
                     <i class="fas fa-list-alt text-purple-500"></i> Custom Fields
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
-                    <span class="text-xs text-gray-600">Remaining number of custom fields: 8</span>
+                    <span class="text-xs text-gray-600">Remaining number of custom fields: {{ $remainingFields }}</span>
                     <x-admin.add-button class="mb-0" />
                 </div>
             </div>

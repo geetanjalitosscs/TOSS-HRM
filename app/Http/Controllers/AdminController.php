@@ -78,7 +78,13 @@ class AdminController extends Controller
 
     public function organizationGeneral()
     {
-        return view('admin.organization.general-information');
+        // Get organization data from database (assuming first organization or default)
+        $organization = DB::table('organizations')->first();
+        
+        // Get employee count
+        $employeeCount = DB::table('employees')->where('status', 'active')->count();
+        
+        return view('admin.organization.general-information', compact('organization', 'employeeCount'));
     }
 
     public function organizationLocations()

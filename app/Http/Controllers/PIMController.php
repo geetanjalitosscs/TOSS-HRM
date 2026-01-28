@@ -66,7 +66,13 @@ class PIMController extends Controller
             ->select('id', 'name', 'module as screen', 'data_type as field_type')
             ->orderBy('name')
             ->get();
-        return view('pim.configuration.custom-fields', compact('customFields'));
+        
+        // Calculate remaining custom fields (assuming max 10, adjust if needed)
+        $maxCustomFields = 10;
+        $currentCount = $customFields->count();
+        $remainingFields = max(0, $maxCustomFields - $currentCount);
+        
+        return view('pim.configuration.custom-fields', compact('customFields', 'remainingFields'));
     }
 
     public function dataImport()

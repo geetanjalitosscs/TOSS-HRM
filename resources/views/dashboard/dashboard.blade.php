@@ -18,10 +18,24 @@
                                 A
                             </div>
                             <div class="flex-1">
-                        <div class="text-xs text-[var(--color-hr-primary)] font-semibold mb-1 uppercase tracking-wide">Punched In</div>
-                        <div class="text-xs text-slate-500 mb-3">Punched In: Mar 29th at 01:19 PM (GMT 7)</div>
+                                @if($todayAttendance)
+                                    <div class="text-xs text-[var(--color-hr-primary)] font-semibold mb-1 uppercase tracking-wide">Punched In</div>
+                                    <div class="text-xs text-slate-500 mb-3">
+                                        Punched In: {{ \Carbon\Carbon::parse($todayAttendance->punch_in_at)->format('M d') }} at {{ \Carbon\Carbon::parse($todayAttendance->punch_in_at)->format('h:i A') }}
+                                        @if($todayAttendance->punch_out_at)
+                                            <br>Punched Out: {{ \Carbon\Carbon::parse($todayAttendance->punch_out_at)->format('M d') }} at {{ \Carbon\Carbon::parse($todayAttendance->punch_out_at)->format('h:i A') }}
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class="text-xs text-slate-500 font-semibold mb-1 uppercase tracking-wide">Not Punched In</div>
+                                    <div class="text-xs text-slate-500 mb-3">No attendance record for today</div>
+                                @endif
                                 <div class="hr-time-pill">
-                                    <span class="hr-time-pill-text">0h 0m Today</span>
+                                    @php
+                                        $hours = floor($todayDuration);
+                                        $minutes = floor(($todayDuration - $hours) * 60);
+                                    @endphp
+                                    <span class="hr-time-pill-text">{{ $hours }}h {{ $minutes }}m Today</span>
                                     <div class="hr-time-pill-icon">
                                         <i class="fas fa-stopwatch"></i>
                                     </div>
@@ -29,14 +43,19 @@
                             </div>
                         </div>
                         <div class="mt-5 pt-4 border-t border-purple-100">
-                            <div class="text-xs text-slate-600 font-medium mb-3">This Week Jan 19 - Jan 25</div>
+                            @php
+                                $today = \Carbon\Carbon::today();
+                                $weekStart = $today->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+                                $weekEnd = $today->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                            @endphp
+                            <div class="text-xs text-slate-600 font-medium mb-3">This Week {{ $weekStart->format('M d') }} - {{ $weekEnd->format('M d') }}</div>
                             <div class="flex items-end gap-1.5 h-24">
-                                @for ($i = 0; $i < 7; $i++)
+                                @foreach($weekData as $day)
                                     <div class="flex-1 flex flex-col items-center">
-                                        <div class="w-full bg-gradient-to-t from-purple-400 to-purple-300 rounded-t shadow-sm" style="height: 20px;"></div>
-                                        <div class="text-[9px] text-slate-600 mt-1 font-medium">0h 0m</div>
+                                        <div class="w-full bg-gradient-to-t from-purple-400 to-purple-300 rounded-t shadow-sm" style="height: {{ max(4, $day['height']) }}px;"></div>
+                                        <div class="text-[9px] text-slate-600 mt-1 font-medium">{{ $day['hoursFormatted'] }}</div>
                                     </div>
-                                @endfor
+                                @endforeach
                             </div>
                             <div class="flex justify-between text-[9px] text-purple-500 mt-2 font-medium">
                                 <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
@@ -50,22 +69,36 @@
                             <i class="fas fa-clipboard-list text-purple-500"></i> My Actions
                         </h2>
                         <ul class="space-y-3">
-                            <li>
-                                <a href="{{ route('performance.my-reviews') }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 transition-all">
-                                    <div class="flex items-center gap-2.5">
-                                        <i class="fas fa-user text-purple-500"></i>
-                                        <span class="text-xs text-slate-700 font-medium">(1) Pending Self Review</span>
+                            @if($pendingSelfReviews > 0)
+                                <li>
+                                    <a href="{{ route('performance.my-reviews') }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 transition-all">
+                                        <div class="flex items-center gap-2.5">
+                                            <i class="fas fa-user text-purple-500"></i>
+                                            <span class="text-xs text-slate-700 font-medium">({{ $pendingSelfReviews }}) Pending Self Review</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if($pendingCandidates > 0)
+                                <li>
+                                    <a href="{{ route('recruitment') }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 transition-all">
+                                        <div class="flex items-center gap-2.5">
+                                            <i class="fas fa-user text-purple-500"></i>
+                                            <span class="text-xs text-slate-700 font-medium">({{ $pendingCandidates }}) Candidate to Interview</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if($pendingSelfReviews == 0 && $pendingCandidates == 0)
+                                <li>
+                                    <div class="flex items-center justify-between p-2 rounded-lg">
+                                        <div class="flex items-center gap-2.5">
+                                            <i class="fas fa-check-circle text-green-500"></i>
+                                            <span class="text-xs text-slate-500 font-medium">No pending actions</span>
+                                        </div>
                                     </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('recruitment') }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-purple-50 transition-all">
-                                    <div class="flex items-center gap-2.5">
-                                        <i class="fas fa-user text-purple-500"></i>
-                                        <span class="text-xs text-slate-700 font-medium">(1) Candidate to Interview</span>
-                                    </div>
-                                </a>
-                            </li>
+                                </li>
+                            @endif
                         </ul>
                     </section>
 
@@ -138,62 +171,81 @@
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
                             <i class="fas fa-user text-purple-500"></i> Employees on Leave Today
                         </h2>
-                        <div class="flex flex-col items-center justify-center h-48 text-center">
-                            <i class="fas fa-clipboard text-5xl mb-3 opacity-60 text-purple-400"></i>
-                            <p class="text-xs text-slate-600 font-medium">No Employees are on Leave Today</p>
-                        </div>
+                        @if($employeesOnLeave->count() > 0)
+                            <div class="space-y-2 max-h-48 overflow-y-auto">
+                                @foreach($employeesOnLeave as $leave)
+                                    <div class="flex items-start gap-2 p-2 rounded-lg hover:bg-purple-50 transition-all">
+                                        <div class="flex-1">
+                                            <div class="text-xs font-medium text-slate-800">{{ $leave->employee_name }}</div>
+                                            <div class="text-[10px] text-slate-500">{{ $leave->leave_type }}</div>
+                                            <div class="text-[10px] text-purple-600">
+                                                {{ \Carbon\Carbon::parse($leave->start_date)->format('M d') }} - {{ \Carbon\Carbon::parse($leave->end_date)->format('M d') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="flex flex-col items-center justify-center h-48 text-center">
+                                <i class="fas fa-clipboard text-5xl mb-3 opacity-60 text-purple-400"></i>
+                                <p class="text-xs text-slate-600 font-medium">No Employees are on Leave Today</p>
+                            </div>
+                        @endif
                     </section>
 
                     <!-- Employee Distribution by Sub Unit -->
-                    <section class="hr-card p-6">
+                    <section id="subunit-chart-section" class="hr-card p-6">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
                             <i class="fas fa-chart-pie text-purple-500"></i> Employee Distribution by Sub Unit
                         </h2>
                         <div class="flex items-center justify-center mb-3 py-4">
                             <div class="relative flex items-center justify-center" style="width: 200px; height: 200px; padding: 10px;">
-                                <svg viewBox="0 0 120 120" class="w-full h-full" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
+                                <svg id="subunit-pie-chart" viewBox="0 0 120 120" class="w-full h-full" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
                                     <!-- Pie chart will be generated by JavaScript -->
                                 </svg>
                             </div>
                         </div>
-                        <div class="space-y-1 text-[10px]">
-                            <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="0">
-                                <span class="h-2 w-2 rounded-full" style="background-color: #ef4444;"></span> Engineering
-                            </div>
-                            <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="1">
-                                <span class="h-2 w-2 rounded-full" style="background-color: #f97316;"></span> Human Resources
-                            </div>
-                            <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="2">
-                                <span class="h-2 w-2 rounded-full" style="background-color: #eab308;"></span> Administration
-                            </div>
-                            <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="3">
-                                <span class="h-2 w-2 rounded-full" style="background-color: #22c55e;"></span> Client Services
-                            </div>
+                        <div class="space-y-1 text-[10px]" id="subunit-legend">
+                            @php
+                                $colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6'];
+                            @endphp
+                            @if(count($subUnitData) > 0)
+                                @foreach($subUnitData as $index => $item)
+                                    <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="{{ $index }}">
+                                        <span class="h-2 w-2 rounded-full" style="background-color: {{ $colors[$index % count($colors)] }};"></span> {{ $item['label'] }} ({{ $item['count'] }})
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="text-xs text-slate-500 text-center py-4">No data available</div>
+                            @endif
                         </div>
                     </section>
 
                     <!-- Employee Distribution by Location -->
-                    <section class="bg-white rounded-lg shadow-sm p-5 lg:col-span-1">
+                    <section id="location-chart-section" class="hr-card p-6 lg:col-span-1">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
                             <span class="text-purple-500">📊</span> Employee Distribution by Location
                         </h2>
                         <div class="flex items-center justify-center mb-3 py-4">
                             <div class="relative flex items-center justify-center" style="width: 200px; height: 200px; padding: 10px;">
-                                <svg viewBox="0 0 120 120" class="w-full h-full" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
+                                <svg id="location-pie-chart" viewBox="0 0 120 120" class="w-full h-full" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
                                     <!-- Pie chart will be generated by JavaScript -->
                                 </svg>
                             </div>
                         </div>
-                        <div class="space-y-1 text-[10px]">
-                            <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="0">
-                                <span class="h-2 w-2 rounded-full" style="background-color: #ef4444;"></span> Unassigned
-                            </div>
-                            <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="1">
-                                <span class="h-2 w-2 rounded-full" style="background-color: #f97316;"></span> Texas R&D
-                            </div>
-                            <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="2">
-                                <span class="h-2 w-2 rounded-full" style="background-color: #eab308;"></span> New York Sales
-                            </div>
+                        <div class="space-y-1 text-[10px]" id="location-legend">
+                            @php
+                                $locationColors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6'];
+                            @endphp
+                            @if(count($locationData) > 0)
+                                @foreach($locationData as $index => $item)
+                                    <div class="flex items-center gap-2 pie-legend-item cursor-pointer hover:text-[var(--color-hr-primary)] transition-colors" data-segment="{{ $index }}">
+                                        <span class="h-2 w-2 rounded-full" style="background-color: {{ $locationColors[$index % count($locationColors)] }};"></span> {{ $item['label'] }} ({{ $item['count'] }})
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="text-xs text-slate-500 text-center py-4">No data available</div>
+                            @endif
                         </div>
                     </section>
                 </div>
@@ -277,23 +329,39 @@
 
         // Interactive pie chart functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Data with exact percentages that sum to 100%
-            const subUnitData = [
-                { label: 'Engineering', value: 95.5, count: 127, color: '#ef4444' },
-                { label: 'Human Resources', value: 2.0, count: 3, color: '#f97316' },
-                { label: 'Administration', value: 1.75, count: 2, color: '#eab308' },
-                { label: 'Client Services', value: 0.75, count: 1, color: '#22c55e' }
-            ];
+            // Data from database
+            const subUnitDataRaw = @json($subUnitData);
+            const locationDataRaw = @json($locationData);
             
-            const locationData = [
-                { label: 'Unassigned', value: 95.2, count: 127, color: '#ef4444' },
-                { label: 'Texas R&D', value: 2.0, count: 3, color: '#f97316' },
-                { label: 'New York Sales', value: 2.8, count: 4, color: '#eab308' }
-            ];
+            // Color palette
+            const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6'];
+            
+            // Map database data to chart format with colors
+            const subUnitData = subUnitDataRaw.map((item, index) => ({
+                label: item.label,
+                value: item.value,
+                count: item.count,
+                color: colors[index % colors.length]
+            }));
+            
+            const locationData = locationDataRaw.map((item, index) => ({
+                label: item.label,
+                value: item.value,
+                count: item.count,
+                color: colors[index % colors.length]
+            }));
             
             // Normalize to ensure exactly 100% total
             function normalizeData(data) {
+                if (!data || data.length === 0) {
+                    return [];
+                }
+                
                 const total = data.reduce((sum, item) => sum + item.value, 0);
+                if (total === 0) {
+                    return [];
+                }
+                
                 const normalized = data.map(item => ({
                     ...item,
                     normalizedValue: (item.value / total) * 100
@@ -313,7 +381,27 @@
             
             // Function to render a pie chart
             function renderPieChart(svgElement, data, chartId) {
+                if (!svgElement) {
+                    console.error('SVG element not found for chart:', chartId);
+                    return;
+                }
+                
                 svgElement.innerHTML = '';
+                
+                if (!data || data.length === 0) {
+                    // Show empty state
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', '60');
+                    text.setAttribute('y', '60');
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('dominant-baseline', 'middle');
+                    text.setAttribute('fill', '#94a3b8');
+                    text.setAttribute('font-size', '12');
+                    text.textContent = 'No Data';
+                    svgElement.appendChild(text);
+                    return;
+                }
+                
                 let currentAngle = -90; // Start from top (12 o'clock)
                 
                 data.forEach((item, index) => {
@@ -375,22 +463,20 @@
                 svgElement.appendChild(centerCircle);
             }
             
-            // Sub Unit Chart
-            const subUnitSection = Array.from(document.querySelectorAll('section')).find(s => 
-                s.textContent.includes('Employee Distribution by Sub Unit')
-            );
-            const subUnitSvg = subUnitSection?.querySelector('svg');
-            if (subUnitSvg) {
+            // Sub Unit Chart - using ID selector
+            const subUnitSvg = document.getElementById('subunit-pie-chart');
+            if (subUnitSvg && normalizedSubUnit.length > 0) {
                 renderPieChart(subUnitSvg, normalizedSubUnit, 'subunit');
+            } else if (subUnitSvg) {
+                renderPieChart(subUnitSvg, [], 'subunit');
             }
             
-            // Location Chart
-            const locationSection = Array.from(document.querySelectorAll('section')).find(s => 
-                s.textContent.includes('Employee Distribution by Location')
-            );
-            const locationSvg = locationSection?.querySelector('svg');
-            if (locationSvg) {
+            // Location Chart - using ID selector
+            const locationSvg = document.getElementById('location-pie-chart');
+            if (locationSvg && normalizedLocation.length > 0) {
                 renderPieChart(locationSvg, normalizedLocation, 'location');
+            } else if (locationSvg) {
+                renderPieChart(locationSvg, [], 'location');
             }
 
             // Legend hover effects

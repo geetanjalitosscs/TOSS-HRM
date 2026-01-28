@@ -19,7 +19,7 @@
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                             Leave Period <span style="color: var(--color-danger);">*</span>
                         </label>
-                        <input type="text" value="2026-01-01 - 2026-31-12" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);">
+                        <input type="text" value="" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);" placeholder="Select date range">
                     </div>
                     <div>
                         <button type="button" class="hr-btn-primary px-4 py-2 text-sm rounded-lg transition-all">
@@ -39,11 +39,6 @@
             <!-- Records Count -->
             <x-records-found :count="count($reportData)" />
             
-            <!-- Table will go here -->
-            @else
-            <!-- Sample Data for Display -->
-            <x-records-found :count="11" />
-            
             <!-- Table Wrapper -->
             <div class="hr-table-wrapper">
                 <!-- Table Header -->
@@ -55,12 +50,6 @@
                         <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Entitlements (Days)</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 140px;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Pending Approval (Days)</div>
-                    </div>
-                    <div class="flex-shrink-0" style="width: 140px;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Scheduled (Days)</div>
-                    </div>
-                    <div class="flex-shrink-0" style="width: 130px;">
                         <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words whitespace-normal" style="color: var(--text-primary);">Leave Taken (Days)</div>
                     </div>
                     <div class="flex-shrink-0" style="width: 140px;">
@@ -70,36 +59,28 @@
                 
                 <!-- Table Rows -->
                 <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                    @php
-                        $leaveTypes = [
-                            'CAN - Bereavement', 'CAN - FMLA', 'CAN - Maternity', 'CAN - Personal', 'CAN - Vacation',
-                            'Sick Leave (Deleted)', 'US - Bereavement', 'US - FMLA', 'US - Maternity', 'US - Personal', 'US - Vacation'
-                        ];
-                    @endphp
-                    @foreach($leaveTypes as $type)
+                    @foreach($reportData as $row)
                     <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                         <div class="flex-shrink-0" style="width: 150px;">
-                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $type }}</div>
+                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $row->leave_type }}</div>
                         </div>
                         <div class="flex-shrink-0" style="width: 140px;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format($row->days_entitled, 2) }}</div>
                         </div>
                         <div class="flex-shrink-0" style="width: 140px;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format($row->days_taken, 2) }}</div>
                         </div>
                         <div class="flex-shrink-0" style="width: 140px;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
-                        </div>
-                        <div class="flex-shrink-0" style="width: 130px;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
-                        </div>
-                        <div class="flex-shrink-0" style="width: 140px;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">0.00</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format($row->balance, 2) }}</div>
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
+            @else
+            <!-- No Data -->
+            <x-records-found :count="0" />
+            <div class="text-center py-8 text-sm text-slate-500">No leave entitlements data available.</div>
             @endif
         </section>
     </x-main-layout>

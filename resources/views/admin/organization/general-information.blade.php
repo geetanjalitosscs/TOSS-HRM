@@ -13,88 +13,88 @@
             <x-admin.form-field 
                 label="Organization Name" 
                 name="organization_name" 
-                value="TOAIHRM" 
+                value="{{ $organization->name ?? '' }}" 
                 :required="true"
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Number of Employees" 
                 name="num_employees" 
-                value="104" 
+                value="{{ $employeeCount ?? 0 }}" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Registration Number" 
                 name="registration_number" 
-                value="1234" 
+                value="{{ $organization->registration_number ?? '' }}" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Tax ID" 
                 name="tax_id" 
-                value="5678" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Phone" 
                 name="phone" 
-                value="0123456789" 
+                value="{{ $organization->phone ?? '' }}" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Fax" 
                 name="fax" 
-                value="9101" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Email" 
                 name="email" 
                 type="email"
-                value="info@toaihrm.com" 
+                value="{{ $organization->email ?? '' }}" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Address Street 1" 
                 name="address_street_1" 
-                value="538 Teal Plaza" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Address Street 2" 
                 name="address_street_2" 
-                value="Mysore" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="City" 
                 name="city" 
-                value="Secaucus" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="State/Province" 
                 name="state_province" 
-                value="NJ" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Zip/Postal Code" 
                 name="zip_postal_code" 
-                value="51217" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Country" 
                 name="country" 
-                value="United States" 
+                value="" 
                 :readonly="true" />
             
             <x-admin.form-field 
                 label="Notes" 
                 name="notes" 
                 type="textarea"
-                value="HRM Software" 
+                value="" 
                 :readonly="true"
                 class="md:col-span-2" />
             

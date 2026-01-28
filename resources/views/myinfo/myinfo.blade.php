@@ -9,10 +9,12 @@
             <aside class="w-64 flex-shrink-0 mr-6 flex flex-col">
                 <!-- User Profile Section -->
                 <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
-                    <h2 class="text-sm font-bold text-slate-800 mb-2">manda user</h2>
+                    <h2 class="text-sm font-bold text-slate-800 mb-2">
+                        {{ $employee ? ($employee->display_name ?: trim($employee->first_name . ' ' . ($employee->middle_name ?? '') . ' ' . $employee->last_name)) : 'Employee' }}
+                    </h2>
                     <div class="flex justify-center mb-3">
                         <div class="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                            M
+                            {{ $employee ? strtoupper(substr($employee->first_name, 0, 1)) : 'E' }}
                         </div>
                     </div>
                 </div>
@@ -63,35 +65,35 @@
                         <div>
                             <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Full Name*</label>
                             <div class="grid grid-cols-3 gap-2">
-                                <input type="text" class="hr-input" value="manda" placeholder="First Name">
-                                <input type="text" class="hr-input" value="akhil" placeholder="Middle Name">
-                                <input type="text" class="hr-input" value="user" placeholder="Last Name">
+                                <input type="text" class="hr-input" value="{{ $employee ? $employee->first_name : '' }}" placeholder="First Name">
+                                <input type="text" class="hr-input" value="{{ $employee ? ($employee->middle_name ?? '') : '' }}" placeholder="Middle Name">
+                                <input type="text" class="hr-input" value="{{ $employee ? $employee->last_name : '' }}" placeholder="Last Name">
                             </div>
                         </div>
 
                         <!-- Employee Id -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Employee Id</label>
-                            <input type="text" class="hr-input" value="muser">
+                            <input type="text" class="hr-input" value="{{ $employee ? $employee->employee_number : '' }}">
                         </div>
 
                         <!-- Other Id -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Other Id</label>
-                            <input type="text" class="hr-input" value="4957589">
+                            <input type="text" class="hr-input" value="{{ $personalDetails->other_id ?? '' }}">
                         </div>
 
                         <!-- Driver's License Number -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Driver's License Number</label>
-                            <input type="text" class="hr-input" value="56788">
+                            <input type="text" class="hr-input" value="{{ $personalDetails->drivers_license ?? '' }}">
                         </div>
 
                         <!-- License Expiry Date -->
                         <div>
                             <x-date-picker 
                                 id="license-expiry-date"
-                                value="2023-10-18"
+                                value="{{ $personalDetails->license_expiry ?? '' }}"
                                 label="License Expiry Date"
                             />
                         </div>
@@ -100,10 +102,12 @@
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Nationality</label>
                             <select class="hr-select">
-                                <option>American</option>
-                                <option>Indian</option>
-                                <option>British</option>
-                                <option>Canadian</option>
+                                <option value="">Select Nationality</option>
+                                @foreach($nationalities as $nationality)
+                                    <option value="{{ $nationality->id }}" {{ $personalDetails && $personalDetails->nationality_id == $nationality->id ? 'selected' : '' }}>
+                                        {{ $nationality->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -111,10 +115,11 @@
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Marital Status</label>
                             <select class="hr-select">
-                                <option>Single</option>
-                                <option>Married</option>
-                                <option>Divorced</option>
-                                <option>Widowed</option>
+                                <option value="">Select Status</option>
+                                <option value="single" {{ $employee && $employee->marital_status == 'single' ? 'selected' : '' }}>Single</option>
+                                <option value="married" {{ $employee && $employee->marital_status == 'married' ? 'selected' : '' }}>Married</option>
+                                <option value="divorced" {{ $employee && $employee->marital_status == 'divorced' ? 'selected' : '' }}>Divorced</option>
+                                <option value="widowed" {{ $employee && $employee->marital_status == 'widowed' ? 'selected' : '' }}>Widowed</option>
                             </select>
                         </div>
 
@@ -122,7 +127,7 @@
                         <div>
                             <x-date-picker 
                                 id="date-of-birth"
-                                value="2023-10-21"
+                                value="{{ $employee->date_of_birth ?? '' }}"
                                 label="Date of Birth"
                             />
                         </div>
@@ -132,12 +137,16 @@
                             <label class="block text-xs font-medium text-slate-700 mb-1">Gender</label>
                             <div class="flex gap-2">
                                 <label class="flex items-center">
-                                    <input type="radio" name="gender" value="male" checked class="mr-1.5 text-[var(--color-hr-primary)] focus:ring-[var(--color-hr-primary)]">
+                                    <input type="radio" name="gender" value="male" {{ $employee && $employee->gender == 'male' ? 'checked' : '' }} class="mr-1.5 text-[var(--color-hr-primary)] focus:ring-[var(--color-hr-primary)]">
                                     <span class="text-xs text-slate-700">Male</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="radio" name="gender" value="female" class="mr-1.5 text-[var(--color-hr-primary)] focus:ring-[var(--color-hr-primary)]">
+                                    <input type="radio" name="gender" value="female" {{ $employee && $employee->gender == 'female' ? 'checked' : '' }} class="mr-1.5 text-[var(--color-hr-primary)] focus:ring-[var(--color-hr-primary)]">
                                     <span class="text-xs text-slate-700">Female</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="gender" value="other" {{ $employee && $employee->gender == 'other' ? 'checked' : '' }} class="mr-1.5 text-[var(--color-hr-primary)] focus:ring-[var(--color-hr-primary)]">
+                                    <span class="text-xs text-slate-700">Other</span>
                                 </label>
                             </div>
                         </div>
@@ -160,21 +169,16 @@
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Blood Type</label>
                             <select class="hr-select">
-                                <option>A+</option>
-                                <option>A-</option>
-                                <option>B+</option>
-                                <option>B-</option>
-                                <option>AB+</option>
-                                <option>AB-</option>
-                                <option>O+</option>
-                                <option>O-</option>
+                                <option value="">Select Blood Type</option>
+                                <option value="A+" {{ $personalDetails && $personalDetails->blood_group == 'A+' ? 'selected' : '' }}>A+</option>
+                                <option value="A-" {{ $personalDetails && $personalDetails->blood_group == 'A-' ? 'selected' : '' }}>A-</option>
+                                <option value="B+" {{ $personalDetails && $personalDetails->blood_group == 'B+' ? 'selected' : '' }}>B+</option>
+                                <option value="B-" {{ $personalDetails && $personalDetails->blood_group == 'B-' ? 'selected' : '' }}>B-</option>
+                                <option value="AB+" {{ $personalDetails && $personalDetails->blood_group == 'AB+' ? 'selected' : '' }}>AB+</option>
+                                <option value="AB-" {{ $personalDetails && $personalDetails->blood_group == 'AB-' ? 'selected' : '' }}>AB-</option>
+                                <option value="O+" {{ $personalDetails && $personalDetails->blood_group == 'O+' ? 'selected' : '' }}>O+</option>
+                                <option value="O-" {{ $personalDetails && $personalDetails->blood_group == 'O-' ? 'selected' : '' }}>O-</option>
                             </select>
-                        </div>
-
-                        <!-- Test_Field -->
-                        <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Test_Field</label>
-                            <input type="text" class="hr-input" value="445">
                         </div>
 
                         <!-- Save Button -->
