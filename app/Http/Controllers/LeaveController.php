@@ -99,7 +99,23 @@ class LeaveController extends Controller
 
     public function employeeEntitlements()
     {
-        return view('leave.employee-entitlements');
+        // Fetch all employee entitlements with employee and leave type details
+        $entitlements = DB::table('leave_entitlements')
+            ->join('employees', 'leave_entitlements.employee_id', '=', 'employees.id')
+            ->join('leave_types', 'leave_entitlements.leave_type_id', '=', 'leave_types.id')
+            ->select(
+                'leave_entitlements.id',
+                'employees.display_name as employee_name',
+                'leave_types.name as leave_type',
+                'leave_entitlements.days_entitled',
+                'leave_entitlements.days_used',
+                DB::raw('(leave_entitlements.days_entitled - leave_entitlements.days_used) as balance')
+            )
+            ->orderBy('employees.display_name')
+            ->orderBy('leave_types.name')
+            ->get();
+
+        return view('leave.employee-entitlements', compact('entitlements'));
     }
 
     // Reports

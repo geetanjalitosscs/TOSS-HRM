@@ -4,11 +4,6 @@
 
 <!-- Sidebar - Fixed -->
 <aside class="hr-sidebar" id="hr-sidebar">
-    <!-- Sidebar Toggle Button -->
-    <button class="hr-sidebar-toggle" id="sidebar-toggle" title="Toggle Sidebar">
-        <i class="fas fa-chevron-left sidebar-toggle-icon"></i>
-    </button>
-    
     <!-- Logo -->
     <div class="hr-sidebar-logo">
         <div class="hr-logo-icon">T</div>
@@ -16,6 +11,11 @@
             <div class="text-sm font-bold text-slate-800 tracking-tight">TOAI HR Suite</div>
             <div class="text-[10px] text-purple-500 font-medium">Professional Edition</div>
         </div>
+        
+        <!-- Sidebar Toggle Button (kept inside logo row to avoid overlap) -->
+        <button class="hr-sidebar-toggle" id="sidebar-toggle" title="Toggle Sidebar" type="button">
+            <i class="fas fa-chevron-left sidebar-toggle-icon"></i>
+        </button>
     </div>
 
     <!-- Search Bar -->

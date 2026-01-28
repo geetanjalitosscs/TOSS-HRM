@@ -48,14 +48,9 @@
 
                 <!-- Send Test Mail -->
                 <div class="mb-4">
-                    <label class="flex items-center gap-3 cursor-pointer">
+                    <label class="flex items-center gap-2 cursor-pointer">
                         <span class="text-sm font-medium" style="color: var(--text-secondary);">Send Test Mail</span>
-                        <div class="relative">
-                            <input type="checkbox" class="sr-only" id="test-mail-toggle">
-                            <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="test-mail-toggle-bg">
-                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="test-mail-toggle-circle"></div>
-                            </div>
-                        </div>
+                        <x-admin.toggle-switch id="test-mail-toggle" />
                     </label>
                 </div>
 
@@ -77,25 +72,4 @@
         </section>
     </x-main-layout>
 
-    <script>
-        // Test Mail toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('test-mail-toggle');
-            if (toggle) {
-                toggle.addEventListener('change', function() {
-                    const bg = document.getElementById('test-mail-toggle-bg');
-                    const circle = document.getElementById('test-mail-toggle-circle');
-                    if (this.checked) {
-                        bg.style.background = 'var(--color-hr-primary)';
-                        circle.classList.add('translate-x-5');
-                        circle.classList.remove('translate-x-0.5');
-                    } else {
-                        bg.style.background = 'var(--bg-hover)';
-                        circle.classList.remove('translate-x-5');
-                        circle.classList.add('translate-x-0.5');
-                    }
-                });
-            }
-        });
-    </script>
 @endsection

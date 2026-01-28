@@ -6,12 +6,21 @@
     <x-main-layout title="Admin / Configuration">
         <x-admin.tabs activeTab="configuration-language-packages" />
 
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-language text-purple-500"></i> Language Packages
+                </h2>
+                <x-admin.add-button />
+            </div>
+
         <x-admin.data-table 
-            title="Language Packages" 
+                title="" 
             :records="$languages"
             :columns="[
                 ['label' => 'Language Packages', 'sortable' => true]
-            ]">
+                ]"
+                :addButton="false">
             @foreach($languages as $language)
             <x-admin.table-row>
                 <x-admin.table-cell>
@@ -31,5 +40,6 @@
             </x-admin.table-row>
             @endforeach
         </x-admin.data-table>
+        </section>
     </x-main-layout>
 @endsection

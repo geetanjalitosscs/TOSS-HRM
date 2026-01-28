@@ -6,14 +6,23 @@
     <x-main-layout title="Admin / Configuration">
         <x-admin.tabs activeTab="configuration-oauth-client-list" />
 
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-key text-purple-500"></i> OAuth Client List
+                </h2>
+                <x-admin.add-button />
+            </div>
+
         <x-admin.data-table 
-            title="OAuth Client List" 
+                title="" 
             :records="$oauthClients"
             :columns="[
                 ['label' => 'Name', 'sortable' => true],
                 ['label' => 'Redirect URI', 'sortable' => false],
                 ['label' => 'Status', 'sortable' => false]
-            ]">
+                ]"
+                :addButton="false">
             @foreach($oauthClients as $client)
             <x-admin.table-row>
                 <x-admin.table-cell>
@@ -35,6 +44,7 @@
             </x-admin.table-row>
             @endforeach
         </x-admin.data-table>
+        </section>
     </x-main-layout>
 @endsection
 

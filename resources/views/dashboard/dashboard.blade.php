@@ -51,9 +51,9 @@
                             <div class="text-xs text-slate-600 font-medium mb-3">This Week {{ $weekStart->format('M d') }} - {{ $weekEnd->format('M d') }}</div>
                             <div class="flex items-end gap-1.5 h-24">
                                 @foreach($weekData as $day)
-                                    <div class="flex-1 flex flex-col items-center">
-                                        <div class="w-full bg-gradient-to-t from-purple-400 to-purple-300 rounded-t shadow-sm" style="height: {{ max(4, $day['height']) }}px;"></div>
-                                        <div class="text-[9px] text-slate-600 mt-1 font-medium">{{ $day['hoursFormatted'] }}</div>
+                                    <div class="flex-1 min-w-0 flex flex-col items-center">
+                                        <div class="w-full bg-gradient-to-t from-purple-400 to-purple-300 rounded-t shadow-sm" style="height: {{ max(3, round($day['height'] * 0.6)) }}px;"></div>
+                                        <div class="w-full truncate text-[9px] text-slate-600 mt-1 font-medium text-center" title="{{ $day['hoursFormatted'] }}">{{ $day['hoursFormatted'] }}</div>
                                     </div>
                                 @endforeach
                             </div>
@@ -178,7 +178,7 @@
                                         <div class="flex-1">
                                             <div class="text-xs font-medium text-slate-800">{{ $leave->employee_name }}</div>
                                             <div class="text-[10px] text-slate-500">{{ $leave->leave_type }}</div>
-                                            <div class="text-[10px] text-purple-600">
+                                            <div class="text-[10px] text-purple-500">
                                                 {{ \Carbon\Carbon::parse($leave->start_date)->format('M d') }} - {{ \Carbon\Carbon::parse($leave->end_date)->format('M d') }}
                                             </div>
                                         </div>

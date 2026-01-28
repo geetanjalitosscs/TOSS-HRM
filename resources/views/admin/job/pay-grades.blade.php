@@ -14,6 +14,7 @@
                 </h2>
                 <x-admin.add-button />
             </div>
+            @if(isset($payGrades) && count($payGrades) > 0)
             <x-admin.data-table 
                 title="" 
                 :records="$payGrades"
@@ -29,6 +30,14 @@
                 </x-admin.table-row>
                 @endforeach
             </x-admin.data-table>
+            @else
+            <!-- No Data Found - Centered Message -->
+            <div class="flex flex-col items-center justify-center min-h-[220px]">
+                <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
+                    No Data Found
+                </div>
+            </div>
+            @endif
         </section>
     </x-main-layout>
 @endsection

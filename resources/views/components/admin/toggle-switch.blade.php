@@ -30,7 +30,7 @@
         <div 
             class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 {{ $isChecked ? 'translate-x-5' : 'translate-x-0.5' }}"
             id="{{ $toggleCircleId }}"
-            style="background: var(--bg-card);"
+            style="background: #ffffff;"
         ></div>
     </label>
 </div>

@@ -16,6 +16,10 @@
                 </button>
             </div>
 
+            @if(isset($providers) && count($providers) > 0)
+            <x-records-found :count="count($providers)" />
+            @endif
+
             <div class="hr-table-wrapper">
                 <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
                     <div class="flex-shrink-0" style="width: 24px;">

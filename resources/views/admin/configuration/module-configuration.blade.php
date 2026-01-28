@@ -17,12 +17,7 @@
                     <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">
                         {{ $module->name }}
                     </label>
-                    <div class="relative">
-                        <input type="checkbox" class="sr-only module-toggle" id="module-{{ $module->id }}" {{ $module->enabled ? 'checked' : '' }}>
-                        <label for="module-{{ $module->id }}" class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200 cursor-pointer flex items-center">
-                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5"></div>
-                        </label>
-                    </div>
+                    <x-admin.toggle-switch id="module-{{ $module->id }}" :checked="$module->enabled" />
                 </div>
                 @endforeach
 
@@ -36,26 +31,5 @@
         </section>
     </x-main-layout>
 
-    <script>
-        // Module toggles
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggles = document.querySelectorAll('.module-toggle');
-            toggles.forEach(toggle => {
-                toggle.addEventListener('change', function() {
-                    const label = this.nextElementSibling;
-                    const circle = label.querySelector('div');
-                    if (this.checked) {
-                        label.style.background = 'var(--color-hr-primary)';
-                        circle.classList.add('translate-x-5');
-                        circle.classList.remove('translate-x-0.5');
-                    } else {
-                        label.style.background = 'var(--bg-hover)';
-                        circle.classList.remove('translate-x-5');
-                        circle.classList.add('translate-x-0.5');
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
 

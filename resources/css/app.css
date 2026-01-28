@@ -573,9 +573,9 @@ input:focus + .toggle-slider {
 
 /* Sidebar Toggle Button */
 .hr-sidebar-toggle {
-    position: absolute;
-    right: 0.25rem;
-    top: 1rem;
+    position: relative;
+    right: auto;
+    top: auto;
     width: 1.4rem;
     height: 1.4rem;
     border-radius: 50%;
@@ -594,6 +594,7 @@ input:focus + .toggle-slider {
     line-height: 1;
     pointer-events: auto;
     flex-shrink: 0;
+    margin-left: auto;
 }
 
 .hr-sidebar-toggle:hover {

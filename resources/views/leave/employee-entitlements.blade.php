@@ -45,8 +45,10 @@
         
         <!-- Entitlements Table Section -->
         <section class="hr-card p-6">
-            <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
-                No Records Found
+            <div class="flex flex-col items-center justify-center min-h-[220px]">
+                <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
+                    No Records Found
+                </div>
             </div>
         </section>
     </x-main-layout>

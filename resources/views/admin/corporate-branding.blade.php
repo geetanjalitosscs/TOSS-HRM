@@ -113,14 +113,9 @@
 
                 <!-- Social Media Images Toggle -->
                 <div class="mt-6">
-                    <label class="flex items-center gap-3 cursor-pointer">
+                    <label class="flex items-center gap-2 cursor-pointer">
                         <span class="text-sm font-medium" style="color: var(--text-secondary);">Social Media Images</span>
-                        <div class="relative">
-                            <input type="checkbox" class="sr-only" id="social-media-toggle" checked>
-                            <div class="w-11 h-6 bg-[var(--color-hr-primary)] rounded-full transition-colors duration-200 flex items-center" id="social-media-toggle-bg">
-                                <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-5" id="social-media-toggle-circle"></div>
-                            </div>
-                        </div>
+                        <x-admin.toggle-switch id="social-media-toggle" checked />
                     </label>
                 </div>
 

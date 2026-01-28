@@ -110,38 +110,10 @@
             </div>
 
             @else
-            <!-- No Records Found -->
-            <div class="flex items-center justify-between mb-3">
-                <div class="text-xs font-medium" style="color: var(--text-muted);">
+            <!-- No Records Found - Centered Message -->
+            <div class="flex flex-col items-center justify-center min-h-[220px]">
+                <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
                     No Records Found
-                </div>
-                <div class="text-xs font-medium" style="color: var(--text-muted);">
-                    Total 0.00 Day(s)
-                </div>
-            </div>
-            
-            <!-- Empty Table Headers -->
-            <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                <div class="flex-shrink-0" style="width: 24px;">
-                    <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Leave Type</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Entitlement Type</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Valid From</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Valid To</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Days</span>
-                </div>
-                <div class="flex-shrink-0" style="width: 90px;">
-                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
                 </div>
             </div>
             @endif

@@ -11,14 +11,14 @@
                 <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
                     <i class="fas fa-sitemap text-purple-500"></i> <span class="mt-0.5">Organization Structure</span>
                 </h2>
-                <label class="flex items-center gap-2 cursor-pointer">
+                <label class="flex items-center cursor-pointer">
                     <span class="text-sm text-gray-700">Edit</span>
-                    <div class="relative">
-                        <input type="checkbox" class="sr-only" id="edit-toggle" onchange="toggleEditMode()">
-                        <div class="w-11 h-6 bg-gray-200 rounded-full transition-colors duration-200 flex items-center" id="toggle-bg">
-                            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 translate-x-0.5" id="toggle-circle"></div>
-                        </div>
-                    </div>
+                    <x-admin.toggle-switch 
+                        id="edit-toggle"
+                        bgId="toggle-bg"
+                        circleId="toggle-circle"
+                        onChange="toggleEditMode()"
+                    />
                 </label>
             </div>
 
@@ -321,8 +321,11 @@
             
             if (checkbox && bg && circle) {
                 if (checkbox.checked) {
+                    // Track ON state - match global toggle styling
                     bg.classList.add('bg-[var(--color-hr-primary)]');
                     bg.classList.remove('bg-gray-200');
+                    bg.style.background = 'var(--color-hr-primary)';
+                    bg.style.borderColor = 'var(--border-strong)';
                     circle.classList.remove('translate-x-0.5');
                     circle.classList.add('translate-x-5');
                     if (addButton) {
@@ -332,8 +335,11 @@
                         btn.style.display = 'flex';
                     });
                 } else {
+                    // Track OFF state
                     bg.classList.remove('bg-[var(--color-hr-primary)]');
                     bg.classList.add('bg-gray-200');
+                    bg.style.background = 'var(--bg-input)';
+                    bg.style.borderColor = 'var(--border-default)';
                     circle.classList.remove('translate-x-5');
                     circle.classList.add('translate-x-0.5');
                     if (addButton) {
