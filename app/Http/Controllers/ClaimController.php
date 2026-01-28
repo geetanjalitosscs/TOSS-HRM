@@ -205,6 +205,27 @@ class ClaimController extends Controller
         return view('claim.configuration.add-event');
     }
 
+    public function editEvent($id)
+    {
+        $raw = DB::table('claim_events')
+            ->select('id', 'name', 'description', 'is_active')
+            ->where('id', $id)
+            ->first();
+
+        if (!$raw) {
+            abort(404);
+        }
+
+        $event = (object) [
+            'id' => $raw->id,
+            'name' => $raw->name,
+            'description' => $raw->description,
+            'status' => $raw->is_active ? 'Active' : 'Inactive',
+        ];
+
+        return view('claim.configuration.edit-event', compact('event'));
+    }
+
     public function expensesTypes()
     {
         $expenseTypes = DB::table('claim_expense_types')
@@ -224,6 +245,27 @@ class ClaimController extends Controller
     public function addExpenseType()
     {
         return view('claim.configuration.add-expense-type');
+    }
+
+    public function editExpenseType($id)
+    {
+        $raw = DB::table('claim_expense_types')
+            ->select('id', 'name', 'description', 'is_active')
+            ->where('id', $id)
+            ->first();
+
+        if (!$raw) {
+            abort(404);
+        }
+
+        $expenseType = (object) [
+            'id' => $raw->id,
+            'name' => $raw->name,
+            'description' => $raw->description,
+            'status' => $raw->is_active ? 'Active' : 'Inactive',
+        ];
+
+        return view('claim.configuration.edit-expense-type', compact('expenseType'));
     }
 }
 

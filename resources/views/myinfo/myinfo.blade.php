@@ -57,7 +57,8 @@
             <!-- Right Content Area -->
             <div class="flex-1">
                 <!-- Personal Details Form -->
-                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <form method="POST" action="{{ route('myinfo.personal.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                    @csrf
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Personal Details</h2>
 
                     <div class="space-y-3">
@@ -65,34 +66,35 @@
                         <div>
                             <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Full Name*</label>
                             <div class="grid grid-cols-3 gap-2">
-                                <input type="text" class="hr-input" value="{{ $employee ? $employee->first_name : '' }}" placeholder="First Name">
-                                <input type="text" class="hr-input" value="{{ $employee ? ($employee->middle_name ?? '') : '' }}" placeholder="Middle Name">
-                                <input type="text" class="hr-input" value="{{ $employee ? $employee->last_name : '' }}" placeholder="Last Name">
+                                <input type="text" name="first_name" class="hr-input" value="{{ $employee ? $employee->first_name : '' }}" placeholder="First Name">
+                                <input type="text" name="middle_name" class="hr-input" value="{{ $employee ? ($employee->middle_name ?? '') : '' }}" placeholder="Middle Name">
+                                <input type="text" name="last_name" class="hr-input" value="{{ $employee ? $employee->last_name : '' }}" placeholder="Last Name">
                             </div>
                         </div>
 
                         <!-- Employee Id -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Employee Id</label>
-                            <input type="text" class="hr-input" value="{{ $employee ? $employee->employee_number : '' }}">
+                            <input type="text" name="employee_number" class="hr-input" value="{{ $employee ? $employee->employee_number : '' }}">
                         </div>
 
                         <!-- Other Id -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Other Id</label>
-                            <input type="text" class="hr-input" value="{{ $personalDetails->other_id ?? '' }}">
+                            <input type="text" name="other_id" class="hr-input" value="{{ $personalDetails->other_id ?? '' }}">
                         </div>
 
                         <!-- Driver's License Number -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Driver's License Number</label>
-                            <input type="text" class="hr-input" value="{{ $personalDetails->drivers_license ?? '' }}">
+                            <input type="text" name="drivers_license" class="hr-input" value="{{ $personalDetails->drivers_license ?? '' }}">
                         </div>
 
                         <!-- License Expiry Date -->
                         <div>
                             <x-date-picker 
                                 id="license-expiry-date"
+                                name="license_expiry"
                                 value="{{ $personalDetails->license_expiry ?? '' }}"
                                 label="License Expiry Date"
                             />
@@ -101,7 +103,7 @@
                         <!-- Nationality -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Nationality</label>
-                            <select class="hr-select">
+                            <select name="nationality_id" class="hr-select">
                                 <option value="">Select Nationality</option>
                                 @foreach($nationalities as $nationality)
                                     <option value="{{ $nationality->id }}" {{ $personalDetails && $personalDetails->nationality_id == $nationality->id ? 'selected' : '' }}>
@@ -114,7 +116,7 @@
                         <!-- Marital Status -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Marital Status</label>
-                            <select class="hr-select">
+                            <select name="marital_status" class="hr-select">
                                 <option value="">Select Status</option>
                                 <option value="single" {{ $employee && $employee->marital_status == 'single' ? 'selected' : '' }}>Single</option>
                                 <option value="married" {{ $employee && $employee->marital_status == 'married' ? 'selected' : '' }}>Married</option>
@@ -127,6 +129,7 @@
                         <div>
                             <x-date-picker 
                                 id="date-of-birth"
+                                name="date_of_birth"
                                 value="{{ $employee->date_of_birth ?? '' }}"
                                 label="Date of Birth"
                             />
@@ -153,22 +156,23 @@
 
                         <!-- Save Button -->
                         <div class="flex justify-end pt-3">
-                            <button class="hr-btn-primary px-3 py-1.5 text-xs bg-green-600 hover:bg-green-700 focus:ring-green-500">
+                            <button type="submit" class="hr-btn-primary px-3 py-1.5 text-xs bg-green-600 hover:bg-green-700 focus:ring-green-500">
                                 Save
                             </button>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <!-- Custom Fields Section -->
-                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <form method="POST" action="{{ route('myinfo.custom.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                    @csrf
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Custom Fields</h2>
 
                     <div class="space-y-3">
                         <!-- Blood Type -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Blood Type</label>
-                            <select class="hr-select">
+                            <select name="blood_group" class="hr-select">
                                 <option value="">Select Blood Type</option>
                                 <option value="A+" {{ $personalDetails && $personalDetails->blood_group == 'A+' ? 'selected' : '' }}>A+</option>
                                 <option value="A-" {{ $personalDetails && $personalDetails->blood_group == 'A-' ? 'selected' : '' }}>A-</option>
@@ -183,18 +187,23 @@
 
                         <!-- Save Button -->
                         <div class="flex justify-end pt-4">
-                            <button class="hr-btn-primary bg-green-600 hover:bg-green-700 focus:ring-green-500">
+                            <button type="submit" class="hr-btn-primary bg-green-600 hover:bg-green-700 focus:ring-green-500">
                                 Save
                             </button>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <!-- Attachments Section -->
-                <div class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
+                <form method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data" class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
+                    @csrf
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-sm font-bold text-slate-800">Attachments</h2>
-                        <button class="hr-btn-primary px-3 py-1.5 text-xs">
+                        <button 
+                            type="button" 
+                            class="hr-btn-primary px-3 py-1.5 text-xs"
+                            onclick="openAddAttachmentModal()"
+                        >
                             + Add
                         </button>
                     </div>
@@ -228,7 +237,7 @@
                     <!-- Table Rows -->
                     <div class="border border-purple-100 border-t-0 rounded-b-lg" style="overflow: visible;">
                         @foreach($attachments as $attachment)
-                            <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                            <div id="attachment-row-{{ $attachment->id }}" class="hr-table-row border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);">
                                 <div class="flex items-center gap-1">
                                     <div class="flex-1" style="min-width: 0;">
                                         <div class="text-xs text-slate-700 break-words">{{ $attachment->file_name }}</div>
@@ -243,27 +252,160 @@
                                         {{ $attachment->type }}
                                     </div>
                                     <div class="flex-1" style="min-width: 0;">
-                                        <div class="text-xs text-slate-700 break-words">{{ $attachment->date_added }}</div>
+                                        @if($attachment->date_only || $attachment->time_only)
+                                            <div class="text-xs text-slate-700 break-words">
+                                                {{ $attachment->date_only ?? '-' }}
+                                            </div>
+                                            @if($attachment->time_only)
+                                                <div class="text-xs break-words" style="color: var(--text-muted);">
+                                                    {{ $attachment->time_only }}
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="text-xs text-slate-500 break-words">-</div>
+                                        @endif
                                     </div>
                                     <div class="flex-shrink-0" style="width: 90px; overflow: visible;">
                                         <div class="flex items-center justify-center gap-2" style="overflow: visible;">
-                                            <button class="hr-action-edit flex-shrink-0" title="Edit">
+                                        <!-- Edit (description + file) -->
+                                        <button
+                                            type="button"
+                                            class="hr-action-edit flex-shrink-0"
+                                            title="Edit"
+                                            onclick='openEditAttachmentModal({{ $attachment->id }}, @json($attachment->description), "{{ route('myinfo.attachments.update', $attachment->id) }}")'
+                                        >
                                                 <i class="fas fa-edit text-sm"></i>
                                             </button>
-                                            <button class="hr-action-delete flex-shrink-0" title="Delete">
+
+                                        <!-- Delete -->
+                                        <button
+                                            type="button"
+                                            class="hr-action-delete flex-shrink-0"
+                                            title="Delete"
+                                            onclick="submitDeleteAttachment({{ $attachment->id }})"
+                                        >
                                                 <i class="fas fa-trash-alt text-sm"></i>
                                             </button>
-                                            <button class="hr-action-download flex-shrink-0" title="Download">
+
+                                        <!-- Download -->
+                                        <a
+                                            href="{{ route('myinfo.attachments.download', $attachment->id) }}"
+                                            class="hr-action-download flex-shrink-0"
+                                            title="Download"
+                                        >
                                                 <i class="fas fa-download text-sm"></i>
-                                            </button>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Hidden form for delete -->
+                            <form
+                                id="attachment-delete-form-{{ $attachment->id }}"
+                                method="POST"
+                                action="{{ route('myinfo.attachments.delete', $attachment->id) }}"
+                                class="hidden"
+                            >
+                                @csrf
+                            </form>
                         @endforeach
                     </div>
-                </div>
+                </form>
             </div>
     </x-main-layout>
-@endsection
 
+    <!-- Attachment Modals as Components -->
+    <x-modal.attachment-add />
+    <x-modal.attachment-edit />
+    <x-modal.attachment-delete />
+
+    <script>
+        function openAddAttachmentModal() {
+            const modal = document.getElementById('attachment-add-modal');
+            const fileInput = document.getElementById('add-attachment-file');
+            const descInput = document.getElementById('add-attachment-description');
+            if (fileInput) fileInput.value = '';
+            if (descInput) descInput.value = '';
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeAddAttachmentModal(reset = false) {
+            const modal = document.getElementById('attachment-add-modal');
+            if (modal) modal.classList.add('hidden');
+            if (reset) {
+                const fileInput = document.getElementById('add-attachment-file');
+                const descInput = document.getElementById('add-attachment-description');
+                if (fileInput) fileInput.value = '';
+                if (descInput) descInput.value = '';
+            }
+        }
+
+        function openEditAttachmentModal(id, currentDescription, updateUrl) {
+            const modal = document.getElementById('attachment-edit-modal');
+            const form = document.getElementById('attachment-edit-form');
+            const descInput = document.getElementById('edit-attachment-description');
+            const fileInput = document.getElementById('edit-attachment-file');
+
+            if (!modal || !form || !descInput || !fileInput) return;
+
+            form.action = updateUrl;
+            descInput.value = currentDescription || '';
+            fileInput.value = '';
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeEditAttachmentModal(reset = false) {
+            const modal = document.getElementById('attachment-edit-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            if (reset) {
+                const descInput = document.getElementById('edit-attachment-description');
+                const fileInput = document.getElementById('edit-attachment-file');
+                if (descInput) descInput.value = '';
+                if (fileInput) fileInput.value = '';
+            }
+        }
+
+        let pendingDeleteAttachmentId = null;
+
+        function submitDeleteAttachment(id) {
+            pendingDeleteAttachmentId = id;
+            const modal = document.getElementById('attachment-delete-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeDeleteAttachmentModal() {
+            const modal = document.getElementById('attachment-delete-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            pendingDeleteAttachmentId = null;
+        }
+
+        function confirmDeleteAttachment() {
+            if (!pendingDeleteAttachmentId) {
+                closeDeleteAttachmentModal();
+                return;
+            }
+            const form = document.getElementById('attachment-delete-form-' + pendingDeleteAttachmentId);
+            closeDeleteAttachmentModal();
+            if (form) {
+                form.submit();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const targetId = @json(session('scroll_to_attachment'));
+            if (targetId) {
+                const row = document.getElementById('attachment-row-' + targetId);
+                if (row && typeof row.scrollIntoView === 'function') {
+                    row.scrollIntoView({ block: 'center' });
+                }
+            }
+        });
+    </script>
+@endsection

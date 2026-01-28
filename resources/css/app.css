@@ -1323,10 +1323,6 @@ html[data-theme="dark"] input[type="time"] {
     color: var(--text-primary);
 }
 
-.hr-table-wrapper .flex.items-center:hover {
-    background: var(--bg-hover);
-}
-
 .hr-table-wrapper .flex.items-center > div {
     display: flex;
     align-items: center;
@@ -1346,6 +1342,15 @@ html[data-theme="dark"] input[type="time"] {
 .hr-table-wrapper [style*="max-width"] {
     overflow-wrap: break-word;
     word-wrap: break-word;
+}
+
+/* Reusable table row hover (does not depend on inline JS) */
+.hr-table-row {
+    transition: background-color 0.2s ease;
+}
+
+.hr-table-row:hover {
+    background-color: var(--bg-hover);
 }
 
 /* ============================================

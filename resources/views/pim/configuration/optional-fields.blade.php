@@ -7,6 +7,8 @@
         <x-pim.tabs activeTab="configuration-optional-fields" />
 
         <!-- Main Card - Attached to Tabs -->
+        <form method="POST" action="{{ route('pim.configuration.optional-fields.save') }}">
+            @csrf
         <section class="hr-card p-6 border-t-0 rounded-t-none">
             <!-- Page Title with Icon -->
             <div class="flex items-center justify-between mb-4">
@@ -29,7 +31,12 @@
                         <p class="text-xs mt-1" style="color: var(--text-muted);">Show Nick Name, Smoker and Military Service in Personal Details</p>
                     </div>
                     <div class="flex-shrink-0 ml-4">
-                        <x-admin.toggle-switch id="show-deprecated" :checked="true" />
+                        <input type="hidden" name="show_deprecated" id="show-deprecated-input" value="{{ $showDeprecated ? 1 : 0 }}">
+                        <x-admin.toggle-switch
+                            id="show-deprecated"
+                            :checked="$showDeprecated"
+                            onChange="pimOptionalToggleChanged(this, 'show-deprecated-input')"
+                        />
                     </div>
                 </div>
             </div>
@@ -45,7 +52,12 @@
                         <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">Show SSN field in Personal Details</label>
                     </div>
                     <div class="flex-shrink-0 ml-4">
-                        <x-admin.toggle-switch id="show-ssn" :checked="true" />
+                        <input type="hidden" name="show_ssn" id="show-ssn-input" value="{{ $showSSN ? 1 : 0 }}">
+                        <x-admin.toggle-switch
+                            id="show-ssn"
+                            :checked="$showSSN"
+                            onChange="pimOptionalToggleChanged(this, 'show-ssn-input')"
+                        />
                     </div>
                 </div>
 
@@ -55,7 +67,12 @@
                         <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">Show SIN field in Personal Details</label>
                     </div>
                     <div class="flex-shrink-0 ml-4">
-                        <x-admin.toggle-switch id="show-sin" :checked="false" />
+                        <input type="hidden" name="show_sin" id="show-sin-input" value="{{ $showSIN ? 1 : 0 }}">
+                        <x-admin.toggle-switch
+                            id="show-sin"
+                            :checked="$showSIN"
+                            onChange="pimOptionalToggleChanged(this, 'show-sin-input')"
+                        />
                     </div>
                 </div>
 
@@ -65,7 +82,12 @@
                         <label class="text-sm font-medium cursor-pointer" style="color: var(--text-primary);">Show US Tax Exemptions menu</label>
                     </div>
                     <div class="flex-shrink-0 ml-4">
-                        <x-admin.toggle-switch id="show-tax" :checked="false" />
+                        <input type="hidden" name="show_tax" id="show-tax-input" value="{{ $showTax ? 1 : 0 }}">
+                        <x-admin.toggle-switch
+                            id="show-tax"
+                            :checked="$showTax"
+                            onChange="pimOptionalToggleChanged(this, 'show-tax-input')"
+                        />
                     </div>
                 </div>
             </div>
@@ -77,6 +99,35 @@
                 </button>
             </div>
         </section>
+        </form>
     </x-main-layout>
+
+    <script>
+        function pimOptionalToggleChanged(inputEl, hiddenId) {
+            // Update hidden field for form submit
+            var hidden = document.getElementById(hiddenId);
+            if (hidden) {
+                hidden.value = inputEl.checked ? 1 : 0;
+            }
+
+            // Update visual toggle track + circle (same logic as default component)
+            var label = inputEl.nextElementSibling;
+            if (!label) return;
+            var circle = label.querySelector('div');
+            if (!circle) return;
+
+            if (inputEl.checked) {
+                label.style.background = 'var(--color-hr-primary)';
+                label.style.borderColor = 'var(--border-strong)';
+                circle.classList.add('translate-x-5');
+                circle.classList.remove('translate-x-0.5');
+            } else {
+                label.style.background = 'var(--bg-input)';
+                label.style.borderColor = 'var(--border-default)';
+                circle.classList.remove('translate-x-5');
+                circle.classList.add('translate-x-0.5');
+            }
+        }
+    </script>
 
 @endsection

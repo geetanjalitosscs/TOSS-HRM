@@ -141,12 +141,13 @@
                                     >
                                         <i class="fas fa-trash-alt text-sm"></i>
                                     </button>
-                                    <button 
+                                    <a 
+                                        href="{{ route('claim.configuration.events.edit', $event->id) }}" 
                                         class="hr-action-edit flex-shrink-0" 
                                         title="Edit"
                                     >
                                         <i class="fas fa-edit text-sm"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
