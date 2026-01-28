@@ -250,17 +250,50 @@ aside[class*="fixed"] {
 .hr-card {
     background: var(--bg-card);
     border-radius: 12px;
-    box-shadow: 0 1px 3px 0 var(--shadow-sm), 0 1px 2px -1px var(--shadow-sm);
+    /* No strong shadow by default – shadow appears only on hover */
+    box-shadow: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid var(--border-subtle);
     color: var(--text-primary);
     overflow: visible;
+    position: relative;
+}
+
+/* Subtle top accent border that appears on hover */
+.hr-card::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: 0;
+    height: 3px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, var(--color-hr-primary), var(--color-hr-primary-soft));
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
 }
 
 .hr-card:hover {
-    box-shadow: 0 10px 15px -3px var(--shadow-lg), 0 4px 6px -4px var(--shadow-lg);
+    /* Stronger glow on hover – only the hovered card is elevated */
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 26px 60px -28px rgba(15, 23, 42, 1);
     transform: translateY(-2px);
     border-color: var(--border-strong);
+}
+
+.hr-card:hover::before {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Slightly subtler top border only for Employee Distribution by Location card */
+#location-chart-section.hr-card::before {
+    top: -1px;
+    height: 2px;
 }
 
 /* ============================================

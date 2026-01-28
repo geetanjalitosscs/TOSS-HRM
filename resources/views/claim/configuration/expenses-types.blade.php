@@ -54,15 +54,12 @@
                         <div>
                             <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Status</label>
                             <div class="relative">
-                                <select class="hr-select appearance-none w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] pr-12" style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);">
+                                <select class="hr-select w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]" style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);">
                                     <option value="">-- Select --</option>
                                     @foreach ($statuses as $status)
                                         <option value="{{ $status }}">{{ $status }}</option>
                                     @endforeach
                                 </select>
-                                <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-2 w-9 h-9 rounded-lg flex items-center justify-center" style="background-color: var(--bg-hover);color: var(--text-muted);">
-                                    <i class="fas fa-chevron-down text-xs"></i>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -159,11 +156,5 @@
             </section>
         </div>
 
-        <style>
-            /* Hide native select dropdown arrows (Windows/Edge legacy) for this page only */
-            select::-ms-expand {
-                display: none;
-            }
-        </style>
     </x-main-layout>
 @endsection

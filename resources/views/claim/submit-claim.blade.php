@@ -54,17 +54,14 @@
                             <div class="relative">
                                 <select
                                     id="claimEvent"
-                                    class="hr-select appearance-none w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] pr-12"
-                                    style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                                    class="hr-select w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
+                                    style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
                                 >
                                     <option value="">-- Select --</option>
                                     @foreach ($events as $event)
                                         <option value="{{ $event }}">{{ $event }}</option>
                                     @endforeach
                                 </select>
-                                <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-2 w-9 h-9 rounded-lg flex items-center justify-center" style="background-color: var(--bg-hover);color: var(--text-muted);">
-                                    <i class="fas fa-chevron-down text-xs"></i>
-                                </div>
                             </div>
                             <p id="claimEventError" class="mt-1 text-xs hidden" style="color: #dc3545;">Required</p>
                         </div>
@@ -77,17 +74,14 @@
                             <div class="relative">
                                 <select
                                     id="claimCurrency"
-                                    class="hr-select appearance-none w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] pr-12"
-                                    style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                                    class="hr-select w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
+                                    style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
                                 >
                                     <option value="">-- Select --</option>
                                     @foreach ($currencies as $currency)
                                         <option value="{{ $currency }}">{{ $currency }}</option>
                                     @endforeach
                                 </select>
-                                <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-2 w-9 h-9 rounded-lg flex items-center justify-center" style="background-color: var(--bg-hover);color: var(--text-muted);">
-                                    <i class="fas fa-chevron-down text-xs"></i>
-                                </div>
                             </div>
                             <p id="claimCurrencyError" class="mt-1 text-xs hidden" style="color: #dc3545;">Required</p>
                         </div>
