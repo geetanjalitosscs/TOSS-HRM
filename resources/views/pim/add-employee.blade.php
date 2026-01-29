@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'PIM - Add Employee')
+@section('title', ($mode ?? 'create') === 'edit' ? 'PIM - Edit Employee' : 'PIM - Add Employee')
 
 @section('body')
     <x-main-layout title="PIM">
@@ -8,15 +8,34 @@
 
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-user-plus text-purple-500"></i> <span class="mt-0.5">Add Employee</span>
+                <i class="{{ ($mode ?? 'create') === 'edit' ? 'fas fa-user-edit' : 'fas fa-user-plus' }} text-purple-500"></i>
+                <span class="mt-0.5">{{ ($mode ?? 'create') === 'edit' ? 'Edit Employee' : 'Add Employee' }}</span>
             </h2>
 
-            <div class="flex gap-6">
+            <form
+                method="POST"
+                action="{{ ($mode ?? 'create') === 'edit' && isset($employee->id) ? route('pim.employee-list.update', $employee->id) : route('pim.employee-list.store') }}"
+                enctype="multipart/form-data"
+            >
+                @csrf
+                <div class="flex gap-6">
                 <!-- Left: Employee Photo -->
                 <div class="flex-shrink-0">
-                    <div class="relative w-32 h-32 rounded-full flex items-center justify-center overflow-visible" style="background: var(--bg-hover); border: 2px solid var(--border-default);">
-                        <i class="fas fa-user text-4xl" style="color: var(--text-muted);"></i>
-                        <button class="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='var(--color-hr-primary)'; this.style.transform='scale(1)'">
+                    <div
+                        class="relative w-32 h-32 rounded-full flex items-center justify-center overflow-visible employee-photo-wrapper"
+                        style="background: var(--bg-hover); border: 2px solid var(--border-default); cursor: pointer;"
+                        data-initial-photo="{{ $photoUrl ?? '' }}"
+                    >
+                        @if(!empty($photoUrl))
+                            <img src="{{ $photoUrl }}" alt="Employee Photo"
+                                 class="absolute inset-0 w-full h-full object-contain rounded-full employee-photo-preview"
+                                 style="background-color: var(--bg-surface);">
+                        @else
+                            <i class="fas fa-user text-4xl employee-photo-icon" style="color: var(--text-muted);"></i>
+                        @endif
+
+                        <input type="file" name="photo" id="employee-photo-input" accept=".jpg,.jpeg,.png,.gif,.webp" class="hidden">
+                        <button type="button" class="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='var(--color-hr-primary)'; this.style.transform='scale(1)'" onclick="document.getElementById('employee-photo-input')?.click()">
                             <i class="fas fa-camera text-xs"></i>
                         </button>
                     </div>
@@ -27,31 +46,99 @@
                 <div class="flex-1">
                     <!-- Employee Full Name -->
                     <div class="mb-4">
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Employee Full Name <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">
+                            Employee Full Name <span class="text-red-500">*</span>
+                            <span class="text-[11px] text-gray-500 ml-1">(First name and Last name are compulsory)</span>
+                        </label>
                         <div class="grid grid-cols-3 gap-3">
                             <div>
-                                <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="First Name">
+                                <input
+                                    type="text"
+                                    name="first_name"
+                                    value="{{ old('first_name', $employee->first_name ?? '') }}"
+                                    required
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    placeholder="First Name"
+                                >
                             </div>
                             <div>
-                                <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Middle Name">
+                                <input
+                                    type="text"
+                                    name="middle_name"
+                                    value="{{ old('middle_name') }}"
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    placeholder="Middle Name"
+                                >
                             </div>
                             <div>
-                                <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Last Name">
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    value="{{ old('last_name', $employee->last_name ?? '') }}"
+                                    required
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    placeholder="Last Name"
+                                >
                             </div>
                         </div>
                     </div>
 
                     <!-- Employee ID -->
                     <div class="mb-4">
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Employee Id</label>
-                        <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Auto-generated or enter manually">
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Employee Id <span class="text-red-500">*</span></label>
+                        <input
+                            type="text"
+                            name="employee_number"
+                            value="{{ old('employee_number', $employee->employee_number ?? ($suggestedEmployeeNumber ?? '')) }}"
+                            required
+                            class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                            placeholder="Auto-generated or enter manually"
+                        >
                     </div>
 
-                    <!-- Create Login Details -->
-                    <div class="mb-4 flex items-center gap-3">
+                    <!-- Job Title & Employment Status -->
+                    <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
+                            <select
+                                name="job_title_id"
+                                class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                            >
+                                <option value="">-- Select --</option>
+                                @foreach($jobTitles ?? [] as $title)
+                                    <option
+                                        value="{{ $title->id }}"
+                                        @selected(old('job_title_id', $employee->job_title_id ?? null) == $title->id)
+                                    >
+                                        {{ $title->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Employment Status</label>
+                            <select
+                                name="employment_status_id"
+                                class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                            >
+                                <option value="">-- Select --</option>
+                                @foreach($employmentStatuses ?? [] as $status)
+                                    <option
+                                        value="{{ $status->id }}"
+                                        @selected(old('employment_status_id', $employee->employment_status_id ?? null) == $status->id)
+                                    >
+                                        {{ $status->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Create Login Details Hidden-->
+                    {{-- <div class="mb-4 flex items-center gap-3">
                         <x-admin.toggle-switch id="create-login-toggle" :checked="false" />
                         <label for="create-login-toggle" class="text-xs font-medium cursor-pointer" style="color: var(--text-primary);">Create Login Details</label>
-                    </div>
+                    </div> --}}
 
                     <!-- Required Note -->
                     <div class="mb-4">
@@ -60,17 +147,107 @@
 
                     <!-- Action Buttons -->
                     <div class="flex justify-end gap-2">
-                        <button type="button" class="hr-btn-secondary px-4 py-2 text-xs font-medium">
+                        <a href="{{ route('pim.employee-list') }}" class="hr-btn-secondary px-4 py-2 text-xs font-medium inline-flex items-center justify-center">
                             Cancel
-                        </button>
+                        </a>
                         <button type="submit" class="hr-btn-primary px-4 py-2 text-xs font-medium">
                             Save
                         </button>
                     </div>
                 </div>
             </div>
+            </form>
         </section>
     </x-main-layout>
+
+    <!-- Photo Preview Modal -->
+    <div id="employee-photo-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/40" onclick="document.getElementById('employee-photo-modal').classList.add('hidden')"></div>
+        <div class="relative w-full max-w-md mx-4 rounded-2xl border shadow-xl"
+             style="background-color: var(--bg-card); border-color: var(--border-strong);">
+            <div class="px-5 py-3 border-b flex items-center justify-between"
+                 style="border-color: var(--border-default);">
+                <h3 class="text-xs font-bold" style="color: var(--text-primary);">
+                    Profile Photo
+                </h3>
+                <button type="button"
+                        class="hr-btn-secondary px-3 py-1 text-[11px]"
+                        onclick="document.getElementById('employee-photo-modal').classList.add('hidden')">
+                    Close
+                </button>
+            </div>
+            <div class="px-6 py-6 flex items-center justify-center">
+                <img
+                    id="employee-photo-modal-img"
+                    src=""
+                    alt="Profile Photo Preview"
+                    class="rounded-full"
+                    style="
+                        width: 220px;
+                        height: 220px;
+                        object-fit: contain;
+                        background-color: var(--bg-surface);
+                        border: 2px solid var(--border-default);
+                    "
+                >
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var input = document.getElementById('employee-photo-input');
+            var wrapper = document.querySelector('.employee-photo-wrapper');
+            var modal = document.getElementById('employee-photo-modal');
+            var modalImg = document.getElementById('employee-photo-modal-img');
+
+            if (!wrapper || !modal || !modalImg) return;
+
+            // If page loaded with an existing photo (edit mode), wire it to modal
+            var initialPhoto = wrapper.getAttribute('data-initial-photo');
+            if (initialPhoto) {
+                modalImg.src = initialPhoto;
+            }
+
+            // Click on circle → open modal if any image is available
+            wrapper.addEventListener('click', function () {
+                var previewImg = wrapper.querySelector('.employee-photo-preview');
+                var src = (previewImg && previewImg.src) || initialPhoto;
+                if (!src) return;
+                modalImg.src = src;
+                modal.classList.remove('hidden');
+            });
+
+            // File input change → update circle preview + modal source
+            if (input) {
+                input.addEventListener('change', function (e) {
+                    var file = e.target.files && e.target.files[0];
+                    if (!file) return;
+
+                    var previewImg = wrapper.querySelector('.employee-photo-preview');
+                    var icon = wrapper.querySelector('.employee-photo-icon');
+
+                    if (!previewImg) {
+                        previewImg = document.createElement('img');
+                        previewImg.className = 'absolute inset-0 w-full h-full object-contain rounded-full employee-photo-preview';
+                        previewImg.style.backgroundColor = 'var(--bg-surface)';
+                        wrapper.insertBefore(previewImg, wrapper.firstChild);
+                    }
+
+                    var objectUrl = URL.createObjectURL(file);
+                    previewImg.src = objectUrl;
+                    previewImg.style.display = 'block';
+
+                    if (icon) {
+                        icon.style.display = 'none';
+                    }
+
+                    // Also update modal image so popup shows latest selection
+                    modalImg.src = objectUrl;
+                });
+            }
+        });
+    </script>
 
 @endsection
 

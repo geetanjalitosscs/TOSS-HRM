@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 class PIMController extends Controller
@@ -87,46 +89,365 @@ class PIMController extends Controller
         return redirect()->route('pim.employee-list');
     }
 
-    public function employeeList()
+    public function employeeList(Request $request)
     {
-        $employees = DB::table('employees')
+        // Get dropdown options
+        $jobTitles = DB::table('job_titles')->select('id', 'name')->orderBy('name')->get();
+        $employmentStatuses = DB::table('employment_statuses')->select('id', 'name')->orderBy('name')->get();
+
+        // Build query with search filters
+        $query = DB::table('employees')
             ->leftJoin('job_titles', 'employees.job_title_id', '=', 'job_titles.id')
             ->leftJoin('employment_statuses', 'employees.employment_status_id', '=', 'employment_statuses.id')
-            ->leftJoin('organization_units', 'employees.organization_unit_id', '=', 'organization_units.id')
-            ->leftJoin('employees as supervisors', 'employees.supervisor_id', '=', 'supervisors.id')
             ->select(
                 'employees.id',
                 'employees.employee_number as employee_number',
                 'employees.first_name',
                 'employees.last_name',
+                'employees.job_title_id',
+                'employees.employment_status_id',
                 'job_titles.name as job_title',
-                'employment_statuses.name as employment_status',
-                'organization_units.name as sub_unit',
-                DB::raw("COALESCE(supervisors.display_name, '') as supervisor")
-            )
-            ->orderBy('employees.employee_number')
-            ->get();
+                'employment_statuses.name as employment_status'
+            );
 
-        return view('pim.employee-list', compact('employees'));
+        // Apply search filters
+        if ($request->filled('employee_name')) {
+            $name = $request->input('employee_name');
+            $query->where(function($q) use ($name) {
+                $q->where('employees.first_name', 'like', "%{$name}%")
+                  ->orWhere('employees.last_name', 'like', "%{$name}%");
+            });
+        }
+
+        if ($request->filled('employee_id')) {
+            $query->where('employees.employee_number', 'like', "%{$request->input('employee_id')}%");
+        }
+
+        if ($request->filled('employment_status')) {
+            $query->where('employees.employment_status_id', $request->input('employment_status'));
+        }
+
+        if ($request->filled('job_title')) {
+            $query->where('employees.job_title_id', $request->input('job_title'));
+        }
+
+        // Include filter
+        $include = $request->input('include', 'current');
+        if ($include === 'past') {
+            $query->where('employees.status', 'terminated');
+        } elseif ($include === 'current') {
+            $query->where('employees.status', 'active');
+        }
+        // 'all' shows everything, no filter
+
+        $employees = $query->orderBy('employees.employee_number')->get();
+
+        return view('pim.employee-list', compact('employees', 'jobTitles', 'employmentStatuses'));
+    }
+
+    /**
+     * Store a new employee.
+     */
+    public function storeEmployee(Request $request)
+    {
+        $data = $request->validate([
+            'employee_number' => ['required', 'string', 'max:50', 'unique:employees,employee_number'],
+            'first_name' => ['required', 'string', 'max:100'],
+            'last_name' => ['required', 'string', 'max:100'],
+            'job_title_id' => ['nullable', 'integer', 'exists:job_titles,id'],
+            'employment_status_id' => ['nullable', 'integer', 'exists:employment_statuses,id'],
+        ]);
+
+        $employeeId = DB::table('employees')->insertGetId([
+            // For now, default all new employees into organization 1 (seeded org)
+            // This can be wired to a real org selector later if needed.
+            'organization_id' => 1,
+            'employee_number' => $data['employee_number'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'job_title_id' => $data['job_title_id'] ?? null,
+            'employment_status_id' => $data['employment_status_id'] ?? null,
+            'status' => 'active',
+            'hire_date' => now()->toDateString(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        if ($request->hasFile('photo') && $employeeId) {
+            $file = $request->file('photo');
+            if ($file && $file->isValid()) {
+                $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
+                $path = $file->storeAs('employee_photos', $employeeId . '.' . $ext, 'public');
+
+                $photoCol = $this->getEmployeePhotoColumn();
+                if ($photoCol) {
+                    DB::table('employees')->where('id', $employeeId)->update([
+                        $photoCol => $path,
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->to(route('pim.employee-list') . '#employee-list-section')
+            ->with('status', 'Employee added.');
+    }
+
+    /**
+     * Update an existing employee.
+     */
+    public function updateEmployee(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'employee_number' => ['required', 'string', 'max:50', 'unique:employees,employee_number,' . $id],
+            'first_name' => ['required', 'string', 'max:100'],
+            'last_name' => ['required', 'string', 'max:100'],
+            'job_title_id' => ['nullable', 'integer', 'exists:job_titles,id'],
+            'employment_status_id' => ['nullable', 'integer', 'exists:employment_statuses,id'],
+        ]);
+
+        DB::table('employees')
+            ->where('id', $id)
+            ->update([
+                'employee_number' => $data['employee_number'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'job_title_id' => $data['job_title_id'] ?? null,
+                'employment_status_id' => $data['employment_status_id'] ?? null,
+                'updated_at' => now(),
+            ]);
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            if ($file && $file->isValid()) {
+                $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
+                $path = $file->storeAs('employee_photos', $id . '.' . $ext, 'public');
+
+                $photoCol = $this->getEmployeePhotoColumn();
+                if ($photoCol) {
+                    DB::table('employees')->where('id', $id)->update([
+                        $photoCol => $path,
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->to(route('pim.employee-list') . '#employee-list-section')
+            ->with('status', 'Employee updated.');
+    }
+
+    /**
+     * Delete an employee from the database.
+     */
+    public function deleteEmployee(int $id)
+    {
+        DB::table('employees')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->to(route('pim.employee-list') . '#employee-list-section')
+            ->with('status', 'Employee deleted.');
+    }
+
+    /**
+     * Bulk delete employees from the database.
+     */
+    public function bulkDeleteEmployees(Request $request)
+    {
+        $idsParam = $request->input('ids', '');
+        $ids = collect(explode(',', $idsParam))
+            ->map(fn ($v) => (int) trim($v))
+            ->filter(fn ($v) => $v > 0)
+            ->unique()
+            ->values()
+            ->all();
+
+        if (!empty($ids)) {
+            DB::table('employees')
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->to(route('pim.employee-list') . '#employee-list-section')
+            ->with('status', 'Selected employees deleted.');
     }
 
     public function addEmployee()
     {
-        return view('pim.add-employee');
+        $jobTitles = DB::table('job_titles')->select('id', 'name')->orderBy('name')->get();
+        $employmentStatuses = DB::table('employment_statuses')->select('id', 'name')->orderBy('name')->get();
+
+        // Suggest next employee number based on existing ones (e.g. 0001 → 0002)
+        $lastNumber = DB::table('employees')
+            ->orderByRaw('CAST(employee_number AS UNSIGNED) DESC')
+            ->value('employee_number');
+
+        if ($lastNumber !== null && $lastNumber !== '') {
+            $nextInt = (int) $lastNumber + 1;
+            $padLength = strlen($lastNumber);
+            $suggestedEmployeeNumber = str_pad((string) $nextInt, $padLength, '0', STR_PAD_LEFT);
+        } else {
+            $suggestedEmployeeNumber = '0001';
+        }
+
+        return view('pim.add-employee', [
+            'mode' => 'create',
+            'employee' => null,
+            'photoUrl' => null,
+            'jobTitles' => $jobTitles,
+            'employmentStatuses' => $employmentStatuses,
+            'suggestedEmployeeNumber' => $suggestedEmployeeNumber,
+        ]);
     }
 
-    public function reports()
+    private function getEmployeePhotoColumn(): ?string
     {
-        $reports = DB::table('employee_qualifications')
-            ->join('employees', 'employee_qualifications.employee_id', '=', 'employees.id')
-            ->join('qualifications', 'employee_qualifications.qualification_id', '=', 'qualifications.id')
-            ->select(
-                DB::raw('DISTINCT qualifications.name as name')
-            )
-            ->orderBy('name')
-            ->get();
+        foreach (['photo_path', 'profile_photo_path', 'photo', 'image_path', 'image'] as $col) {
+            if (Schema::hasColumn('employees', $col)) {
+                return $col;
+            }
+        }
+        return null;
+    }
+
+    private function getEmployeePhotoUrlFromRow(object $employeeRow): ?string
+    {
+        $col = $this->getEmployeePhotoColumn();
+        if ($col && !empty($employeeRow->{$col})) {
+            return asset('storage/' . ltrim((string) $employeeRow->{$col}, '/'));
+        }
+
+        // Fallback: if we stored a file without DB column, try common paths
+        $id = $employeeRow->id ?? null;
+        if (!$id) return null;
+        foreach (['jpg', 'jpeg', 'png', 'gif', 'webp'] as $ext) {
+            $path = "employee_photos/{$id}.{$ext}";
+            if (Storage::disk('public')->exists($path)) {
+                return asset('storage/' . $path);
+            }
+        }
+        return null;
+    }
+
+    public function editEmployee(int $id)
+    {
+        $employee = DB::table('employees')->where('id', $id)->first();
+        if (!$employee) {
+            return redirect()->route('pim.employee-list')->with('status', 'Employee not found.');
+        }
+
+        $jobTitles = DB::table('job_titles')->select('id', 'name')->orderBy('name')->get();
+        $employmentStatuses = DB::table('employment_statuses')->select('id', 'name')->orderBy('name')->get();
+
+        return view('pim.add-employee', [
+            'mode' => 'edit',
+            'employee' => $employee,
+            'photoUrl' => $this->getEmployeePhotoUrlFromRow($employee),
+            'jobTitles' => $jobTitles,
+            'employmentStatuses' => $employmentStatuses,
+            'suggestedEmployeeNumber' => null,
+        ]);
+    }
+
+    public function reports(Request $request)
+    {
+        $query = DB::table('pim_reports')
+            ->select('id', 'name', 'description', 'type')
+            ->orderByDesc('id');
+
+        // Apply search filter
+        if ($request->filled('report_name')) {
+            $reportName = $request->input('report_name');
+            $query->where('name', 'like', "%{$reportName}%");
+        }
+
+        $reports = $query->get();
 
         return view('pim.reports', compact('reports'));
+    }
+
+    /**
+     * Store a new pim_reports.
+     */
+    public function storeReport(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:191'],
+            'description' => ['nullable', 'string', 'max:255'],
+            'type' => ['nullable', 'string', 'in:education,skill,language,certification,other'],
+        ]);
+
+        DB::table('pim_reports')->insert([
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+            'type' => $data['type'] ?? 'education',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('pim.reports')
+            ->with('status', 'Report added.');
+    }
+
+    /**
+     * Update an existing pim_reports.
+     */
+    public function updateReport(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:191'],
+            'description' => ['nullable', 'string', 'max:255'],
+            'type' => ['nullable', 'string', 'in:education,skill,language,certification,other'],
+        ]);
+
+        DB::table('pim_reports')
+            ->where('id', $id)
+            ->update([
+                'name' => $data['name'],
+                'description' => $data['description'] ?? null,
+                'type' => $data['type'] ?? 'education',
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->route('pim.reports')
+            ->with('status', 'Report updated.');
+    }
+
+    /**
+     * Delete a pim_reports from the database.
+     */
+    public function deleteReport(int $id)
+    {
+        DB::table('pim_reports')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->route('pim.reports')
+            ->with('status', 'Report deleted.');
+    }
+
+    /**
+     * Bulk delete pim_reports from the database.
+     */
+    public function bulkDeleteReports(Request $request)
+    {
+        $idsParam = $request->input('ids', '');
+        $ids = collect(explode(',', $idsParam))
+            ->map(fn ($v) => (int) trim($v))
+            ->filter(fn ($v) => $v > 0)
+            ->unique()
+            ->values()
+            ->all();
+
+        if (!empty($ids)) {
+            DB::table('pim_reports')
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('pim.reports')
+            ->with('status', 'Selected reports deleted.');
     }
 
     // Configuration methods
@@ -480,8 +801,8 @@ class PIMController extends Controller
 
         $query = DB::table('reporting_methods')
             ->select('id', 'name', 'description')
-            ->where('is_active', 1)
-            ->orderBy('name');
+            // Show latest created methods at the top (like custom fields page)
+            ->orderByDesc('id');
 
         if ($enumMeta) {
             $query->addSelect($enumMeta['field']);
@@ -568,23 +889,20 @@ class PIMController extends Controller
     }
 
     /**
-     * Soft delete a reporting method (set is_active = 0).
+     * Delete a reporting method from the database.
      */
     public function deleteReportingMethod(int $id)
     {
         DB::table('reporting_methods')
             ->where('id', $id)
-            ->update([
-                'is_active'  => 0,
-                'updated_at' => now(),
-            ]);
+            ->delete();
 
         return redirect()->route('pim.configuration.reporting-methods')
             ->with('status', 'Reporting method deleted.');
     }
 
     /**
-     * Bulk soft delete reporting methods.
+     * Bulk delete reporting methods from the database.
      */
     public function bulkDeleteReportingMethods(Request $request)
     {
@@ -599,10 +917,7 @@ class PIMController extends Controller
         if (!empty($ids)) {
             DB::table('reporting_methods')
                 ->whereIn('id', $ids)
-                ->update([
-                    'is_active'  => 0,
-                    'updated_at' => now(),
-                ]);
+                ->delete();
         }
 
         return redirect()->route('pim.configuration.reporting-methods')
@@ -613,8 +928,8 @@ class PIMController extends Controller
     {
         $terminationReasons = DB::table('termination_reasons')
             ->select('id', 'name', 'description')
-            ->where('is_active', 1)
-            ->orderBy('name')
+            // Show latest created reasons at the top (like custom fields page)
+            ->orderByDesc('id')
             ->get();
         return view('pim.configuration.termination-reasons', compact('terminationReasons'));
     }
@@ -664,23 +979,20 @@ class PIMController extends Controller
     }
 
     /**
-     * Soft delete a termination reason (set is_active = 0).
+     * Delete a termination reason from the database.
      */
     public function deleteTerminationReason(int $id)
     {
         DB::table('termination_reasons')
             ->where('id', $id)
-            ->update([
-                'is_active'  => 0,
-                'updated_at' => now(),
-            ]);
+            ->delete();
 
         return redirect()->route('pim.configuration.termination-reasons')
             ->with('status', 'Termination reason deleted.');
     }
 
     /**
-     * Bulk soft delete termination reasons.
+     * Bulk delete termination reasons from the database.
      */
     public function bulkDeleteTerminationReasons(Request $request)
     {
@@ -695,10 +1007,7 @@ class PIMController extends Controller
         if (!empty($ids)) {
             DB::table('termination_reasons')
                 ->whereIn('id', $ids)
-                ->update([
-                    'is_active'  => 0,
-                    'updated_at' => now(),
-                ]);
+                ->delete();
         }
 
         return redirect()->route('pim.configuration.termination-reasons')

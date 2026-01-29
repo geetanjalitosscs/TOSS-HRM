@@ -57,7 +57,7 @@
             <!-- Right Content Area -->
             <div class="flex-1">
                 <!-- Personal Details Form -->
-                <form method="POST" action="{{ route('myinfo.personal.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <form id="personal-details-section" method="POST" action="{{ route('myinfo.personal.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
                     @csrf
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Personal Details</h2>
 
@@ -164,7 +164,7 @@
                 </form>
 
                 <!-- Custom Fields Section -->
-                <form method="POST" action="{{ route('myinfo.custom.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <form id="custom-fields-section" method="POST" action="{{ route('myinfo.custom.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
                     @csrf
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Custom Fields</h2>
 
@@ -195,7 +195,7 @@
                 </form>
 
                 <!-- Attachments Section -->
-                <form method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data" class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
+                <form id="attachments-section" method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data" class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
                     @csrf
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-sm font-bold text-slate-800">Attachments</h2>
@@ -314,10 +314,147 @@
             </div>
     </x-main-layout>
 
-    <!-- Attachment Modals as Components -->
-    <x-modal.attachment-add />
-    <x-modal.attachment-edit />
-    <x-modal.attachment-delete />
+    <!-- Attachment Modals -->
+    <x-admin.modal
+        id="attachment-add-modal"
+        title="Add Attachment"
+        icon="fas fa-paperclip"
+        maxWidth="md"
+        backdropOnClick="closeAddAttachmentModal(true)"
+    >
+        <form method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        File <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        id="add-attachment-file"
+                        type="file"
+                        name="attachment"
+                        class="hr-input text-xs"
+                        required
+                    >
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Accepts pdf, doc, docx, jpg, png up to 5MB.
+                    </p>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Description
+                    </label>
+                    <input
+                        id="add-attachment-description"
+                        type="text"
+                        name="description"
+                        class="hr-input text-xs"
+                        maxlength="255"
+                    >
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeAddAttachmentModal(true)"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        class="hr-btn-primary px-4 py-1.5 text-xs"
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </x-admin.modal>
+
+    <x-admin.modal
+        id="attachment-edit-modal"
+        title="Edit Attachment"
+        icon="fas fa-edit"
+        maxWidth="md"
+        backdropOnClick="closeEditAttachmentModal(true)"
+    >
+        <form method="POST" id="attachment-edit-form" enctype="multipart/form-data" action="#">
+            @csrf
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Description
+                    </label>
+                    <input
+                        id="edit-attachment-description"
+                        type="text"
+                        name="description"
+                        class="hr-input text-xs"
+                        maxlength="255"
+                    >
+                </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Replace File (optional)
+                    </label>
+                    <input
+                        id="edit-attachment-file"
+                        type="file"
+                        name="attachment"
+                        class="hr-input text-xs"
+                    >
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Leave empty to keep existing file.
+                    </p>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeEditAttachmentModal(true)"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        class="hr-btn-primary px-4 py-1.5 text-xs"
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </x-admin.modal>
+
+    <x-admin.modal
+        id="attachment-delete-modal"
+        title="Delete Attachment"
+        icon="fas fa-trash-alt"
+        maxWidth="xs"
+        backdropOnClick="closeDeleteAttachmentModal()"
+    >
+        <div class="space-y-4">
+            <p class="text-xs" style="color: var(--text-primary);">
+                Are you sure you want to delete this attachment?
+            </p>
+            <div class="flex justify-end gap-2">
+                <button
+                    type="button"
+                    class="hr-btn-secondary px-4 py-1.5 text-xs"
+                    onclick="closeDeleteAttachmentModal()"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    class="hr-btn-primary px-4 py-1.5 text-xs"
+                    onclick="confirmDeleteAttachment()"
+                >
+                    Delete
+                </button>
+            </div>
+        </div>
+    </x-admin.modal>
 
     <script>
         function openAddAttachmentModal() {
@@ -399,11 +536,19 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            const targetId = @json(session('scroll_to_attachment'));
+            var sectionId = @json(session('scroll_section'));
+            if (sectionId) {
+                var sectionEl = document.getElementById(sectionId);
+                if (sectionEl && typeof sectionEl.scrollIntoView === 'function') {
+                    sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            var targetId = @json(session('scroll_to_attachment'));
             if (targetId) {
-                const row = document.getElementById('attachment-row-' + targetId);
+                var row = document.getElementById('attachment-row-' + targetId);
                 if (row && typeof row.scrollIntoView === 'function') {
-                    row.scrollIntoView({ block: 'center' });
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
         });

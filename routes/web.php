@@ -78,8 +78,27 @@ Route::middleware('auth.session')->group(function () {
     
     // PIM routes
     Route::get('/pim/employee-list', [PIMController::class, 'employeeList'])->name('pim.employee-list');
+    Route::post('/pim/employee-list', [PIMController::class, 'storeEmployee'])->name('pim.employee-list.store');
+    Route::post('/pim/employee-list/bulk-delete', [PIMController::class, 'bulkDeleteEmployees'])->name('pim.employee-list.bulk-delete');
+    Route::post('/pim/employee-list/{id}', [PIMController::class, 'updateEmployee'])
+        ->whereNumber('id')
+        ->name('pim.employee-list.update');
+    Route::post('/pim/employee-list/{id}/delete', [PIMController::class, 'deleteEmployee'])
+        ->whereNumber('id')
+        ->name('pim.employee-list.delete');
     Route::get('/pim/add-employee', [PIMController::class, 'addEmployee'])->name('pim.add-employee');
+    Route::get('/pim/add-employee/{id}', [PIMController::class, 'editEmployee'])
+        ->whereNumber('id')
+        ->name('pim.add-employee.edit');
     Route::get('/pim/reports', [PIMController::class, 'reports'])->name('pim.reports');
+    Route::post('/pim/reports', [PIMController::class, 'storeReport'])->name('pim.reports.store');
+    Route::post('/pim/reports/bulk-delete', [PIMController::class, 'bulkDeleteReports'])->name('pim.reports.bulk-delete');
+    Route::post('/pim/reports/{id}', [PIMController::class, 'updateReport'])
+        ->whereNumber('id')
+        ->name('pim.reports.update');
+    Route::post('/pim/reports/{id}/delete', [PIMController::class, 'deleteReport'])
+        ->whereNumber('id')
+        ->name('pim.reports.delete');
     
     // PIM Configuration routes
     Route::get('/pim/configuration/optional-fields', [PIMController::class, 'optionalFields'])->name('pim.configuration.optional-fields');

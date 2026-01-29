@@ -1288,12 +1288,35 @@ html[data-theme="dark"] input[type="time"] {
    ============================================ */
 .hr-table-wrapper {
     overflow-x: auto;
+    overflow-y: hidden; /* JS toggles to auto when needed */
     -webkit-overflow-scrolling: touch;
     width: 100%;
     background: var(--bg-card);
     border-radius: 0.5rem;
     border: 1px solid var(--border-default);
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    /* Height is set dynamically via JS based on row count */
+    max-height: none;
+    /* Match thin, purple Buzz-style scrollbars  max rows are 7 not 10 in one page*/
+    scrollbar-width: thin;
+    scrollbar-color: #a855f7 transparent;
+}
+
+.hr-table-wrapper::-webkit-scrollbar {
+    width: 4px;
+}
+
+.hr-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.hr-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #a855f7;
+    border-radius: 999px;
+}
+
+.hr-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #c084fc;
 }
 
 .hr-table-wrapper .text-xs {

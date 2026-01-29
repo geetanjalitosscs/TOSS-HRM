@@ -133,6 +133,13 @@ class MyInfoController extends Controller
             'gender'          => ['nullable', 'in:male,female,other'],
         ]);
 
+        // Build a friendly display name from parts
+        $displayName = trim(implode(' ', array_filter([
+            $data['first_name'] ?? null,
+            $data['middle_name'] ?? null,
+            $data['last_name'] ?? null,
+        ])));
+
         // Update employees table
         DB::table('employees')
             ->where('id', $employeeId)
@@ -140,6 +147,7 @@ class MyInfoController extends Controller
                 'first_name'      => $data['first_name'],
                 'middle_name'     => $data['middle_name'] ?? null,
                 'last_name'       => $data['last_name'],
+                'display_name'    => $displayName !== '' ? $displayName : null,
                 'employee_number' => $data['employee_number'] ?? null,
                 'marital_status'  => $data['marital_status'] ?? null,
                 'gender'          => $data['gender'] ?? null,
@@ -169,7 +177,11 @@ class MyInfoController extends Controller
                 ]));
         }
 
-        return redirect()->route('myinfo')->with('status', 'Personal details updated.');
+        return redirect()->route('myinfo')
+            ->with([
+                'status' => 'Personal details updated.',
+                'scroll_section' => 'personal-details-section',
+            ]);
     }
 
     /**
@@ -199,7 +211,11 @@ class MyInfoController extends Controller
                 ]);
         }
 
-        return redirect()->route('myinfo')->with('status', 'Custom fields updated.');
+        return redirect()->route('myinfo')
+            ->with([
+                'status' => 'Custom fields updated.',
+                'scroll_section' => 'custom-fields-section',
+            ]);
     }
 
     /**
@@ -230,8 +246,7 @@ class MyInfoController extends Controller
             'uploaded_at'   => now(),
         ]);
 
-        return redirect()
-            ->route('myinfo')
+        return redirect()->route('myinfo')
             ->with([
                 'status' => 'Attachment uploaded.',
                 'scroll_to_attachment' => $id,
@@ -287,8 +302,7 @@ class MyInfoController extends Controller
 
         $query->update($updatePayload);
 
-        return redirect()
-            ->route('myinfo')
+        return redirect()->route('myinfo')
             ->with([
                 'status' => 'Attachment updated.',
                 'scroll_to_attachment' => $id,
@@ -317,8 +331,7 @@ class MyInfoController extends Controller
                 ->delete();
         }
 
-        return redirect()
-            ->route('myinfo')
+        return redirect()->route('myinfo')
             ->with('status', 'Attachment deleted.');
     }
 

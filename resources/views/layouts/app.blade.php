@@ -15,7 +15,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- Styles / Scripts (centralised for whole project) -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @if (file_exists(public_path('build/manifest.json')))
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @else
+            {{-- Fallback for environments without Vite manifest (runs without npm) --}}
+            <link rel="stylesheet" href="{{ asset('build/assets/app-BhCtbhSz.css') }}">
+            <script type="module" src="{{ asset('build/assets/app-Ckg-XmNZ.js') }}"></script>
+        @endif
         
         <!-- Initialize theme immediately to prevent flash -->
         <script>

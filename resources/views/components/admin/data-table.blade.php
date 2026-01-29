@@ -27,7 +27,7 @@
     @endif
 
     <!-- Table Wrapper -->
-    <div class="hr-table-wrapper">
+    <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
         <!-- Table Header -->
         <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
             <div class="flex-shrink-0" style="width: 24px;">

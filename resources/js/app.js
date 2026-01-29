@@ -86,6 +86,45 @@ import './bootstrap';
     });
 })();
 
+// Auto-limit table height to ~10 rows, show scrollbar only when needed
+document.addEventListener('DOMContentLoaded', function () {
+    var tables = document.querySelectorAll('.hr-table-wrapper');
+    tables.forEach(function (wrapper) {
+        try {
+            var rowsContainer = wrapper.querySelector('.border.border-t-0, .border.border-purple-100.border-t-0');
+            if (!rowsContainer) return;
+
+            var rows = rowsContainer.querySelectorAll('.hr-table-row, .border-b');
+            if (!rows.length) return;
+
+            // Measure one row height
+            var sampleRow = rows[0];
+            var rowHeight = sampleRow.getBoundingClientRect().height || 0;
+            if (!rowHeight) return;
+
+            // Show up to 10 rows without scroll; if more, lock height to 10 rows
+            var visibleRows = Math.min(rows.length, 10);
+            var bodyHeight = rowHeight * visibleRows;
+
+            // Include header height
+            var header = wrapper.querySelector('> div:first-child');
+            var headerHeight = header ? header.getBoundingClientRect().height : 0;
+
+            var maxHeight = headerHeight + bodyHeight;
+
+            // If 10 or fewer rows, allow natural height (no scroll)
+            if (rows.length <= 10) {
+                wrapper.style.maxHeight = maxHeight + 'px';
+            } else {
+                wrapper.style.maxHeight = maxHeight + 'px';
+                wrapper.style.overflowY = 'auto';
+            }
+        } catch (e) {
+            // Fail silently if measurement not possible
+        }
+    });
+});
+
 // Profile Dropdown Portal Implementation
 function toggleProfileDropdown(event) {
     event.stopPropagation();
