@@ -201,12 +201,12 @@ This is the “fixed sidebar + fixed header” layout used across modules.
 
 There are PHP-backed Blade components in:
 
-- `app/View/Components/*`
+- `app/Components/*`
 
 Examples:
 
-- `app/View/Components/DropdownMenu.php`
-- `app/View/Components/Admin/ColorPicker.php`
+- `app/Components/DropdownMenu.php`
+- `app/Components/Admin/ColorPicker.php`
 
 Their matching templates live in:
 
@@ -257,7 +257,7 @@ If you must keep the team’s folder structure, these are the safest ways to ext
 
 - **Shared UI**
   - Put reusable markup into `resources/views/components/*`
-  - If you need logic/props, add a matching PHP component in `app/View/Components/*`
+  - If you need logic/props, add a matching PHP component in `app/Components/*`
 
 - **Cross-cutting behavior**
   - Add middleware in `app/Http/Middleware`

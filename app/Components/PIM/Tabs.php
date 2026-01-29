@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Recruitment;
+namespace App\Components\PIM;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -8,14 +8,12 @@ use Illuminate\View\Component;
 
 class Tabs extends Component
 {
-    public $activeTab;
-
     /**
      * Create a new component instance.
      */
-    public function __construct($activeTab = 'candidates')
+    public function __construct(public $activeTab = 'employee-list')
     {
-        $this->activeTab = $activeTab;
+        //
     }
 
     /**
@@ -23,6 +21,6 @@ class Tabs extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.recruitment.tabs');
+        return view('components.pim.tabs');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register components from App\Components namespace
+        // Laravel will auto-generate aliases based on class names
+        Blade::component(\App\Components\DropdownMenu::class);
+        Blade::component(\App\Components\PIM\Tabs::class);
+        Blade::component(\App\Components\Leave\Tabs::class);
+        Blade::component(\App\Components\Recruitment\Tabs::class);
+        Blade::component(\App\Components\Admin\ColorPicker::class);
     }
 }

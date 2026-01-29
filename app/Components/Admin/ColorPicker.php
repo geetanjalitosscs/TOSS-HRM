@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Admin;
+namespace App\Components\Admin;
 
 use Illuminate\View\Component;
 

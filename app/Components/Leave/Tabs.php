@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Leave;
+namespace App\Components\Leave;
 
 use Closure;
 use Illuminate\Contracts\View\View;
