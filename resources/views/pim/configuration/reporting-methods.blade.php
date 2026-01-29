@@ -7,14 +7,11 @@
         <x-pim.tabs activeTab="configuration-reporting-methods" />
 
         <section class="hr-card p-6">
-            <div class="flex items-center justify-between mb-5 mt-1" style="overflow: visible;">
+            <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                     <i class="fas fa-chart-line text-purple-500"></i> Reporting Methods
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
-                    @if(isset($reportingMethods) && count($reportingMethods) > 0)
-                        <x-records-found :count="count($reportingMethods)" />
-                    @endif
                     <button
                         id="reporting-methods-delete-selected"
                         type="button"
@@ -27,12 +24,17 @@
                 </div>
             </div>
 
+            @if(isset($reportingMethods) && count($reportingMethods) > 0)
+                <!-- Records Count -->
+                <x-records-found :count="count($reportingMethods)" />
+            @endif
+
             <!-- Table -->
             <div id="reporting-methods-table">
                 <div class="hr-table-wrapper">
                     <!-- Header -->
                     <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b"
-                         style="background-color: var(--bg-elevated); border-color: var(--border-default);">
+                         style="background-color: var(--bg-hover); border-color: var(--border-default);">
                         <div class="flex-shrink-0" style="width: 24px;">
                             <input type="checkbox"
                                    id="reporting-methods-master-checkbox"

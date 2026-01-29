@@ -12,7 +12,6 @@
                     <i class="fas fa-list-alt text-purple-500"></i> Custom Fields
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
-                    <span class="text-xs text-gray-600">Remaining number of custom fields: {{ $remainingFields }}</span>
                     <button 
                         id="custom-fields-delete-selected"
                         type="button"
@@ -385,7 +384,7 @@
                     closeCustomFieldBulkDeleteModal();
                     return;
                 }
-                var checked = table.querySelectorAll('.border-b input[type="checkbox"]:checked');
+                var checked = table.querySelectorAll('.custom-field-row-checkbox:checked');
                 var ids = [];
                 checked.forEach(function (cb) {
                     var row = cb.closest('.border-b');
@@ -417,8 +416,8 @@
                 var table = document.getElementById('custom-fields-table');
                 if (!table) return;
 
-                var headerCheckbox = table.querySelector('.hr-table-wrapper > div input[type="checkbox"]');
-                var rowCheckboxes = table.querySelectorAll('.hr-table-wrapper .border-b input[type="checkbox"]');
+                var headerCheckbox = document.getElementById('custom-fields-master-checkbox');
+                var rowCheckboxes = table.querySelectorAll('.custom-field-row-checkbox');
                 var deleteSelectedBtn = document.getElementById('custom-fields-delete-selected');
 
                 var checkedCount = 0;
@@ -426,24 +425,24 @@
                     if (cb.checked) checkedCount++;
                 });
 
+                // Show "Delete Selected" button only when at least 1 row is checked
                 if (deleteSelectedBtn) {
                     deleteSelectedBtn.classList.toggle('hidden', checkedCount === 0);
                 }
 
+                // Header checkbox: when checked ALL rows are checked, otherwise empty (no "-")
                 if (headerCheckbox) {
                     if (rowCheckboxes.length === 0) {
                         headerCheckbox.checked = false;
-                        headerCheckbox.indeterminate = false;
-                    } else if (checkedCount === 0) {
-                        headerCheckbox.checked = false;
-                        headerCheckbox.indeterminate = false;
                     } else if (checkedCount === rowCheckboxes.length) {
+                        // All rows checked → header checkbox checked
                         headerCheckbox.checked = true;
-                        headerCheckbox.indeterminate = false;
                     } else {
+                        // Some or no rows checked → header checkbox empty (unchecked)
                         headerCheckbox.checked = false;
-                        headerCheckbox.indeterminate = true;
                     }
+                    // Never show indeterminate state (no "-")
+                    headerCheckbox.indeterminate = false;
                 }
             }
 
@@ -452,34 +451,66 @@
                 var table = document.getElementById('custom-fields-table');
                 if (!table) return;
 
-                var headerCheckbox = table.querySelector('.hr-table-wrapper > div input[type="checkbox"]');
-                if (headerCheckbox) {
-                    headerCheckbox.addEventListener('change', function () {
-                        var rowCheckboxes = table.querySelectorAll('.hr-table-wrapper .border-b input[type="checkbox"]');
-                        rowCheckboxes.forEach(function (cb) {
-                            cb.checked = headerCheckbox.checked;
-                        });
-                        refreshCustomFieldSelectionState();
-                    });
-                }
-
-                table.addEventListener('click', function (e) {
-                    var editBtn = e.target.closest('.hr-action-edit');
-                    var deleteBtn = e.target.closest('.hr-action-delete');
-                    if (!editBtn && !deleteBtn) return;
-
-                    var row = e.target.closest('.border-b');
-                    if (row) {
-                        if (editBtn) {
-                            openCustomFieldEditModalFromRow(row);
-                            return;
-                        } else if (deleteBtn) {
-                            openCustomFieldDeleteModalFromRow(row);
-                            return;
-                        }
+                function setupCheckboxes() {
+                    // Add ID to header checkbox and class to row checkboxes (matching reporting-methods pattern)
+                    var headerCheckbox = table.querySelector('.hr-table-wrapper > div input[type="checkbox"]');
+                    if (!headerCheckbox) {
+                        // Retry after a short delay if checkbox not found yet
+                        setTimeout(setupCheckboxes, 50);
+                        return;
                     }
 
-                    var rowCheckbox = e.target.closest('.border-b input[type="checkbox"]');
+                    if (!headerCheckbox.id) {
+                        headerCheckbox.id = 'custom-fields-master-checkbox';
+                    }
+
+                    var rowCheckboxes = table.querySelectorAll('.hr-table-wrapper .border-b input[type="checkbox"]');
+                    rowCheckboxes.forEach(function (cb) {
+                        if (!cb.classList.contains('custom-field-row-checkbox')) {
+                            cb.classList.add('custom-field-row-checkbox');
+                        }
+                    });
+
+                    // Attach header checkbox change handler - when header clicked, check/uncheck all rows
+                    var masterCheckbox = document.getElementById('custom-fields-master-checkbox');
+                    if (masterCheckbox && !masterCheckbox.dataset.listenerAttached) {
+                        masterCheckbox.dataset.listenerAttached = 'true';
+                        masterCheckbox.addEventListener('change', function () {
+                            // When header checkbox is clicked → check/uncheck all rows
+                            var allRowCheckboxes = table.querySelectorAll('.custom-field-row-checkbox');
+                            allRowCheckboxes.forEach(function (cb) {
+                                cb.checked = masterCheckbox.checked;
+                            });
+                            refreshCustomFieldSelectionState();
+                        });
+                    }
+                }
+
+                setupCheckboxes();
+
+                table.addEventListener('click', function (e) {
+                    // Don't interfere with header checkbox clicks
+                    var headerCheckboxClick = e.target.closest('#custom-fields-master-checkbox');
+                    if (headerCheckboxClick) {
+                        return; // Let the change event handler handle it
+                    }
+
+                    var editBtn = e.target.closest('.hr-action-edit');
+                    var deleteBtn = e.target.closest('.hr-action-delete');
+                    var rowCheckbox = e.target.closest('.custom-field-row-checkbox');
+
+                    if (editBtn) {
+                        var row = e.target.closest('.border-b');
+                        if (row) openCustomFieldEditModalFromRow(row);
+                        return;
+                    }
+
+                    if (deleteBtn) {
+                        var rowDel = e.target.closest('.border-b');
+                        if (rowDel) openCustomFieldDeleteModalFromRow(rowDel);
+                        return;
+                    }
+
                     if (rowCheckbox) {
                         refreshCustomFieldSelectionState();
                     }

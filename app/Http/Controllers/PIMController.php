@@ -223,14 +223,8 @@ class PIMController extends Controller
         
         $dataTypeOptions = $this->getCustomFieldTypes();
         
-        // Calculate remaining custom fields (assuming max 10, adjust if needed)
-        $maxCustomFields = 10;
-        $currentCount = $customFields->count();
-        $remainingFields = max(0, $maxCustomFields - $currentCount);
-        
         return view('pim.configuration.custom-fields', compact(
             'customFields',
-            'remainingFields',
             'dataTypeOptions'
         ));
     }
