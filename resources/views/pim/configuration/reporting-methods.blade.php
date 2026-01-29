@@ -47,6 +47,12 @@
                                 Name
                             </div>
                         </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                 style="color: var(--text-primary);">
+                                Description
+                            </div>
+                        </div>
                         @if(!empty($reportingEnumMeta))
                             <div class="flex-1" style="min-width: 0;">
                                 <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
@@ -79,11 +85,17 @@
                                          style="color: var(--text-primary);"
                                          data-reporting-id="{{ $method->id }}"
                                          data-reporting-name="{{ $method->name }}"
+                                         data-reporting-description="{{ $method->description ?? '' }}"
                                          @if(!empty($reportingEnumMeta))
                                              data-reporting-enum="{{ $method->{$reportingEnumMeta['field']} ?? '' }}"
                                          @endif
                                     >
                                         {{ $method->name }}
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">
+                                        {{ $method->description ?? '-' }}
                                     </div>
                                 </div>
                                 @if(!empty($reportingEnumMeta))
@@ -131,6 +143,17 @@
                     <input
                         type="text"
                         name="name"
+                        class="hr-input px-3 py-1.5 text-xs"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Description
+                    </label>
+                    <input
+                        type="text"
+                        name="description"
                         class="hr-input px-3 py-1.5 text-xs"
                         style="background-color: var(--bg-input); color: var(--text-primary);"
                     >
@@ -186,6 +209,18 @@
                         type="text"
                         name="name"
                         id="reporting-method-edit-name"
+                        class="hr-input px-3 py-1.5 text-xs"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Description
+                    </label>
+                    <input
+                        type="text"
+                        name="description"
+                        id="reporting-method-edit-description"
                         class="hr-input px-3 py-1.5 text-xs"
                         style="background-color: var(--bg-input); color: var(--text-primary);"
                     >
@@ -322,6 +357,7 @@
 
                     var id = info.dataset.reportingId;
                     var name = info.dataset.reportingName || '';
+                    var description = info.dataset.reportingDescription || '';
                     var enumValue = info.dataset.reportingEnum || '';
 
                     var m = document.getElementById('reporting-method-edit-modal');
@@ -329,6 +365,9 @@
 
                     var nameInput = document.getElementById('reporting-method-edit-name');
                     if (nameInput) nameInput.value = name;
+
+                    var descriptionInput = document.getElementById('reporting-method-edit-description');
+                    if (descriptionInput) descriptionInput.value = description;
 
                     var enumSelect = document.getElementById('reporting-method-edit-enum');
                     if (enumSelect) {

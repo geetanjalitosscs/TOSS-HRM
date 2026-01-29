@@ -109,6 +109,14 @@ Route::middleware('auth.session')->group(function () {
         ->name('pim.configuration.reporting-methods.delete');
 
     Route::get('/pim/configuration/termination-reasons', [PIMController::class, 'terminationReasons'])->name('pim.configuration.termination-reasons');
+    Route::post('/pim/configuration/termination-reasons', [PIMController::class, 'storeTerminationReason'])->name('pim.configuration.termination-reasons.store');
+    Route::post('/pim/configuration/termination-reasons/bulk-delete', [PIMController::class, 'bulkDeleteTerminationReasons'])->name('pim.configuration.termination-reasons.bulk-delete');
+    Route::post('/pim/configuration/termination-reasons/{id}', [PIMController::class, 'updateTerminationReason'])
+        ->whereNumber('id')
+        ->name('pim.configuration.termination-reasons.update');
+    Route::post('/pim/configuration/termination-reasons/{id}/delete', [PIMController::class, 'deleteTerminationReason'])
+        ->whereNumber('id')
+        ->name('pim.configuration.termination-reasons.delete');
     Route::get('/leave', [LeaveController::class, 'index'])->name('leave');
     Route::get('/leave/apply', [LeaveController::class, 'apply'])->name('leave.apply');
     Route::get('/leave/my-leave', [LeaveController::class, 'myLeave'])->name('leave.my-leave');

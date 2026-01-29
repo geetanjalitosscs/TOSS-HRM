@@ -479,7 +479,7 @@ class PIMController extends Controller
         $enumMeta = $this->getFirstEnumColumnMeta('reporting_methods');
 
         $query = DB::table('reporting_methods')
-            ->select('id', 'name')
+            ->select('id', 'name', 'description')
             ->where('is_active', 1)
             ->orderBy('name');
 
@@ -504,6 +504,7 @@ class PIMController extends Controller
 
         $rules = [
             'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
         ];
 
         if ($enumMeta) {
@@ -513,10 +514,11 @@ class PIMController extends Controller
         $data = $request->validate($rules);
 
         $payload = [
-            'name'       => $data['name'],
-            'is_active'  => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'name'        => $data['name'],
+            'description' => $data['description'] ?? null,
+            'is_active'   => 1,
+            'created_at'  => now(),
+            'updated_at'  => now(),
         ];
 
         if ($enumMeta && isset($data[$enumMeta['field']])) {
@@ -538,6 +540,7 @@ class PIMController extends Controller
 
         $rules = [
             'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
         ];
 
         if ($enumMeta) {
@@ -547,8 +550,9 @@ class PIMController extends Controller
         $data = $request->validate($rules);
 
         $payload = [
-            'name'       => $data['name'],
-            'updated_at' => now(),
+            'name'        => $data['name'],
+            'description' => $data['description'] ?? null,
+            'updated_at'  => now(),
         ];
 
         if ($enumMeta && isset($data[$enumMeta['field']])) {
@@ -608,11 +612,97 @@ class PIMController extends Controller
     public function terminationReasons()
     {
         $terminationReasons = DB::table('termination_reasons')
-            ->select('id', 'name')
+            ->select('id', 'name', 'description')
             ->where('is_active', 1)
             ->orderBy('name')
             ->get();
         return view('pim.configuration.termination-reasons', compact('terminationReasons'));
+    }
+
+    /**
+     * Store a new termination reason.
+     */
+    public function storeTerminationReason(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        DB::table('termination_reasons')->insert([
+            'name'        => $data['name'],
+            'description' => $data['description'] ?? null,
+            'is_active'   => 1,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+        ]);
+
+        return redirect()->route('pim.configuration.termination-reasons')
+            ->with('status', 'Termination reason added.');
+    }
+
+    /**
+     * Update an existing termination reason.
+     */
+    public function updateTerminationReason(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        DB::table('termination_reasons')
+            ->where('id', $id)
+            ->update([
+                'name'        => $data['name'],
+                'description' => $data['description'] ?? null,
+                'updated_at'  => now(),
+            ]);
+
+        return redirect()->route('pim.configuration.termination-reasons')
+            ->with('status', 'Termination reason updated.');
+    }
+
+    /**
+     * Soft delete a termination reason (set is_active = 0).
+     */
+    public function deleteTerminationReason(int $id)
+    {
+        DB::table('termination_reasons')
+            ->where('id', $id)
+            ->update([
+                'is_active'  => 0,
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->route('pim.configuration.termination-reasons')
+            ->with('status', 'Termination reason deleted.');
+    }
+
+    /**
+     * Bulk soft delete termination reasons.
+     */
+    public function bulkDeleteTerminationReasons(Request $request)
+    {
+        $idsParam = $request->input('ids', '');
+        $ids = collect(explode(',', $idsParam))
+            ->map(fn ($v) => (int) trim($v))
+            ->filter(fn ($v) => $v > 0)
+            ->unique()
+            ->values()
+            ->all();
+
+        if (!empty($ids)) {
+            DB::table('termination_reasons')
+                ->whereIn('id', $ids)
+                ->update([
+                    'is_active'  => 0,
+                    'updated_at' => now(),
+                ]);
+        }
+
+        return redirect()->route('pim.configuration.termination-reasons')
+            ->with('status', 'Selected termination reasons deleted.');
     }
 }
 
