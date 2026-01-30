@@ -12,7 +12,7 @@
             <span class="text-sm" style="{{ $activeTab === 'my-leave' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">My Leave</span>
         </a>
         
-        <!-- Entitlements Dropdown -->
+        <!-- Entitlements Dropdown
         <x-dropdown-menu 
             :items="[
                 ['url' => route('leave.add-entitlement'), 'label' => 'Add Leave Entitlement'],
@@ -30,7 +30,7 @@
             </div>
         </x-dropdown-menu>
         
-        <!-- Reports Dropdown -->
+         Reports Dropdown 
         <x-dropdown-menu 
             :items="[
                 ['url' => route('leave.entitlements-usage-report'), 'label' => 'Leave Entitlements and Usage Report'],
@@ -45,20 +45,19 @@
                 <span class="text-sm flex-shrink-0" style="{{ $isReportsActive ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Reports</span>
                 <x-dropdown-arrow class="flex-shrink-0" />
             </div>
-        </x-dropdown-menu>
+        </x-dropdown-menu>  -->
         
-        <!-- Configure Dropdown -->
+        <!-- Configure Dropdown ['url' => route('leave.leave-period'), 'label' => 'Leave Period'], & $isConfigureActive = in_array($activeTab, ['leave-types', 'leave-period', 'work-week', 'holidays']);-->
         <x-dropdown-menu 
             :items="[
                 ['url' => route('leave.leave-types'), 'label' => 'Leave Types'],
-                ['url' => route('leave.leave-period'), 'label' => 'Leave Period'],
                 ['url' => route('leave.work-week'), 'label' => 'Work Week'],
                 ['url' => route('leave.holidays'), 'label' => 'Holidays']
             ]"
             position="left"
             width="w-48">
             @php
-                $isConfigureActive = in_array($activeTab, ['leave-types', 'leave-period', 'work-week', 'holidays']);
+                $isConfigureActive = in_array($activeTab, ['leave-types', 'work-week', 'holidays']);
             @endphp
             <div class="px-4 py-3 {{ $isConfigureActive ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex items-center justify-between gap-2 flex-shrink-0 hr-tab-hover whitespace-nowrap" style="{{ $isConfigureActive ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if(!{{ $isConfigureActive ? 'true' : 'false' }}) { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if(!{{ $isConfigureActive ? 'true' : 'false' }}) { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
                 <span class="text-sm flex-shrink-0" style="{{ $isConfigureActive ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Configure</span>

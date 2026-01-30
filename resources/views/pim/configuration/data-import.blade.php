@@ -26,9 +26,8 @@
                 <h3 class="text-xs font-bold text-slate-800 mb-2">Note:</h3>
                 <ul class="list-disc list-inside text-xs text-gray-600 space-y-1 ml-2">
                     <li>Column order should not be changed</li>
-                    <li>First Name and Last Name are compulsory</li>
-                    <li>All date fields should be in YYYY-MM-DD format</li>
-                    <li>If gender is specified, value should be either Male or Female</li>
+                    <li>ID, First (& Middle) Name, and Last Name are compulsory</li>
+                    <li>Job Title and Employment Status must match existing values in the system</li>
                     <li>Each import file should be configured for 100 records or less</li>
                     <li>Multiple import files may be required</li>
                     <li>Sample CSV file: <a href="{{ route('pim.configuration.data-import.sample') }}" class="text-[var(--color-hr-primary)] hover:underline">Download</a></li>

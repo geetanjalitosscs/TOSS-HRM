@@ -173,12 +173,24 @@
                                 
                                 <!-- Leave Balance -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave->leave_balance ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">
+                                        @if($leave->leave_balance !== null)
+                                            {{ number_format((float)$leave->leave_balance, 0, '.', '') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </div>
                                 </div>
                                 
                                 <!-- Number of Days -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs text-gray-700 break-words">{{ $leave->number_of_days ?? '-' }}</div>
+                                    <div class="text-xs text-gray-700 break-words">
+                                        @if($leave->number_of_days !== null)
+                                            {{ number_format((float)$leave->number_of_days, 0, '.', '') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </div>
                                 </div>
                                 
                                 <!-- Status -->

@@ -16,7 +16,7 @@
 
         <!-- Styles / Scripts (centralised for whole project) -->
         @if (file_exists(public_path('build/manifest.json')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @else
             {{-- Fallback for environments without Vite manifest (runs without npm) --}}
             <link rel="stylesheet" href="{{ asset('build/assets/app-BhCtbhSz.css') }}">

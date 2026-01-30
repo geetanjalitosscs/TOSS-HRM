@@ -13,15 +13,15 @@
                     <i class="fas fa-search text-purple-500"></i> Employee Reports
                 </h2>
                 <form method="GET" action="{{ route('pim.reports') }}" id="reports-search-form">
-                    <div class="mb-3">
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Report Name</label>
+                <div class="mb-3">
+                    <label class="block text-xs font-medium text-slate-700 mb-1">Report Name</label>
                         <input 
                             type="text" 
                             name="report_name"
                             value="{{ request('report_name') }}"
                             class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                             placeholder="Type for hints...">
-                    </div>
+                </div>
                     <x-admin.action-buttons resetType="reset" searchType="submit" />
                 </form>
             </section>
@@ -121,9 +121,9 @@
                                     </div>
                                     <div class="flex-shrink-0" style="width: 80px;">
                                         <div class="flex items-center justify-center gap-2">
-                                            <button class="hr-action-copy flex-shrink-0" title="Copy">
-                                                <i class="fas fa-copy text-sm"></i>
-                                            </button>
+                        <button class="hr-action-copy flex-shrink-0" title="Copy">
+                            <i class="fas fa-copy text-sm"></i>
+                        </button>
                                             <button class="hr-action-edit flex-shrink-0" title="Edit">
                                                 <i class="fas fa-edit text-sm"></i>
                                             </button>

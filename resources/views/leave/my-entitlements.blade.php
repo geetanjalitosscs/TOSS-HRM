@@ -55,7 +55,7 @@
                     Showing entitlements for current employee
                 </div>
                 <div class="text-xs font-medium" style="color: var(--text-muted);">
-                    Total {{ number_format($entitlements->sum('balance'), 2) }} Day(s)
+                    Total {{ number_format($entitlements->sum('balance'), 0, '.', '') }} Day(s)
                 </div>
             </div>
 
@@ -92,17 +92,17 @@
                     </div>
                     <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs break-words" style="color: var(--text-primary);">
-                            {{ number_format($row->days_entitled, 2) }}
+                            {{ number_format((float)$row->days_entitled, 0, '.', '') }}
                         </div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs break-words" style="color: var(--text-primary);">
-                            {{ number_format($row->days_used, 2) }}
+                            {{ number_format((float)$row->days_used, 0, '.', '') }}
                         </div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs break-words" style="color: var(--text-primary);">
-                            {{ number_format($row->balance, 2) }}
+                            {{ number_format((float)$row->balance, 0, '.', '') }}
                         </div>
                     </div>
                 </div>

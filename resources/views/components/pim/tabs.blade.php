@@ -5,10 +5,10 @@
         <!-- Configuration Dropdown -->
         <x-dropdown-menu 
             :items="[
-                ['url' => route('pim.configuration.optional-fields'), 'label' => 'Optional Fields'],
-                ['url' => route('pim.configuration.custom-fields'), 'label' => 'Custom Fields'],
+                ['url' => route('pim.configuration.optional-fields'), 'label' => 'Optional Fields', 'hidden' => true],
+                ['url' => route('pim.configuration.custom-fields'), 'label' => 'Custom Fields', 'hidden' => true],
                 ['url' => route('pim.configuration.data-import'), 'label' => 'Data Import'],
-                ['url' => route('pim.configuration.reporting-methods'), 'label' => 'Reporting Methods'],
+                ['url' => route('pim.configuration.reporting-methods'), 'label' => 'Reporting Methods', 'hidden' => true],
                 ['url' => route('pim.configuration.termination-reasons'), 'label' => 'Termination Reasons']
             ]"
             position="left"

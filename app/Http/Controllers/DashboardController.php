@@ -148,29 +148,8 @@ class DashboardController extends Controller
             ->orderBy('employees.display_name')
             ->get();
 
-        // Employee Distribution by Sub Unit
-        $subUnitDistribution = DB::table('employees')
-            ->join('employee_job_details', 'employees.id', '=', 'employee_job_details.employee_id')
-            ->leftJoin('organization_units', 'employee_job_details.organization_unit_id', '=', 'organization_units.id')
-            ->where('employees.status', 'active')
-            ->select(
-                DB::raw('COALESCE(organization_units.name, "Unassigned") as sub_unit'),
-                DB::raw('COUNT(employees.id) as count')
-            )
-            ->groupBy('organization_units.name')
-            ->get();
-
-        $totalActive = $subUnitDistribution->sum('count');
-        $subUnitData = $subUnitDistribution->map(function ($item) use ($totalActive) {
-            $percentage = $totalActive > 0 ? ($item->count / $totalActive) * 100 : 0;
-            return [
-                'label' => $item->sub_unit,
-                'count' => $item->count,
-                'value' => round($percentage, 2)
-            ];
-        })->toArray();
-
         // Employee Distribution by Location
+        $totalActive = DB::table('employees')->where('status', 'active')->count();
         $locationDistribution = DB::table('employees')
             ->join('employee_job_details', 'employees.id', '=', 'employee_job_details.employee_id')
             ->leftJoin('locations', 'employee_job_details.location_id', '=', 'locations.id')
@@ -202,7 +181,6 @@ class DashboardController extends Controller
             'todayDuration',
             'weekData',
             'employeesOnLeave',
-            'subUnitData',
             'locationData'
         ));
     }

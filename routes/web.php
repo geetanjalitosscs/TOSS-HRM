@@ -138,9 +138,12 @@ Route::middleware('auth.session')->group(function () {
         ->name('pim.configuration.termination-reasons.delete');
     Route::get('/leave', [LeaveController::class, 'index'])->name('leave');
     Route::get('/leave/apply', [LeaveController::class, 'apply'])->name('leave.apply');
+    Route::post('/leave/apply', [LeaveController::class, 'store'])->name('leave.store');
     Route::get('/leave/my-leave', [LeaveController::class, 'myLeave'])->name('leave.my-leave');
     Route::get('/leave/leave-list', [LeaveController::class, 'leaveList'])->name('leave.leave-list');
     Route::get('/leave/assign-leave', [LeaveController::class, 'assignLeave'])->name('leave.assign-leave');
+    Route::post('/leave/assign-leave', [LeaveController::class, 'storeAssignLeave'])->name('leave.assign-leave.store');
+    Route::get('/leave/get-balance', [LeaveController::class, 'getLeaveBalance'])->name('leave.get-balance');
     
     // Entitlements
     Route::get('/leave/add-entitlement', [LeaveController::class, 'addEntitlement'])->name('leave.add-entitlement');
@@ -153,9 +156,18 @@ Route::middleware('auth.session')->group(function () {
     
     // Configure
     Route::get('/leave/leave-types', [LeaveController::class, 'leaveTypes'])->name('leave.leave-types');
+    Route::post('/leave/leave-types/store', [LeaveController::class, 'storeLeaveType'])->name('leave.leave-types.store');
+    Route::post('/leave/leave-types/update/{id}', [LeaveController::class, 'updateLeaveType'])->whereNumber('id')->name('leave.leave-types.update');
+    Route::post('/leave/leave-types/delete/{id}', [LeaveController::class, 'deleteLeaveType'])->whereNumber('id')->name('leave.leave-types.delete');
+    Route::post('/leave/leave-types/bulk-delete', [LeaveController::class, 'bulkDeleteLeaveTypes'])->name('leave.leave-types.bulk-delete');
     Route::get('/leave/leave-period', [LeaveController::class, 'leavePeriod'])->name('leave.leave-period');
     Route::get('/leave/work-week', [LeaveController::class, 'workWeek'])->name('leave.work-week');
+    Route::post('/leave/work-week/store', [LeaveController::class, 'storeWorkWeek'])->name('leave.work-week.store');
     Route::get('/leave/holidays', [LeaveController::class, 'holidays'])->name('leave.holidays');
+    Route::post('/leave/holidays', [LeaveController::class, 'storeHoliday'])->name('leave.holidays.store');
+    Route::post('/leave/holidays/{id}', [LeaveController::class, 'updateHoliday'])->name('leave.holidays.update');
+    Route::post('/leave/holidays/{id}/delete', [LeaveController::class, 'deleteHoliday'])->name('leave.holidays.delete');
+    Route::post('/leave/holidays/bulk-delete', [LeaveController::class, 'bulkDeleteHolidays'])->name('leave.holidays.bulk-delete');
     Route::get('/time', [TimeController::class, 'index'])->name('time');
     Route::get('/time/my-timesheets', [TimeController::class, 'myTimesheets'])->name('time.my-timesheets');
     Route::get('/time/my-timesheets/edit', [TimeController::class, 'editMyTimesheet'])->name('time.my-timesheets.edit');

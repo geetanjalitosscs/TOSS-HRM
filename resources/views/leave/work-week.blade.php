@@ -13,7 +13,14 @@
                 <span class="mt-0.5">Work Week</span>
             </h2>
             
-            <form>
+            @if(session('status'))
+                <div class="mb-4 px-3 py-2 rounded border text-xs" style="background-color: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); color: rgb(22, 163, 74);">
+                    {{ session('status') }}
+                </div>
+            @endif
+            
+            <form method="POST" action="{{ route('leave.work-week.store') }}">
+                @csrf
                 <!-- Days of Week -->
                 <div class="space-y-4 mb-6">
                     @foreach($days as $day)
@@ -21,7 +28,7 @@
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                             {{ $day->name }} <span style="color: var(--color-danger);">*</span>
                         </label>
-                        <select class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);">
+                        <select name="days[{{ $day->day_of_week }}]" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);" required>
                             <option value="full_day" {{ $day->value === 'full_day' ? 'selected' : '' }}>Full Day</option>
                             <option value="half_day" {{ $day->value === 'half_day' ? 'selected' : '' }}>Half Day</option>
                             <option value="non_working" {{ $day->value === 'non_working' ? 'selected' : '' }}>Non-working Day</option>

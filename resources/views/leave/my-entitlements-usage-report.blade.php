@@ -65,13 +65,13 @@
                             <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $row->leave_type }}</div>
                         </div>
                         <div class="flex-1 basis-0 min-w-0">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format($row->days_entitled, 2) }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format((float)$row->days_entitled, 0, '.', '') }}</div>
                         </div>
                         <div class="flex-1 basis-0 min-w-0">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format($row->days_taken, 2) }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format((float)$row->days_taken, 0, '.', '') }}</div>
                         </div>
                         <div class="flex-1 basis-0 min-w-0">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format($row->balance, 2) }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ number_format((float)$row->balance, 0, '.', '') }}</div>
                         </div>
                     </div>
                     @endforeach

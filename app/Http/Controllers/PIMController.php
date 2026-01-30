@@ -607,7 +607,7 @@ class PIMController extends Controller
                 'data_type'  => $normalizedType,
                 'updated_at' => now(),
             ]);
-
+        
         return redirect()->route('pim.configuration.custom-fields')
             ->with('status', 'Custom field updated.');
     }
@@ -677,11 +677,11 @@ class PIMController extends Controller
 
         // Define expected column order / names for validation
         $expectedHeader = [
-            'Employee Number',
-            'First Name',
+            'ID',
+            'First (& Middle) Name',
             'Last Name',
-            'Gender',
-            'Date of Birth',
+            'Job Title',
+            'Employment Status',
         ];
 
         if ($header !== $expectedHeader) {
@@ -727,33 +727,49 @@ class PIMController extends Controller
 
         $errors = [];
 
+        // Get lookup maps for job titles and employment statuses
+        $jobTitleMap = DB::table('job_titles')
+            ->pluck('id', 'name')
+            ->mapWithKeys(fn($id, $name) => [strtolower(trim($name)) => $id])
+            ->toArray();
+
+        $employmentStatusMap = DB::table('employment_statuses')
+            ->pluck('id', 'name')
+            ->mapWithKeys(fn($id, $name) => [strtolower(trim($name)) => $id])
+            ->toArray();
+
         foreach ($rows as $index => $row) {
             $rowNumber = $index + 2; // +2 accounting for header + 1-based index
 
             // Align row length with header length
             $row = array_pad($row, count($expectedHeader), null);
 
-            [$employeeNumber, $firstName, $lastName, $gender, $dob] = $row;
+            [$employeeId, $firstAndMiddleName, $lastName, $jobTitleName, $employmentStatusName] = $row;
 
-            // First/Last name required
-            if (!trim((string) $firstName) || !trim((string) $lastName)) {
-                $errors[] = "Row {$rowNumber}: First Name and Last Name are required.";
+            $employeeId = trim((string) $employeeId);
+            $firstAndMiddleName = trim((string) $firstAndMiddleName);
+            $lastName = trim((string) $lastName);
+            $jobTitleName = trim((string) $jobTitleName);
+            $employmentStatusName = trim((string) $employmentStatusName);
+
+            // ID and Last Name required
+            if ($employeeId === '' || $lastName === '') {
+                $errors[] = "Row {$rowNumber}: ID and Last Name are required.";
             }
 
-            // Gender must be Male/Female if present
-            $genderTrimmed = trim((string) $gender);
-            if ($genderTrimmed !== '' && !in_array(strtolower($genderTrimmed), ['male', 'female'], true)) {
-                $errors[] = "Row {$rowNumber}: Gender must be Male or Female.";
+            // First (& Middle) Name required
+            if ($firstAndMiddleName === '') {
+                $errors[] = "Row {$rowNumber}: First (& Middle) Name is required.";
             }
 
-            // Date of Birth must be YYYY-MM-DD if present
-            $dobTrimmed = trim((string) $dob);
-            if ($dobTrimmed !== '') {
-                $d = \DateTime::createFromFormat('Y-m-d', $dobTrimmed);
-                $isValid = $d && $d->format('Y-m-d') === $dobTrimmed;
-                if (!$isValid) {
-                    $errors[] = "Row {$rowNumber}: Date of Birth must be in YYYY-MM-DD format.";
-                }
+            // Validate Job Title if provided
+            if ($jobTitleName !== '' && !isset($jobTitleMap[strtolower($jobTitleName)])) {
+                $errors[] = "Row {$rowNumber}: Job Title '{$jobTitleName}' not found.";
+            }
+
+            // Validate Employment Status if provided
+            if ($employmentStatusName !== '' && !isset($employmentStatusMap[strtolower($employmentStatusName)])) {
+                $errors[] = "Row {$rowNumber}: Employment Status '{$employmentStatusName}' not found.";
             }
         }
 
@@ -761,14 +777,74 @@ class PIMController extends Controller
             return back()->withErrors(['import_file' => implode(' ', $errors)]);
         }
 
-        // At this point, file is valid per notes. Actual DB import can be added later.
-        // For now, just show an "Import Details" popup with total rows (or 0).
-        $summary = [
-            'total'    => $recordCount,
-            'imported' => $recordCount, // placeholder until real import is wired
-        ];
+        // Import valid rows into database
+        $imported = 0;
+        $skipped = 0;
 
-        return back()->with('import_summary', $summary);
+        foreach ($rows as $index => $row) {
+            $row = array_pad($row, count($expectedHeader), null);
+            [$employeeId, $firstAndMiddleName, $lastName, $jobTitleName, $employmentStatusName] = $row;
+
+            $employeeId = trim((string) $employeeId);
+            $firstAndMiddleName = trim((string) $firstAndMiddleName);
+            $lastName = trim((string) $lastName);
+            $jobTitleName = trim((string) $jobTitleName);
+            $employmentStatusName = trim((string) $employmentStatusName);
+
+            // Skip if employee number already exists
+            $exists = DB::table('employees')
+                ->where('employee_number', $employeeId)
+                ->exists();
+
+            if ($exists) {
+                $skipped++;
+                continue;
+            }
+
+            // Split First (& Middle) Name into first_name and middle_name
+            $nameParts = preg_split('/\s+/', $firstAndMiddleName, 2);
+            $firstName = $nameParts[0] ?? '';
+            $middleName = isset($nameParts[1]) ? $nameParts[1] : null;
+
+            // Build display name
+            $displayName = trim($firstAndMiddleName . ' ' . $lastName);
+
+            // Look up Job Title ID
+            $jobTitleId = null;
+            if ($jobTitleName !== '') {
+                $jobTitleId = $jobTitleMap[strtolower($jobTitleName)] ?? null;
+            }
+
+            // Look up Employment Status ID
+            $employmentStatusId = null;
+            if ($employmentStatusName !== '') {
+                $employmentStatusId = $employmentStatusMap[strtolower($employmentStatusName)] ?? null;
+            }
+
+            // Prepare insert data
+            $insertData = [
+                'organization_id' => 1,
+                'employee_number' => $employeeId,
+                'first_name' => $firstName,
+                'middle_name' => $middleName,
+                'last_name' => $lastName,
+                'display_name' => $displayName,
+                'job_title_id' => $jobTitleId,
+                'employment_status_id' => $employmentStatusId,
+                'status' => 'active',
+                'hire_date' => now()->toDateString(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            // Insert employee
+            DB::table('employees')->insert($insertData);
+            $imported++;
+        }
+
+        // Redirect to employee list with success message
+        return redirect()->route('pim.employee-list')
+            ->with('status', "Import completed. {$imported} record(s) imported" . ($skipped > 0 ? ", {$skipped} skipped (duplicate employee numbers)" : '') . '.');
     }
 
     /**
@@ -784,11 +860,7 @@ class PIMController extends Controller
         $callback = function () {
             $output = fopen('php://output', 'w');
             // Header must match $expectedHeader used in handleDataImport
-            fputcsv($output, ['Employee Number', 'First Name', 'Last Name', 'Gender', 'Date of Birth']);
-            // Intentionally incorrect date formats so user sees:
-            // "Row 2: Date of Birth must be in YYYY-MM-DD format. Row 3: Date of Birth must be in YYYY-MM-DD format."
-            fputcsv($output, ['E001', 'John', 'Doe', 'Male', '1990-05-10']);
-            fputcsv($output, ['E002', 'Jane', 'Smith', 'Female', '1992-11-25']);
+            fputcsv($output, ['ID', 'First (& Middle) Name', 'Last Name', 'Job Title', 'Employment Status']);
             fclose($output);
         };
 
