@@ -4,96 +4,137 @@
 
 @section('body')
     <x-main-layout title="Admin / User Management">
-                    <!-- Top Navigation Tabs -->
-                    <x-admin.tabs activeTab="user-management" />
+        <!-- Top Navigation Tabs -->
+        <x-admin.tabs activeTab="user-management" />
 
-                    <!-- System Users Section -->
-                    <div class="space-y-6">
-                        <!-- User Search Panel Card -->
-                        <section class="hr-card p-6">
-                            <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                                <i class="fas fa-search text-purple-500"></i> System Users
-                            </h2>
+        <!-- System Users Section -->
+        <div class="space-y-6">
+            <!-- User Search Panel Card -->
+            <section class="hr-card p-6">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
+                    <i class="fas fa-search text-purple-500"></i> System Users
+                </h2>
 
-                            <!-- Filter Form -->
-                            <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Username</label>
-                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Enter username">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">User Role</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
-                                        <option>-- Select --</option>
-                                        <option>Admin</option>
-                                        <option>ESS</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
-                                    <input type="text" class="w-full px-3 py-2 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Status</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
-                                        <option>-- Select --</option>
-                                        <option>Enabled</option>
-                                        <option>Disabled</option>
-                                    </select>
-                                </div>
+                <!-- Filter Form -->
+                <form method="GET" action="{{ route('admin') }}" id="user-search-form">
+                    <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Username</label>
+                                <input 
+                                    type="text" 
+                                    name="username"
+                                    value="{{ request('username') }}"
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                    placeholder="Enter username">
                             </div>
-                            <x-admin.action-buttons />
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">User Role</label>
+                                <select 
+                                    name="user_role"
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <option value="">-- Select --</option>
+                                    @foreach($roles ?? [] as $role)
+                                        <option value="{{ $role->id }}" {{ request('user_role') == $role->id ? 'selected' : '' }}>
+                                            {{ $role->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
+                                <input 
+                                    type="text" 
+                                    name="employee_name"
+                                    value="{{ request('employee_name') }}"
+                                    class="w-full px-3 py-2 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                    placeholder="Type for hints...">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Status</label>
+                                <select 
+                                    name="status"
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="Enabled" {{ request('status') == 'Enabled' ? 'selected' : '' }}>Enabled</option>
+                                    <option value="Disabled" {{ request('status') == 'Disabled' ? 'selected' : '' }}>Disabled</option>
+                                </select>
+                            </div>
                         </div>
-                        </section>
+                        <x-admin.action-buttons resetType="button" searchType="submit" />
+                    </div>
+                </form>
+            </section>
 
-                        <!-- User List Card -->
-                        <section class="hr-card p-6">
-                            <div class="flex items-center justify-between mb-5">
-                                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                    <i class="fas fa-users text-purple-500"></i> User List
-                                </h2>
-                                <x-admin.add-button label="+ Add" />
+            <!-- User List Card -->
+            <section id="users-table-section" class="hr-card p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-users text-purple-500"></i> User List
+                    </h2>
+                    <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
+                        <button
+                            id="users-delete-selected"
+                            type="button"
+                            class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
+                            onclick="openUserBulkDeleteModal()"
+                        >
+                            Delete Selected
+                        </button>
+                        <x-admin.add-button label="+ Add" onClick="openUserAddModal()" />
+                    </div>
+                </div>
+
+                <!-- Records Count -->
+                <x-records-found :count="count($users)" />
+
+                <!-- Table Wrapper -->
+                <div id="users-table">
+                    <div class="hr-table-wrapper">
+                        <!-- Table Header -->
+                        <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                            <div class="flex-shrink-0" style="width: 24px;">
+                                <input type="checkbox" id="users-master-checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
                             </div>
-
-                            <!-- Records Count -->
-                            <x-records-found :count="count($users)" />
-
-                            <!-- Table Wrapper -->
-                            <div class="hr-table-wrapper">
-                            <!-- Table Header -->
-                            <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                                <div class="flex-shrink-0" style="width: 24px;">
-                                    <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
-                                </div>
-                                <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Username</div>
-                                </div>
-                                <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">User Role</div>
-                                </div>
-                                <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee Name</div>
-                                </div>
-                                <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</div>
-                                </div>
-                                <div class="flex-shrink-0" style="width: 90px;">
-                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                                </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Username</div>
                             </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">User Role</div>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee Name</div>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</div>
+                            </div>
+                            <div class="flex-shrink-0" style="width: 90px;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
+                            </div>
+                        </div>
 
-                            <!-- User Cards List -->
-                            <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                            @foreach($users as $user)
-                            <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                        <!-- User Rows -->
+                        <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                            @forelse($users as $user)
+                            <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1 hr-table-row" 
+                                 style="background-color: var(--bg-card); border-color: var(--border-default);" 
+                                 onmouseover="this.style.backgroundColor='var(--bg-hover)'" 
+                                 onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <!-- Checkbox -->
                                 <div class="flex-shrink-0" style="width: 24px;">
-                                    <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" onfocus="this.style.outline='2px solid var(--color-hr-primary)'" onblur="this.style.outline='none'">
+                                    <input type="checkbox" class="user-row-checkbox rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
                                 </div>
                                 
                                 <!-- Username -->
-                                <div class="flex-1" style="min-width: 0;">
+                                <div class="flex-1" style="min-width: 0;"
+                                     data-user-id="{{ $user->id }}"
+                                     data-user-username="{{ $user->username }}"
+                                     data-user-email="{{ $user->email ?? '' }}"
+                                     data-user-role-id="{{ $user->role_id ?? '' }}"
+                                     data-user-employee-id="{{ $user->employee_id ?? '' }}"
+                                     data-user-is-active="{{ $user->is_active ?? 1 }}"
+                                     data-user-is-main-user="{{ $user->is_main_user ?? 0 }}"
+                                >
                                     <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $user->username }}</div>
                                 </div>
                                 
@@ -104,7 +145,7 @@
                                 
                                 <!-- Employee Name -->
                                 <div class="flex-1" style="min-width: 0;">
-                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user->employee_name }}</div>
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $user->employee_name ?: '-' }}</div>
                                 </div>
                                 
                                 <!-- Status -->
@@ -124,11 +165,632 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
-                            </div>
+                            @empty
+                                <div class="px-4 py-10 text-center text-xs" style="color: var(--text-muted);">
+                                    No users found.
+                                </div>
+                            @endforelse
                         </div>
-                        </section>
                     </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Add User Modal -->
+        <x-admin.modal
+            id="user-add-modal"
+            title="Add User"
+            icon="fas fa-user-plus"
+            maxWidth="md"
+            backdropOnClick="closeUserAddModal(true)"
+        >
+            <form method="POST" action="{{ route('admin.users.store') }}">
+                @csrf
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Username <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="username"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        required
+                        maxlength="100"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        name="email"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        required
+                        maxlength="191"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Password <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        required
+                        minlength="6"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        User Role <span class="text-red-500">*</span>
+                    </label>
+                    <select
+                        name="role_id"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        required
+                    >
+                        <option value="">-- Select --</option>
+                        @foreach($roles ?? [] as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Employee
+                    </label>
+                    <select
+                        name="employee_id"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                        <option value="">-- Select --</option>
+                        @foreach($employees ?? [] as $employee)
+                            <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <input type="hidden" name="is_active" value="0">
+                    <label class="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            name="is_active"
+                            value="1"
+                            checked
+                            class="rounded w-3.5 h-3.5"
+                            style="border-color: var(--border-default); accent-color: var(--color-hr-primary);"
+                        >
+                        <span class="text-xs" style="color: var(--text-primary);">Active</span>
+                    </label>
+                </div>
+                <div class="mb-4">
+                    <input type="hidden" name="is_main_user" value="0">
+                    <label class="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            name="is_main_user"
+                            value="1"
+                            class="rounded w-3.5 h-3.5"
+                            style="border-color: var(--border-default); accent-color: var(--color-hr-primary);"
+                        >
+                        <span class="text-xs" style="color: var(--text-primary);">Main User</span>
+                    </label>
+                </div>
+
+                <div class="flex justify-end gap-2 mt-1">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeUserAddModal(true)"
+                    >
+                        Cancel
+                    </button>
+                    <button type="submit" class="hr-btn-primary px-4 py-1.5 text-xs">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </x-admin.modal>
+
+        <!-- Edit User Modal -->
+        <x-admin.modal
+            id="user-edit-modal"
+            title="Edit User"
+            icon="fas fa-edit"
+            maxWidth="md"
+            backdropOnClick="closeUserEditModal(true)"
+        >
+            <form method="POST" id="user-edit-form" action="#">
+                @csrf
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Username <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="user-edit-username"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        required
+                        maxlength="100"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="user-edit-email"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        required
+                        maxlength="191"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Password (leave blank to keep current)
+                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="user-edit-password"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        minlength="6"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        User Role <span class="text-red-500">*</span>
+                    </label>
+                    <select
+                        name="role_id"
+                        id="user-edit-role-id"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        required
+                    >
+                        <option value="">-- Select --</option>
+                        @foreach($roles ?? [] as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Employee
+                    </label>
+                    <select
+                        name="employee_id"
+                        id="user-edit-employee-id"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                        <option value="">-- Select --</option>
+                        @foreach($employees ?? [] as $employee)
+                            <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <input type="hidden" name="is_active" value="0">
+                    <label class="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            name="is_active"
+                            id="user-edit-is-active"
+                            value="1"
+                            class="rounded w-3.5 h-3.5"
+                            style="border-color: var(--border-default); accent-color: var(--color-hr-primary);"
+                        >
+                        <span class="text-xs" style="color: var(--text-primary);">Active</span>
+                    </label>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            name="is_main_user"
+                            id="user-edit-is-main-user"
+                            value="1"
+                            class="rounded w-3.5 h-3.5"
+                            style="border-color: var(--border-default); accent-color: var(--color-hr-primary);"
+                        >
+                        <span class="text-xs" style="color: var(--text-primary);">Main User</span>
+                    </label>
+                </div>
+
+                <div class="flex justify-end gap-2 mt-1">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeUserEditModal(true)"
+                    >
+                        Cancel
+                    </button>
+                    <button type="submit" class="hr-btn-primary px-4 py-1.5 text-xs">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </x-admin.modal>
+
+        <!-- Delete User Modal -->
+        <x-admin.modal
+            id="user-delete-modal"
+            title="Delete User"
+            maxWidth="xs"
+            backdropOnClick="closeUserDeleteModal()"
+        >
+            <div>
+                <p class="text-xs mb-4" style="color: var(--text-muted);">
+                    Are you sure you want to delete this user?
+                </p>
+                <div class="flex justify-end gap-2">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeUserDeleteModal()"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="hr-btn-primary px-4 py-1.5 text-xs"
+                        onclick="confirmUserDelete()"
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </x-admin.modal>
+
+        <!-- Bulk Delete Users Modal -->
+        <x-admin.modal
+            id="user-bulk-delete-modal"
+            title="Delete Selected Users"
+            maxWidth="xs"
+            backdropOnClick="closeUserBulkDeleteModal()"
+        >
+            <div>
+                <p class="text-xs mb-4" style="color: var(--text-muted);">
+                    Are you sure you want to delete all selected users?
+                </p>
+                <div class="flex justify-end gap-2">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeUserBulkDeleteModal()"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="hr-btn-primary px-4 py-1.5 text-xs"
+                        onclick="confirmUserBulkDelete()"
+                    >
+                        Delete Selected
+                    </button>
+                </div>
+            </div>
+        </x-admin.modal>
+
+        <!-- Hidden forms for deletes -->
+        <form id="user-delete-form" method="POST" action="#">
+            @csrf
+        </form>
+        <form id="user-bulk-delete-form" method="POST" action="{{ route('admin.users.bulk-delete') }}">
+            @csrf
+            <input type="hidden" name="ids" id="user-bulk-delete-ids" value="">
+        </form>
+
+        <script>
+            (function () {
+                var userEditUrlTemplate = "{{ route('admin.users.update', ['id' => '__ID__']) }}";
+                var userDeleteUrlTemplate = "{{ route('admin.users.delete', ['id' => '__ID__']) }}";
+
+                var pendingUserDeleteId = null;
+
+                function openUserAddModal() {
+                    var m = document.getElementById('user-add-modal');
+                    if (m) m.classList.remove('hidden');
+                }
+                window.openUserAddModal = openUserAddModal;
+
+                function closeUserAddModal(reset) {
+                    var m = document.getElementById('user-add-modal');
+                    if (m) m.classList.add('hidden');
+                    if (reset) {
+                        var form = m ? m.querySelector('form') : null;
+                        if (form) form.reset();
+                    }
+                }
+                window.closeUserAddModal = closeUserAddModal;
+
+                function openUserEditModalFromRow(row) {
+                    var info = row.querySelector('[data-user-id]');
+                    if (!info) return;
+
+                    var id = info.dataset.userId;
+                    var username = info.dataset.userUsername || '';
+                    var email = info.dataset.userEmail || '';
+                    var roleId = info.dataset.userRoleId || '';
+                    var employeeId = info.dataset.userEmployeeId || '';
+                    var isActive = info.dataset.userIsActive || '1';
+                    var isMainUser = info.dataset.userIsMainUser || '0';
+
+                    var m = document.getElementById('user-edit-modal');
+                    if (!m) return;
+
+                    var usernameInput = document.getElementById('user-edit-username');
+                    if (usernameInput) usernameInput.value = username;
+
+                    var emailInput = document.getElementById('user-edit-email');
+                    if (emailInput) emailInput.value = email;
+
+                    var passwordInput = document.getElementById('user-edit-password');
+                    if (passwordInput) passwordInput.value = '';
+
+                    var roleSelect = document.getElementById('user-edit-role-id');
+                    if (roleSelect) roleSelect.value = roleId;
+
+                    var employeeSelect = document.getElementById('user-edit-employee-id');
+                    if (employeeSelect) employeeSelect.value = employeeId;
+
+                    var isActiveCheckbox = document.getElementById('user-edit-is-active');
+                    if (isActiveCheckbox) isActiveCheckbox.checked = isActive == '1';
+
+                    var isMainUserCheckbox = document.getElementById('user-edit-is-main-user');
+                    if (isMainUserCheckbox) isMainUserCheckbox.checked = isMainUser == '1';
+
+                    var form = document.getElementById('user-edit-form');
+                    if (form) {
+                        form.action = userEditUrlTemplate.replace('__ID__', id);
+                    }
+
+                    m.classList.remove('hidden');
+                }
+                window.openUserEditModalFromRow = openUserEditModalFromRow;
+
+                function closeUserEditModal(reset) {
+                    var m = document.getElementById('user-edit-modal');
+                    if (m) m.classList.add('hidden');
+                    if (reset) {
+                        var form = m ? m.querySelector('form') : null;
+                        if (form) form.reset();
+                    }
+                }
+                window.closeUserEditModal = closeUserEditModal;
+
+                function openUserDeleteModalFromRow(row) {
+                    var info = row.querySelector('[data-user-id]');
+                    if (!info) return;
+                    pendingUserDeleteId = info.dataset.userId || null;
+                    var m = document.getElementById('user-delete-modal');
+                    if (m) m.classList.remove('hidden');
+                }
+                window.openUserDeleteModalFromRow = openUserDeleteModalFromRow;
+
+                function closeUserDeleteModal() {
+                    var m = document.getElementById('user-delete-modal');
+                    if (m) m.classList.add('hidden');
+                    pendingUserDeleteId = null;
+                }
+                window.closeUserDeleteModal = closeUserDeleteModal;
+
+                function confirmUserDelete() {
+                    if (!pendingUserDeleteId) {
+                        closeUserDeleteModal();
+                        return;
+                    }
+                    var form = document.getElementById('user-delete-form');
+                    if (!form) {
+                        closeUserDeleteModal();
+                        return;
+                    }
+                    form.action = userDeleteUrlTemplate.replace('__ID__', pendingUserDeleteId);
+                    closeUserDeleteModal();
+                    form.submit();
+                }
+                window.confirmUserDelete = confirmUserDelete;
+
+                function openUserBulkDeleteModal() {
+                    var m = document.getElementById('user-bulk-delete-modal');
+                    if (m) m.classList.remove('hidden');
+                }
+                window.openUserBulkDeleteModal = openUserBulkDeleteModal;
+
+                function closeUserBulkDeleteModal() {
+                    var m = document.getElementById('user-bulk-delete-modal');
+                    if (m) m.classList.add('hidden');
+                }
+                window.closeUserBulkDeleteModal = closeUserBulkDeleteModal;
+
+                function confirmUserBulkDelete() {
+                    var table = document.getElementById('users-table');
+                    if (!table) {
+                        closeUserBulkDeleteModal();
+                        return;
+                    }
+                    var checked = table.querySelectorAll('.user-row-checkbox:checked');
+                    var ids = [];
+                    checked.forEach(function (cb) {
+                        var row = cb.closest('.hr-table-row');
+                        if (!row) return;
+                        var info = row.querySelector('[data-user-id]');
+                        if (info && info.dataset.userId) {
+                            ids.push(info.dataset.userId);
+                        }
+                    });
+
+                    if (!ids.length) {
+                        closeUserBulkDeleteModal();
+                        return;
+                    }
+
+                    var form = document.getElementById('user-bulk-delete-form');
+                    var input = document.getElementById('user-bulk-delete-ids');
+                    if (!form || !input) {
+                        closeUserBulkDeleteModal();
+                        return;
+                    }
+
+                    input.value = ids.join(',');
+                    closeUserBulkDeleteModal();
+                    form.submit();
+                }
+                window.confirmUserBulkDelete = confirmUserBulkDelete;
+
+                function refreshUserSelectionState() {
+                    var table = document.getElementById('users-table');
+                    if (!table) return;
+
+                    var headerCheckbox = document.getElementById('users-master-checkbox');
+                    var rowCheckboxes = table.querySelectorAll('.user-row-checkbox');
+                    var deleteSelectedBtn = document.getElementById('users-delete-selected');
+
+                    var checkedCount = 0;
+                    rowCheckboxes.forEach(function (cb) {
+                        if (cb.checked) checkedCount++;
+                    });
+
+                    if (deleteSelectedBtn) {
+                        deleteSelectedBtn.classList.toggle('hidden', checkedCount === 0);
+                    }
+
+                    if (headerCheckbox) {
+                        if (rowCheckboxes.length === 0) {
+                            headerCheckbox.checked = false;
+                        } else if (checkedCount === rowCheckboxes.length) {
+                            headerCheckbox.checked = true;
+                        } else {
+                            headerCheckbox.checked = false;
+                        }
+                        headerCheckbox.indeterminate = false;
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    var table = document.getElementById('users-table');
+                    if (!table) return;
+
+                    var headerCheckbox = document.getElementById('users-master-checkbox');
+                    if (headerCheckbox) {
+                        headerCheckbox.addEventListener('change', function () {
+                            var rowCheckboxes = table.querySelectorAll('.user-row-checkbox');
+                            rowCheckboxes.forEach(function (cb) {
+                                cb.checked = headerCheckbox.checked;
+                            });
+                            refreshUserSelectionState();
+                        });
+                    }
+
+                    table.addEventListener('click', function (e) {
+                        var headerCheckboxClick = e.target.closest('#users-master-checkbox');
+                        if (headerCheckboxClick) {
+                            return;
+                        }
+
+                        var editBtn = e.target.closest('.hr-action-edit');
+                        var deleteBtn = e.target.closest('.hr-action-delete');
+                        var rowCheckbox = e.target.closest('.user-row-checkbox');
+
+                        if (editBtn) {
+                            var row = e.target.closest('.hr-table-row');
+                            if (row) openUserEditModalFromRow(row);
+                            return;
+                        }
+
+                        if (deleteBtn) {
+                            var rowDel = e.target.closest('.hr-table-row');
+                            if (rowDel) openUserDeleteModalFromRow(rowDel);
+                            return;
+                        }
+
+                        if (rowCheckbox) {
+                            refreshUserSelectionState();
+                        }
+                    });
+
+                    refreshUserSelectionState();
+
+                    // Reset button handler
+                    var resetBtn = document.querySelector('#user-search-form button[type="button"]');
+                    if (resetBtn) {
+                        resetBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            var form = document.getElementById('user-search-form');
+                            if (form) {
+                                form.querySelector('input[name="username"]').value = '';
+                                form.querySelector('select[name="user_role"]').value = '';
+                                form.querySelector('input[name="employee_name"]').value = '';
+                                form.querySelector('select[name="status"]').value = '';
+                                window.location.href = '{{ route("admin") }}';
+                            }
+                        });
+                    }
+
+                    // Scroll to table section if status message exists (after add/edit/delete)
+                    @if(session('status'))
+                        var tableSection = document.getElementById('users-table-section');
+                        if (tableSection) {
+                            setTimeout(function() {
+                                tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 100);
+                        }
+                    @endif
+
+                    // Scroll to table section on search form submit
+                    var searchForm = document.getElementById('user-search-form');
+                    if (searchForm) {
+                        searchForm.addEventListener('submit', function(e) {
+                            // Add hash to URL for scrolling after page reload
+                            var formAction = searchForm.getAttribute('action') || window.location.pathname;
+                            var url = new URL(formAction, window.location.origin);
+                            
+                            // Get all form inputs
+                            var formData = new FormData(searchForm);
+                            for (var [key, value] of formData.entries()) {
+                                if (value) {
+                                    url.searchParams.set(key, value);
+                                }
+                            }
+                            
+                            // Add hash for scrolling
+                            url.hash = 'users-table-section';
+                            
+                            // Navigate to the URL with hash
+                            window.location.href = url.toString();
+                            e.preventDefault();
+                        });
+                    }
+
+                    // Scroll to table section if hash exists or if search parameters are present
+                    if (window.location.hash === '#users-table-section' || 
+                        (window.location.search && (window.location.search.includes('username=') || 
+                         window.location.search.includes('user_role=') || 
+                         window.location.search.includes('employee_name=') || 
+                         window.location.search.includes('status=')))) {
+                        var tableSection = document.getElementById('users-table-section');
+                        if (tableSection) {
+                            setTimeout(function() {
+                                tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 300);
+                        }
+                    }
+                });
+            })();
+        </script>
     </x-main-layout>
 @endsection
-

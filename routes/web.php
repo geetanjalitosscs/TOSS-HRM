@@ -41,14 +41,27 @@ Route::middleware('auth.session')->group(function () {
     
     // Admin routes
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::post('/admin/users/{id}', [AdminController::class, 'updateUser'])->whereNumber('id')->name('admin.users.update');
+    Route::post('/admin/users/{id}/delete', [AdminController::class, 'deleteUser'])->whereNumber('id')->name('admin.users.delete');
+    Route::post('/admin/users/bulk-delete', [AdminController::class, 'bulkDeleteUsers'])->name('admin.users.bulk-delete');
     Route::get('/admin/job-titles', [AdminController::class, 'jobTitles'])->name('admin.job-titles');
+    Route::post('/admin/job-titles', [AdminController::class, 'storeJobTitle'])->name('admin.job-titles.store');
+    Route::post('/admin/job-titles/{id}', [AdminController::class, 'updateJobTitle'])->whereNumber('id')->name('admin.job-titles.update');
+    Route::post('/admin/job-titles/{id}/delete', [AdminController::class, 'deleteJobTitle'])->whereNumber('id')->name('admin.job-titles.delete');
+    Route::post('/admin/job-titles/bulk-delete', [AdminController::class, 'bulkDeleteJobTitles'])->name('admin.job-titles.bulk-delete');
     Route::get('/admin/pay-grades', [AdminController::class, 'payGrades'])->name('admin.pay-grades');
     Route::get('/admin/employment-status', [AdminController::class, 'employmentStatus'])->name('admin.employment-status');
+    Route::post('/admin/employment-status', [AdminController::class, 'storeEmploymentStatus'])->name('admin.employment-status.store');
+    Route::post('/admin/employment-status/{id}', [AdminController::class, 'updateEmploymentStatus'])->whereNumber('id')->name('admin.employment-status.update');
+    Route::post('/admin/employment-status/{id}/delete', [AdminController::class, 'deleteEmploymentStatus'])->whereNumber('id')->name('admin.employment-status.delete');
+    Route::post('/admin/employment-status/bulk-delete', [AdminController::class, 'bulkDeleteEmploymentStatuses'])->name('admin.employment-status.bulk-delete');
     Route::get('/admin/job-categories', [AdminController::class, 'jobCategories'])->name('admin.job-categories');
     Route::get('/admin/work-shifts', [AdminController::class, 'workShifts'])->name('admin.work-shifts');
     
     // Organization routes
     Route::get('/admin/organization/general-information', [AdminController::class, 'organizationGeneral'])->name('admin.organization.general-information');
+    Route::post('/admin/organization/general-information', [AdminController::class, 'updateOrganizationGeneral'])->name('admin.organization.general-information.update');
     Route::get('/admin/organization/locations', [AdminController::class, 'organizationLocations'])->name('admin.organization.locations');
     Route::get('/admin/organization/structure', [AdminController::class, 'organizationStructure'])->name('admin.organization.structure');
     

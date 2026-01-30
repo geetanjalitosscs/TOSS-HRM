@@ -164,7 +164,7 @@
 
             <!-- Required Text -->
             <div class="text-xs text-gray-500 mt-2">* Required</div>
-        </div>
+        </section>
 
         <!-- Records Found Section -->
         <section class="hr-card">
@@ -175,30 +175,44 @@
 
             <!-- Table -->
             <div class="px-6 pb-6">
-                <table class="w-full">
+                <div class="hr-table-wrapper">
                     <!-- Table Header -->
-                    <thead>
-                        <tr class="border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                            <th class="px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wide" style="color: var(--text-primary);">Employee Name</th>
-                            <th class="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide" style="color: var(--text-primary);">Total Duration (Hours)</th>
-                            <th class="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide" style="color: var(--text-primary);">Actions</th>
-                        </tr>
-                    </thead>
-                    <!-- Table Body -->
-                    <tbody>
-                        @foreach($records as $index => $record)
-                        <tr class="border-b transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
-                            <td class="px-4 py-2.5 text-sm" style="color: var(--text-primary);">{{ $record->employee_name }}</td>
-                            <td class="px-4 py-2.5 text-sm text-center" style="color: var(--text-primary);">{{ number_format($record->total_duration, 2) }}</td>
-                            <td class="px-4 py-2.5 text-center">
-                                <button type="button" class="hr-btn-primary">
-                                    View
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee Name</div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 180px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Total Duration (Hours)</div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 100px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
+                        </div>
+                    </div>
+                    <!-- Table Rows -->
+                    <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                        @forelse($records as $record)
+                        <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-3 hr-table-row" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $record->employee_name }}</div>
+                            </div>
+                            <div class="flex-shrink-0" style="width: 180px;">
+                                <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record->total_duration, 2) }}</div>
+                            </div>
+                            <div class="flex-shrink-0" style="width: 100px;">
+                                <div class="flex items-center justify-center">
+                                    <button type="button" class="hr-btn-primary px-3 py-1 text-xs">
+                                        View
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="px-4 py-10 text-center text-xs" style="color: var(--text-muted);">
+                            No Records Found
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
             </div>
         </section>
 

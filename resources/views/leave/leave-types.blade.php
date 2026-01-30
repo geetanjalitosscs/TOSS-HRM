@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <!-- Search Form -->
+            {{-- <!-- Search Form -->
             <form method="GET" action="{{ route('leave.leave-types') }}" class="mb-4">
                 <div class="flex items-center gap-3">
                     <div class="flex-1">
@@ -52,7 +52,7 @@
                         </a>
                     @endif
                 </div>
-            </form>
+            </form> --}}
 
             @if(isset($leaveTypes) && count($leaveTypes) > 0)
                 <!-- Records Count -->

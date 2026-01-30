@@ -8,19 +8,23 @@
         </a>
         
         <!-- Job Dropdown -->
-        <x-dropdown-menu 
-            :items="[
+        @php
+            $jobItems = [
                 ['url' => route('admin.job-titles'), 'label' => 'Job Titles'],
-                ['url' => route('admin.pay-grades'), 'label' => 'Pay Grades'],
+                ['url' => route('admin.pay-grades'), 'label' => 'Pay Grades', 'hidden' => true],
                 ['url' => route('admin.employment-status'), 'label' => 'Employment Status'],
-                ['url' => route('admin.job-categories'), 'label' => 'Job Categories'],
-                ['url' => route('admin.work-shifts'), 'label' => 'Work Shifts']
-            ]"
+                ['url' => route('admin.job-categories'), 'label' => 'Job Categories', 'hidden' => true],
+                ['url' => route('admin.work-shifts'), 'label' => 'Work Shifts', 'hidden' => true]
+            ];
+            $isJobActive = in_array($activeTab, ['job-titles', 'employment-status']);
+        @endphp
+        <x-dropdown-menu 
+            :items="$jobItems"
             position="left"
             width="w-48">
-            @php
+            <!-- @php
                 $isJobActive = in_array($activeTab, ['job-titles', 'pay-grades', 'employment-status', 'job-categories', 'work-shifts']);
-            @endphp
+            @endphp -->
             <div class="px-4 py-3 {{ $isJobActive ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex items-center justify-between gap-2 flex-shrink-0 hr-tab-hover whitespace-nowrap" style="{{ $isJobActive ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if(!{{ $isJobActive ? 'true' : 'false' }}) { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if(!{{ $isJobActive ? 'true' : 'false' }}) { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
                 <span class="text-sm flex-shrink-0" style="{{ $isJobActive ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Job</span>
                 <x-dropdown-arrow class="flex-shrink-0" />
@@ -31,8 +35,8 @@
         <x-dropdown-menu 
             :items="[
                 ['url' => route('admin.organization.general-information'), 'label' => 'General Information'],
-                ['url' => route('admin.organization.locations'), 'label' => 'Locations'],
-                ['url' => route('admin.organization.structure'), 'label' => 'Structure']
+                ['url' => route('admin.organization.locations'), 'label' => 'Locations', 'hidden' => true],
+                ['url' => route('admin.organization.structure'), 'label' => 'Structure', 'hidden' => true]
             ]"
             position="left"
             width="w-48">
@@ -45,8 +49,8 @@
             </div>
         </x-dropdown-menu>
         
-        <!-- Qualifications Dropdown -->
-        <x-dropdown-menu 
+        <!-- Qualifications Dropdown - Hidden -->
+        {{-- <x-dropdown-menu 
             :items="[
                 ['url' => route('admin.qualifications.skills'), 'label' => 'Skills'],
                 ['url' => route('admin.qualifications.education'), 'label' => 'Education'],
@@ -63,20 +67,20 @@
                 <span class="text-sm flex-shrink-0" style="{{ $isQualActive ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Qualifications</span>
                 <x-dropdown-arrow class="flex-shrink-0" />
             </div>
-        </x-dropdown-menu>
+        </x-dropdown-menu> --}}
         
-        <!-- Nationalities Tab -->
-        <a href="{{ route('admin.nationalities') }}" class="px-4 py-3 {{ $activeTab === 'nationalities' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'nationalities' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if('{{ $activeTab }}' !== 'nationalities') { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if('{{ $activeTab }}' !== 'nationalities') { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
+        <!-- Nationalities Tab - Hidden -->
+        {{-- <a href="{{ route('admin.nationalities') }}" class="px-4 py-3 {{ $activeTab === 'nationalities' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'nationalities' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if('{{ $activeTab }}' !== 'nationalities') { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if('{{ $activeTab }}' !== 'nationalities') { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
             <span class="text-sm" style="{{ $activeTab === 'nationalities' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Nationalities</span>
-        </a>
+        </a> --}}
         
-        <!-- Corporate Branding Tab -->
-        <a href="{{ route('admin.corporate-branding') }}" class="px-4 py-3 {{ $activeTab === 'corporate-branding' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'corporate-branding' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if('{{ $activeTab }}' !== 'corporate-branding') { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if('{{ $activeTab }}' !== 'corporate-branding') { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
+        <!-- Corporate Branding Tab - Hidden -->
+        {{-- <a href="{{ route('admin.corporate-branding') }}" class="px-4 py-3 {{ $activeTab === 'corporate-branding' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'corporate-branding' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if('{{ $activeTab }}' !== 'corporate-branding') { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if('{{ $activeTab }}' !== 'corporate-branding') { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
             <span class="text-sm" style="{{ $activeTab === 'corporate-branding' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Corporate Branding</span>
-        </a>
+        </a> --}}
         
-        <!-- Configuration Dropdown -->
-        <x-dropdown-menu 
+        <!-- Configuration Dropdown - Hidden -->
+        {{-- <x-dropdown-menu 
             :items="[
                 ['url' => route('admin.configuration.email-configuration'), 'label' => 'Email Configuration'],
                 ['url' => route('admin.configuration.email-subscriptions'), 'label' => 'Email Subscriptions'],
@@ -105,6 +109,6 @@
                 <span class="text-sm flex-shrink-0" style="{{ $isConfigActive ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Configuration</span>
                 <x-dropdown-arrow class="flex-shrink-0" />
             </div>
-        </x-dropdown-menu>
+        </x-dropdown-menu> --}}
     </div>
 </div>

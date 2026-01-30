@@ -29,10 +29,10 @@
                         @if(!empty($photoUrl))
                             <img src="{{ $photoUrl }}" alt="Employee Photo"
                                  class="absolute inset-0 w-full h-full object-contain rounded-full employee-photo-preview"
-                                 style="background-color: var(--bg-surface);">
-                        @else
-                            <i class="fas fa-user text-4xl employee-photo-icon" style="color: var(--text-muted);"></i>
+                                 style="background-color: var(--bg-surface);"
+                                 onerror="this.onerror=null; this.style.display='none'; const icon = this.parentElement.querySelector('.employee-photo-icon'); if(icon) icon.style.display='block';">
                         @endif
+                        <i class="fas fa-user text-4xl employee-photo-icon" style="color: var(--text-muted); {{ !empty($photoUrl) ? 'display: none;' : '' }}"></i>
 
                         <input type="file" name="photo" id="employee-photo-input" accept=".jpg,.jpeg,.png,.gif,.webp" class="hidden">
                         <button type="button" class="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='var(--color-hr-primary)'; this.style.transform='scale(1)'" onclick="document.getElementById('employee-photo-input')?.click()">
@@ -237,10 +237,17 @@
                     var objectUrl = URL.createObjectURL(file);
                     previewImg.src = objectUrl;
                     previewImg.style.display = 'block';
+                    previewImg.onerror = null; // Clear any previous error handlers
 
                     if (icon) {
                         icon.style.display = 'none';
                     }
+                    
+                    // Ensure image loads properly
+                    previewImg.onload = function() {
+                        this.style.display = 'block';
+                        if (icon) icon.style.display = 'none';
+                    };
 
                     // Also update modal image so popup shows latest selection
                     modalImg.src = objectUrl;

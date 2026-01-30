@@ -26,15 +26,23 @@ class LoginController extends Controller
 
         $user = DB::table('users')
             ->where('username', $credentials['username'])
+            ->whereNull('deleted_at')
             ->first();
 
         $valid = false;
         if ($user && $user->password_hash) {
             // Only use hash matching - no plaintext login
-                $valid = Hash::check($credentials['password'], $user->password_hash);
+            $valid = Hash::check($credentials['password'], $user->password_hash);
         }
 
         if ($valid) {
+            // Check if user is active
+            if (isset($user->is_active) && $user->is_active != 1) {
+                return back()
+                    ->withErrors(['login' => 'Your account is inactive. Please contact HR.'])
+                    ->withInput($request->only('username'));
+            }
+
             $request->session()->put('auth_user', [
                 'id'       => $user->id,
                 'name'     => $user->username,

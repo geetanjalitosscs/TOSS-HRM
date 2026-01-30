@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2026 at 10:38 AM
+-- Generation Time: Jan 30, 2026 at 02:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -534,7 +534,9 @@ CREATE TABLE `employees` (
 
 INSERT INTO `employees` (`id`, `employee_number`, `organization_id`, `first_name`, `middle_name`, `last_name`, `display_name`, `date_of_birth`, `gender`, `marital_status`, `national_id`, `hire_date`, `termination_date`, `status`, `location_id`, `organization_unit_id`, `job_title_id`, `employment_status_id`, `pay_grade_id`, `supervisor_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, '0001', 1, 'Kritika', NULL, 'Singh', 'Kritika Singh', '1995-01-17', 'female', 'single', 'NID-0001', '2020-06-01', NULL, 'active', 2, 1, 1, 1, NULL, 1, '2026-01-27 17:06:38', '2026-01-30 11:03:39', NULL),
-(2, '0002', 1, 'Jane', NULL, 'Doe', 'Jane Doe', '1990-03-10', 'female', 'married', 'NID-0002', '2019-03-01', NULL, 'active', 3, 4, 5, 1, NULL, 1, '2026-01-27 17:06:38', '2026-01-27 17:06:38', NULL);
+(2, '0002', 1, 'Jane', NULL, 'Doe', 'Jane Doe', '1990-03-10', 'female', 'married', 'NID-0002', '2019-03-01', NULL, 'active', 3, 4, 5, 1, NULL, 1, '2026-01-27 17:06:38', '2026-01-27 17:06:38', NULL),
+(5, '0003', 1, 'hema', NULL, 'sharma', NULL, NULL, 'unspecified', NULL, NULL, '2026-01-30', NULL, 'active', NULL, NULL, 6, 1, NULL, NULL, '2026-01-30 10:23:33', '2026-01-30 10:23:33', NULL),
+(10, '0008', 1, 'rahul', NULL, 'kumar', NULL, NULL, 'unspecified', NULL, NULL, '2026-01-30', NULL, 'active', NULL, NULL, 7, 3, NULL, NULL, '2026-01-30 10:43:06', '2026-01-30 10:43:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -1324,7 +1326,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`id`, `name`, `registration_number`, `tax_id`, `phone`, `fax`, `email`, `website`, `address_line1`, `address_line2`, `city`, `state`, `zip_postal_code`, `country`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 'TOAI HR Suite Demo', 'TOAI-REG-001', NULL, '+1-555-0100', NULL, 'hr@toai-demo.test', 'https://demo.toai-hr.test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-01-27 17:06:38', '2026-01-27 17:06:38');
+(1, 'TOAI HR Suite Demo', 'TOAI-REG-001', '120568', '+91 8456213955', 'none', 'hr@toai.com', 'https://demo.toai-hr.test', 'Madan mahal road', 'Shastri bridge road', 'Jabalpur', 'Madhya Pradesh', '482002', 'India', 'This is the best company.', '2026-01-27 17:06:38', '2026-01-30 11:27:10');
 
 -- --------------------------------------------------------
 
@@ -1576,6 +1578,21 @@ INSERT INTO `pim_reports` (`id`, `type`, `name`, `description`, `created_at`, `u
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `qualifications`
+--
+
+CREATE TABLE `qualifications` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `type` enum('education','skill','language','certification','other') NOT NULL COMMENT 'Qualification type',
+  `name` varchar(191) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Qualifications master list (education, skills, languages, certifications, etc.)';
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `recruitment_sources`
 --
 
@@ -1642,7 +1659,7 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `is_system`, `created_at`, `updated_at`) VALUES
 (1, 'Administrator', 'admin', 'System administrator', 1, '2026-01-27 17:06:38', '2026-01-27 17:06:38'),
-(2, 'ESS User', 'ess', 'Employee self-service user', 1, '2026-01-27 17:06:38', '2026-01-27 17:06:38');
+(2, 'HR', 'hr', 'HR user', 1, '2026-01-27 17:06:38', '2026-01-30 17:26:41');
 
 -- --------------------------------------------------------
 
@@ -1676,8 +1693,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('6QA9oxw2ncCV2ic3vZHZS06vqyjQYkl7q7Y0C3uQ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiemZTaUJ2MU0wdGQwVERzUkZIOHhZUFV5VzdoNHcyZllvaEJPZjJkcyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1769762193),
-('HyoUSqetIoL3bIiJ5z3kZDodERdD5EV7c17oEzTe', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoia0xVT2ZaSmlQZEZWaWRNT2dxMXJQcmliclpYeGtPVXdtNmhFTzZNViI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90aW1lIjtzOjU6InJvdXRlIjtzOjQ6InRpbWUiO31zOjk6ImF1dGhfdXNlciI7YTozOntzOjI6ImlkIjtpOjE7czo0OiJuYW1lIjtzOjc6IkhSQFRPU1MiO3M6ODoidXNlcm5hbWUiO3M6NzoiSFJAVE9TUyI7fX0=', 1769762761);
+('BI1Rb56WxVatwg1VZTAoy3ruyn0tmYs3HZlPaUHA', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiT2hVZ2xRb2FzVXRXald4V0NEOG5tbzYwQ2lwRUpLV2d4Mk5Gd1R6YyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo5OiJhdXRoX3VzZXIiO2E6Mzp7czoyOiJpZCI7aToxO3M6NDoibmFtZSI7czo3OiJIUkBUT1NTIjtzOjg6InVzZXJuYW1lIjtzOjc6IkhSQFRPU1MiO319', 1769777333),
+('ejUF0duhQJqAksZggA0H3yMo8ZtIzOeGT4c1jTsN', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoieHRXTFhGN29IaWNIS2V4bUtMdHpxb1lBdzFHZXJud2dNekNybGN5NSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fX0=', 1769778281);
 
 -- --------------------------------------------------------
 
@@ -1864,6 +1881,8 @@ CREATE TABLE `users` (
   `password_hash` varchar(255) NOT NULL,
   `employee_id` bigint(20) UNSIGNED DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `is_main_user` tinyint(1) NOT NULL DEFAULT 0,
+  `created_by` bigint(20) UNSIGNED DEFAULT NULL,
   `last_login_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -1874,8 +1893,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `employee_id`, `is_active`, `last_login_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'HR@TOSS', 'admin@gmail.com', '$2y$12$051MM95qGcbn8bHp05w7dOCnDgsP88Y3SJ8NX0kmi7Vayi5vlOlzG', 1, 1, NULL, '2026-01-27 17:06:38', '2026-01-30 08:40:47', NULL);
+INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `employee_id`, `is_active`, `is_main_user`, `created_by`, `last_login_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'HR@TOSS', 'hr@gmail.com', '$2y$12$051MM95qGcbn8bHp05w7dOCnDgsP88Y3SJ8NX0kmi7Vayi5vlOlzG', 1, 1, 1, NULL, NULL, '2026-01-27 17:06:38', '2026-01-30 17:39:14', NULL),
+(2, 'neet', 'gg@gmail.com', '$2y$12$cAczoNQdtJBSIs/sU6piguTB0kUdlFAJ/B9fSvVdDVtxsyA/Mrfqa', 5, 0, 0, NULL, NULL, '2026-01-30 11:58:07', '2026-01-30 12:28:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -1912,7 +1932,8 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`user_id`, `role_id`, `created_at`) VALUES
-(1, 1, '2026-01-27 17:06:38');
+(1, 2, '2026-01-30 12:03:21'),
+(2, 1, '2026-01-30 12:28:37');
 
 -- --------------------------------------------------------
 
@@ -2493,6 +2514,14 @@ ALTER TABLE `pim_reports`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `qualifications`
+--
+ALTER TABLE `qualifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_type` (`type`),
+  ADD KEY `idx_name` (`name`);
+
+--
 -- Indexes for table `recruitment_sources`
 --
 ALTER TABLE `recruitment_sources`
@@ -2584,7 +2613,8 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_users_username` (`username`),
   ADD UNIQUE KEY `uq_users_email` (`email`),
-  ADD KEY `idx_users_employee_id` (`employee_id`);
+  ADD KEY `idx_users_employee_id` (`employee_id`),
+  ADD KEY `idx_created_by` (`created_by`);
 
 --
 -- Indexes for table `user_preferences`
@@ -2752,7 +2782,7 @@ ALTER TABLE `email_subscriptions`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `employee_custom_field_values`
@@ -2794,7 +2824,7 @@ ALTER TABLE `employee_salary`
 -- AUTO_INCREMENT for table `employment_statuses`
 --
 ALTER TABLE `employment_statuses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `enabled_modules`
@@ -2836,7 +2866,7 @@ ALTER TABLE `job_categories`
 -- AUTO_INCREMENT for table `job_titles`
 --
 ALTER TABLE `job_titles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `kpis`
@@ -3025,6 +3055,12 @@ ALTER TABLE `pim_reports`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT for table `qualifications`
+--
+ALTER TABLE `qualifications`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `recruitment_sources`
 --
 ALTER TABLE `recruitment_sources`
@@ -3088,7 +3124,7 @@ ALTER TABLE `time_project_assignments`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_preferences`
@@ -3438,6 +3474,7 @@ ALTER TABLE `time_project_assignments`
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
+  ADD CONSTRAINT `fk_users_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_users_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE SET NULL;
 
 --
@@ -3471,38 +3508,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
--- Add is_main_user and created_by columns to users table
-ALTER TABLE `users` 
-ADD COLUMN `is_main_user` tinyint(1) NOT NULL DEFAULT 0 AFTER `is_active`,
-ADD COLUMN `created_by` bigint(20) UNSIGNED DEFAULT NULL AFTER `is_main_user`,
-ADD INDEX `idx_created_by` (`created_by`),
-ADD CONSTRAINT `fk_users_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
--- Set existing users (like HR) as main users
-UPDATE `users` SET `is_main_user` = 1 WHERE `username` = 'HR@TOSS' OR `id` = 1;
-
-
--- Update ESS User role to HR
-UPDATE `roles` 
-SET `name` = 'HR', 
-    `slug` = 'hr',
-    `description` = 'HR user',
-    `updated_at` = NOW()
-WHERE `name` = 'ESS User' OR `slug` = 'ess';
-
-
--- Create qualifications table
-CREATE TABLE IF NOT EXISTS `qualifications` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `type` enum('education','skill','language','certification','other') NOT NULL COMMENT 'Qualification type',
-  `name` varchar(191) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_type` (`type`),
-  KEY `idx_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Qualifications master list (education, skills, languages, certifications, etc.)';
-
