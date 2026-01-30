@@ -196,6 +196,15 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/my-info/attachments/{id}/update', [MyInfoController::class, 'updateAttachment'])->name('myinfo.attachments.update');
     Route::post('/my-info/attachments/{id}/delete', [MyInfoController::class, 'deleteAttachment'])->name('myinfo.attachments.delete');
     Route::get('/my-info/attachments/{id}/download', [MyInfoController::class, 'downloadAttachment'])->name('myinfo.attachments.download');
+    Route::get('/my-info/contact-details', [MyInfoController::class, 'contactDetails'])->name('myinfo.contact-details');
+    Route::get('/my-info/emergency-contacts', [MyInfoController::class, 'emergencyContacts'])->name('myinfo.emergency-contacts');
+    Route::get('/my-info/dependents', [MyInfoController::class, 'dependents'])->name('myinfo.dependents');
+    Route::get('/my-info/immigration', [MyInfoController::class, 'immigration'])->name('myinfo.immigration');
+    Route::get('/my-info/job', [MyInfoController::class, 'job'])->name('myinfo.job');
+    Route::get('/my-info/salary', [MyInfoController::class, 'salary'])->name('myinfo.salary');
+    Route::get('/my-info/report-to', [MyInfoController::class, 'reportTo'])->name('myinfo.report-to');
+    Route::get('/my-info/qualifications', [MyInfoController::class, 'qualifications'])->name('myinfo.qualifications');
+    Route::get('/my-info/memberships', [MyInfoController::class, 'memberships'])->name('myinfo.memberships');
     Route::get('/performance', [PerformanceController::class, 'index'])->name('performance');
     Route::get('/performance/my-trackers', [PerformanceController::class, 'myTrackers'])->name('performance.my-trackers');
     Route::get('/performance/employee-trackers', [PerformanceController::class, 'employeeTrackers'])->name('performance.employee-trackers');

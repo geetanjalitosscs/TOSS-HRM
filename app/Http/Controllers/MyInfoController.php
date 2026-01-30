@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 class MyInfoController extends Controller
 {
@@ -354,6 +355,308 @@ class MyInfoController extends Controller
         $downloadName = $attachment->original_name ?? basename($attachment->path);
 
         return Storage::download($attachment->path, $downloadName);
+    }
+
+    public function contactDetails()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+
+        $employeeId = null;
+        $employee = null;
+        $contactDetails = null;
+
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+
+                $contactDetails = DB::table('employee_personal_details')
+                    ->where('employee_id', $employeeId)
+                    ->first();
+            }
+        }
+
+        // Ensure view always receives an object (avoids "Trying to get property of null")
+        $contactDetails = $contactDetails ?? (object) array_fill_keys([
+            'address1', 'address2', 'city', 'state', 'postal_code', 'country',
+            'home_phone', 'mobile_phone', 'work_phone', 'work_email', 'other_email',
+        ], '');
+
+        // Fetch attachments
+        $query = DB::table('file_uploads')
+            ->leftJoin('users', 'file_uploads.uploaded_by', '=', 'users.id')
+            ->select(
+                'file_uploads.id',
+                'file_uploads.original_name as file_name',
+                DB::raw("'' as description"),
+                'file_uploads.mime_type as type',
+                'file_uploads.size_bytes',
+                'file_uploads.uploaded_at',
+                DB::raw("COALESCE(users.username, 'System') as added_by")
+            )
+            ->orderByDesc('file_uploads.uploaded_at');
+
+        if ($userId) {
+            $query->where('file_uploads.uploaded_by', $userId);
+        }
+
+        $attachments = $query->limit(50)->get()->map(function ($row) {
+            $row->size = $row->size_bytes >= 1024
+                ? number_format($row->size_bytes / 1024, 2) . ' kB'
+                : $row->size_bytes . ' B';
+            $row->date_added = $row->uploaded_at ? Carbon::parse($row->uploaded_at)->format('Y-m-d') : null;
+            return $row;
+        });
+
+        return view('myinfo.contact-details', compact('employee', 'contactDetails', 'attachments'));
+    }
+
+    public function emergencyContacts()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        // Fetch attachments
+        $query = DB::table('file_uploads')
+            ->leftJoin('users', 'file_uploads.uploaded_by', '=', 'users.id')
+            ->select(
+                'file_uploads.id',
+                'file_uploads.original_name as file_name',
+                DB::raw("'' as description"),
+                'file_uploads.mime_type as type',
+                'file_uploads.size_bytes',
+                'file_uploads.uploaded_at',
+                DB::raw("COALESCE(users.username, 'System') as added_by")
+            )
+            ->orderByDesc('file_uploads.uploaded_at');
+
+        if ($userId) {
+            $query->where('file_uploads.uploaded_by', $userId);
+        }
+
+        $attachments = $query->limit(50)->get()->map(function ($row) {
+            $row->size = $row->size_bytes >= 1024
+                ? number_format($row->size_bytes / 1024, 2) . ' kB'
+                : $row->size_bytes . ' B';
+            $row->date_added = $row->uploaded_at ? Carbon::parse($row->uploaded_at)->format('Y-m-d') : null;
+            return $row;
+        });
+
+        return view('myinfo.emergency-contacts', compact('employee', 'attachments'));
+    }
+
+    public function dependents()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        // Fetch dependents (use employee_dependents if table exists, else empty)
+        $dependents = collect([]);
+        try {
+            if (Schema::hasTable('employee_dependents') && $employeeId) {
+                $dependents = DB::table('employee_dependents')
+                    ->where('employee_id', $employeeId)
+                    ->orderBy('id')
+                    ->get()
+                    ->map(function ($row) {
+                        $row->date_of_birth = $row->date_of_birth ?? '';
+                        return $row;
+                    });
+            }
+        } catch (\Throwable $e) {
+            // Table may not exist
+        }
+
+        // Fetch attachments (same as index)
+        $query = DB::table('file_uploads')
+            ->leftJoin('users', 'file_uploads.uploaded_by', '=', 'users.id')
+            ->select(
+                'file_uploads.id',
+                'file_uploads.original_name as file_name',
+                DB::raw("'' as description"),
+                'file_uploads.mime_type as type',
+                'file_uploads.size_bytes',
+                'file_uploads.uploaded_at',
+                DB::raw("COALESCE(users.username, 'System') as added_by")
+            )
+            ->orderByDesc('file_uploads.uploaded_at');
+        if ($userId) {
+            $query->where('file_uploads.uploaded_by', $userId);
+        }
+        $attachments = $query->limit(50)->get()->map(function ($row) {
+            $row->size = $row->size_bytes >= 1024
+                ? number_format($row->size_bytes / 1024, 2) . ' kB'
+                : $row->size_bytes . ' B';
+            $row->date_added = $row->uploaded_at ? Carbon::parse($row->uploaded_at)->format('Y-m-d') : null;
+            return $row;
+        });
+
+        return view('myinfo.dependents', compact('employee', 'dependents', 'attachments'));
+    }
+
+    public function immigration()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        return view('myinfo.immigration', compact('employee'));
+    }
+
+    public function job()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        return view('myinfo.job', compact('employee'));
+    }
+
+    public function salary()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        return view('myinfo.salary', compact('employee'));
+    }
+
+    public function reportTo()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        return view('myinfo.report-to', compact('employee'));
+    }
+
+    public function qualifications()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        return view('myinfo.qualifications', compact('employee'));
+    }
+
+    public function memberships()
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        
+        $employeeId = null;
+        $employee = null;
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            $employeeId = $user->employee_id ?? null;
+            
+            if ($employeeId) {
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+            }
+        }
+
+        return view('myinfo.memberships', compact('employee'));
     }
 }
 

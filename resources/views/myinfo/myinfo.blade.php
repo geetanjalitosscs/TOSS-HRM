@@ -5,54 +5,7 @@
 @section('body')
     <x-main-layout title="PIM">
         <div class="flex items-stretch">
-            <!-- Left Sidebar - Sub Navigation -->
-            <aside class="w-64 flex-shrink-0 mr-6 flex flex-col">
-                <!-- User Profile Section -->
-                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
-                    <h2 class="text-sm font-bold text-slate-800 mb-2">
-                        {{ $employee ? ($employee->display_name ?: trim($employee->first_name . ' ' . ($employee->middle_name ?? '') . ' ' . $employee->last_name)) : 'Employee' }}
-                    </h2>
-                    <div class="flex justify-center mb-3">
-                        <div class="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                            {{ $employee ? strtoupper(substr($employee->first_name, 0, 1)) : 'E' }}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sub Navigation Tabs -->
-                <div class="rounded-lg shadow-sm border border-purple-100 overflow-hidden flex-1" style="background-color: var(--bg-card);">
-                    <a href="#" class="block px-4 py-3 border-l-4 border-[var(--color-hr-primary)] text-sm font-semibold transition-colors" style="background-color: var(--bg-hover); color: var(--color-hr-primary-dark);">
-                        Personal Details
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Contact Details
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Emergency Contacts
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Dependents
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Immigration
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Job
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Salary
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Report-to
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Qualifications
-                    </a>
-                    <a href="#" class="block px-4 py-3 text-sm font-medium transition-colors" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                        Memberships
-                    </a>
-                </div>
-            </aside>
+            @include('myinfo.partials.sidebar')
 
             <!-- Right Content Area -->
             <div class="flex-1">
