@@ -39,8 +39,8 @@
                             id="username" 
                             name="username" 
                             value="{{ session('auth_user')['username'] ?? 'Admin' }}" 
-                            readonly
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 text-sm"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)]"
                         />
                     </div>
                     
@@ -48,15 +48,25 @@
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
                             Password <span class="text-red-500">*</span>
                         </label>
+                        <div class="relative">
                         <input 
                             type="password" 
                             id="password" 
                             name="password" 
                             required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)]"
+                                class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)]"
                         />
+                            <button
+                                type="button"
+                                onclick="togglePasswordVisibility('password', 'password-eye')"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                id="password-eye"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                         <p class="mt-1 text-xs text-gray-500">
-                            For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers.
+                            For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers and the password field must be at least 8 characters.
                         </p>
                     </div>
                 </div>
@@ -67,26 +77,46 @@
                         <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">
                             Current Password <span class="text-red-500">*</span>
                         </label>
+                        <div class="relative">
                         <input 
                             type="password" 
                             id="current_password" 
                             name="current_password" 
                             required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)]"
+                                class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)]"
                         />
+                            <button
+                                type="button"
+                                onclick="togglePasswordVisibility('current_password', 'current_password-eye')"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                id="current_password-eye"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     
                     <div>
                         <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">
                             Confirm Password <span class="text-red-500">*</span>
                         </label>
+                        <div class="relative">
                         <input 
                             type="password" 
                             id="password_confirmation" 
                             name="password_confirmation" 
                             required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)]"
+                                class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)]"
                         />
+                            <button
+                                type="button"
+                                onclick="togglePasswordVisibility('password_confirmation', 'password_confirmation-eye')"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                id="password_confirmation-eye"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -107,5 +137,23 @@
             </form>
         </section>
     </x-main-layout>
+
+    <script>
+        function togglePasswordVisibility(inputId, buttonId) {
+            const input = document.getElementById(inputId);
+            const button = document.getElementById(buttonId);
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
 @endsection
 

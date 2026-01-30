@@ -29,18 +29,9 @@ class LoginController extends Controller
             ->first();
 
         $valid = false;
-        if ($user) {
-            try {
+        if ($user && $user->password_hash) {
+            // Only use hash matching - no plaintext login
                 $valid = Hash::check($credentials['password'], $user->password_hash);
-            } catch (\RuntimeException $e) {
-                // Fallback for legacy/plaintext or invalid hashes
-                if (hash_equals((string) $user->password_hash, $credentials['password'])) {
-                    $valid = true;
-                } elseif ($user->username === 'admin' && $credentials['password'] === 'admin123') {
-                    // Seeded default admin account
-                    $valid = true;
-                }
-            }
         }
 
         if ($valid) {

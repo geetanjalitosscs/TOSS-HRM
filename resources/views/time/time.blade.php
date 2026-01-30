@@ -127,7 +127,17 @@
                             <div class="flex gap-4">
                                 <div class="flex-1">
                                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name <span class="text-red-500">*</span></label>
-                                    <input type="text" class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" placeholder="Type for hints...">
+                                    <input 
+                                        type="text" 
+                                        name="employee_name"
+                                        value="{{ $employeeName ?? '' }}"
+                                        class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                                        placeholder="Type for hints..."
+                                        @if($employeeName) readonly style="background-color: var(--bg-input); cursor: not-allowed;" @endif
+                                    >
+                                    @if($employeeId)
+                                        <input type="hidden" name="employee_id" value="{{ $employeeId }}">
+                                    @endif
                                     <div class="text-xs text-gray-500 mt-1">* Required</div>
                                 </div>
                                 <div class="flex items-start pt-6">

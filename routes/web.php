@@ -23,6 +23,7 @@ Route::get('/', function() {
 
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout.get');
 
 // Maintenance routes (requires main auth, then maintenance auth)
 Route::middleware('auth.session')->group(function () {

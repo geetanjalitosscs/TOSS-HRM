@@ -170,17 +170,14 @@ function toggleProfileDropdown(event) {
     const logoutUrl = trigger.dataset.logoutUrl || '/logout';
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     
-    // Create dropdown HTML with POST form for logout
+    // Create dropdown HTML with GET link for logout (simpler, avoids CSRF issues)
     const dropdownHTML = `
         <div class="hr-profile-dropdown-portal" style="position: fixed; top: ${top}px; right: ${right}px; z-index: 99999; display: block;">
             <div class="hr-dropdown-menu-portal w-48 bg-white rounded-lg shadow-lg border border-purple-100">
                 <a href="#" onclick="showAboutModal(event); return false;" class="block px-4 py-2 text-xs text-gray-700 hover:bg-purple-50">About</a>
                 <a href="/profile/support" class="block px-4 py-2 text-xs text-gray-700 hover:bg-purple-50">Support</a>
                 <a href="/profile/change-password" class="block px-4 py-2 text-xs text-gray-700 hover:bg-purple-50">Change Password</a>
-                <form action="${logoutUrl}" method="POST" class="m-0">
-                    <input type="hidden" name="_token" value="${csrfToken}">
-                    <button type="submit" class="w-full text-left block px-4 py-2 text-xs text-gray-700 hover:bg-purple-50">Logout</button>
-                </form>
+                <a href="${logoutUrl}" class="block px-4 py-2 text-xs text-gray-700 hover:bg-purple-50">Logout</a>
             </div>
         </div>
     `;

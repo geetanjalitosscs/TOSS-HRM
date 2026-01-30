@@ -83,7 +83,7 @@
                                 style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);"
                                 placeholder="Enter reason for leave..."
                             ></textarea>
-                        </div>
+                    </div>
                 </div>
 
                 {{-- Actions --}}

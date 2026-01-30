@@ -37,10 +37,10 @@
         </a>
         {{-- <a href="{{ route('performance') }}" class="sidebar-link {{ request()->routeIs('performance*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-star"></i> Performance
-        </a> --}}
+        </a> 
         <a href="{{ route('recruitment') }}" class="sidebar-link {{ request()->routeIs('recruitment*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-briefcase"></i> Recruitment
-        </a>
+        </a> --}}
         <a href="{{ route('directory') }}" class="sidebar-link {{ request()->routeIs('directory*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-search"></i> Directory
         </a>

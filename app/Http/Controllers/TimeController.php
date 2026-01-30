@@ -22,7 +22,26 @@ class TimeController extends Controller
             ->limit(20)
             ->get();
 
-        return view('time.time', compact('timesheets'));
+        // Get logged-in user's employee information
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+        $employeeName = null;
+        $employeeId = null;
+
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+            if ($user && $user->employee_id) {
+                $employeeId = $user->employee_id;
+                $employee = DB::table('employees')
+                    ->where('id', $employeeId)
+                    ->first();
+                if ($employee) {
+                    $employeeName = $employee->display_name ?? $employee->first_name . ' ' . $employee->last_name;
+                }
+            }
+        }
+
+        return view('time.time', compact('timesheets', 'employeeName', 'employeeId'));
     }
 
     public function myTimesheets()
