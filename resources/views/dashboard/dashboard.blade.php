@@ -22,7 +22,7 @@
                         <p class="text-xs text-slate-500 mb-4">Active workforce across all departments</p>
                         <div class="mt-auto pt-4 border-t border-purple-100">
                             <div class="flex justify-center">
-                                <a href="{{ route('pim.employee-list') }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 hover:scale-105 hover:shadow-md">
+                                <a href="{{ route('pim.employee-list') }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-purple-600 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg hover:shadow-md hover:scale-105 transition-all duration-200 shadow-sm">
                                     <i class="fas fa-users"></i>
                                     View Employee List
                                     <i class="fas fa-arrow-right text-[10px]"></i>
@@ -131,22 +131,24 @@
                         <p class="text-xs text-slate-500 mb-4">Key workforce metrics</p>
                         <div class="mt-auto pt-4 border-t border-purple-100">
                             <div class="space-y-4">
-                                <div class="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-purple-50 to-purple-100/50">
-                                    <div>
-                                        <p class="text-xs text-slate-600 font-medium">Total Employees</p>
-                                        <p class="text-lg font-bold text-slate-800 mt-1">{{ $totalEmployees }}</p>
-                                    </div>
-                                    <div class="h-10 w-10 rounded-lg bg-purple-200 flex items-center justify-center">
-                                        <i class="fas fa-users text-purple-600"></i>
-                                    </div>
-                                </div>
-                                <a href="{{ route('leave.leave-list') }}" class="block transition-all duration-200 hover:scale-[1.02] hover:shadow-md">
-                                    <div class="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100/50 cursor-pointer">
+                                <a href="{{ route('pim.employee-list') }}" class="block transition-all duration-200 hover:scale-[1.02] hover:shadow-md group">
+                                    <div class="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 group-hover:shadow-md group-hover:scale-[1.02]" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
                                         <div>
-                                            <p class="text-xs text-slate-600 font-medium">On Leave Today</p>
-                                            <p class="text-lg font-bold text-slate-800 mt-1">{{ $employeesOnLeave->count() }}</p>
+                                            <p class="text-xs font-medium transition-colors duration-200" style="color: var(--text-secondary);">Total Employees</p>
+                                            <p class="text-lg font-bold mt-1 transition-colors duration-200" style="color: var(--text-primary);">{{ $totalEmployees }}</p>
                                         </div>
-                                        <div class="h-10 w-10 rounded-lg bg-blue-200 flex items-center justify-center">
+                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105">
+                                            <i class="fas fa-users text-purple-600"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="{{ route('leave.leave-list') }}" class="block transition-all duration-200 hover:scale-[1.02] hover:shadow-md group">
+                                    <div class="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 group-hover:shadow-md group-hover:scale-[1.02]" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                                        <div>
+                                            <p class="text-xs font-medium transition-colors duration-200" style="color: var(--text-secondary);">On Leave Today</p>
+                                            <p class="text-lg font-bold mt-1 transition-colors duration-200" style="color: var(--text-primary);">{{ $employeesOnLeave->count() }}</p>
+                                        </div>
+                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105">
                                             <i class="fas fa-calendar-check text-blue-600"></i>
                                         </div>
                                     </div>

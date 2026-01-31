@@ -25,6 +25,12 @@
                             </div>
                         </div>
 
+                        <!-- Username -->
+                        <div>
+                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Username*</label>
+                            <input type="text" name="username" class="hr-input" value="{{ $user ? $user->username : '' }}" placeholder="Username">
+                        </div>
+
                         <!-- Employee Id -->
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Employee Id</label>
@@ -290,6 +296,9 @@
                         required
                     >
                     <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Click to browse or drag & drop files here
+                    </p>
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
                         Accepts pdf, doc, docx, jpg, png up to 5MB.
                     </p>
                 </div>
@@ -356,6 +365,9 @@
                         name="attachment"
                         class="hr-input text-xs"
                     >
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Click to browse or drag & drop files here
+                    </p>
                     <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
                         Leave empty to keep existing file.
                     </p>

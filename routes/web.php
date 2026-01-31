@@ -203,6 +203,21 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
     Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');
     Route::get('/my-info', [MyInfoController::class, 'index'])->name('myinfo');
+    Route::get('/my-info/test-session', function() {
+        $authUser = session('auth_user');
+        return 'Current session: ' . json_encode($authUser);
+    });
+    Route::get('/my-info/debug-session', function() {
+        $authUser = session('auth_user');
+        $dbUser = null;
+        if ($authUser && isset($authUser['id'])) {
+            $dbUser = \DB::table('users')->where('id', $authUser['id'])->first();
+        }
+        return [
+            'session' => $authUser,
+            'database' => $dbUser
+        ];
+    });
     Route::post('/my-info/personal-details', [MyInfoController::class, 'updatePersonalDetails'])->name('myinfo.personal.update');
     Route::post('/my-info/custom-fields', [MyInfoController::class, 'updateCustomFields'])->name('myinfo.custom.update');
     Route::post('/my-info/attachments', [MyInfoController::class, 'storeAttachment'])->name('myinfo.attachments.store');

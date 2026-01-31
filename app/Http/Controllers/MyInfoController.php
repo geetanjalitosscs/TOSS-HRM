@@ -39,12 +39,15 @@ class MyInfoController extends Controller
     public function index()
     {
         $authUser = session('auth_user');
+        \Log::info('MyInfo index - Current auth_user: ' . json_encode($authUser));
+        
         $userId = $authUser['id'] ?? null;
         
         // Get employee_id from users table
         $employeeId = null;
         $employee = null;
         $personalDetails = null;
+        $user = null;
         
         if ($userId) {
             $user = DB::table('users')->where('id', $userId)->first();
@@ -109,18 +112,24 @@ class MyInfoController extends Controller
             'attachments',
             'employee',
             'personalDetails',
-            'nationalities'
+            'nationalities',
+            'user'
         ));
     }
 
     /**
-     * Update personal details (employee + employee_personal_details).
+     * Update personal details (employee + employee_personal_details + username).
      */
     public function updatePersonalDetails(Request $request)
     {
+        \Log::info('updatePersonalDetails called with data: ' . json_encode($request->all()));
+        
         [$userId, $employeeId] = $this->resolveUserAndEmployee();
+        
+        \Log::info('Resolved userId: ' . $userId . ', employeeId: ' . $employeeId);
 
         $data = $request->validate([
+            'username'        => ['required', 'string', 'max:255', 'unique:users,username,' . $userId],
             'first_name'      => ['required', 'string', 'max:255'],
             'middle_name'     => ['nullable', 'string', 'max:255'],
             'last_name'       => ['required', 'string', 'max:255'],
@@ -133,6 +142,32 @@ class MyInfoController extends Controller
             'date_of_birth'   => ['nullable', 'date'],
             'gender'          => ['nullable', 'in:male,female,other'],
         ]);
+        
+        \Log::info('Validated data: ' . json_encode($data));
+
+        // Update username in users table
+        DB::table('users')
+            ->where('id', $userId)
+            ->update([
+                'username' => $data['username'],
+            ]);
+
+        // Update session if username changed
+        $authUser = session('auth_user');
+        \Log::info('Before session update - Current auth_user: ' . json_encode($authUser));
+        \Log::info('New username from form: ' . $data['username']);
+        
+        if ($authUser && $authUser['username'] !== $data['username']) {
+            \Log::info('Username changed, updating session');
+            
+            // Update session directly
+            session(['auth_user.username' => $data['username']]);
+            session(['auth_user.name' => $data['username']]);
+            
+            \Log::info('After session update - New auth_user: ' . json_encode(session('auth_user')));
+        } else {
+            \Log::info('Username not changed or auth_user not found');
+        }
 
         // Build a friendly display name from parts
         $displayName = trim(implode(' ', array_filter([
