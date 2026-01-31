@@ -118,6 +118,9 @@
         
         <!-- Global Dropdown Portal Container -->
         <div id="hr-dropdown-portal"></div>
+        
+        <!-- Stack for additional scripts -->
+        @stack('scripts')
     </body>
 </html>
 

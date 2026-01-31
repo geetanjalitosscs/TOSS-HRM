@@ -50,7 +50,8 @@
                         [
                             'url' => route('time.attendance.configuration'),
                             'label' => 'Configuration',
-                            'active' => request()->routeIs('time.attendance.configuration')
+                            'active' => request()->routeIs('time.attendance.configuration'),
+                            'hidden' => true
                         ],
                     ]"
                     position="left"
