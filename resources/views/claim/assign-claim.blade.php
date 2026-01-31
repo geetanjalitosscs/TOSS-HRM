@@ -44,19 +44,27 @@
                     <span class="mt-0.5">Assign Claim</span>
                 </h2>
 
-                <form id="assignClaimForm" class="space-y-6" novalidate>
+                <form id="assignClaimForm" method="POST" action="{{ route('claim.assign.store') }}" class="space-y-6" novalidate>
+                    @csrf
                     <!-- Employee Name -->
                     <div>
                         <label for="assignEmployeeName" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                             Employee Name<span style="color: #dc3545;">*</span>
                         </label>
-                        <input
-                            type="text"
-                            id="assignEmployeeName"
-                            class="hr-input w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
-                            style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
-                            placeholder="Type for hints..."
-                        >
+                        <div class="relative">
+                            <select
+                                id="assignEmployeeName"
+                                name="employee_id"
+                                class="hr-select w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
+                                style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                                required
+                            >
+                                <option value="">-- Select --</option>
+                                @foreach ($employees as $employee)
+                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <p id="assignEmployeeNameError" class="mt-1 text-xs hidden" style="color: #dc3545;">Required</p>
                     </div>
 
@@ -69,8 +77,10 @@
                             <div class="relative">
                                 <select
                                     id="assignEvent"
+                                    name="event"
                                     class="hr-select w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
                                     style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                                    required
                                 >
                                     <option value="">-- Select --</option>
                                     @foreach ($events as $event)
@@ -89,8 +99,10 @@
                             <div class="relative">
                                 <select
                                     id="assignCurrency"
+                                    name="currency"
                                     class="hr-select w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
                                     style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                                    required
                                 >
                                     <option value="">-- Select --</option>
                                     @foreach ($currencies as $currency)
@@ -102,11 +114,33 @@
                         </div>
                     </div>
 
+                    <!-- Price -->
+                    <div>
+                        <label for="assignPrice" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                            Price<span style="color: #dc3545;">*</span>
+                        </label>
+                        <input
+                            type="number"
+                            id="assignPrice"
+                            name="price"
+                            step="1"
+                            min="0"
+                            class="hr-input w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
+                            style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                            placeholder="0"
+                            required
+                            onkeydown="return event.key !== '.' && event.key !== ',' && (event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Tab' || event.key === 'ArrowLeft' || event.key === 'ArrowRight' || /[0-9]/.test(event.key));"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                        >
+                        <p id="assignPriceError" class="mt-1 text-xs hidden" style="color: #dc3545;">Required</p>
+                    </div>
+
                     <!-- Remarks -->
                     <div>
                         <label for="assignRemarks" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Remarks</label>
                         <textarea
                             id="assignRemarks"
+                            name="remarks"
                             rows="5"
                             class="hr-input w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] resize-y"
                             style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
@@ -124,7 +158,7 @@
                             Cancel
                         </a>
                         <button
-                            type="button"
+                            type="submit"
                             id="assignCreateBtn"
                             class="hr-btn-primary px-6 py-2 text-xs font-medium rounded-lg transition-all whitespace-nowrap"
                         >
@@ -140,9 +174,11 @@
                 const employeeNameEl = document.getElementById('assignEmployeeName');
                 const eventEl = document.getElementById('assignEvent');
                 const currencyEl = document.getElementById('assignCurrency');
+                const priceEl = document.getElementById('assignPrice');
                 const employeeNameErr = document.getElementById('assignEmployeeNameError');
                 const eventErr = document.getElementById('assignEventError');
                 const currencyErr = document.getElementById('assignCurrencyError');
+                const priceErr = document.getElementById('assignPriceError');
                 const createBtn = document.getElementById('assignCreateBtn');
 
                 function setInvalid(inputEl, errEl, invalid) {
@@ -156,19 +192,26 @@
                 }
 
                 function validate() {
-                    const employeeNameInvalid = !employeeNameEl.value.trim();
+                    const employeeNameInvalid = !employeeNameEl.value;
                     const eventInvalid = !eventEl.value;
                     const currencyInvalid = !currencyEl.value;
+                    const priceInvalid = !priceEl.value || parseFloat(priceEl.value) < 0;
                     setInvalid(employeeNameEl, employeeNameErr, employeeNameInvalid);
                     setInvalid(eventEl, eventErr, eventInvalid);
                     setInvalid(currencyEl, currencyErr, currencyInvalid);
-                    return !(employeeNameInvalid || eventInvalid || currencyInvalid);
+                    setInvalid(priceEl, priceErr, priceInvalid);
+                    return !(employeeNameInvalid || eventInvalid || currencyInvalid || priceInvalid);
                 }
 
-                createBtn.addEventListener('click', validate);
-                employeeNameEl.addEventListener('blur', validate);
+                createBtn.addEventListener('click', function(e) {
+                    if (!validate()) {
+                        e.preventDefault();
+                    }
+                });
+                employeeNameEl.addEventListener('change', validate);
                 eventEl.addEventListener('change', validate);
                 currencyEl.addEventListener('change', validate);
+                priceEl.addEventListener('blur', validate);
             })();
         </script>
 

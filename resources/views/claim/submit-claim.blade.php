@@ -44,7 +44,8 @@
                     <span class="mt-0.5">Create Claim Request</span>
                 </h2>
 
-                <form id="claimSubmitForm" class="space-y-6" novalidate>
+                <form id="claimSubmitForm" method="POST" action="{{ route('claim.submit.store') }}" class="space-y-6" novalidate>
+                    @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Event -->
                         <div>
@@ -54,8 +55,10 @@
                             <div class="relative">
                                 <select
                                     id="claimEvent"
+                                    name="event"
                                     class="hr-select w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
                                     style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                                    required
                                 >
                                     <option value="">-- Select --</option>
                                     @foreach ($events as $event)
@@ -74,8 +77,10 @@
                             <div class="relative">
                                 <select
                                     id="claimCurrency"
+                                    name="currency"
                                     class="hr-select w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
                                     style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                                    required
                                 >
                                     <option value="">-- Select --</option>
                                     @foreach ($currencies as $currency)
@@ -87,11 +92,33 @@
                         </div>
                     </div>
 
+                    <!-- Price -->
+                    <div>
+                        <label for="claimPrice" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                            Price<span style="color: #dc3545;">*</span>
+                        </label>
+                        <input
+                            type="number"
+                            id="claimPrice"
+                            name="price"
+                            step="1"
+                            min="0"
+                            class="hr-input w-full px-2 py-1.5 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
+                            style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
+                            placeholder="0"
+                            required
+                            onkeydown="return event.key !== '.' && event.key !== ',' && (event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Tab' || event.key === 'ArrowLeft' || event.key === 'ArrowRight' || /[0-9]/.test(event.key));"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                        >
+                        <p id="claimPriceError" class="mt-1 text-xs hidden" style="color: #dc3545;">Required</p>
+                    </div>
+
                     <!-- Remarks -->
                     <div>
                         <label for="claimRemarks" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Remarks</label>
                         <textarea
                             id="claimRemarks"
+                            name="remarks"
                             rows="5"
                             class="hr-input w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)]"
                             style="border-color: var(--border-strong);background-color: var(--bg-input);color: var(--text-primary);"
@@ -109,7 +136,7 @@
                             Cancel
                         </a>
                         <button
-                            type="button"
+                            type="submit"
                             id="claimCreateBtn"
                             class="hr-btn-primary px-6 py-2 text-xs font-medium rounded-lg transition-all whitespace-nowrap"
                         >
@@ -124,31 +151,40 @@
             (function () {
                 const eventEl = document.getElementById('claimEvent');
                 const currencyEl = document.getElementById('claimCurrency');
+                const priceEl = document.getElementById('claimPrice');
                 const eventErr = document.getElementById('claimEventError');
                 const currencyErr = document.getElementById('claimCurrencyError');
+                const priceErr = document.getElementById('claimPriceError');
                 const createBtn = document.getElementById('claimCreateBtn');
 
-                function setInvalid(selectEl, errEl, invalid) {
+                function setInvalid(inputEl, errEl, invalid) {
                     if (invalid) {
-                        selectEl.style.borderColor = '#dc3545';
+                        inputEl.style.borderColor = '#dc3545';
                         errEl.classList.remove('hidden');
                         return;
                     }
-                    selectEl.style.borderColor = 'var(--border-strong)';
+                    inputEl.style.borderColor = 'var(--border-strong)';
                     errEl.classList.add('hidden');
                 }
 
                 function validate() {
                     const eventInvalid = !eventEl.value;
                     const currencyInvalid = !currencyEl.value;
+                    const priceInvalid = !priceEl.value || parseFloat(priceEl.value) < 0;
                     setInvalid(eventEl, eventErr, eventInvalid);
                     setInvalid(currencyEl, currencyErr, currencyInvalid);
-                    return !(eventInvalid || currencyInvalid);
+                    setInvalid(priceEl, priceErr, priceInvalid);
+                    return !(eventInvalid || currencyInvalid || priceInvalid);
                 }
 
-                createBtn.addEventListener('click', validate);
+                createBtn.addEventListener('click', function(e) {
+                    if (!validate()) {
+                        e.preventDefault();
+                    }
+                });
                 eventEl.addEventListener('change', validate);
                 currencyEl.addEventListener('change', validate);
+                priceEl.addEventListener('blur', validate);
             })();
         </script>
 

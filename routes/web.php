@@ -227,15 +227,29 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/performance/employee-reviews', [PerformanceController::class, 'employeeReviews'])->name('performance.employee-reviews');
     Route::get('/directory', [DirectoryController::class, 'index'])->name('directory');
     Route::get('/claim', [ClaimController::class, 'index'])->name('claim');
+    Route::post('/claim/{id}/cancel', [ClaimController::class, 'cancelClaim'])->whereNumber('id')->name('claim.cancel');
+    Route::post('/claim/{id}/reject', [ClaimController::class, 'rejectClaim'])->whereNumber('id')->name('claim.reject');
+    Route::post('/claim/{id}/approve', [ClaimController::class, 'approveClaim'])->whereNumber('id')->name('claim.approve');
+    Route::post('/claim/bulk-delete', [ClaimController::class, 'bulkDeleteClaims'])->name('claim.bulk-delete');
     Route::get('/claim/submit', [ClaimController::class, 'submit'])->name('claim.submit');
+    Route::post('/claim/submit', [ClaimController::class, 'storeSubmitClaim'])->name('claim.submit.store');
     Route::get('/claim/my-claims', [ClaimController::class, 'myClaims'])->name('claim.my-claims');
     Route::get('/claim/assign', [ClaimController::class, 'assignClaim'])->name('claim.assign');
+    Route::post('/claim/assign', [ClaimController::class, 'storeAssignClaim'])->name('claim.assign.store');
     Route::get('/claim/configuration/events', [ClaimController::class, 'events'])->name('claim.configuration.events');
+    Route::post('/claim/configuration/events', [ClaimController::class, 'storeEvent'])->name('claim.configuration.events.store');
+    Route::post('/claim/configuration/events/{id}', [ClaimController::class, 'updateEvent'])->whereNumber('id')->name('claim.configuration.events.update');
+    Route::post('/claim/configuration/events/{id}/delete', [ClaimController::class, 'deleteEvent'])->whereNumber('id')->name('claim.configuration.events.delete');
+    Route::post('/claim/configuration/events/bulk-delete', [ClaimController::class, 'bulkDeleteEvents'])->name('claim.configuration.events.bulk-delete');
     Route::get('/claim/configuration/events/add', [ClaimController::class, 'addEvent'])->name('claim.configuration.events.add');
-    Route::get('/claim/configuration/events/{id}/edit', [ClaimController::class, 'editEvent'])->name('claim.configuration.events.edit');
+    Route::get('/claim/configuration/events/{id}/edit', [ClaimController::class, 'editEvent'])->whereNumber('id')->name('claim.configuration.events.edit');
     Route::get('/claim/configuration/expenses-types', [ClaimController::class, 'expensesTypes'])->name('claim.configuration.expenses-types');
+    Route::post('/claim/configuration/expenses-types', [ClaimController::class, 'storeExpenseType'])->name('claim.configuration.expenses-types.store');
+    Route::post('/claim/configuration/expenses-types/{id}', [ClaimController::class, 'updateExpenseType'])->whereNumber('id')->name('claim.configuration.expenses-types.update');
+    Route::post('/claim/configuration/expenses-types/{id}/delete', [ClaimController::class, 'deleteExpenseType'])->whereNumber('id')->name('claim.configuration.expenses-types.delete');
+    Route::post('/claim/configuration/expenses-types/bulk-delete', [ClaimController::class, 'bulkDeleteExpenseTypes'])->name('claim.configuration.expenses-types.bulk-delete');
     Route::get('/claim/configuration/expenses-types/add', [ClaimController::class, 'addExpenseType'])->name('claim.configuration.expenses-types.add');
-    Route::get('/claim/configuration/expenses-types/{id}/edit', [ClaimController::class, 'editExpenseType'])->name('claim.configuration.expenses-types.edit');
+    Route::get('/claim/configuration/expenses-types/{id}/edit', [ClaimController::class, 'editExpenseType'])->whereNumber('id')->name('claim.configuration.expenses-types.edit');
     Route::get('/buzz', [BuzzController::class, 'index'])->name('buzz');
     
     // Profile routes

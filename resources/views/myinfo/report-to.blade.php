@@ -3,7 +3,7 @@
 @section('title', 'My Info - Report-to')
 
 @section('body')
-    <x-main-layout title="PIM">
+    <x-main-layout title="My Info">
         <div class="flex items-stretch">
             @include('myinfo.partials.sidebar')
 
