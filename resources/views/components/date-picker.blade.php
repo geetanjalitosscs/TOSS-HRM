@@ -15,6 +15,8 @@
 @php
     $inputId = $id ?? 'date-' . uniqid();
     $hiddenDateId = $inputId . '-hidden';
+    // JS-safe id for function names (hyphens break JS: updateDateDisplaywork-exp-from is invalid)
+    $inputIdSafe = str_replace('-', '_', $inputId);
 @endphp
 
 @if($label)
@@ -48,11 +50,11 @@
             type="date" 
             id="{{ $hiddenDateId }}"
             class="hidden"
-            onchange="updateDateDisplay{{ $inputId }}(this.value)"
+            onchange="window.__datePickerUpdate{{ $inputIdSafe }}(this.value)"
         >
     </div>
     <script>
-        function updateDateDisplay{{ $inputId }}(dateValue) {
+        window.__datePickerUpdate{{ $inputIdSafe }} = function(dateValue) {
             if (!dateValue) return;
             @if($dateFormat)
                 // Use custom format function if provided
@@ -88,7 +90,7 @@
                 // Default format: YYYY-MM-DD
                 document.getElementById('{{ $inputId }}-display').value = dateValue;
             @endif
-        }
+        };
     </script>
 @else
     {{-- Default variant: date input with icon overlay --}}
