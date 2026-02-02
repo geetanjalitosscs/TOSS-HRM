@@ -748,6 +748,54 @@
                     var table = document.getElementById('projects-table');
                     if (!table) return;
 
+                    // Scroll to table section if status message exists (after add/edit/delete)
+                    @if(session('status'))
+                        var tableSection = document.getElementById('projects-table').closest('section');
+                        if (tableSection) {
+                            setTimeout(function() {
+                                tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 100);
+                        }
+                    @endif
+
+                    // Scroll to table section on search form submit
+                    var searchForm = document.getElementById('project-search-form');
+                    if (searchForm) {
+                        searchForm.addEventListener('submit', function(e) {
+                            // Add hash to URL for scrolling after page reload
+                            var formAction = searchForm.getAttribute('action') || window.location.pathname;
+                            var url = new URL(formAction, window.location.origin);
+                            
+                            // Get all form inputs
+                            var formData = new FormData(searchForm);
+                            for (var [key, value] of formData.entries()) {
+                                if (value) {
+                                    url.searchParams.set(key, value);
+                                }
+                            }
+                            
+                            // Add hash for scrolling
+                            url.hash = 'projects-table';
+                            
+                            // Navigate to the URL with hash
+                            window.location.href = url.toString();
+                            e.preventDefault();
+                        });
+                    }
+
+                    // Scroll to table section if hash exists or if search parameters are present
+                    if (window.location.hash === '#projects-table' || 
+                        (window.location.search && (window.location.search.includes('customer_name=') || 
+                         window.location.search.includes('project=') || 
+                         window.location.search.includes('project_admin=')))) {
+                        var tableSection = document.getElementById('projects-table').closest('section');
+                        if (tableSection) {
+                            setTimeout(function() {
+                                tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 300);
+                        }
+                    }
+
                     var headerCheckbox = document.getElementById('projects-master-checkbox');
                     if (headerCheckbox) {
                         headerCheckbox.addEventListener('change', function () {
