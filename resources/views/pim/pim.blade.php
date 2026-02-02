@@ -113,7 +113,7 @@
                             <x-records-found :count="count($employees)" />
 
                             <!-- Table Wrapper -->
-                            <div class="hr-table-wrapper">
+                            <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
                             <!-- Table Header -->
                             <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
                                 <div class="flex-shrink-0" style="width: 24px;">

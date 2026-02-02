@@ -98,7 +98,7 @@
                 <x-records-found :count="count($candidates)" />
 
                 <!-- Table Wrapper -->
-                <div class="hr-table-wrapper">
+                <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
                 <!-- Table Header -->
                 <div class="rounded-t-lg border border-b-0 px-2 py-1.5 mb-0" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                     <div class="flex items-center gap-1">

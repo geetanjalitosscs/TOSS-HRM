@@ -3,7 +3,7 @@
 @section('title', 'Admin - Work Shifts')
 
 @section('body')
-    <x-main-layout title="Admin / Job">
+    <x-main-layout title="Admin">
         <x-admin.tabs activeTab="work-shifts" />
 
         <!-- Work Shifts Section -->

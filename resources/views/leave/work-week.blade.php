@@ -3,7 +3,7 @@
 @section('title', 'Leave - Work Week')
 
 @section('body')
-    <x-main-layout title="Leave / Configure">
+    <x-main-layout title="Leave">
         <x-leave.tabs activeTab="work-week" />
         
         <!-- Work Week Section -->

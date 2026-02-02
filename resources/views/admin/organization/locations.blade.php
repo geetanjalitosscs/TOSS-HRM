@@ -3,7 +3,7 @@
 @section('title', 'Admin - Locations')
 
 @section('body')
-    <x-main-layout title="Admin / Organization">
+    <x-main-layout title="Admin">
         <x-admin.tabs activeTab="organization-locations" />
 
         <!-- Search Panel -->

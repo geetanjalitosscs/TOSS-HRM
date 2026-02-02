@@ -3,7 +3,7 @@
 @section('title', 'Admin - Organization Structure')
 
 @section('body')
-    <x-main-layout title="Admin / Organization">
+    <x-main-layout title="Admin">
         <x-admin.tabs activeTab="organization-structure" />
 
         <section class="hr-card p-6">

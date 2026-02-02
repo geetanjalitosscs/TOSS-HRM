@@ -3,7 +3,7 @@
 @section('title', 'Leave - Leave Period')
 
 @section('body')
-    <x-main-layout title="Leave / Configure">
+    <x-main-layout title="Leave">
         <x-leave.tabs activeTab="leave-period" />
         
         <!-- Leave Period Section -->

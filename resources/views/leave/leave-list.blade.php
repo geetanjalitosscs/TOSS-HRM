@@ -73,7 +73,7 @@
             </div>
             @else
             <!-- Leave Table -->
-            <div class="hr-table-wrapper mt-4">
+            <div class="hr-table-wrapper mt-4" style="max-height: 22rem; overflow-y: auto;">
                 <!-- Table Header -->
                 <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
                     <div class="flex-1" style="min-width: 0;">

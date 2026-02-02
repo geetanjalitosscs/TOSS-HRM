@@ -314,25 +314,208 @@ class TimeController extends Controller
     }
 
     /**
+     * Store a new customer.
+     */
+    public function storeCustomer(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        DB::table('time_customers')->insert([
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('time.project-info.customers')
+            ->with('status', 'Customer added.');
+    }
+
+    /**
+     * Update an existing customer.
+     */
+    public function updateCustomer(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        DB::table('time_customers')
+            ->where('id', $id)
+            ->update([
+                'name' => $data['name'],
+                'description' => $data['description'] ?? null,
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->route('time.project-info.customers')
+            ->with('status', 'Customer updated.');
+    }
+
+    /**
+     * Delete a customer from the database.
+     */
+    public function deleteCustomer(int $id)
+    {
+        DB::table('time_customers')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->route('time.project-info.customers')
+            ->with('status', 'Customer deleted.');
+    }
+
+    /**
+     * Bulk delete customers from the database.
+     */
+    public function bulkDeleteCustomers(Request $request)
+    {
+        $idsParam = $request->input('ids', '');
+        $ids = collect(explode(',', $idsParam))
+            ->map(fn ($v) => (int) trim($v))
+            ->filter(fn ($v) => $v > 0)
+            ->unique()
+            ->values()
+            ->toArray();
+
+        if (count($ids) > 0) {
+            DB::table('time_customers')
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('time.project-info.customers')
+            ->with('status', count($ids) . ' customer(s) deleted.');
+    }
+
+    /**
      * Project Info - Projects
      */
-    public function projectInfoProject()
+    public function projectInfoProject(Request $request)
     {
-        $projects = DB::table('time_projects')
+        $query = DB::table('time_projects')
             ->leftJoin('time_customers', 'time_projects.customer_id', '=', 'time_customers.id')
             ->leftJoin('time_project_assignments', 'time_projects.id', '=', 'time_project_assignments.project_id')
             ->leftJoin('employees', 'time_project_assignments.employee_id', '=', 'employees.id')
             ->select(
                 'time_projects.id',
-                'time_customers.name as customer_name',
+                'time_projects.customer_id',
                 'time_projects.name as project_name',
+                'time_projects.description',
+                'time_customers.name as customer_name',
                 DB::raw("GROUP_CONCAT(DISTINCT employees.display_name ORDER BY employees.display_name SEPARATOR ', ') as admins")
             )
-            ->groupBy('time_projects.id', 'time_customers.name', 'time_projects.name')
-            ->orderBy('time_projects.name')
+            ->groupBy('time_projects.id', 'time_projects.customer_id', 'time_projects.name', 'time_projects.description', 'time_customers.name');
+
+        // Apply filters
+        if ($request->filled('customer_name')) {
+            $query->where('time_customers.name', 'like', '%' . $request->customer_name . '%');
+        }
+
+        if ($request->filled('project')) {
+            $query->where('time_projects.name', 'like', '%' . $request->project . '%');
+        }
+
+        if ($request->filled('project_admin')) {
+            $query->havingRaw("GROUP_CONCAT(DISTINCT employees.display_name ORDER BY employees.display_name SEPARATOR ', ') LIKE ?", ['%' . $request->project_admin . '%']);
+        }
+
+        $projects = $query->orderBy('time_projects.name')->get();
+
+        // Get customers for dropdown
+        $customers = DB::table('time_customers')
+            ->select('id', 'name')
+            ->orderBy('name')
             ->get();
 
-        return view('time.project-info.projects', compact('projects'));
+        return view('time.project-info.projects', compact('projects', 'customers'));
+    }
+
+    /**
+     * Store a new project.
+     */
+    public function storeProject(Request $request)
+    {
+        $data = $request->validate([
+            'customer_id' => ['nullable', 'exists:time_customers,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        DB::table('time_projects')->insert([
+            'customer_id' => $data['customer_id'] ?? null,
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('time.project-info.projects')
+            ->with('status', 'Project added.');
+    }
+
+    /**
+     * Update an existing project.
+     */
+    public function updateProject(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'customer_id' => ['nullable', 'exists:time_customers,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        DB::table('time_projects')
+            ->where('id', $id)
+            ->update([
+                'customer_id' => $data['customer_id'] ?? null,
+                'name' => $data['name'],
+                'description' => $data['description'] ?? null,
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->route('time.project-info.projects')
+            ->with('status', 'Project updated.');
+    }
+
+    /**
+     * Delete a project from the database.
+     */
+    public function deleteProject(int $id)
+    {
+        DB::table('time_projects')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->route('time.project-info.projects')
+            ->with('status', 'Project deleted.');
+    }
+
+    /**
+     * Bulk delete projects from the database.
+     */
+    public function bulkDeleteProjects(Request $request)
+    {
+        $idsParam = $request->input('ids', '');
+        $ids = collect(explode(',', $idsParam))
+            ->map(fn ($v) => (int) trim($v))
+            ->filter(fn ($v) => $v > 0)
+            ->unique()
+            ->values()
+            ->toArray();
+
+        if (count($ids) > 0) {
+            DB::table('time_projects')
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('time.project-info.projects')
+            ->with('status', count($ids) . ' project(s) deleted.');
     }
 }
 

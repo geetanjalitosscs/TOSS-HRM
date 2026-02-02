@@ -3,7 +3,7 @@
 @section('title', 'Admin - Job Titles')
 
 @section('body')
-    <x-main-layout title="Admin / Job">
+    <x-main-layout title="Admin">
         <x-admin.tabs activeTab="job-titles" />
 
         <!-- Job Titles Section -->
@@ -32,7 +32,7 @@
 
             <!-- Table -->
             <div id="job-titles-table">
-                <div class="hr-table-wrapper">
+                <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
                     <!-- Table Header -->
                     <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b"
                          style="background-color: var(--bg-hover); border-color: var(--border-default);">

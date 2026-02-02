@@ -199,7 +199,15 @@ Route::middleware('auth.session')->group(function () {
     
     // Time - Project Info routes
     Route::get('/time/project-info/customers', [TimeController::class, 'projectInfoCustomers'])->name('time.project-info.customers');
+    Route::post('/time/project-info/customers/store', [TimeController::class, 'storeCustomer'])->name('time.project-info.customers.store');
+    Route::post('/time/project-info/customers/update/{id}', [TimeController::class, 'updateCustomer'])->whereNumber('id')->name('time.project-info.customers.update');
+    Route::post('/time/project-info/customers/delete/{id}', [TimeController::class, 'deleteCustomer'])->whereNumber('id')->name('time.project-info.customers.delete');
+    Route::post('/time/project-info/customers/bulk-delete', [TimeController::class, 'bulkDeleteCustomers'])->name('time.project-info.customers.bulk-delete');
     Route::get('/time/project-info/projects', [TimeController::class, 'projectInfoProject'])->name('time.project-info.projects');
+    Route::post('/time/project-info/projects/store', [TimeController::class, 'storeProject'])->name('time.project-info.projects.store');
+    Route::post('/time/project-info/projects/update/{id}', [TimeController::class, 'updateProject'])->whereNumber('id')->name('time.project-info.projects.update');
+    Route::post('/time/project-info/projects/delete/{id}', [TimeController::class, 'deleteProject'])->whereNumber('id')->name('time.project-info.projects.delete');
+    Route::post('/time/project-info/projects/bulk-delete', [TimeController::class, 'bulkDeleteProjects'])->name('time.project-info.projects.bulk-delete');
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
     Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');
     Route::get('/my-info', [MyInfoController::class, 'index'])->name('myinfo');

@@ -31,23 +31,10 @@
             </div>
         </x-dropdown-menu>
         
-        <!-- Organization Dropdown -->
-        <x-dropdown-menu 
-            :items="[
-                ['url' => route('admin.organization.general-information'), 'label' => 'General Information'],
-                ['url' => route('admin.organization.locations'), 'label' => 'Locations', 'hidden' => true],
-                ['url' => route('admin.organization.structure'), 'label' => 'Structure', 'hidden' => true]
-            ]"
-            position="left"
-            width="w-48">
-            @php
-                $isOrgActive = in_array($activeTab, ['organization-general', 'organization-locations', 'organization-structure']);
-            @endphp
-            <div class="px-4 py-3 {{ $isOrgActive ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex items-center justify-between gap-2 flex-shrink-0 hr-tab-hover whitespace-nowrap" style="{{ $isOrgActive ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}" onmouseover="if(!{{ $isOrgActive ? 'true' : 'false' }}) { this.style.backgroundColor='var(--bg-hover)'; this.style.color='var(--color-hr-primary)'; }" onmouseout="if(!{{ $isOrgActive ? 'true' : 'false' }}) { this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)'; }">
-                <span class="text-sm flex-shrink-0" style="{{ $isOrgActive ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Organization</span>
-                <x-dropdown-arrow class="flex-shrink-0" />
-            </div>
-        </x-dropdown-menu>
+        <!-- General Information Tab -->
+        <a href="{{ route('admin.organization.general-information') }}" class="px-4 py-3 {{ $activeTab === 'organization-general' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'organization-general' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}">
+            <span class="text-sm" style="{{ $activeTab === 'organization-general' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">General Information</span>
+        </a>
         
         <!-- Qualifications Dropdown - Hidden -->
         {{-- <x-dropdown-menu 

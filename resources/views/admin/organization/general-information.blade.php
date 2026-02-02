@@ -3,7 +3,7 @@
 @section('title', 'Admin - General Information')
 
 @section('body')
-    <x-main-layout title="Admin / Organization">
+    <x-main-layout title="Admin">
         <x-admin.tabs activeTab="organization-general" />
 
         <form method="POST" action="{{ route('admin.organization.general-information.update') }}" id="organization-general-form">

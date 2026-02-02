@@ -3,7 +3,7 @@
 @section('title', 'Admin - User Management')
 
 @section('body')
-    <x-main-layout title="Admin / User Management">
+    <x-main-layout title="Admin">
         <!-- Top Navigation Tabs -->
         <x-admin.tabs activeTab="user-management" />
 
@@ -90,7 +90,7 @@
 
                 <!-- Table Wrapper -->
                 <div id="users-table">
-                    <div class="hr-table-wrapper">
+                    <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
                         <!-- Table Header -->
                         <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                             <div class="flex-shrink-0" style="width: 24px;">

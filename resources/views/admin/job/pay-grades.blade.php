@@ -3,7 +3,7 @@
 @section('title', 'Admin - Pay Grades')
 
 @section('body')
-    <x-main-layout title="Admin / Job">
+    <x-main-layout title="Admin">
         <x-admin.tabs activeTab="pay-grades" />
 
         <!-- Pay Grades Section -->

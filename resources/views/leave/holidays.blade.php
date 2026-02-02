@@ -3,7 +3,7 @@
 @section('title', 'Leave - Holidays')
 
 @section('body')
-    <x-main-layout title="Leave / Configure">
+    <x-main-layout title="Leave">
         <x-leave.tabs activeTab="holidays" />
         
         <!-- Holidays Search Panel -->
@@ -79,7 +79,7 @@
 
             <!-- Table -->
             <div id="holidays-table">
-                <div class="hr-table-wrapper">
+                <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
                     <!-- Header -->
                     <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b"
                          style="background-color: var(--bg-hover); border-color: var(--border-default);">
