@@ -130,13 +130,17 @@
                             <!-- Customer Name -->
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Customer Name</label>
-                                <input 
-                                    type="text" 
+                                <select 
                                     name="customer_name" 
-                                    value="{{ request('customer_name') }}"
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
-                                    placeholder="Type for hints..."
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                                 >
+                                    <option value="">-- Select Customer --</option>
+                                    @foreach($customers ?? [] as $customer)
+                                        <option value="{{ $customer->name }}" {{ request('customer_name') == $customer->name ? 'selected' : '' }}>
+                                            {{ $customer->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <!-- Project -->
@@ -216,6 +220,12 @@
                                 Project
                             </div>
                         </div>
+                        <div class="flex-1" style="min-width: 150px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                 style="color: var(--text-primary);">
+                                Description
+                            </div>
+                        </div>
                         <div class="flex-1" style="min-width: 100px;">
                             <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
                                  style="color: var(--text-primary);">
@@ -255,6 +265,11 @@
                                 <div class="flex-1" style="min-width: 100px;">
                                     <div class="text-xs break-words" style="color: var(--text-primary);">
                                         {{ $project->project_name }}
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 150px;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">
+                                        {{ $project->description ?: '-' }}
                                     </div>
                                 </div>
                                 <div class="flex-1" style="min-width: 100px;">
