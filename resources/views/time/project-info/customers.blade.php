@@ -80,7 +80,7 @@
                     ];
                     $projectInfoHasActive = collect($projectInfoItems)->contains('active', true);
                 @endphp
-                <x-dropdown-menu 
+                {{-- <x-dropdown-menu 
                     :items="$timesheetsItems"
                     position="left"
                     width="w-48">
@@ -106,16 +106,13 @@
                         <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
-                </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="$projectInfoItems"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $projectInfoHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
-                        <span class="text-sm {{ $projectInfoHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Project Info</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
+                </x-dropdown-menu> --}}
+                <a href="{{ route('time.project-info.customers') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.customers') ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                    <span class="text-sm {{ request()->routeIs('time.project-info.customers') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Customers</span>
+                </a>
+                <a href="{{ route('time.project-info.projects') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.projects') ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                    <span class="text-sm {{ request()->routeIs('time.project-info.projects') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Projects</span>
+                </a>
             </div>
         </div>
 

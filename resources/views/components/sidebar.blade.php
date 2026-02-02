@@ -32,12 +32,12 @@
         <a href="{{ route('leave') }}" class="sidebar-link {{ request()->routeIs('leave*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-calendar-alt"></i> Leave
         </a>
-        <a href="{{ route('time') }}" class="sidebar-link {{ request()->routeIs('time*') ? 'sidebar-link--active' : '' }}">
-            <i class="fas fa-user-clock"></i> Time
+        <a href="{{ route('time.project-info.projects') }}" class="sidebar-link {{ request()->routeIs('time.project-info*') ? 'sidebar-link--active' : '' }}">
+            <i class="fas fa-project-diagram"></i> Project Management
         </a>
         {{-- <a href="{{ route('performance') }}" class="sidebar-link {{ request()->routeIs('performance*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-star"></i> Performance
-        </a> 
+        </a>
         <a href="{{ route('recruitment') }}" class="sidebar-link {{ request()->routeIs('recruitment*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-briefcase"></i> Recruitment
         </a> --}}
