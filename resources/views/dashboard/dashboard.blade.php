@@ -58,9 +58,9 @@
                                     <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-calendar-alt"></i></div>
                                     <span class="text-[10px] text-slate-700 text-center font-medium">Leave List</span>
                                 </a>
-                                <a href="{{ route('time') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-clock"></i></div>
-                                    <span class="text-[10px] text-slate-700 text-center font-medium">Timesheets</span>
+                                <a href="{{ route('time.project-info.projects') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
+                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-project-diagram"></i></div>
+                                    <span class="text-[10px] text-slate-700 text-center font-medium">Project Management</span>
                                 </a>
                                 <a href="{{ route('leave.apply') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
                                     <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-paper-plane"></i></div>
