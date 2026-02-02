@@ -160,6 +160,7 @@ class LeaveController extends Controller
 
         $leaves = $query->select(
                 'leave_applications.id',
+                'leave_applications.employee_id',
                 'leave_applications.start_date',
                 'leave_applications.end_date',
                 DB::raw("DATE_FORMAT(leave_applications.start_date, '%Y-%m-%d') as start_date_formatted"),
@@ -204,19 +205,25 @@ class LeaveController extends Controller
                             ->sum('total_days');
                         $daysTakenInMonth = $daysTakenInMonth ?? 0;
                         
-                        $monthlyBalance += $leavesPerMonth;
-                        $monthlyBalance -= $daysTakenInMonth;
+                        $monthlyBalance += $monthlyAllocation - $daysTakenInMonth;
                     }
                     
-                    $remaining = round($monthlyBalance, 2);
-                    $displayTotal = $monthlyAllocation;
-                    $totalTaken = 0; // Not used for monthly, but keep for compatibility
+                    $totalTaken = DB::table('leave_applications')
+                        ->where('employee_id', $employeeId)
+                        ->where('leave_type_id', $leaveTypeId)
+                        ->where('status', '!=', 'cancelled')
+                        ->whereYear('start_date', $currentYear)
+                        ->sum('total_days');
+                    $totalTaken = $totalTaken ?? 0;
+                    $remaining = $monthlyBalance;
+                    $displayTotal = round($monthlyAllocation * $currentMonth, 0);
                 } else {
                     // Yearly calculation
                     $totalTaken = DB::table('leave_applications')
                         ->where('employee_id', $employeeId)
                         ->where('leave_type_id', $leaveTypeId)
                         ->where('status', '!=', 'cancelled')
+                        ->whereYear('start_date', date('Y'))
                         ->sum('total_days');
                     $totalTaken = $totalTaken ?? 0;
                     $remaining = $maxPerYear - $totalTaken;
@@ -233,6 +240,62 @@ class LeaveController extends Controller
                 ];
             }
         }
+
+        // Add leave_balance to each leave record (same as leaveList method)
+        $leaves = $leaves->map(function ($leave) {
+            $maxPerYear = $leave->max_per_year ?? 0;
+            $calculateMonthly = $leave->calculate_monthly ?? 0;
+            
+            // Check if monthly calculation is enabled
+            if ($calculateMonthly == 1) {
+                // Convert yearly to monthly: max_per_year / 12 = leaves per month
+                $leavesPerMonth = $maxPerYear / 12;
+                $monthlyAllocation = round($leavesPerMonth, 2); // e.g., 12/12 = 1
+                
+                $today = Carbon::today();
+                $currentYear = $today->year;
+                $currentMonth = $today->month;
+                
+                // Calculate monthly balance with carry-forward logic
+                $remaining = 0;
+                $monthlyBalance = 0; // Track cumulative balance month by month
+                
+                for ($month = 1; $month <= $currentMonth; $month++) {
+                    // Get total days taken in this month
+                    $daysTakenInMonth = DB::table('leave_applications')
+                        ->where('employee_id', $leave->employee_id)
+                        ->where('leave_type_id', $leave->leave_type_id)
+                        ->where('status', '!=', 'cancelled')
+                        ->whereYear('start_date', $currentYear)
+                        ->whereMonth('start_date', $month)
+                        ->sum('total_days');
+                    
+                    // Add monthly allocation and subtract days taken
+                    $monthlyBalance += $monthlyAllocation - $daysTakenInMonth;
+                }
+                
+                $remaining = $monthlyBalance;
+                
+                // Format as "total/remaining" (e.g., "10/3" or "5/2")
+                $leave->leave_balance = number_format((float)$maxPerYear, 0, '.', '') . '/' . number_format((float)$remaining, 0, '.', '');
+            } else {
+                // Yearly calculation
+                $totalTaken = DB::table('leave_applications')
+                    ->where('employee_id', $leave->employee_id)
+                    ->where('leave_type_id', $leave->leave_type_id)
+                    ->where('status', '!=', 'cancelled')
+                    ->whereYear('start_date', date('Y'))
+                    ->sum('total_days');
+                
+                $totalTaken = $totalTaken ?? 0;
+                $remaining = $maxPerYear - $totalTaken;
+                
+                // Format as "total/remaining" (e.g., "10/3" or "5/2")
+                $leave->leave_balance = number_format((float)$maxPerYear, 0, '.', '') . '/' . number_format((float)$remaining, 0, '.', '');
+            }
+
+            return $leave;
+        });
 
         return view('leave.my-leave', compact('leaves', 'leaveTypes', 'leaveBalances'));
     }
@@ -969,6 +1032,205 @@ class LeaveController extends Controller
 
         return redirect()->to(route('leave.holidays') . '#holidays-table-section')
             ->with('status', count($ids) . ' holiday(s) deleted.');
+    }
+
+    /**
+     * Cancel a leave application
+     */
+    public function cancelLeave($id)
+    {
+        try {
+            $updated = DB::table('leave_applications')
+                ->where('id', $id)
+                ->update([
+                    'status' => 'cancelled',
+                    'updated_at' => now()
+                ]);
+
+            if ($updated) {
+                return redirect()->back()
+                    ->with('status', 'Leave application cancelled successfully.');
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Leave application not found.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to cancel leave application: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Reject a leave application
+     */
+    public function rejectLeave($id)
+    {
+        try {
+            $updated = DB::table('leave_applications')
+                ->where('id', $id)
+                ->update([
+                    'status' => 'rejected',
+                    'updated_at' => now()
+                ]);
+
+            if ($updated) {
+                return redirect()->back()
+                    ->with('status', 'Leave application rejected successfully.');
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Leave application not found.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to reject leave application: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Approve a leave application
+     */
+    public function approveLeave($id)
+    {
+        try {
+            $updated = DB::table('leave_applications')
+                ->where('id', $id)
+                ->update([
+                    'status' => 'approved',
+                    'updated_at' => now()
+                ]);
+
+            if ($updated) {
+                return redirect()->back()
+                    ->with('status', 'Leave application approved successfully.');
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Leave application not found.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to approve leave application: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get leave data for editing
+     */
+    public function getLeaveData($id)
+    {
+        try {
+            $leave = DB::table('leave_applications')
+                ->leftJoin('employees', 'leave_applications.employee_id', '=', 'employees.id')
+                ->leftJoin('leave_types', 'leave_applications.leave_type_id', '=', 'leave_types.id')
+                ->select(
+                    'leave_applications.id',
+                    'leave_applications.employee_id',
+                    'leave_applications.leave_type_id',
+                    'leave_applications.start_date',
+                    'leave_applications.end_date',
+                    'leave_applications.total_days as number_of_days',
+                    'leave_applications.status',
+                    'leave_applications.reason as comments',
+                    DB::raw("COALESCE(employees.display_name, CONCAT(employees.first_name, ' ', employees.last_name)) as employee_name"),
+                    'leave_types.name as leave_type_name'
+                )
+                ->where('leave_applications.id', $id)
+                ->first();
+
+            if (!$leave) {
+                return response()->json(['error' => 'Leave application not found'], 404);
+            }
+
+            // Format dates for date inputs
+            $leave->start_date = date('Y-m-d', strtotime($leave->start_date));
+            $leave->end_date = date('Y-m-d', strtotime($leave->end_date));
+
+            return response()->json($leave);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch leave data'], 500);
+        }
+    }
+
+    /**
+     * Update leave application
+     */
+    public function updateLeave(Request $request, $id)
+    {
+        try {
+            $data = $request->validate([
+                'leave_type_id' => 'required|exists:leave_types,id',
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+                'status' => 'required|in:pending,approved,rejected,cancelled',
+                'comments' => 'nullable|string|max:500'
+            ]);
+
+            // Calculate number of days
+            $startDate = new \DateTime($data['start_date']);
+            $endDate = new \DateTime($data['end_date']);
+            $numberOfDays = $startDate->diff($endDate)->days + 1;
+
+            $updated = DB::table('leave_applications')
+                ->where('id', $id)
+                ->update([
+                    'leave_type_id' => $data['leave_type_id'],
+                    'start_date' => $data['start_date'],
+                    'end_date' => $data['end_date'],
+                    'total_days' => $numberOfDays,
+                    'status' => $data['status'],
+                    'reason' => $data['comments'],
+                    'updated_at' => now()
+                ]);
+
+            if ($updated) {
+                return response()->json(['success' => true, 'message' => 'Leave application updated successfully.']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Leave application not found.'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to update leave application: ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Bulk delete leave applications
+     */
+    public function bulkDeleteLeaves(Request $request)
+    {
+        try {
+            $leaveIds = $request->input('leave_ids', '');
+            
+            if (empty($leaveIds)) {
+                return redirect()->back()->with('error', 'No leave applications selected for deletion.');
+            }
+
+            // Handle comma-separated string (like admin page) or array
+            if (is_string($leaveIds)) {
+                $leaveIds = explode(',', $leaveIds);
+            }
+            
+            // Validate that all IDs are integers
+            $leaveIds = array_map('intval', $leaveIds);
+            $leaveIds = array_filter($leaveIds, function($id) {
+                return $id > 0;
+            });
+
+            if (empty($leaveIds)) {
+                return redirect()->back()->with('error', 'Invalid leave application IDs provided.');
+            }
+
+            // Delete the leave applications
+            $deleted = DB::table('leave_applications')
+                ->whereIn('id', $leaveIds)
+                ->delete();
+
+            if ($deleted > 0) {
+                return redirect()->back()->with('status', "Successfully deleted {$deleted} leave application(s).");
+            } else {
+                return redirect()->back()->with('error', 'No leave applications found to delete.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete leave applications: ' . $e->getMessage());
+        }
     }
 }
 

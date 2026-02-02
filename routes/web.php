@@ -155,6 +155,12 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/leave/apply', [LeaveController::class, 'store'])->name('leave.store');
     Route::get('/leave/my-leave', [LeaveController::class, 'myLeave'])->name('leave.my-leave');
     Route::get('/leave/leave-list', [LeaveController::class, 'leaveList'])->name('leave.leave-list');
+    Route::post('/leave/cancel/{id}', [LeaveController::class, 'cancelLeave'])->whereNumber('id')->name('leave.cancel');
+    Route::post('/leave/reject/{id}', [LeaveController::class, 'rejectLeave'])->whereNumber('id')->name('leave.reject');
+    Route::post('/leave/approve/{id}', [LeaveController::class, 'approveLeave'])->whereNumber('id')->name('leave.approve');
+    Route::get('/leave/get-leave-data/{id}', [LeaveController::class, 'getLeaveData'])->whereNumber('id')->name('leave.get-leave-data');
+    Route::post('/leave/update/{id}', [LeaveController::class, 'updateLeave'])->whereNumber('id')->name('leave.update');
+    Route::post('/leave/bulk-delete', [LeaveController::class, 'bulkDeleteLeaves'])->name('leave.bulk-delete');
     Route::get('/leave/assign-leave', [LeaveController::class, 'assignLeave'])->name('leave.assign-leave');
     Route::post('/leave/assign-leave', [LeaveController::class, 'storeAssignLeave'])->name('leave.assign-leave.store');
     Route::get('/leave/get-balance', [LeaveController::class, 'getLeaveBalance'])->name('leave.get-balance');

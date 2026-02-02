@@ -69,7 +69,7 @@
         </section>
 
         <!-- Leave List Table Section -->
-        <section class="hr-card p-6">
+        <section id="leave-table-section" class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                     <i class="fas fa-list-alt text-purple-500"></i> Leave Records
@@ -97,9 +97,12 @@
             </div>
             @else
             <!-- Leave Table -->
-            <div class="hr-table-wrapper mt-4" style="max-height: 22rem; overflow-y: auto;">
+            <div class="hr-table-wrapper mt-4" style="max-height: 22rem; overflow-y: auto;" id="leave-table">
                 <!-- Table Header -->
                 <div class="bg-gray-50 rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b border-gray-200">
+                    <div class="flex-shrink-0" style="width: 24px;">
+                        <input type="checkbox" id="leave-master-checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                    </div>
                     <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Date</div>
                     </div>
@@ -121,11 +124,20 @@
                     <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Comments</div>
                     </div>
+                    <div class="flex-shrink-0" style="width: 200px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
+                    </div>
                 </div>
                 <!-- Table Rows -->
                 <div class="border border-t-0 border-gray-200 rounded-b-lg">
                     @foreach($leaves as $leave)
                     <div class="bg-white border-b border-gray-200 last:border-b-0 px-2 py-1.5 hover:bg-gray-50 transition-colors flex items-center gap-1">
+                        <!-- Checkbox -->
+                        <div class="flex-shrink-0" style="width: 24px;">
+                            <input type="checkbox" class="leave-row-checkbox rounded w-3.5 h-3.5" data-leave-id="{{ $leave->id }}" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                        </div>
+                        
+                        <!-- Date -->
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">
                                 @if($leave->start_date_formatted && $leave->end_date_formatted)
@@ -167,6 +179,30 @@
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">{{ $leave->comments ?? '-' }}</div>
                         </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex-shrink-0" style="width: 200px;">
+                            <div class="flex items-center justify-center gap-1">
+                                <form method="POST" action="{{ route('leave.cancel', $leave->id) }}" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #2563eb; border-color: #2563eb; background-color: transparent;" onmouseover="this.style.backgroundColor='#dbeafe'; this.style.color='#1e40af'; this.title='Cancel';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2563eb'; this.title='';" title="Cancel">
+                                        <i class="fas fa-times text-xs"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('leave.reject', $leave->id) }}" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #dc2626; border-color: #dc2626; background-color: transparent;" onmouseover="this.style.backgroundColor='#fee2e2'; this.style.color='#991b1b'; this.title='Reject';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#dc2626'; this.title='';" title="Reject">
+                                        <i class="fas fa-times-circle text-xs"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('leave.approve', $leave->id) }}" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #16a34a; border-color: #16a34a; background-color: transparent;" onmouseover="this.style.backgroundColor='#dcfce7'; this.style.color='#15803d'; this.title='Approve';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#16a34a'; this.title='';" title="Approve">
+                                        <i class="fas fa-check text-xs"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     @endforeach
                 </div>
@@ -177,7 +213,114 @@
     </x-main-layout>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        // Checkbox functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const masterCheckbox = document.getElementById('leave-master-checkbox');
+            const rowCheckboxes = document.querySelectorAll('.leave-row-checkbox');
+            
+            // Master checkbox functionality
+            if (masterCheckbox) {
+                masterCheckbox.addEventListener('change', function() {
+                    rowCheckboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateDeleteButtonVisibility();
+                });
+            }
+            
+            // Individual checkbox functionality
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateMasterCheckboxState();
+                    updateDeleteButtonVisibility();
+                });
+            });
+            
+            function updateMasterCheckboxState() {
+                const checkedCount = document.querySelectorAll('.leave-row-checkbox:checked').length;
+                const totalCount = rowCheckboxes.length;
+                
+                if (masterCheckbox) {
+                    if (checkedCount === 0) {
+                        masterCheckbox.checked = false;
+                        masterCheckbox.indeterminate = false;
+                    } else if (checkedCount === totalCount) {
+                        masterCheckbox.checked = true;
+                        masterCheckbox.indeterminate = false;
+                    } else {
+                        // Partial selection - uncheck the master but don't use indeterminate
+                        masterCheckbox.checked = false;
+                        masterCheckbox.indeterminate = false;
+                    }
+                }
+            }
+            
+            function updateDeleteButtonVisibility() {
+                const checkedCount = document.querySelectorAll('.leave-row-checkbox:checked').length;
+                const deleteButton = document.getElementById('leave-delete-selected');
+                
+                if (deleteButton) {
+                    if (checkedCount > 0) {
+                        deleteButton.classList.remove('hidden');
+                    } else {
+                        deleteButton.classList.add('hidden');
+                    }
+                }
+            }
+            
+            // Initial state
+            updateMasterCheckboxState();
+            updateDeleteButtonVisibility();
+            
+            // Scroll to table section if status message exists (after edit/delete)
+            @if(session('status'))
+                var tableSection = document.getElementById('leave-table-section');
+                if (tableSection) {
+                    setTimeout(function() {
+                        tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            @endif
+            
+            // Scroll to table section on search form submit
+            var searchForm = document.getElementById('leave-search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    // Add hash to URL for scrolling after page reload
+                    var formAction = searchForm.getAttribute('action') || window.location.pathname;
+                    var url = new URL(formAction, window.location.origin);
+                    
+                    // Copy existing search parameters
+                    var formData = new FormData(searchForm);
+                    for (var pair of formData.entries()) {
+                        if (pair[1]) {
+                            url.searchParams.set(pair[0], pair[1]);
+                        }
+                    }
+                    
+                    // Add hash for scrolling
+                    url.hash = 'leave-table-section';
+                    
+                    // Navigate to the URL with hash
+                    window.location.href = url.toString();
+                });
+            }
+            
+            // Scroll to table section if hash exists or if search parameters are present
+            if (window.location.hash === '#leave-table-section' || 
+                (window.location.search && (window.location.search.includes('from_date=') || 
+                 window.location.search.includes('to_date=') || 
+                 window.location.search.includes('status=') || 
+                 window.location.search.includes('leave_type_id=') || 
+                 window.location.search.includes('employee_name=')))) {
+                var tableSection = document.getElementById('leave-table-section');
+                if (tableSection) {
+                    setTimeout(function() {
+                        tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }
+            }
+            
             // Reset button: clear all filters and reload base leave list
             var searchForm = document.getElementById('leave-search-form');
             if (searchForm) {
@@ -207,7 +350,95 @@
                     });
                 }
             }
+            
+            function openLeaveBulkDeleteModal() {
+                var m = document.getElementById('leave-bulk-delete-modal');
+                if (m) m.classList.remove('hidden');
+            }
+            
+            function closeLeaveBulkDeleteModal() {
+                var m = document.getElementById('leave-bulk-delete-modal');
+                if (m) m.classList.add('hidden');
+            }
+            
+            function confirmLeaveBulkDelete() {
+                var table = document.getElementById('leave-table');
+                if (!table) {
+                    console.error('Table not found: leave-table');
+                    closeLeaveBulkDeleteModal();
+                    return;
+                }
+                var checked = table.querySelectorAll('.leave-row-checkbox:checked');
+                console.log('Found checked checkboxes:', checked.length);
+                var ids = [];
+                checked.forEach(function (cb) {
+                    var id = cb.getAttribute('data-leave-id');
+                    if (id) ids.push(id);
+                });
+                console.log('Collected IDs:', ids);
+
+                if (!ids.length) {
+                    console.log('No IDs found, closing modal');
+                    closeLeaveBulkDeleteModal();
+                    return;
+                }
+
+                var form = document.getElementById('leave-bulk-delete-form');
+                var input = document.getElementById('leave-bulk-delete-ids');
+                if (!form || !input) {
+                    console.error('Form or input not found');
+                    closeLeaveBulkDeleteModal();
+                    return;
+                }
+
+                console.log('Setting form action:', form.action);
+                console.log('Setting input value:', ids.join(','));
+                input.value = ids.join(',');
+                closeLeaveBulkDeleteModal();
+                console.log('Submitting form...');
+                form.submit();
+            }
+            
+            // Expose functions globally
+            window.openLeaveBulkDeleteModal = openLeaveBulkDeleteModal;
+            window.closeLeaveBulkDeleteModal = closeLeaveBulkDeleteModal;
+            window.confirmLeaveBulkDelete = confirmLeaveBulkDelete;
         });
     </script>
-@endsection
 
+    <!-- Bulk Delete Modal -->
+    <x-admin.modal
+        id="leave-bulk-delete-modal"
+        title="Delete Selected Leave Applications"
+        maxWidth="xs"
+        backdropOnClick="closeLeaveBulkDeleteModal()"
+    >
+        <div>
+            <p class="text-xs mb-4" style="color: var(--text-muted);">
+                Are you sure you want to delete all selected leave applications?
+            </p>
+            <div class="flex justify-end gap-2">
+                <button
+                    type="button"
+                    class="hr-btn-secondary px-4 py-1.5 text-xs"
+                    onclick="closeLeaveBulkDeleteModal()"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    class="hr-btn-primary px-4 py-1.5 text-xs"
+                    onclick="confirmLeaveBulkDelete()"
+                >
+                    Delete Selected
+                </button>
+            </div>
+        </div>
+    </x-admin.modal>
+
+    <!-- Hidden form for bulk delete -->
+    <form id="leave-bulk-delete-form" method="POST" action="{{ route('leave.bulk-delete') }}">
+        @csrf
+        <input type="hidden" name="leave_ids" id="leave-bulk-delete-ids" value="">
+    </form>
+@endsection
