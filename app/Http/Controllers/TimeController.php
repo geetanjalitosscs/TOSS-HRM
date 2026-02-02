@@ -432,7 +432,23 @@ class TimeController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('time.project-info.projects', compact('projects', 'customers'));
+        // Get employees for dropdown
+        $employees = DB::table('employees')
+            ->select('id', 'display_name', 'first_name', 'last_name')
+            ->orderBy('display_name')
+            ->get();
+
+        // Get current project admins for editing
+        $projectAdmins = [];
+        $adminAssignments = DB::table('time_project_assignments')
+            ->where('role', 'Project Admin')
+            ->get();
+        
+        foreach ($adminAssignments as $assignment) {
+            $projectAdmins[$assignment->project_id] = $assignment->employee_id;
+        }
+
+        return view('time.project-info.projects', compact('projects', 'customers', 'employees', 'projectAdmins'));
     }
 
     /**
@@ -444,15 +460,27 @@ class TimeController extends Controller
             'customer_id' => ['nullable', 'exists:time_customers,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:500'],
+            'project_admin_id' => ['nullable', 'exists:employees,id'],
         ]);
 
-        DB::table('time_projects')->insert([
+        // Insert project
+        $projectId = DB::table('time_projects')->insertGetId([
             'customer_id' => $data['customer_id'] ?? null,
             'name' => $data['name'],
             'description' => $data['description'] ?? null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        // Assign project admin if selected
+        if (!empty($data['project_admin_id'])) {
+            DB::table('time_project_assignments')->insert([
+                'project_id' => $projectId,
+                'employee_id' => $data['project_admin_id'],
+                'role' => 'Project Admin',
+                'created_at' => now(),
+            ]);
+        }
 
         return redirect()->route('time.project-info.projects')
             ->with('status', 'Project added.');
@@ -467,8 +495,10 @@ class TimeController extends Controller
             'customer_id' => ['nullable', 'exists:time_customers,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:500'],
+            'project_admin_id' => ['nullable', 'exists:employees,id'],
         ]);
 
+        // Update project
         DB::table('time_projects')
             ->where('id', $id)
             ->update([
@@ -477,6 +507,40 @@ class TimeController extends Controller
                 'description' => $data['description'] ?? null,
                 'updated_at' => now(),
             ]);
+
+        // Remove existing project admin assignments
+        DB::table('time_project_assignments')
+            ->where('project_id', $id)
+            ->where('role', 'Project Admin')
+            ->delete();
+
+        // Assign new project admin if selected
+        if (!empty($data['project_admin_id'])) {
+            // Check if assignment already exists with different role
+            $existingAssignment = DB::table('time_project_assignments')
+                ->where('project_id', $id)
+                ->where('employee_id', $data['project_admin_id'])
+                ->first();
+
+            if ($existingAssignment) {
+                // Update existing assignment to Project Admin role
+                DB::table('time_project_assignments')
+                    ->where('project_id', $id)
+                    ->where('employee_id', $data['project_admin_id'])
+                    ->update([
+                        'role' => 'Project Admin',
+                        'updated_at' => now(),
+                    ]);
+            } else {
+                // Insert new assignment
+                DB::table('time_project_assignments')->insert([
+                    'project_id' => $id,
+                    'employee_id' => $data['project_admin_id'],
+                    'role' => 'Project Admin',
+                    'created_at' => now(),
+                ]);
+            }
+        }
 
         return redirect()->route('time.project-info.projects')
             ->with('status', 'Project updated.');

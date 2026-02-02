@@ -13,7 +13,7 @@
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('directory') }}" id="directory-search-form">
                     <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
                                 <input 
@@ -32,19 +32,6 @@
                                     @foreach($jobTitles ?? [] as $title)
                                         <option value="{{ $title->id }}" {{ request('job_title') == $title->id ? 'selected' : '' }}>
                                             {{ $title->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Location</label>
-                                <select 
-                                    name="location"
-                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
-                                    <option value="">-- Select --</option>
-                                    @foreach($locations ?? [] as $loc)
-                                        <option value="{{ $loc->id }}" {{ request('location') == $loc->id ? 'selected' : '' }}>
-                                            {{ $loc->name }}
                                         </option>
                                     @endforeach
                                 </select>

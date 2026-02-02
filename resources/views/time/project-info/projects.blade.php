@@ -158,13 +158,17 @@
                             <!-- Project Admin -->
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Project Admin</label>
-                                <input 
-                                    type="text" 
+                                <select 
                                     name="project_admin" 
-                                    value="{{ request('project_admin') }}"
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
-                                    placeholder="Type for hints..."
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                                 >
+                                    <option value="">-- Select Employee --</option>
+                                    @foreach($employees ?? [] as $employee)
+                                        <option value="{{ $employee->display_name ?: $employee->first_name . ' ' . $employee->last_name }}" {{ request('project_admin') == ($employee->display_name ?: $employee->first_name . ' ' . $employee->last_name) ? 'selected' : '' }}>
+                                            {{ $employee->display_name ?: $employee->first_name . ' ' . $employee->last_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <x-admin.action-buttons resetType="button" searchType="submit" resetOnClick="resetProjectFilters()" />
@@ -258,6 +262,7 @@
                                          data-project-customer-id="{{ $project->customer_id ?? '' }}"
                                          data-project-name="{{ $project->project_name }}"
                                          data-project-description="{{ $project->description ?? '' }}"
+                                         data-project-admin-id="{{ $projectAdmins[$project->id] ?? '' }}"
                                     >
                                         {{ $project->customer_name ?: '-' }}
                                     </div>
@@ -350,6 +355,23 @@
                         maxlength="500"
                     ></textarea>
                 </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Project Admin
+                    </label>
+                    <select
+                        name="project_admin_id"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                        <option value="">-- Select Project Admin --</option>
+                        @foreach($employees ?? [] as $employee)
+                            <option value="{{ $employee->id }}">
+                                {{ $employee->display_name ?: $employee->first_name . ' ' . $employee->last_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <div class="flex justify-end gap-2 mt-1">
                     <button
@@ -419,6 +441,24 @@
                         style="background-color: var(--bg-input); color: var(--text-primary);"
                         maxlength="500"
                     ></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Project Admin
+                    </label>
+                    <select
+                        name="project_admin_id"
+                        id="project-edit-admin-id"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                        <option value="">-- Select Project Admin --</option>
+                        @foreach($employees ?? [] as $employee)
+                            <option value="{{ $employee->id }}">
+                                {{ $employee->display_name ?: $employee->first_name . ' ' . $employee->last_name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="flex justify-end gap-2 mt-1">
@@ -621,6 +661,7 @@
                     var customerId = info.dataset.projectCustomerId || '';
                     var name = info.dataset.projectName || '';
                     var description = info.dataset.projectDescription || '';
+                    var adminId = info.dataset.projectAdminId || '';
 
                     var m = document.getElementById('project-edit-modal');
                     if (!m) return;
@@ -633,6 +674,9 @@
 
                     var descriptionInput = document.getElementById('project-edit-description');
                     if (descriptionInput) descriptionInput.value = description;
+
+                    var adminSelect = document.getElementById('project-edit-admin-id');
+                    if (adminSelect) adminSelect.value = adminId;
 
                     var form = document.getElementById('project-edit-form');
                     if (form) {

@@ -13,19 +13,16 @@ class DirectoryController extends Controller
     {
         // Get dropdown options
         $jobTitles = DB::table('job_titles')->select('id', 'name')->orderBy('name')->get();
-        $locations = DB::table('locations')->select('id', 'name')->orderBy('name')->get();
 
         // Build query with search filters
         $query = DB::table('employees')
             ->leftJoin('job_titles', 'employees.job_title_id', '=', 'job_titles.id')
             ->leftJoin('organization_units', 'employees.organization_unit_id', '=', 'organization_units.id')
-            ->leftJoin('locations', 'employees.location_id', '=', 'locations.id')
             ->select(
                 'employees.id',
                 DB::raw("COALESCE(employees.display_name, CONCAT(employees.first_name, ' ', employees.last_name)) as name"),
                 'job_titles.name as job_title',
-                'organization_units.name as department',
-                'locations.name as location'
+                'organization_units.name as department'
             );
 
         // Apply search filters
@@ -42,10 +39,6 @@ class DirectoryController extends Controller
             $query->where('employees.job_title_id', $request->input('job_title'));
         }
 
-        if ($request->filled('location')) {
-            $query->where('employees.location_id', $request->input('location'));
-        }
-
         $employees = $query->orderBy('name')
             ->get()
             ->map(function ($row) {
@@ -53,7 +46,7 @@ class DirectoryController extends Controller
                 return $row;
             });
 
-        return view('directory.directory', compact('employees', 'jobTitles', 'locations'));
+        return view('directory.directory', compact('employees', 'jobTitles'));
     }
 
     private function getEmployeePhotoColumn(): ?string

@@ -10,6 +10,20 @@ use Illuminate\Support\Facades\DB;
 class PIMController extends Controller
 {
     /**
+     * Generate display name from first name, middle name, and last name
+     */
+    private function generateDisplayName(string $firstName, ?string $middleName, string $lastName): ?string
+    {
+        $displayName = trim(implode(' ', array_filter([
+            $firstName,
+            $middleName,
+            $lastName,
+        ])));
+        
+        return $displayName !== '' ? $displayName : null;
+    }
+
+    /**
      * Get allowed enum values for custom_fields.data_type from the database.
      */
     private function getCustomFieldTypes(): array
@@ -153,10 +167,14 @@ class PIMController extends Controller
         $data = $request->validate([
             'employee_number' => ['required', 'string', 'max:50', 'unique:employees,employee_number'],
             'first_name' => ['required', 'string', 'max:100'],
+            'middle_name' => ['nullable', 'string', 'max:100'],
             'last_name' => ['required', 'string', 'max:100'],
             'job_title_id' => ['nullable', 'integer', 'exists:job_titles,id'],
             'employment_status_id' => ['nullable', 'integer', 'exists:employment_statuses,id'],
         ]);
+
+        // Auto-generate display_name from first_name, middle_name, and last_name
+        $displayName = $this->generateDisplayName($data['first_name'], $data['middle_name'] ?? null, $data['last_name']);
 
         $employeeId = DB::table('employees')->insertGetId([
             // For now, default all new employees into organization 1 (seeded org)
@@ -164,7 +182,9 @@ class PIMController extends Controller
             'organization_id' => 1,
             'employee_number' => $data['employee_number'],
             'first_name' => $data['first_name'],
+            'middle_name' => $data['middle_name'] ?? null,
             'last_name' => $data['last_name'],
+            'display_name' => $displayName !== '' ? $displayName : null,
             'job_title_id' => $data['job_title_id'] ?? null,
             'employment_status_id' => $data['employment_status_id'] ?? null,
             'status' => 'active',
@@ -806,8 +826,8 @@ class PIMController extends Controller
             $firstName = $nameParts[0] ?? '';
             $middleName = isset($nameParts[1]) ? $nameParts[1] : null;
 
-            // Build display name
-            $displayName = trim($firstAndMiddleName . ' ' . $lastName);
+            // Auto-generate display_name from first_name, middle_name, and last_name
+            $displayName = $this->generateDisplayName($firstName, $middleName, $lastName);
 
             // Look up Job Title ID
             $jobTitleId = null;

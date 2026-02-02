@@ -6,7 +6,8 @@
     <x-main-layout title="Leave">
         <x-leave.tabs activeTab="leave-list" />
         
-        <!-- Leave List Section -->
+        <div class="space-y-6">
+        <!-- Leave List Search Section -->
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
                 <i class="fas fa-list-alt text-purple-500"></i> <span class="mt-0.5">Leave List</span>
@@ -65,6 +66,29 @@
                     <x-admin.action-buttons resetType="button" searchType="submit" />
                 </x-admin.search-panel>
             </form>
+        </section>
+
+        <!-- Leave List Table Section -->
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-list-alt text-purple-500"></i> Leave Records
+                </h2>
+                <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
+                    <button
+                        id="leave-delete-selected"
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
+                        onclick="openLeaveBulkDeleteModal()"
+                    >
+                        Delete Selected
+                    </button>
+                    <x-admin.add-button label="+ Assign" onClick="window.location.href='{{ route('leave.assign-leave') }}'" />
+                </div>
+            </div>
+
+            <!-- Records Count -->
+            <x-records-found :count="count($leaves ?? [])" />
             
             @if(count($leaves) === 0)
             <!-- No Records Found -->
@@ -149,6 +173,7 @@
             </div>
             @endif
         </section>
+        </div>
     </x-main-layout>
 
     <script>

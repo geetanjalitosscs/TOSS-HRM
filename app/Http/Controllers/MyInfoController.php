@@ -12,6 +12,20 @@ use Illuminate\Support\Facades\Schema;
 class MyInfoController extends Controller
 {
     /**
+     * Generate display name from first name, middle name, and last name
+     */
+    private function generateDisplayName(string $firstName, ?string $middleName, string $lastName): ?string
+    {
+        $displayName = trim(implode(' ', array_filter([
+            $firstName,
+            $middleName,
+            $lastName,
+        ])));
+        
+        return $displayName !== '' ? $displayName : null;
+    }
+
+    /**
      * Resolve current authenticated user and their employee_id.
      */
     private function resolveUserAndEmployee(): array
@@ -170,11 +184,7 @@ class MyInfoController extends Controller
         }
 
         // Build a friendly display name from parts
-        $displayName = trim(implode(' ', array_filter([
-            $data['first_name'] ?? null,
-            $data['middle_name'] ?? null,
-            $data['last_name'] ?? null,
-        ])));
+        $displayName = $this->generateDisplayName($data['first_name'], $data['middle_name'] ?? null, $data['last_name']);
 
         // Update employees table
         DB::table('employees')

@@ -6,7 +6,8 @@
     <x-main-layout title="Leave">
         <x-leave.tabs activeTab="my-leave" />
         
-        <!-- My Leave List Section -->
+        <div class="space-y-6">
+        <!-- My Leave Search Section -->
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
                 <i class="fas fa-calendar-check text-purple-500"></i> <span class="mt-0.5">My Leave List</span>
@@ -53,7 +54,21 @@
                     <x-admin.action-buttons resetType="button" searchType="submit" />
                 </x-admin.search-panel>
             </form>
-            
+        </section>
+
+        <!-- My Leave Table Section -->
+        <section class="hr-card p-6">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-calendar-alt text-purple-500"></i> My Leave History
+                </h2>
+                <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
+                    <x-admin.add-button label="+ Apply" onClick="window.location.href='{{ route('leave.apply') }}'" />
+                </div>
+            </div>
+
+            <!-- Records Count -->
+            <x-records-found :count="count($leaves ?? [])" />
             @if(isset($leaveBalances) && count($leaveBalances) > 0)
             <!-- Leave Balance Section -->
             <div class="mb-6 rounded-lg border p-4" style="background-color: var(--bg-hover); border-color: var(--border-default);">
@@ -144,6 +159,7 @@
             </div>
             @endif
         </section>
+        </div>
     </x-main-layout>
 
     <script>
