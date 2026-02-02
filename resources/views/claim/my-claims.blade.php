@@ -262,35 +262,36 @@
                                 
                                 <!-- Actions -->
                                 <div class="flex-shrink-0" style="width: 200px;">
-                                    <div class="flex items-center justify-center gap-2">
+                                    <div class="flex items-center justify-center gap-1">
                                         <button 
                                             type="button"
-                                            class="px-2 py-1 text-xs font-medium border rounded-lg transition-all my-claim-view-btn" 
+                                            class="p-1 text-xs font-medium border rounded transition-all my-claim-view-btn" 
                                             style="color: #a78bfa; border-color: #a78bfa; background-color: transparent;" 
-                                            onmouseover="this.style.backgroundColor='#ede9fe'; this.style.color='#7c3aed';" 
-                                            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#a78bfa';"
+                                            onmouseover="this.style.backgroundColor='#ede9fe'; this.style.color='#7c3aed'; this.title='View';" 
+                                            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#a78bfa'; this.title='';"
+                                            title="View"
                                         >
-                                            View
+                                            <i class="fas fa-eye text-xs"></i>
                                         </button>
                                         <form method="POST" action="{{ route('claim.cancel', $claim->id) }}" style="display: inline;">
                                             @csrf
                                             <input type="hidden" name="redirect_to" value="my-claims">
-                                            <button type="submit" class="px-2 py-1 text-xs font-medium border rounded-lg transition-all" style="color: #2563eb; border-color: #2563eb; background-color: transparent;" onmouseover="this.style.backgroundColor='#dbeafe'; this.style.color='#1e40af';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2563eb';">
-                                                Cancel
+                                            <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #2563eb; border-color: #2563eb; background-color: transparent;" onmouseover="this.style.backgroundColor='#dbeafe'; this.style.color='#1e40af'; this.title='Cancel';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2563eb'; this.title='';" title="Cancel">
+                                                <i class="fas fa-times text-xs"></i>
                                             </button>
                                         </form>
                                         <form method="POST" action="{{ route('claim.reject', $claim->id) }}" style="display: inline;">
                                             @csrf
                                             <input type="hidden" name="redirect_to" value="my-claims">
-                                            <button type="submit" class="px-2 py-1 text-xs font-medium border rounded-lg transition-all" style="color: #dc2626; border-color: #dc2626; background-color: transparent;" onmouseover="this.style.backgroundColor='#fee2e2'; this.style.color='#991b1b';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#dc2626';">
-                                                Reject
+                                            <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #dc2626; border-color: #dc2626; background-color: transparent;" onmouseover="this.style.backgroundColor='#fee2e2'; this.style.color='#991b1b'; this.title='Reject';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#dc2626'; this.title='';" title="Reject">
+                                                <i class="fas fa-times-circle text-xs"></i>
                                             </button>
                                         </form>
                                         <form method="POST" action="{{ route('claim.approve', $claim->id) }}" style="display: inline;">
                                             @csrf
                                             <input type="hidden" name="redirect_to" value="my-claims">
-                                            <button type="submit" class="px-2 py-1 text-xs font-medium border rounded-lg transition-all" style="color: #16a34a; border-color: #16a34a; background-color: transparent;" onmouseover="this.style.backgroundColor='#dcfce7'; this.style.color='#15803d';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#16a34a';">
-                                                Approve
+                                            <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #16a34a; border-color: #16a34a; background-color: transparent;" onmouseover="this.style.backgroundColor='#dcfce7'; this.style.color='#15803d'; this.title='Approve';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#16a34a'; this.title='';" title="Approve">
+                                                <i class="fas fa-check text-xs"></i>
                                             </button>
                                         </form>
                                     </div>
