@@ -124,8 +124,16 @@ This project follows enterprise-grade **MVC (Model-View-Controller)** architectu
    ```
 
 6. **Start the application**
-   ```bash
-   php artisan serve
+  ```bash
+   # Default port (8000)
+   `php artisan serve`
+
+   # Custom port example (e.g., 8001)
+   `php artisan serve --port=8001`
+   7. **Enable public access to uploaded files (storage link)**
+  
+   `php artisan storage:link`
+   The `@vite` directive automatically uses the pre-built assets from `public/build/`. All features will work perfectly!
    ```
 
 The `@vite` directive automatically uses the pre-built assets from `public/build/`. All features will work perfectly!
