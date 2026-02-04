@@ -37,13 +37,12 @@
         </div>
 
         <!-- Employee Claims Section -->
-        <div>
+        <div class="space-y-6">
+            <!-- Employee Claims Search Panel Card -->
             <section class="hr-card p-6">
-                <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
-                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fas fa-file-invoice-dollar text-purple-500"></i> Employee Claims
-                    </h2>
-                </div>
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
+                    <i class="fas fa-search text-purple-500"></i> Employee Claims
+                </h2>
 
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('claim') }}" id="claims-search-form">
@@ -112,13 +111,14 @@
                         </div>
                     </div>
                 </form>
+            </section>
 
-                <!-- Records Count -->
-                <x-records-found :count="count($claims)" />
-
-                <!-- Table Section Header -->
-                <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
-                    <div></div>
+            <!-- Employee Claims List Card -->
+            <section id="claims-table-section" class="hr-card p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-list text-purple-500"></i> Claims List
+                    </h2>
                     <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                         <button
                             id="claims-delete-selected"
@@ -138,8 +138,11 @@
                     </div>
                 </div>
 
+                <!-- Records Count -->
+                <x-records-found :count="count($claims)" />
+
                 <!-- Table Wrapper -->
-                <div id="claims-table-section" class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
+                <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
                     <!-- Table Header -->
                     <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                         <div class="flex-shrink-0" style="width: 24px;">
