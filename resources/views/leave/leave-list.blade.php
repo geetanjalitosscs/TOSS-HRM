@@ -124,7 +124,7 @@
                     <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Comments</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 200px;">
+                    <div class="flex-shrink-0" style="width: 120px;">
                         <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
                         </div>
                         
                         <!-- Actions -->
-                        <div class="flex-shrink-0" style="width: 200px;">
+                        <div class="flex-shrink-0" style="width: 120px;">
                             <div class="flex items-center justify-center gap-1">
                                 <form method="POST" action="{{ route('leave.cancel', $leave->id) }}" style="display: inline;">
                                     @csrf

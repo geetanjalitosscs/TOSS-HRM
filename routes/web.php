@@ -237,6 +237,7 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/my-info/attachments', [MyInfoController::class, 'storeAttachment'])->name('myinfo.attachments.store');
     Route::post('/my-info/attachments/{id}/update', [MyInfoController::class, 'updateAttachment'])->name('myinfo.attachments.update');
     Route::post('/my-info/attachments/{id}/delete', [MyInfoController::class, 'deleteAttachment'])->name('myinfo.attachments.delete');
+    Route::post('/my-info/attachments/bulk-delete', [MyInfoController::class, 'bulkDeleteAttachments'])->name('myinfo.attachments.bulk-delete');
     Route::get('/my-info/attachments/{id}/download', [MyInfoController::class, 'downloadAttachment'])->name('myinfo.attachments.download');
     Route::get('/my-info/contact-details', [MyInfoController::class, 'contactDetails'])->name('myinfo.contact-details');
     Route::post('/my-info/contact-details', [MyInfoController::class, 'updateContactDetails'])->name('myinfo.contact.update');

@@ -382,6 +382,62 @@ class MyInfoController extends Controller
     }
 
     /**
+     * Bulk delete attachments.
+     */
+    public function bulkDeleteAttachments(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+
+        $attachmentIds = $request->input('attachment_ids', '');
+        
+        if (empty($attachmentIds)) {
+            return redirect()->route('myinfo')->with('error', 'No attachments selected for deletion.');
+        }
+
+        // Handle comma-separated string
+        if (is_string($attachmentIds)) {
+            $attachmentIds = explode(',', $attachmentIds);
+        }
+
+        // Validate that all IDs are integers
+        $attachmentIds = array_map('intval', $attachmentIds);
+        $attachmentIds = array_filter($attachmentIds, function($id) {
+            return $id > 0;
+        });
+
+        if (empty($attachmentIds)) {
+            return redirect()->route('myinfo')->with('error', 'Invalid attachment IDs provided.');
+        }
+
+        // Get attachments to delete (only user's own attachments)
+        $attachments = DB::table('file_uploads')
+            ->whereIn('id', $attachmentIds)
+            ->where('uploaded_by', $userId)
+            ->get();
+
+        $deletedCount = 0;
+        foreach ($attachments as $attachment) {
+            // Delete file from storage
+            if (!empty($attachment->path) && Storage::exists($attachment->path)) {
+                Storage::delete($attachment->path);
+            }
+            
+            // Delete database record
+            DB::table('file_uploads')
+                ->where('id', $attachment->id)
+                ->delete();
+            
+            $deletedCount++;
+        }
+
+        if ($deletedCount > 0) {
+            return redirect()->route('myinfo')->with('status', "Successfully deleted {$deletedCount} attachment(s).");
+        } else {
+            return redirect()->route('myinfo')->with('error', 'No attachments found to delete.');
+        }
+    }
+
+    /**
      * Download an attachment file.
      */
     public function downloadAttachment(int $id)

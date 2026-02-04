@@ -225,16 +225,8 @@ function showAboutModal(event) {
                                     <span class="text-sm text-gray-900">${data.version}</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-sm font-medium text-gray-700">Active Employees:</span>
-                                    <span class="text-sm text-gray-900">${data.active_employees}</span>
-                                </div>
-                                <div class="flex justify-between">
                                     <span class="text-sm font-medium text-gray-700">Employees:</span>
                                     <span class="text-sm text-gray-900">${data.employees}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-sm font-medium text-gray-700">Terminated:</span>
-                                    <span class="text-sm text-gray-900">${data.terminated || ''}</span>
                                 </div>
                             </div>
                         </div>

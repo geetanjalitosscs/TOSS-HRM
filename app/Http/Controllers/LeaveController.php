@@ -494,7 +494,7 @@ class LeaveController extends Controller
             'start_date' => $request->from_date,
             'end_date' => $request->to_date,
             'total_days' => $totalDays,
-            'status' => 'approved', // Assigned leave is automatically approved
+            'status' => 'pending', // Assigned leave starts as pending
             'reason' => $request->reason ?? null,
             'applied_at' => now(),
             'created_at' => now(),

@@ -158,13 +158,23 @@
                     @csrf
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-sm font-bold text-slate-800">Attachments</h2>
-                        <button 
-                            type="button" 
-                            class="hr-btn-primary px-3 py-1.5 text-xs"
-                            onclick="openAddAttachmentModal()"
-                        >
-                            + Add
-                        </button>
+                        <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
+                            <button
+                                id="attachments-delete-selected"
+                                type="button"
+                                class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
+                                onclick="openAttachmentsBulkDeleteModal()"
+                            >
+                                Delete Selected
+                            </button>
+                            <button 
+                                type="button" 
+                                class="hr-btn-primary px-3 py-1.5 text-xs"
+                                onclick="openAddAttachmentModal()"
+                            >
+                                + Add
+                            </button>
+                        </div>
                     </div>
 
                     <x-records-found :count="count($attachments)" />
@@ -172,6 +182,12 @@
                     <!-- Table Header -->
                     <div class="bg-purple-50/50 rounded-t-lg border border-purple-100 border-b-0 px-2 py-1.5 mb-0">
                         <div class="flex items-center gap-1">
+                            <div class="flex-shrink-0" style="width: 24px;">
+                                <input type="checkbox"
+                                    id="attachments-master-checkbox"
+                                    class="rounded w-3.5 h-3.5"
+                                    style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                            </div>
                             <div class="flex-1" style="min-width: 0;">
                                 <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">File Name</span>
                             </div>
@@ -198,6 +214,12 @@
                         @foreach($attachments as $attachment)
                             <div id="attachment-row-{{ $attachment->id }}" class="hr-table-row border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);">
                                 <div class="flex items-center gap-1">
+                                    <div class="flex-shrink-0" style="width: 24px;">
+                                        <input type="checkbox"
+                                            class="attachments-row-checkbox rounded w-3.5 h-3.5"
+                                            data-attachment-id="{{ $attachment->id }}"
+                                            style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                                    </div>
                                     <div class="flex-1" style="min-width: 0;">
                                         <div class="text-xs text-slate-700 break-words">{{ $attachment->file_name }}</div>
                                     </div>
@@ -207,8 +229,8 @@
                                     <div class="flex-1" style="min-width: 0;">
                                         <div class="text-xs text-slate-700 break-words">{{ $attachment->size }}</div>
                                     </div>
-                                    <div class="text-xs text-slate-700 break-words" style="flex: 1; min-width: 0;">
-                                        {{ $attachment->type }}
+                                    <div class="flex-1" style="min-width: 0;">
+                                        <div class="text-xs text-slate-700 break-words">{{ $attachment->type }}</div>
                                     </div>
                                     <div class="flex-1" style="min-width: 0;">
                                         @if($attachment->date_only || $attachment->time_only)
@@ -421,6 +443,45 @@
         </div>
     </x-admin.modal>
 
+    <x-admin.modal
+        id="attachments-bulk-delete-modal"
+        title="Delete Selected Attachments"
+        icon="fas fa-trash-alt"
+        maxWidth="xs"
+        backdropOnClick="closeAttachmentsBulkDeleteModal()"
+    >
+        <div class="space-y-4">
+            <p class="text-xs" style="color: var(--text-primary);">
+                Are you sure you want to delete all selected attachments?
+            </p>
+            <form 
+                id="attachments-bulk-delete-form" 
+                method="POST" 
+                action="{{ route('myinfo.attachments.bulk-delete') }}"
+                style="display: none;"
+            >
+                @csrf
+                <input type="hidden" name="attachment_ids" id="attachments-bulk-delete-ids">
+            </form>
+            <div class="flex justify-end gap-2">
+                <button
+                    type="button"
+                    class="hr-btn-secondary px-4 py-1.5 text-xs"
+                    onclick="closeAttachmentsBulkDeleteModal()"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    class="hr-btn-primary px-4 py-1.5 text-xs"
+                    onclick="confirmAttachmentsBulkDelete()"
+                >
+                    Delete Selected
+                </button>
+            </div>
+        </div>
+    </x-admin.modal>
+
     <script>
         function openAddAttachmentModal() {
             const modal = document.getElementById('attachment-add-modal');
@@ -493,8 +554,45 @@
                 closeDeleteAttachmentModal();
                 return;
             }
-            const form = document.getElementById('attachment-delete-form-' + pendingDeleteAttachmentId);
+            
+            // Create and submit form dynamically
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/my-info/attachments/' + pendingDeleteAttachmentId + '/delete';
+            form.style.display = 'none';
+            
+            // Add CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (csrfToken) {
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = csrfToken.getAttribute('content');
+                form.appendChild(csrfInput);
+            }
+            
+            document.body.appendChild(form);
             closeDeleteAttachmentModal();
+            form.submit();
+        }
+
+        // Bulk Delete Functions
+        function openAttachmentsBulkDeleteModal() {
+            const checkboxes = document.querySelectorAll('.attachments-row-checkbox:checked');
+            const ids = Array.from(checkboxes).map(cb => cb.dataset.attachmentId);
+            
+            if (ids.length === 0) return;
+            
+            document.getElementById('attachments-bulk-delete-ids').value = ids.join(',');
+            document.getElementById('attachments-bulk-delete-modal').classList.remove('hidden');
+        }
+
+        function closeAttachmentsBulkDeleteModal() {
+            document.getElementById('attachments-bulk-delete-modal').classList.add('hidden');
+        }
+
+        function confirmAttachmentsBulkDelete() {
+            const form = document.getElementById('attachments-bulk-delete-form');
             if (form) {
                 form.submit();
             }
@@ -517,5 +615,48 @@
                 }
             }
         });
+
+        // Checkbox functionality
+        const masterCheckbox = document.getElementById('attachments-master-checkbox');
+        const rowCheckboxes = document.querySelectorAll('.attachments-row-checkbox');
+        const deleteButton = document.getElementById('attachments-delete-selected');
+
+        if (masterCheckbox) {
+            masterCheckbox.addEventListener('change', function() {
+                rowCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                updateDeleteButtonVisibility();
+            });
+        }
+
+        rowCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateMasterCheckboxState();
+                updateDeleteButtonVisibility();
+            });
+        });
+
+        function updateMasterCheckboxState() {
+            const totalCheckboxes = rowCheckboxes.length;
+            const checkedCheckboxes = document.querySelectorAll('.attachments-row-checkbox:checked').length;
+            
+            if (masterCheckbox) {
+                masterCheckbox.checked = totalCheckboxes > 0 && checkedCheckboxes === totalCheckboxes;
+            }
+        }
+
+        function updateDeleteButtonVisibility() {
+            const checkedCount = document.querySelectorAll('.attachments-row-checkbox:checked').length;
+            if (deleteButton) {
+                if (checkedCount > 0) {
+                    deleteButton.classList.remove('hidden');
+                } else {
+                    deleteButton.classList.add('hidden');
+                }
+            }
+        }
+
+        updateDeleteButtonVisibility();
     </script>
 @endsection
