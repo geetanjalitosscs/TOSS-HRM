@@ -20,6 +20,7 @@ class DirectoryController extends Controller
             ->leftJoin('organization_units', 'employees.organization_unit_id', '=', 'organization_units.id')
             ->select(
                 'employees.id',
+                'employees.photo_path', // Add photo_path column
                 DB::raw("COALESCE(employees.display_name, CONCAT(employees.first_name, ' ', employees.last_name)) as name"),
                 'job_titles.name as job_title',
                 'organization_units.name as department'
@@ -70,12 +71,12 @@ class DirectoryController extends Controller
             return null;
         }
 
-        $col = $this->getEmployeePhotoColumn();
-        if ($col && !empty($employee->{$col})) {
-            return asset('storage/' . ltrim((string) $employee->{$col}, '/'));
+        // Check photo_path column first
+        if (!empty($employee->photo_path)) {
+            return asset('storage/' . ltrim((string) $employee->photo_path, '/'));
         }
 
-        // Fallback: if we stored a file without DB column, try common paths
+        // Fallback: try common file paths
         foreach (['jpg', 'jpeg', 'png', 'gif', 'webp'] as $ext) {
             $path = "employee_photos/{$employeeId}.{$ext}";
             if (Storage::disk('public')->exists($path)) {

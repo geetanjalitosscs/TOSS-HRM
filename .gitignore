@@ -22,3 +22,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Allow employee photos but ignore other storage files
+!/storage/app/public/employee_photos/
+/storage/app/public/employee_photos/.gitkeep
