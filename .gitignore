@@ -18,6 +18,8 @@
 /public/storage
 /storage/*.key
 /storage/pail
+!/storage/app/private/private/
+!/storage/app/public/employee_photos/
 /vendor
 Homestead.json
 Homestead.yaml
