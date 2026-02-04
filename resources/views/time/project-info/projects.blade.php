@@ -125,7 +125,7 @@
 
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('time.project-info.projects') }}" id="project-search-form">
-                    <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
+                    <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
                         <div class="flex gap-4 mb-3">
                             <!-- Customer Name -->
                             <div class="flex-1">

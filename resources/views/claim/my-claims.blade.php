@@ -46,7 +46,7 @@
 
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('claim.my-claims') }}" id="my-claims-search-form">
-                    <div class="rounded-lg p-4 mb-4 border" style="background-color: var(--color-hr-primary-light); border-color: var(--border-default);">
+                    <div class="rounded-lg p-4 mb-4" style="background-color: var(--bg-card);">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
                             <div>
                                 <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Reference Id</label>

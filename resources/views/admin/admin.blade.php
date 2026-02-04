@@ -17,7 +17,7 @@
 
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('admin') }}" id="user-search-form">
-                    <div class="rounded-lg p-3 mb-3 border border-purple-100" style="background-color: var(--bg-hover);">
+                    <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Username</label>

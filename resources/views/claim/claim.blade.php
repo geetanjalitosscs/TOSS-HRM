@@ -47,7 +47,7 @@
 
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('claim') }}" id="claims-search-form">
-                    <div class="rounded-lg p-3 mb-3 border" style="background-color: var(--color-hr-primary-light); border-color: var(--border-default);">
+                    <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                             <div>
                                 <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name</label>
