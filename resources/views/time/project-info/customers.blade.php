@@ -196,8 +196,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-1" style="min-width: 100px;">
-                                    <div class="text-xs break-words" style="color: var(--text-primary);">
-                                        {{ $customer->description ?: '-' }}
+                            <div class="text-xs break-words" style="color: var(--text-primary);">
+                                {{ $customer->description ?: '-' }}
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0" style="width: 80px;">
@@ -440,7 +440,7 @@
                     if (form) {
                         form.action = customerEditUrlTemplate.replace('__ID__', id);
                     }
-
+                    
                     m.classList.remove('hidden');
                 }
 
@@ -535,8 +535,8 @@
                             deleteBtn.classList.remove('hidden');
                         } else {
                             deleteBtn.classList.add('hidden');
-                        }
-                    }
+                                }
+                            }
 
                     if (masterCheckbox && allCheckboxes.length > 0) {
                         if (checkedCount === allCheckboxes.length) {

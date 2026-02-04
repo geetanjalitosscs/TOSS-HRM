@@ -676,6 +676,31 @@ class MyInfoController extends Controller
             ->with('status', 'Contact deleted.');
     }
 
+    /**
+     * Bulk delete emergency contacts for current employee.
+     */
+    public function bulkDeleteEmergencyContacts(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+
+        $idsString = $request->input('contact_ids', '');
+        $ids = collect(explode(',', $idsString))
+            ->map(fn ($id) => (int) trim($id))
+            ->filter(fn ($id) => $id > 0)
+            ->values()
+            ->all();
+
+        if (!empty($ids)) {
+            DB::table('employee_emergency_contacts')
+                ->where('employee_id', $employeeId)
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('myinfo.emergency-contacts')
+            ->with('status', 'Selected emergency contacts deleted.');
+    }
+
     public function dependents()
     {
         $authUser = session('auth_user');
@@ -1322,6 +1347,113 @@ class MyInfoController extends Controller
 
         return redirect()->route('myinfo.qualifications')
             ->with('status', 'License deleted.');
+    }
+
+    /**
+     * Bulk delete work experience records.
+     */
+    public function bulkDeleteWorkExperience(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+
+        $ids = $this->parseBulkIds($request->input('ids', ''));
+        if (!empty($ids)) {
+            DB::table('employee_work_experience')
+                ->where('employee_id', $employeeId)
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('myinfo.qualifications')
+            ->with('status', 'Selected work experience records deleted.');
+    }
+
+    /**
+     * Bulk delete education records.
+     */
+    public function bulkDeleteEducation(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+
+        $ids = $this->parseBulkIds($request->input('ids', ''));
+        if (!empty($ids)) {
+            DB::table('employee_education')
+                ->where('employee_id', $employeeId)
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('myinfo.qualifications')
+            ->with('status', 'Selected education records deleted.');
+    }
+
+    /**
+     * Bulk delete skills.
+     */
+    public function bulkDeleteSkills(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+
+        $ids = $this->parseBulkIds($request->input('ids', ''));
+        if (!empty($ids)) {
+            DB::table('employee_skills')
+                ->where('employee_id', $employeeId)
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('myinfo.qualifications')
+            ->with('status', 'Selected skills deleted.');
+    }
+
+    /**
+     * Bulk delete languages.
+     */
+    public function bulkDeleteLanguages(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+
+        $ids = $this->parseBulkIds($request->input('ids', ''));
+        if (!empty($ids)) {
+            DB::table('employee_languages')
+                ->where('employee_id', $employeeId)
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('myinfo.qualifications')
+            ->with('status', 'Selected languages deleted.');
+    }
+
+    /**
+     * Bulk delete licenses.
+     */
+    public function bulkDeleteLicenses(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+
+        $ids = $this->parseBulkIds($request->input('ids', ''));
+        if (!empty($ids)) {
+            DB::table('employee_licenses')
+                ->where('employee_id', $employeeId)
+                ->whereIn('id', $ids)
+                ->delete();
+        }
+
+        return redirect()->route('myinfo.qualifications')
+            ->with('status', 'Selected licenses deleted.');
+    }
+
+    /**
+     * Helper to parse comma-separated IDs for bulk delete.
+     */
+    private function parseBulkIds(string $idsString): array
+    {
+        return collect(explode(',', $idsString))
+            ->map(fn ($id) => (int) trim($id))
+            ->filter(fn ($id) => $id > 0)
+            ->values()
+            ->all();
     }
 
     // Qualification Attachments CRUD

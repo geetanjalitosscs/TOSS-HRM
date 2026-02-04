@@ -9,7 +9,7 @@
         <div class="hr-logo-icon">T</div>
         <div class="ml-3 sidebar-logo-text">
             <div class="text-sm font-bold text-slate-800 tracking-tight">TOAI HR Suite</div>
-            <div class="text-[10px] text-purple-500 font-medium">Professional Edition</div>
+            <div class="text-[10px] text-purple-500 font-medium">New Edition</div>
         </div>
         
         <!-- Sidebar Toggle Button (kept inside logo row to avoid overlap) -->

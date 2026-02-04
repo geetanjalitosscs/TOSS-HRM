@@ -22,7 +22,7 @@
                         <p class="text-xs text-slate-500 mb-4">Active workforce across all departments</p>
                         <div class="mt-auto pt-4 border-t border-purple-100">
                             <div class="flex justify-center">
-                                <a href="{{ route('pim.employee-list') }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-purple-600 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg hover:shadow-md hover:scale-105 transition-all duration-200 shadow-sm">
+                                <a href="{{ route('pim.employee-list') }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-purple-500 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg hover:shadow-md hover:scale-105 transition-all duration-200 shadow-sm">
                                     <i class="fas fa-users"></i>
                                     View Employee List
                                     <i class="fas fa-arrow-right text-[10px]"></i>
