@@ -90,6 +90,73 @@ class LeaveController extends Controller
         return redirect()->route('leave.leave-list')->with('success', 'Leave application submitted successfully.');
     }
 
+    /**
+     * Calculate monthly leave balance with carry-forward logic
+     * Rules: leaves per month based on max_per_year/12, unused leaves carry forward
+     * Only counts APPROVED leaves, returns integers
+     * Format: remaining/unpaid (e.g., 2/0, 0/-1, 0/-2)
+     */
+    private function calculateMonthlyBalance($employeeId, $leaveTypeId)
+    {
+        $today = Carbon::today();
+        $currentYear = $today->year;
+        $currentMonth = $today->month;
+        
+        // Get leave type to determine monthly allocation
+        $leaveType = DB::table('leave_types')
+            ->where('id', $leaveTypeId)
+            ->first();
+            
+        if (!$leaveType) {
+            return '0/0'; // Default if leave type not found
+        }
+        
+        // Calculate monthly allocation based on max_per_year
+        $maxPerYear = $leaveType->max_per_year ?? 12; // Default to 12 if not set
+        $monthlyAllocation = (int)($maxPerYear / 12); // Convert to integer
+        
+        // Calculate cumulative balance from month 1 to current month
+        $cumulativeBalance = 0;
+        
+        for ($month = 1; $month <= $currentMonth; $month++) {
+            // Add monthly allocation
+            $cumulativeBalance += $monthlyAllocation;
+            
+            // Get total days taken in this month - ONLY APPROVED LEAVES
+            $daysTakenInMonth = DB::table('leave_applications')
+                ->where('employee_id', $employeeId)
+                ->where('leave_type_id', $leaveTypeId)
+                ->where('status', 'approved') // Only count approved leaves
+                ->whereYear('start_date', $currentYear)
+                ->whereMonth('start_date', $month)
+                ->sum('total_days');
+            
+            $daysTakenInMonth = (int)($daysTakenInMonth ?? 0); // Ensure integer
+            
+            // Subtract days taken from cumulative balance
+            $cumulativeBalance -= $daysTakenInMonth;
+        }
+        
+        // Calculate remaining and unpaid from cumulative balance
+        if ($cumulativeBalance >= 0) {
+            // Positive or zero: all are remaining, no unpaid
+            $remaining = $cumulativeBalance;
+            $unpaid = 0;
+        } else {
+            // Negative: no remaining, all are unpaid
+            $remaining = 0;
+            $unpaid = $cumulativeBalance; // Will be negative
+        }
+        
+        // Format: remaining/unpaid
+        // Examples for 24/year (2/month): 
+        // Month 1: No leave taken → 2/0
+        // Month 2: Take 2 leaves → 2/0 (2 carried from month 1 + 2 from month 2 - 2 taken = 2 remaining)
+        // Month 2: Take 4 leaves → 0/0 (2 carried + 2 from month 2 - 4 taken = 0 remaining)
+        // Month 2: Take 5 leaves → 0/-1 (2 carried + 2 from month 2 - 5 taken = -1 unpaid)
+        return $remaining . '/' . $unpaid;
+    }
+
     public function myLeave(Request $request)
     {
         // Get current logged-in user's employee_id
@@ -248,36 +315,8 @@ class LeaveController extends Controller
             
             // Check if monthly calculation is enabled
             if ($calculateMonthly == 1) {
-                // Convert yearly to monthly: max_per_year / 12 = leaves per month
-                $leavesPerMonth = $maxPerYear / 12;
-                $monthlyAllocation = round($leavesPerMonth, 2); // e.g., 12/12 = 1
-                
-                $today = Carbon::today();
-                $currentYear = $today->year;
-                $currentMonth = $today->month;
-                
-                // Calculate monthly balance with carry-forward logic
-                $remaining = 0;
-                $monthlyBalance = 0; // Track cumulative balance month by month
-                
-                for ($month = 1; $month <= $currentMonth; $month++) {
-                    // Get total days taken in this month
-                    $daysTakenInMonth = DB::table('leave_applications')
-                        ->where('employee_id', $leave->employee_id)
-                        ->where('leave_type_id', $leave->leave_type_id)
-                        ->where('status', '!=', 'cancelled')
-                        ->whereYear('start_date', $currentYear)
-                        ->whereMonth('start_date', $month)
-                        ->sum('total_days');
-                    
-                    // Add monthly allocation and subtract days taken
-                    $monthlyBalance += $monthlyAllocation - $daysTakenInMonth;
-                }
-                
-                $remaining = $monthlyBalance;
-                
-                // Format as "total/remaining" (e.g., "10/3" or "5/2")
-                $leave->leave_balance = number_format((float)$maxPerYear, 0, '.', '') . '/' . number_format((float)$remaining, 0, '.', '');
+                // Use new monthly calculation: current month only, no carry forward
+                $leave->leave_balance = $this->calculateMonthlyBalance($leave->employee_id, $leave->leave_type_id);
             } else {
                 // Yearly calculation
                 $totalTaken = DB::table('leave_applications')
@@ -384,44 +423,8 @@ class LeaveController extends Controller
             
             // Check if monthly calculation is enabled
             if ($calculateMonthly == 1) {
-                // Convert yearly to monthly: max_per_year / 12 = leaves per month
-                $leavesPerMonth = $maxPerYear / 12;
-                $monthlyAllocation = round($leavesPerMonth, 2); // e.g., 12/12 = 1
-                
-                $today = Carbon::today();
-                $currentYear = $today->year;
-                $currentMonth = $today->month;
-                
-                // Calculate monthly balance with carry-forward logic
-                $remaining = 0;
-                $monthlyBalance = 0; // Track cumulative balance month by month
-                
-                for ($month = 1; $month <= $currentMonth; $month++) {
-                    // Get total days taken in this month
-                    $daysTakenInMonth = DB::table('leave_applications')
-                        ->where('employee_id', $leave->employee_id)
-                        ->where('leave_type_id', $leave->leave_type_id)
-                        ->where('status', '!=', 'cancelled')
-                        ->whereYear('start_date', $currentYear)
-                        ->whereMonth('start_date', $month)
-                        ->sum('total_days');
-                    $daysTakenInMonth = $daysTakenInMonth ?? 0;
-                    
-                    // Add monthly allocation (1 leave per month)
-                    $monthlyBalance += $leavesPerMonth;
-                    
-                    // Subtract days taken in this month
-                    $monthlyBalance -= $daysTakenInMonth;
-                    
-                    // If balance goes negative, it carries forward to next month
-                    // Next month's allocation will be reduced by the negative balance
-                }
-                
-                // Final remaining balance (can be negative if overused)
-                $remaining = round($monthlyBalance, 2);
-                
-                // Format as "monthly_allocation/remaining" (e.g., "1/-2" instead of "12/-1")
-                $leave->leave_balance = number_format((float)$monthlyAllocation, 0, '.', '') . '/' . number_format((float)$remaining, 0, '.', '');
+                // Use new monthly calculation: current month only, no carry forward
+                $leave->leave_balance = $this->calculateMonthlyBalance($leave->employee_id, $leave->leave_type_id);
             } else {
                 // For Sick Leave and Annual Leave: simple total - taken calculation
                 $totalTaken = DB::table('leave_applications')
@@ -526,27 +529,14 @@ class LeaveController extends Controller
         $isAnnualLeave = $leaveType->name === 'Annual Leave';
 
         if ($isCasualLeave || $isAnnualLeave) {
-            // Calculate month-by-month balance
-            $today = Carbon::today();
-            $currentYear = $today->year;
-            $currentMonth = $today->month;
-
-            $balance = 0;
-            for ($month = 1; $month <= $currentMonth; $month++) {
-                $hasLeaveInMonth = DB::table('leave_applications')
-                    ->where('employee_id', $employeeId)
-                    ->where('leave_type_id', $leaveTypeId)
-                    ->where('status', '!=', 'cancelled')
-                    ->whereYear('start_date', $currentYear)
-                    ->whereMonth('start_date', $month)
-                    ->exists();
-
-                if (!$hasLeaveInMonth) {
-                    $balance += 1; // 1 leave per month if not taken
-                }
-            }
-
-            return response()->json(['balance' => $balance]);
+            // Use new monthly calculation: current month only, no carry forward
+            $balance = $this->calculateMonthlyBalance($employeeId, $leaveTypeId);
+            
+            // Extract remaining part from "taken/remaining" format
+            $parts = explode('/', $balance);
+            $remainingBalance = isset($parts[1]) ? (int)$parts[1] : 0;
+            
+            return response()->json(['balance' => $remainingBalance]);
         } else {
             // Use max_per_year from leave_types for other leave types
             $entitlement = DB::table('leave_entitlements')
@@ -1040,6 +1030,9 @@ class LeaveController extends Controller
     public function cancelLeave($id)
     {
         try {
+            // Get leave details before updating for recalculation
+            $leave = DB::table('leave_applications')->where('id', $id)->first();
+            
             $updated = DB::table('leave_applications')
                 ->where('id', $id)
                 ->update([
@@ -1047,9 +1040,11 @@ class LeaveController extends Controller
                     'updated_at' => now()
                 ]);
 
-            if ($updated) {
+            if ($updated && $leave) {
+                // Real-time balance recalculation triggered by status change
+                // The calculateMonthlyBalance will automatically reflect the cancelled leave (no longer counted)
                 return redirect()->back()
-                    ->with('status', 'Leave application cancelled successfully.');
+                    ->with('status', 'Leave application cancelled successfully. Balance updated.');
             } else {
                 return redirect()->back()
                     ->with('error', 'Leave application not found.');
@@ -1066,6 +1061,9 @@ class LeaveController extends Controller
     public function rejectLeave($id)
     {
         try {
+            // Get leave details before updating for recalculation
+            $leave = DB::table('leave_applications')->where('id', $id)->first();
+            
             $updated = DB::table('leave_applications')
                 ->where('id', $id)
                 ->update([
@@ -1073,9 +1071,11 @@ class LeaveController extends Controller
                     'updated_at' => now()
                 ]);
 
-            if ($updated) {
+            if ($updated && $leave) {
+                // Real-time balance recalculation triggered by status change
+                // The calculateMonthlyBalance will automatically reflect the rejected leave (no longer counted)
                 return redirect()->back()
-                    ->with('status', 'Leave application rejected successfully.');
+                    ->with('status', 'Leave application rejected successfully. Balance updated.');
             } else {
                 return redirect()->back()
                     ->with('error', 'Leave application not found.');
@@ -1092,6 +1092,9 @@ class LeaveController extends Controller
     public function approveLeave($id)
     {
         try {
+            // Get leave details before updating for recalculation
+            $leave = DB::table('leave_applications')->where('id', $id)->first();
+            
             $updated = DB::table('leave_applications')
                 ->where('id', $id)
                 ->update([
@@ -1099,9 +1102,11 @@ class LeaveController extends Controller
                     'updated_at' => now()
                 ]);
 
-            if ($updated) {
+            if ($updated && $leave) {
+                // Real-time balance recalculation triggered by status change
+                // The calculateMonthlyBalance will automatically reflect the new approved leave
                 return redirect()->back()
-                    ->with('status', 'Leave application approved successfully.');
+                    ->with('status', 'Leave application approved successfully. Balance updated.');
             } else {
                 return redirect()->back()
                     ->with('error', 'Leave application not found.');
