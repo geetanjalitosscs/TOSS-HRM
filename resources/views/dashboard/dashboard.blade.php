@@ -90,7 +90,7 @@
                         <p class="text-xs text-slate-500 mb-4">Employees currently on leave</p>
                         <div class="mt-auto pt-4 border-t border-purple-100">
                             @if($employeesOnLeave->count() > 0)
-                                <div class="space-y-2 max-h-32 overflow-y-auto">
+                                <div class="space-y-2 max-h-32 overflow-y-auto employee-leave-scrollbar">
                                     @foreach($employeesOnLeave as $leave)
                                         <div class="flex items-start gap-2 p-2 rounded-lg hover:bg-purple-50 transition-all">
                                             <div class="flex-1">
