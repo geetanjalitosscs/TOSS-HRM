@@ -739,7 +739,7 @@ We welcome contributions to the TOAI HR Suite! Please follow these guidelines:
 **TOAI HR Suite - New Edition**
 *Enterprise-grade Human Resource Management System*
 
-For support and inquiries, please visit our [GitHub Repository](https://github.com/your-org/toai-hrm).
+For support and inquiries, please visit our [GitHub Repository](https://github.com/your-org/toss-hrm).
 
 
 
