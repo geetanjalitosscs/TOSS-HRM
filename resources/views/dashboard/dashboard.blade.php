@@ -148,8 +148,8 @@
                                             <p class="text-xs font-medium transition-colors duration-200" style="color: var(--text-secondary);">On Leave Today</p>
                                             <p class="text-lg font-bold mt-1 transition-colors duration-200" style="color: var(--text-primary);">{{ $employeesOnLeave->count() }}</p>
                                         </div>
-                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105">
-                                            <i class="fas fa-calendar-check text-blue-600"></i>
+                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105">
+                                            <i class="fas fa-calendar-check text-purple-600"></i>
                                         </div>
                                     </div>
                                 </a>
