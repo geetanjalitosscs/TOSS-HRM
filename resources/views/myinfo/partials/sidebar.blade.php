@@ -1,5 +1,5 @@
 <!-- Left Sidebar - Sub Navigation -->
-<aside class="w-64 flex-shrink-0 mr-6 flex flex-col">
+<aside class="w-64 flex-shrink-0 mr-6 flex flex-col sticky top-0 h-screen" style="height: calc(100vh - 2rem);">
     <!-- User Profile Section -->
     <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
         <h2 class="text-sm font-bold text-slate-800 mb-2">
