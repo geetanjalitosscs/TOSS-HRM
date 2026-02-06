@@ -10,7 +10,7 @@
             <!-- Right Content Area -->
             <div class="flex-1 space-y-6">
                 <!-- Work Experience Section -->
-                <section class="hr-card p-6">
+                <section id="work-experience-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                             <i class="fas fa-briefcase text-purple-500"></i> Work Experience
@@ -123,7 +123,7 @@
                 </section>
 
                 <!-- Education Section -->
-                <section class="hr-card p-6">
+                <section id="education-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                             <i class="fas fa-graduation-cap text-purple-500"></i> Education
@@ -240,7 +240,7 @@
                 </section>
 
                 <!-- Skills Section -->
-                <section class="hr-card p-6">
+                <section id="skills-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                             <i class="fas fa-tools text-purple-500"></i> Skills
@@ -338,7 +338,7 @@
                 </section>
 
                 <!-- Languages Section -->
-                <section class="hr-card p-6">
+                <section id="languages-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                             <i class="fas fa-language text-purple-500"></i> Languages
@@ -445,7 +445,7 @@
                 </section>
 
                 <!-- License Section -->
-                <section class="hr-card p-6">
+                <section id="licenses-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                             <i class="fas fa-id-card text-purple-500"></i> License
@@ -1565,4 +1565,17 @@
             <button type="button" class="hr-btn-secondary px-4 py-1.5 text-xs" onclick="closeEducationViewModal()">Close</button>
         </div>
     </x-admin.modal>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(session('scroll_section'))
+                const section = document.getElementById('{{ session('scroll_section') }}');
+                if (section) {
+                    setTimeout(() => {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            @endif
+        });
+    </script>
 @endsection

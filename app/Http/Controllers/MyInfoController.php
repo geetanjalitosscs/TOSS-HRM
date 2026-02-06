@@ -1166,7 +1166,10 @@ class MyInfoController extends Controller
         ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Work experience added successfully.');
+            ->with([
+                'status' => 'Work experience added successfully.',
+                'scroll_section' => 'work-experience-section',
+            ]);
     }
 
     public function updateWorkExperience(Request $request, $id)
@@ -1203,7 +1206,10 @@ class MyInfoController extends Controller
             ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Work experience updated successfully.');
+            ->with([
+                'status' => 'Work experience updated successfully.',
+                'scroll_section' => 'work-experience-section',
+            ]);
     }
 
     public function deleteWorkExperience($id)
@@ -1220,7 +1226,10 @@ class MyInfoController extends Controller
         }
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Work experience deleted.');
+            ->with([
+                'status' => 'Work experience deleted.',
+                'scroll_section' => 'work-experience-section',
+            ]);
     }
 
     // Education CRUD
@@ -1252,7 +1261,10 @@ class MyInfoController extends Controller
         ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Education added successfully.');
+            ->with([
+                'status' => 'Education added successfully.',
+                'scroll_section' => 'education-section',
+            ]);
     }
 
     public function updateEducation(Request $request, $id)
@@ -1293,7 +1305,10 @@ class MyInfoController extends Controller
             ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Education updated successfully.');
+            ->with([
+                'status' => 'Education updated successfully.',
+                'scroll_section' => 'education-section',
+            ]);
     }
 
     public function deleteEducation($id)
@@ -1310,7 +1325,10 @@ class MyInfoController extends Controller
         }
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Education deleted.');
+            ->with([
+                'status' => 'Education deleted.',
+                'scroll_section' => 'education-section',
+            ]);
     }
 
     // Skills CRUD
@@ -1334,7 +1352,10 @@ class MyInfoController extends Controller
         ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Skill added successfully.');
+            ->with([
+                'status' => 'Skill added successfully.',
+                'scroll_section' => 'skills-section',
+            ]);
     }
 
     public function updateSkill(Request $request, $id)
@@ -1367,7 +1388,10 @@ class MyInfoController extends Controller
             ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Skill updated successfully.');
+            ->with([
+                'status' => 'Skill updated successfully.',
+                'scroll_section' => 'skills-section',
+            ]);
     }
 
     public function deleteSkill($id)
@@ -1384,7 +1408,10 @@ class MyInfoController extends Controller
         }
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Skill deleted.');
+            ->with([
+                'status' => 'Skill deleted.',
+                'scroll_section' => 'skills-section',
+            ]);
     }
 
     // Languages CRUD
@@ -1410,7 +1437,10 @@ class MyInfoController extends Controller
         ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Language added successfully.');
+            ->with([
+                'status' => 'Language added successfully.',
+                'scroll_section' => 'languages-section',
+            ]);
     }
 
     public function updateLanguage(Request $request, $id)
@@ -1445,7 +1475,10 @@ class MyInfoController extends Controller
             ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Language updated successfully.');
+            ->with([
+                'status' => 'Language updated successfully.',
+                'scroll_section' => 'languages-section',
+            ]);
     }
 
     public function deleteLanguage($id)
@@ -1462,7 +1495,10 @@ class MyInfoController extends Controller
         }
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'Language deleted.');
+            ->with([
+                'status' => 'Language deleted.',
+                'scroll_section' => 'languages-section',
+            ]);
     }
 
     // Licenses CRUD
@@ -1488,7 +1524,10 @@ class MyInfoController extends Controller
         ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'License added successfully.');
+            ->with([
+                'status' => 'License added successfully.',
+                'scroll_section' => 'licenses-section',
+            ]);
     }
 
     public function updateLicense(Request $request, $id)
@@ -1523,7 +1562,10 @@ class MyInfoController extends Controller
             ]);
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'License updated successfully.');
+            ->with([
+                'status' => 'License updated successfully.',
+                'scroll_section' => 'licenses-section',
+            ]);
     }
 
     public function deleteLicense($id)
@@ -1540,7 +1582,10 @@ class MyInfoController extends Controller
         }
 
         return redirect()->route('myinfo.qualifications')
-            ->with('status', 'License deleted.');
+            ->with([
+                'status' => 'License deleted.',
+                'scroll_section' => 'licenses-section',
+            ]);
     }
 
     /**

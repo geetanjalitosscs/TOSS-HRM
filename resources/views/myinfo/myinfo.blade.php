@@ -212,7 +212,7 @@
                     <!-- Table Rows -->
                     <div class="border border-purple-100 border-t-0 rounded-b-lg" style="overflow: visible;">
                         @foreach($attachments as $attachment)
-                            <div id="attachment-row-{{ $attachment->id }}" class="hr-table-row border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);">
+                            <div id="attachment-row-{{ $attachment->id }}" data-attachment-id="{{ $attachment->id }}" class="hr-table-row border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);">
                                 <div class="flex items-center gap-1">
                                     <div class="flex-shrink-0" style="width: 24px;">
                                         <input type="checkbox"
@@ -614,50 +614,72 @@
                 var row = document.getElementById('attachment-row-' + targetId);
                 if (row && typeof row.scrollIntoView === 'function') {
                     row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Highlight the attachment row
+                    row.style.backgroundColor = 'var(--color-hr-primary)';
+                    row.style.transition = 'background-color 1s ease';
+                    setTimeout(() => {
+                        row.style.backgroundColor = 'var(--bg-card)';
+                    }, 2000);
                 }
             }
-        });
 
-        // Checkbox functionality
-        const masterCheckbox = document.getElementById('attachments-master-checkbox');
-        const rowCheckboxes = document.querySelectorAll('.attachments-row-checkbox');
-        const deleteButton = document.getElementById('attachments-delete-selected');
+            // Initialize checkbox functionality
+            const masterCheckbox = document.getElementById('attachments-master-checkbox');
+            const rowCheckboxes = document.querySelectorAll('.attachments-row-checkbox');
+            const deleteButton = document.getElementById('attachments-delete-selected');
 
-        if (masterCheckbox) {
-            masterCheckbox.addEventListener('change', function() {
-                rowCheckboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                });
-                updateDeleteButtonVisibility();
-            });
-        }
-
-        rowCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                updateMasterCheckboxState();
-                updateDeleteButtonVisibility();
-            });
-        });
-
-        function updateMasterCheckboxState() {
-            const totalCheckboxes = rowCheckboxes.length;
-            const checkedCheckboxes = document.querySelectorAll('.attachments-row-checkbox:checked').length;
-            
             if (masterCheckbox) {
-                masterCheckbox.checked = totalCheckboxes > 0 && checkedCheckboxes === totalCheckboxes;
+                masterCheckbox.addEventListener('change', function() {
+                    rowCheckboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateDeleteButtonVisibility();
+                });
             }
-        }
 
-        function updateDeleteButtonVisibility() {
-            const checkedCount = document.querySelectorAll('.attachments-row-checkbox:checked').length;
-            if (deleteButton) {
-                if (checkedCount > 0) {
-                    deleteButton.classList.remove('hidden');
-                } else {
-                    deleteButton.classList.add('hidden');
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateMasterCheckboxState();
+                    updateDeleteButtonVisibility();
+                });
+            });
+
+            function updateMasterCheckboxState() {
+                const totalCheckboxes = rowCheckboxes.length;
+                const checkedCheckboxes = document.querySelectorAll('.attachments-row-checkbox:checked').length;
+                
+                if (masterCheckbox) {
+                    masterCheckbox.checked = totalCheckboxes > 0 && checkedCheckboxes === totalCheckboxes;
                 }
             }
-        }
 
-        updateDeleteButtonVisibility();
+            function updateDeleteButtonVisibility() {
+                const checkedCount = document.querySelectorAll('.attachments-row-checkbox:checked').length;
+                if (deleteButton) {
+                    if (checkedCount > 0) {
+                        deleteButton.classList.remove('hidden');
+                    } else {
+                        deleteButton.classList.add('hidden');
+                    }
+                }
+            }
+
+            updateDeleteButtonVisibility();
+        });
+
+        // Scroll to attachment section if needed
+        @if(session('scroll_to_attachment'))
+            const attachmentSection = document.querySelector('[data-attachment-id="{{ session('scroll_to_attachment') }}"]');
+            if (attachmentSection) {
+                setTimeout(() => {
+                    attachmentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Highlight the attachment row
+                    attachmentSection.style.backgroundColor = 'var(--color-hr-primary)';
+                    attachmentSection.style.transition = 'background-color 1s ease';
+                    setTimeout(() => {
+                        attachmentSection.style.backgroundColor = 'var(--bg-card)';
+                    }, 2000);
+                }, 100);
+            }
+        @endif
     </script>
