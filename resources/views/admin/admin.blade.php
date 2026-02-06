@@ -12,7 +12,7 @@
             <!-- User Search Panel Card -->
             <section class="hr-card p-6">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                    <i class="fas fa-search text-purple-500"></i> System Users
+                    <i class="fas fa-search text-[var(--color-primary)]"></i> System Users
                 </h2>
 
                 <!-- Filter Form -->
@@ -25,14 +25,14 @@
                                     type="text" 
                                     name="username"
                                     value="{{ request('username') }}"
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                                     placeholder="Enter username">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">User Role</label>
                                 <select 
                                     name="user_role"
-                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     @foreach($roles ?? [] as $role)
                                         <option value="{{ $role->id }}" {{ request('user_role') == $role->id ? 'selected' : '' }}>
@@ -47,14 +47,14 @@
                                     type="text" 
                                     name="employee_name"
                                     value="{{ request('employee_name') }}"
-                                    class="w-full px-3 py-2 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                    class="w-full px-3 py-2 text-sm border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                                     placeholder="Type for hints...">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Status</label>
                                 <select 
                                     name="status"
-                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     <option value="Enabled" {{ request('status') == 'Enabled' ? 'selected' : '' }}>Enabled</option>
                                     <option value="Disabled" {{ request('status') == 'Disabled' ? 'selected' : '' }}>Disabled</option>
@@ -70,7 +70,7 @@
             <section id="users-table-section" class="hr-card p-6">
                 <div class="flex items-center justify-between mb-5">
                     <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fas fa-users text-purple-500"></i> User List
+                        <i class="fas fa-users text-[var(--color-primary)]"></i> User List
                     </h2>
                     <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                         <button

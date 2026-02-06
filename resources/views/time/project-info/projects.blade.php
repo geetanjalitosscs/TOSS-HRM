@@ -6,7 +6,7 @@
     <x-main-layout title="Project Management">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible">
+            <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible">
                 @php
                     $timesheetsItems = [
                         [
@@ -84,7 +84,7 @@
                     :items="$timesheetsItems"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                         <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Timesheets</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
@@ -93,7 +93,7 @@
                     :items="$attendanceItems"
                     position="left"
                     width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                         <span class="text-sm {{ $attendanceHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Attendance</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
@@ -102,15 +102,15 @@
                     :items="$reportsItems"
                     position="left"
                     width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                         <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu> --}}
-                <a href="{{ route('time.project-info.customers') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.customers') ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                <a href="{{ route('time.project-info.customers') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.customers') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                     <span class="text-sm {{ request()->routeIs('time.project-info.customers') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Customers</span>
                 </a>
-                <a href="{{ route('time.project-info.projects') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.projects') ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                <a href="{{ route('time.project-info.projects') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.projects') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                     <span class="text-sm {{ request()->routeIs('time.project-info.projects') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Projects</span>
                 </a>
             </div>
@@ -120,7 +120,7 @@
             <!-- Projects Search Panel Card -->
             <section class="hr-card p-6">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                    <i class="fas fa-search text-purple-500"></i> Projects
+                    <i class="fas fa-search text-[var(--color-primary)]"></i> Projects
                 </h2>
 
                 <!-- Filter Form -->
@@ -132,7 +132,7 @@
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Customer Name</label>
                                 <select 
                                     name="customer_name" 
-                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                                 >
                                     <option value="">-- Select Customer --</option>
                                     @foreach($customers ?? [] as $customer)
@@ -150,7 +150,7 @@
                                     type="text" 
                                     name="project" 
                                     value="{{ request('project') }}"
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                                     placeholder="Type for hints..."
                                 >
                             </div>
@@ -160,7 +160,7 @@
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Project Admin</label>
                                 <select 
                                     name="project_admin" 
-                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                                 >
                                     <option value="">-- Select Employee --</option>
                                     @foreach($employees ?? [] as $employee)
@@ -180,7 +180,7 @@
             <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-project-diagram text-purple-500"></i> Projects
+                    <i class="fas fa-project-diagram text-[var(--color-primary)]"></i> Projects
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                     <button
@@ -562,8 +562,8 @@
                     // Hover effect - add border on hover
                     trigger.addEventListener('mouseenter', function() {
                         if (!this.dataset.hasActive) {
-                            this.classList.add('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                            this.classList.remove('hover:bg-purple-50/30');
+                            this.classList.add('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-[var(--color-primary-light)]');
+                            this.classList.remove('hover:bg-[var(--color-primary-light)]');
                             const span = this.querySelector('span:first-of-type');
                             if (span) {
                                 span.classList.remove('font-medium', 'text-slate-700');
@@ -577,8 +577,8 @@
                         if (!this.dataset.hasActive) {
                             const isOpen = dropdown?.classList.contains('show');
                             if (!isOpen) {
-                                this.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                                this.classList.add('hover:bg-purple-50/30');
+                                this.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-[var(--color-primary-light)]');
+                                this.classList.add('hover:bg-[var(--color-primary-light)]');
                                 const span = this.querySelector('span:first-of-type');
                                 if (span) {
                                     span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');
@@ -599,8 +599,8 @@
                                 if (trigger) {
                                     if (dropdown.classList.contains('show')) {
                                         // Dropdown opened - add border
-                                        trigger.classList.add('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                                        trigger.classList.remove('hover:bg-purple-50/30');
+                                        trigger.classList.add('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-[var(--color-primary-light)]');
+                                        trigger.classList.remove('hover:bg-[var(--color-primary-light)]');
                                         const span = trigger.querySelector('span:first-of-type');
                                         if (span) {
                                             span.classList.remove('font-medium', 'text-slate-700');
@@ -608,8 +608,8 @@
                                         }
                                     } else if (!trigger.dataset.hasActive) {
                                         // Dropdown closed - remove border only if not active
-                                        trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-purple-50/50');
-                                        trigger.classList.add('hover:bg-purple-50/30');
+                                        trigger.classList.remove('border-b-2', 'border-[var(--color-hr-primary)]', 'bg-[var(--color-primary-light)]');
+                                        trigger.classList.add('hover:bg-[var(--color-primary-light)]');
                                         const span = trigger.querySelector('span:first-of-type');
                                         if (span) {
                                             span.classList.remove('font-semibold', 'text-[var(--color-hr-primary-dark)]');

@@ -25,7 +25,7 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer transition-all flex items-center">
+                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center">
                         <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Timesheets</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
@@ -56,7 +56,7 @@
                     ]"
                     position="left"
                     width="w-56">
-                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center">
+                    <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center">
                         <span class="text-sm font-medium" style="color: var(--text-primary);">Attendance</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
@@ -81,7 +81,7 @@
                     ]"
                     position="left"
                     width="w-56">
-                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center tab-trigger">
+                    <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center tab-trigger">
                         <span class="text-sm font-medium" style="color: var(--text-primary);">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
@@ -101,7 +101,7 @@
                     ]"
                     position="left"
                     width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $projectInfoHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50' : 'hover:bg-purple-50/30' }}">
+                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $projectInfoHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                         <span class="text-sm {{ $projectInfoHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $projectInfoHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Project Info</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>

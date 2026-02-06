@@ -9,7 +9,7 @@
         <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
-                    <i class="fas fa-sitemap text-purple-500"></i> <span class="mt-0.5">Organization Structure</span>
+                    <i class="fas fa-sitemap text-[var(--color-primary)]"></i> <span class="mt-0.5">Organization Structure</span>
                 </h2>
                 <label class="flex items-center cursor-pointer">
                     <span class="text-sm text-gray-700">Edit</span>
@@ -23,7 +23,7 @@
             </div>
 
             <div class="mb-4" id="add-button-container" style="display: none;">
-                <button class="hr-btn-primary px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-1 shadow-md hover:shadow-lg hover:shadow-purple-300/50 hover:scale-105 transform">
+                <button class="hr-btn-primary px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-1 shadow-md hover:shadow-lg hover:shadow-[var(--color-primary-light)] hover:scale-105 transform">
                     <span class="text-sm font-bold">+</span> Add
                 </button>
             </div>

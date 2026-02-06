@@ -9,7 +9,7 @@
         <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-tools text-purple-500"></i> Skills
+                    <i class="fas fa-tools text-[var(--color-primary)]"></i> Skills
                 </h2>
                 <x-admin.add-button />
             </div>

@@ -9,7 +9,7 @@
         <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-chart-line text-purple-500"></i> Reporting Methods
+                    <i class="fas fa-chart-line text-[var(--color-primary)]"></i> Reporting Methods
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                     <button

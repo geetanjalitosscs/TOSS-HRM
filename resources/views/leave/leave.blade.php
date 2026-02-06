@@ -6,29 +6,29 @@
     <x-main-layout title="Leave">
                     <!-- Top Navigation Tabs -->
                     <div class="hr-sticky-tabs">
-                        <div class="flex items-center border-b border-purple-100 overflow-x-auto">
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                        <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Apply</span>
                             </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">My Leave</span>
                             </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Entitlements</span>
                                 <x-dropdown-arrow color="#a78bfa" />
                             </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Reports</span>
                                 <x-dropdown-arrow color="#a78bfa" />
                             </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Configure</span>
                                 <x-dropdown-arrow color="#a78bfa" />
                             </div>
-                            <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50">
+                            <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]">
                                 <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Leave List</span>
                             </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Assign Leave</span>
                             </div>
                         </div>
@@ -36,11 +36,11 @@
 
                     <!-- Leave List Section -->
                     <div>
-                        <div class="bg-white rounded-b-lg shadow-sm border border-purple-100 border-t-0 p-4">
+                        <div class="bg-white rounded-b-lg shadow-sm border border-[var(--border-default)] border-t-0 p-4">
                         <h2 class="text-sm font-bold text-slate-800 mb-3">Leave List</h2>
 
                         <!-- Filter Form -->
-                        <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
+                        <div class="bg-[var(--color-primary-light)] rounded-lg p-3 mb-3 border border-[var(--border-default)]">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                 <div>
                                     <x-date-picker 
@@ -59,7 +59,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Show Leave with Status*</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                         <option>-- Select --</option>
                                         <option>Pending Approval</option>
                                         <option>Approved</option>
@@ -71,7 +71,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Leave Type</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                         <option>-- Select --</option>
                                         <option>Annual Leave</option>
                                         <option>Sick Leave</option>
@@ -81,12 +81,12 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name <span class="text-red-500">*</span></label>
-                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
+                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
                                     <div class="text-xs text-gray-500 mt-1">* Required</div>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Sub Unit</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                         <option>-- Select --</option>
                                         <option>Engineering</option>
                                         <option>Human Resources</option>
@@ -209,7 +209,7 @@
                                         <button class="p-0.5 rounded text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all flex-shrink-0" title="Delete">
                                             <i class="fas fa-trash-alt w-4 h-4"></i>
                                         </button>
-                                        <button class="p-0.5 rounded text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all flex-shrink-0" title="Edit">
+                                        <button class="p-0.5 rounded text-gray-600 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-light)] transition-all flex-shrink-0" title="Edit">
                                             <i class="fas fa-edit w-4 h-4"></i>
                                         </button>
                                     </div>

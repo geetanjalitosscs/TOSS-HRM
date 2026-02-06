@@ -8,12 +8,16 @@
     $toggleId = 'edit-toggle-' . uniqid();
     $bgId = 'toggle-bg-' . uniqid();
     $circleId = 'toggle-circle-' . uniqid();
+
+    // Consistent, high-contrast toggle colors using theme primary color
+    $onBackgroundStyle = 'background: var(--color-primary); border-color: var(--border-strong);';
+    $offBackgroundStyle = 'background: var(--bg-input); border-color: var(--border-default);'; // neutral
 @endphp
 
 <section class="hr-card p-6">
     <div class="flex items-center justify-between mb-5">
         <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
-            <i class="fas fa-info-circle text-purple-500"></i> <span class="mt-0.5">{{ $title }}</span>
+            <i class="fas fa-info-circle text-[var(--color-primary)]"></i> <span class="mt-0.5">{{ $title }}</span>
         </h2>
         @if($showEditToggle)
         <label class="flex items-center gap-2 cursor-pointer">
@@ -24,12 +28,12 @@
                     for="{{ $toggleId }}" 
                     class="w-11 h-6 rounded-full transition-colors duration-200 cursor-pointer flex items-center border"
                     id="{{ $bgId }}"
-                    style="{{ $editMode ? 'background: var(--color-hr-primary); border-color: var(--border-strong);' : 'background: var(--bg-input); border-color: var(--border-default);' }}"
+                    style="{{ $editMode ? $onBackgroundStyle : $offBackgroundStyle }}"
                 >
                     <div 
                         class="w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 {{ $editMode ? 'translate-x-5' : 'translate-x-0.5' }}"
                         id="{{ $circleId }}"
-                        style="background: var(--bg-card);"
+                        style="background: {{ $editMode ? '#ffffff' : 'var(--bg-card)' }}; border: 1px solid var(--border-default);"
                     ></div>
                 </label>
             </div>
@@ -60,13 +64,19 @@
         
         // Update toggle visual state
         if (checkbox.checked) {
-            bg.style.background = 'var(--color-hr-primary)';
+            // ON state: theme primary color, white knob
+            bg.style.background = 'var(--color-primary)';
             bg.style.borderColor = 'var(--border-strong)';
+            circle.style.background = '#ffffff';
+            circle.style.borderColor = '#ffffff';
             circle.classList.remove('translate-x-0.5');
             circle.classList.add('translate-x-5');
         } else {
+            // OFF state: neutral grey, default knob
             bg.style.background = 'var(--bg-input)';
             bg.style.borderColor = 'var(--border-default)';
+            circle.style.background = 'var(--bg-card)';
+            circle.style.borderColor = 'var(--border-default)';
             circle.classList.remove('translate-x-5');
             circle.classList.add('translate-x-0.5');
         }

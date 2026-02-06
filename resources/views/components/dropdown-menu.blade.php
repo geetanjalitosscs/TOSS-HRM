@@ -1,7 +1,7 @@
 <div class="relative group" onclick="toggleDropdown(event)" style="overflow: visible;">
     {{ $trigger ?? $slot }}
 
-    <div class="hr-dropdown-menu absolute top-full {{ $position === 'right' ? 'right-0' : 'left-0' }} mt-0 {{ $width }} rounded-lg shadow-lg border border-purple-100 hidden" style="z-index: 9999; background-color: var(--bg-card);">
+    <div class="hr-dropdown-menu absolute top-full {{ $position === 'right' ? 'right-0' : 'left-0' }} mt-0 {{ $width }} rounded-lg shadow-lg border border-[var(--border-default)] hidden" style="z-index: 9999; background-color: var(--bg-card);">
         @foreach($items as $item)
             @if(!empty($item['hidden']))
                 @continue

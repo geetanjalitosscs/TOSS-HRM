@@ -8,7 +8,7 @@
 
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-key text-purple-500"></i> <span class="mt-0.5">Register OAuth Client</span>
+                <i class="fas fa-key text-[var(--color-primary)]"></i> <span class="mt-0.5">Register OAuth Client</span>
             </h2>
 
             <form class="space-y-6">

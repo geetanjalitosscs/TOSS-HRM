@@ -6,7 +6,7 @@
     <x-main-layout title="Performance / My Trackers">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible flex-nowrap">
+            <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible flex-nowrap">
                 <x-dropdown-menu 
                     :items="[
                         ['url' => route('performance.kpis'), 'label' => 'KPIs'],
@@ -14,7 +14,7 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
+                    <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-medium text-slate-700">Configure</span>
                         <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
@@ -27,15 +27,15 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
+                    <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-medium text-slate-700">Manage Reviews</span>
                         <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 flex items-center flex-shrink-0 whitespace-nowrap">
+                <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)] flex items-center flex-shrink-0 whitespace-nowrap">
                     <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">My Trackers</span>
                 </div>
-                <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
+                <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
                     <span class="text-sm font-medium text-slate-700">Employee Trackers</span>
                 </a>
             </div>
@@ -44,7 +44,7 @@
         <!-- My Performance Trackers Section -->
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-chart-line text-purple-500"></i> <span class="mt-0.5">My Performance Trackers</span>
+                <i class="fas fa-chart-line text-[var(--color-primary)]"></i> <span class="mt-0.5">My Performance Trackers</span>
             </h2>
 
             @if(count($trackers) > 0)

@@ -31,7 +31,7 @@
         <div class="px-5 py-4 border-b" style="border-color: var(--border-default);">
             <h3 class="text-sm font-bold flex items-center gap-2" style="color: var(--text-primary);">
                 @if($icon)
-                    <i class="{{ $icon }} text-purple-500"></i>
+                    <i class="{{ $icon }} text-[var(--color-primary)]"></i>
                 @endif
                 {{ $title }}
             </h3>

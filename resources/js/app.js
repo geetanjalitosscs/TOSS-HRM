@@ -4,25 +4,14 @@ import './bootstrap';
 (function() {
     'use strict';
 
-    // Check if we're on login page - skip theme functionality
-    const isLoginPage = window.location.pathname === '/' || window.location.pathname === '/login';
-    if (isLoginPage) {
-        // Force light mode on login page and exit
-        document.documentElement.setAttribute('data-theme', 'light');
-        return;
-    }
-
-    // Get theme from localStorage or system preference
+    // Get theme from localStorage or default to dark
     function getInitialTheme() {
         const storedTheme = localStorage.getItem('hr-theme');
         if (storedTheme) {
             return storedTheme;
         }
-        // Check system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-        }
-        return 'light';
+        // Default to dark theme
+        return 'dark';
     }
 
     // Apply theme

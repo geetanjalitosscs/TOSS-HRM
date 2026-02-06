@@ -8,7 +8,7 @@
 
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-bell text-purple-500"></i> <span class="mt-0.5">Email Subscriptions</span>
+                <i class="fas fa-bell text-[var(--color-primary)]"></i> <span class="mt-0.5">Email Subscriptions</span>
             </h2>
             
             <x-records-found :count="count($subscriptions)" />

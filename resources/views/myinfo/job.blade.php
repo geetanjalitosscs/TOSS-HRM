@@ -12,7 +12,7 @@
                 @php $attachments = $attachments ?? []; @endphp
 
                 <!-- Job Details Section -->
-                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <div class="rounded-lg shadow-sm border border-[var(--border-default)] p-4 mb-3" style="background-color: var(--bg-card);">
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Job Details</h2>
 
                     <div class="job-details-grid space-y-3">
@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- Attachments Section -->
-                <div class="rounded-lg shadow-sm border border-purple-100 p-4" style="background-color: var(--bg-card);">
+                <div class="rounded-lg shadow-sm border border-[var(--border-default)] p-4" style="background-color: var(--bg-card);">
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Attachments</h2>
 
                     @if(count($attachments) == 0)
@@ -80,7 +80,7 @@
                     @endif
 
                     <!-- Table Header -->
-                    <div class="bg-purple-50/50 rounded-t-lg border border-purple-100 border-b-0 px-2 py-1.5 mb-0">
+                    <div class="bg-[var(--color-primary-light)] rounded-t-lg border border-[var(--border-default)] border-b-0 px-2 py-1.5 mb-0">
                         <div class="flex items-center gap-1">
                             <div class="flex-1" style="min-width: 0;">
                                 <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">File Name</span>
@@ -107,13 +107,13 @@
                     </div>
 
                     <!-- Table Body (empty when no records) -->
-                    <div class="border border-purple-100 border-t-0 rounded-b-lg" style="overflow: visible;">
+                    <div class="border border-[var(--border-default)] border-t-0 rounded-b-lg" style="overflow: visible;">
                         <div class="px-2 py-1.5" style="background-color: var(--bg-card);">
                             @if(count($attachments) == 0)
                                 <div class="text-xs text-slate-500 text-center py-4"></div>
                             @else
                                 @foreach($attachments as $attachment)
-                                    <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                                    <div class="border-b border-[var(--border-default)] last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                         <div class="flex items-center gap-1">
                                             <div class="flex-1" style="min-width: 0;"><span class="text-xs text-slate-700 break-words">{{ $attachment->file_name ?? '' }}</span></div>
                                             <div class="flex-1" style="min-width: 0;"><span class="text-xs text-slate-700 break-words">{{ $attachment->description ?? '-' }}</span></div>

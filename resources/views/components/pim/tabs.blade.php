@@ -1,7 +1,7 @@
 @props(['activeTab' => 'employee-list'])
 
 <div class="hr-sticky-tabs">
-    <div class="flex items-stretch border-b border-purple-100 overflow-x-auto overflow-y-visible flex-nowrap">
+    <div class="flex items-stretch border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible flex-nowrap">
         <!-- Configuration Dropdown -->
         <x-dropdown-menu 
             :items="[

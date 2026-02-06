@@ -10,7 +10,7 @@
             <!-- Candidate Search Panel Card -->
             <section class="hr-card p-6">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                    <i class="fas fa-search text-purple-500"></i> Candidate Search
+                    <i class="fas fa-search text-[var(--color-primary)]"></i> Candidate Search
                 </h2>
 
                 <!-- Filter Form -->
@@ -90,7 +90,7 @@
             <section class="hr-card p-6">
                 <div class="flex items-center justify-between mb-5">
                     <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fas fa-user-tie text-purple-500"></i> Candidate List
+                        <i class="fas fa-user-tie text-[var(--color-primary)]"></i> Candidate List
                     </h2>
                 </div>
 
@@ -206,9 +206,9 @@
 
             <!-- Pagination -->
             <div class="flex justify-end items-center gap-2 mt-4">
-                <button class="px-3 py-1.5 text-sm border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-slate-700">1</button>
-                <button class="px-3 py-1.5 text-sm border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-slate-700">2</button>
-                <button class="px-3 py-1.5 text-sm border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-slate-700">
+                <button class="px-3 py-1.5 text-sm border border-[var(--border-strong)] rounded-lg hover:bg-[var(--color-primary-light)] transition-colors text-slate-700">1</button>
+                <button class="px-3 py-1.5 text-sm border border-[var(--border-strong)] rounded-lg hover:bg-[var(--color-primary-light)] transition-colors text-slate-700">2</button>
+                <button class="px-3 py-1.5 text-sm border border-[var(--border-strong)] rounded-lg hover:bg-[var(--color-primary-light)] transition-colors text-slate-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>

@@ -10,7 +10,7 @@
         <section id="employment-status-table-section" class="hr-card p-6">
             <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-user-check text-purple-500"></i> Employment Status
+                    <i class="fas fa-user-check text-[var(--color-primary)]"></i> Employment Status
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                     <button

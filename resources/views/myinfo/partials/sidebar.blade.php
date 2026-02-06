@@ -1,17 +1,17 @@
 <!-- Left Sidebar - Sub Navigation -->
 <aside class="w-64 flex-shrink-0 mr-6 flex flex-col sticky top-0 h-screen" style="height: calc(100vh - 2rem);">
     <!-- User Profile Section -->
-    <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+    <div class="rounded-lg shadow-sm border border-[var(--border-default)] p-4 mb-3" style="background-color: var(--bg-card);">
         <h2 class="text-sm font-bold text-slate-800 mb-2">
             {{ $employee ? ($employee->display_name ?: trim($employee->first_name . ' ' . ($employee->middle_name ?? '') . ' ' . $employee->last_name)) : 'Employee' }}
         </h2>
         <div class="flex justify-center mb-3">
             @if($employee && $employee->photo_url)
-                <div class="h-24 w-24 rounded-full overflow-hidden shadow-lg border-2" style="border-color: var(--border-default);">
+                <div class="h-24 w-24 rounded-full overflow-hidden shadow-lg border-2" style="border-color: var(--border-default); box-shadow: 0 0 20px rgba(228, 87, 69, 0.3), 0 0 40px rgba(228, 87, 69, 0.1);">
                     <img src="{{ $employee->photo_url }}?t={{ time() }}" alt="{{ $employee->first_name }}" class="w-full h-full object-contain">
                 </div>
             @else
-                <div class="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                <div class="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-hover)] flex items-center justify-center text-white text-2xl font-bold" style="box-shadow: 0 0 20px rgba(228, 87, 69, 0.3), 0 0 40px rgba(228, 87, 69, 0.1);">
                     {{ $employee ? strtoupper(substr($employee->first_name, 0, 1)) : 'E' }}
                 </div>
             @endif
@@ -19,31 +19,35 @@
         
         <!-- Update Photo Link -->
         <div class="flex justify-center mb-3">
-            <a href="{{ route('myinfo.profile-photo') }}" class="text-xs font-medium px-3 py-1.5 rounded-lg transition-all" style="background-color: var(--color-hr-primary); color: white;" onmouseover="this.style.backgroundColor='var(--color-hr-primary-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='var(--color-hr-primary)'; this.style.transform='scale(1)'">
-                <i class="fas fa-camera mr-1"></i> Update Photo
+            <a href="{{ route('myinfo.profile-photo') }}" class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover)); box-shadow: 0 0 15px rgba(228, 87, 69, 0.2), 0 0 30px rgba(228, 87, 69, 0.1);">
+                <i class="fas fa-camera"></i>
+                <span>Update Photo</span>
             </a>
         </div>
     </div>
 
     <!-- Sub Navigation Tabs -->
-    <div class="rounded-lg shadow-sm border border-purple-100 overflow-hidden flex-1" style="background-color: var(--bg-card);">
+    <div class="rounded-lg shadow-sm border border-[var(--border-default)] overflow-hidden flex-1" style="background-color: var(--bg-card);">
         @php
             $isPersonalDetails = request()->routeIs('myinfo') && !request()->routeIs('myinfo.*');
         @endphp
-        <a href="{{ route('myinfo') }}" class="block px-4 py-3 {{ $isPersonalDetails ? 'border-l-4 border-[var(--color-hr-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors" style="{{ $isPersonalDetails ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isPersonalDetails ? "this.style.backgroundColor='var(--bg-hover)'" : '' }}" onmouseout="{{ !$isPersonalDetails ? "this.style.backgroundColor='transparent'" : '' }}">
-            Personal Details
+        <a href="{{ route('myinfo') }}" class="block px-4 py-3 {{ $isPersonalDetails ? 'border-l-4 border-[var(--color-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors flex items-center gap-2" style="{{ $isPersonalDetails ? 'background-color: var(--bg-hover); color: var(--color-primary);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isPersonalDetails ? "this.style.backgroundColor='var(--bg-hover)'; this.style.transform='translateX(2px)'" : '' }}" onmouseout="{{ !$isPersonalDetails ? "this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'" : '' }}">
+            <i class="fas fa-user text-sm" style="color: var(--text-primary);"></i>
+            <span>Personal Details</span>
         </a>
         @php
             $isContactDetails = request()->routeIs('myinfo.contact-details');
         @endphp
-        <a href="{{ route('myinfo.contact-details') }}" class="block px-4 py-3 {{ $isContactDetails ? 'border-l-4 border-[var(--color-hr-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors" style="{{ $isContactDetails ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isContactDetails ? "this.style.backgroundColor='var(--bg-hover)'" : '' }}" onmouseout="{{ !$isContactDetails ? "this.style.backgroundColor='transparent'" : '' }}">
-            Contact Details
+        <a href="{{ route('myinfo.contact-details') }}" class="block px-4 py-3 {{ $isContactDetails ? 'border-l-4 border-[var(--color-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors flex items-center gap-2" style="{{ $isContactDetails ? 'background-color: var(--bg-hover); color: var(--color-primary);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isContactDetails ? "this.style.backgroundColor='var(--bg-hover)'; this.style.transform='translateX(2px)'" : '' }}" onmouseout="{{ !$isContactDetails ? "this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'" : '' }}">
+            <i class="fas fa-address-card text-sm" style="color: var(--text-primary);"></i>
+            <span>Contact Details</span>
         </a>
         @php
             $isEmergencyContacts = request()->routeIs('myinfo.emergency-contacts');
         @endphp
-        <a href="{{ route('myinfo.emergency-contacts') }}" class="block px-4 py-3 {{ $isEmergencyContacts ? 'border-l-4 border-[var(--color-hr-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors" style="{{ $isEmergencyContacts ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isEmergencyContacts ? "this.style.backgroundColor='var(--bg-hover)'" : '' }}" onmouseout="{{ !$isEmergencyContacts ? "this.style.backgroundColor='transparent'" : '' }}">
-            Emergency Contacts
+        <a href="{{ route('myinfo.emergency-contacts') }}" class="block px-4 py-3 {{ $isEmergencyContacts ? 'border-l-4 border-[var(--color-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors flex items-center gap-2" style="{{ $isEmergencyContacts ? 'background-color: var(--bg-hover); color: var(--color-primary);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isEmergencyContacts ? "this.style.backgroundColor='var(--bg-hover)'; this.style.transform='translateX(2px)'" : '' }}" onmouseout="{{ !$isEmergencyContacts ? "this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'" : '' }}">
+            <i class="fas fa-phone-alt text-sm" style="color: var(--text-primary);"></i>
+            <span>Emergency Contacts</span>
         </a>
         {{-- @php
             $isDependents = request()->routeIs('myinfo.dependents');
@@ -78,8 +82,9 @@
         @php
             $isQualifications = request()->routeIs('myinfo.qualifications');
         @endphp
-        <a href="{{ route('myinfo.qualifications') }}" class="block px-4 py-3 {{ $isQualifications ? 'border-l-4 border-[var(--color-hr-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors" style="{{ $isQualifications ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isQualifications ? "this.style.backgroundColor='var(--bg-hover)'" : '' }}" onmouseout="{{ !$isQualifications ? "this.style.backgroundColor='transparent'" : '' }}">
-            Qualifications
+        <a href="{{ route('myinfo.qualifications') }}" class="block px-4 py-3 {{ $isQualifications ? 'border-l-4 border-[var(--color-primary)] font-semibold' : 'text-sm font-medium' }} transition-colors flex items-center gap-2" style="{{ $isQualifications ? 'background-color: var(--bg-hover); color: var(--color-primary);' : 'color: var(--text-primary);' }}" onmouseover="{{ !$isQualifications ? "this.style.backgroundColor='var(--bg-hover)'; this.style.transform='translateX(2px)'" : '' }}" onmouseout="{{ !$isQualifications ? "this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'" : '' }}">
+            <i class="fas fa-graduation-cap text-sm" style="color: var(--text-primary);"></i>
+            <span>Qualifications</span>
         </a>
         {{-- @php
             $isMemberships = request()->routeIs('myinfo.memberships');

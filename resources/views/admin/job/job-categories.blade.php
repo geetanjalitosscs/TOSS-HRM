@@ -10,7 +10,7 @@
         <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-folder text-purple-500"></i> Job Categories
+                    <i class="fas fa-folder text-[var(--color-primary)]"></i> Job Categories
                 </h2>
                 <x-admin.add-button />
             </div>

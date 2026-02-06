@@ -8,7 +8,7 @@
         
         <!-- Leave Period Section -->
         <section class="hr-card p-6">
-            <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+            <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-[var(--color-primary)]imary);">
                 <i class="fas fa-calendar-alt" style="color: var(--color-hr-primary);"></i>
                 <span class="mt-0.5">Leave Period</span>
             </h2>
@@ -16,10 +16,10 @@
             <form>
                 <!-- Start Month -->
                 <div class="mb-4">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-[var(--color-primary)]imary);">
                         Start Month <span style="color: var(--color-danger);">*</span>
                     </label>
-                    <select class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);">
+                    <select class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-[var(--color-primary)]imary);">
                         <option>January</option>
                         <option>February</option>
                         <option>March</option>
@@ -37,22 +37,22 @@
                 
                 <!-- Start Date -->
                 <div class="mb-4">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-[var(--color-primary)]imary);">
                         Start Date <span style="color: var(--color-danger);">*</span>
                     </label>
-                    <input type="text" value="01" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);">
+                    <input type="text" value="01" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-[var(--color-primary)]imary);">
                 </div>
                 
                 <!-- End Date -->
                 <div class="mb-4">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">End Date</label>
-                    <input type="text" value="December 31" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-[var(--color-primary)]imary);">End Date</label>
+                    <input type="text" value="December 31" class="w-full px-3 py-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all" style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-[var(--color-primary)]imary);">
                 </div>
                 
                 <!-- Current Leave Period -->
                 <div class="mb-4">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Current Leave Period</label>
-                    <input type="text" value="2026-01-01 to 2026-31-12" readonly class="w-full px-3 py-2 text-sm rounded-lg" style="border: 1px solid var(--border-default); background-color: var(--bg-hover); color: var(--text-primary);">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-[var(--color-primary)]imary);">Current Leave Period</label>
+                    <input type="text" value="2026-01-01 to 2026-31-12" readonly class="w-full px-3 py-2 text-sm rounded-lg" style="border: 1px solid var(--border-default); background-color: var(--bg-hover); color: var(--text-[var(--color-primary)]imary);">
                 </div>
                 
                 <!-- Required Text and Buttons -->

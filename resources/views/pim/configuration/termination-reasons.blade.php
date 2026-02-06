@@ -9,7 +9,7 @@
         <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-ban text-purple-500"></i> Termination Reasons
+                    <i class="fas fa-ban text-[var(--color-primary)]"></i> Termination Reasons
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                     <button
@@ -120,7 +120,7 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                        Name <span class="text-red-500">*</span>
+                        Name <span class="text-[var(--color-primary)]">*</span>
                     </label>
                     <input
                         type="text"
@@ -169,7 +169,7 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                        Name <span class="text-red-500">*</span>
+                        Name <span class="text-[var(--color-primary)]">*</span>
                     </label>
                     <input
                         type="text"

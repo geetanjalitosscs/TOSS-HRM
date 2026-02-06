@@ -1,7 +1,7 @@
 @props(['activeTab' => 'user-management'])
 
 <div class="hr-sticky-tabs">
-    <div class="flex items-stretch border-b border-purple-100 overflow-x-auto overflow-y-visible flex-nowrap">
+    <div class="flex items-stretch border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible flex-nowrap">
         <!-- User Management Tab -->
         <a href="{{ route('admin') }}" class="px-4 py-3 {{ $activeTab === 'user-management' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'user-management' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}">
             <span class="text-sm" style="{{ $activeTab === 'user-management' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">User Management</span>

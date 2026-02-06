@@ -10,7 +10,7 @@
         <!-- Leave List Search Section -->
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-list-alt text-purple-500"></i> <span class="mt-0.5">Leave List</span>
+                <i class="fas fa-list-alt text-[var(--color-primary)]"></i> <span class="mt-0.5">Leave List</span>
             </h2>
             <form method="GET" action="{{ route('leave.leave-list') }}" id="leave-search-form">
                 <x-admin.search-panel title="" :collapsed="false">
@@ -72,7 +72,7 @@
         <section id="leave-table-section" class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-list-alt text-purple-500"></i> Leave Records
+                    <i class="fas fa-list-alt text-[var(--color-primary)]"></i> Leave Records
                 </h2>
                 <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                     <button

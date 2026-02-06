@@ -10,7 +10,7 @@
             <!-- Right Content Area -->
             <div class="flex-1">
                 <!-- Personal Details Form -->
-                <form id="personal-details-section" method="POST" action="{{ route('myinfo.personal.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <form id="personal-details-section" method="POST" action="{{ route('myinfo.personal.update') }}" class="rounded-lg shadow-sm border border-[var(--border-default)] p-4 mb-3" style="background-color: var(--bg-card);">
                     @csrf
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Personal Details</h2>
 
@@ -123,7 +123,7 @@
                 </form>
 
                 <!-- Custom Fields Section -->
-                <form id="custom-fields-section" method="POST" action="{{ route('myinfo.custom.update') }}" class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <form id="custom-fields-section" method="POST" action="{{ route('myinfo.custom.update') }}" class="rounded-lg shadow-sm border border-[var(--border-default)] p-4 mb-3" style="background-color: var(--bg-card);">
                     @csrf
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Custom Fields</h2>
 
@@ -154,7 +154,7 @@
                 </form>
 
                 <!-- Attachments Section -->
-                <form id="attachments-section" method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data" class="bg-white rounded-lg shadow-sm border border-purple-100 p-4">
+                <form id="attachments-section" method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data" class="bg-white rounded-lg shadow-sm border border-[var(--border-default)] p-4">
                     @csrf
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-sm font-bold text-slate-800">Attachments</h2>
@@ -180,7 +180,7 @@
                     <x-records-found :count="count($attachments)" />
 
                     <!-- Table Header -->
-                    <div class="bg-purple-50/50 rounded-t-lg border border-purple-100 border-b-0 px-2 py-1.5 mb-0">
+                    <div class="bg-[var(--color-primary-light)] rounded-t-lg border border-[var(--border-default)] border-b-0 px-2 py-1.5 mb-0">
                         <div class="flex items-center gap-1">
                             <div class="flex-shrink-0" style="width: 24px;">
                                 <input type="checkbox"
@@ -210,9 +210,9 @@
                     </div>
 
                     <!-- Table Rows -->
-                    <div class="border border-purple-100 border-t-0 rounded-b-lg" style="overflow: visible;">
+                    <div class="border border-[var(--border-default)] border-t-0 rounded-b-lg" style="overflow: visible;">
                         @foreach($attachments as $attachment)
-                            <div id="attachment-row-{{ $attachment->id }}" data-attachment-id="{{ $attachment->id }}" class="hr-table-row border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);">
+                            <div id="attachment-row-{{ $attachment->id }}" data-attachment-id="{{ $attachment->id }}" class="hr-table-row border-b border-[var(--border-default)] last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);">
                                 <div class="flex items-center gap-1">
                                     <div class="flex-shrink-0" style="width: 24px;">
                                         <input type="checkbox"

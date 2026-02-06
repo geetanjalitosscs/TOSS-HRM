@@ -10,7 +10,7 @@
             <!-- Employee Information Search Panel Card -->
             <section class="hr-card p-6">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                    <i class="fas fa-search text-purple-500"></i> Employee Information
+                    <i class="fas fa-search text-[var(--color-primary)]"></i> Employee Information
                 </h2>
                 <form method="GET" action="{{ route('pim.employee-list') }}#employee-list-section" id="employee-search-form">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
@@ -20,7 +20,7 @@
                                 type="text" 
                                 name="employee_name"
                                 value="{{ request('employee_name') }}"
-                                class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                class="hr-input w-full px-2 py-1.5 text-xs border bordtext-[var(--color-primary)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                                 placeholder="Type for hints...">
                         </div>
                         <div>
@@ -29,14 +29,14 @@
                                 type="text" 
                                 name="employee_id"
                                 value="{{ request('employee_id') }}"
-                                class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                class="hr-input w-full px-2 py-1.5 text-xs border bordtext-[var(--color-primary)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                                 placeholder="">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Employment Status</label>
                             <select 
                                 name="employment_status"
-                                class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                class="hr-select w-full px-2 py-1.5 text-xs border bordtext-[var(--color-primary)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                 <option value="">-- Select --</option>
                                 @foreach($employmentStatuses ?? [] as $status)
                                     <option value="{{ $status->id }}" {{ request('employment_status') == $status->id ? 'selected' : '' }}>
@@ -49,7 +49,7 @@
                             <label class="block text-xs font-medium text-slate-700 mb-1">Include</label>
                             <select 
                                 name="include"
-                                class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                class="hr-select w-full px-2 py-1.5 text-xs border bordtext-[var(--color-primary)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                 <option value="current" {{ request('include', 'current') == 'current' ? 'selected' : '' }}>Current Employees Only</option>
                                 <option value="past" {{ request('include') == 'past' ? 'selected' : '' }}>Past Employees Only</option>
                                 <option value="all" {{ request('include') == 'all' ? 'selected' : '' }}>All Employees</option>
@@ -61,7 +61,7 @@
                             <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
                             <select 
                                 name="job_title"
-                                class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                class="hr-select w-full px-2 py-1.5 text-xs border bordtext-[var(--color-primary)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                 <option value="">-- Select --</option>
                                 @foreach($jobTitles ?? [] as $title)
                                     <option value="{{ $title->id }}" {{ request('job_title') == $title->id ? 'selected' : '' }}>
@@ -79,7 +79,7 @@
             <section id="employee-list-section" class="hr-card p-6">
                 <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
                     <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fas fa-users text-purple-500"></i> Employee List
+                        <i class="fas fa-users text-[var(--color-primary)]"></i> Employee List
                     </h2>
                     <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                         <button
@@ -92,7 +92,7 @@
                         </button>
                         <a
                             href="{{ route('pim.add-employee') }}"
-                            class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-purple-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform"
+                            class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-[var(--color-primary-light)] transition-all flex items-center gap-1 shadow-md hover:scale-105 transform"
                             style="transform-origin: center; position: relative; z-index: 10;"
                         >
                             + Add

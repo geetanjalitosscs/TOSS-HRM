@@ -6,7 +6,7 @@
     <x-main-layout title="Performance / Configure">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b border-purple-100 overflow-x-auto overflow-y-visible flex-nowrap">
+            <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible flex-nowrap">
                 <x-dropdown-menu 
                     :items="[
                         ['url' => route('performance.kpis'), 'label' => 'KPIs', 'active' => true],
@@ -14,7 +14,7 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50 cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
+                    <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)] cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Configure</span>
                         <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
@@ -27,15 +27,15 @@
                     ]"
                     position="left"
                     width="w-48">
-                    <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
+                    <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-medium text-slate-700">Manage Reviews</span>
                         <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                <a href="{{ route('performance.my-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
+                <a href="{{ route('performance.my-trackers') }}" class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
                     <span class="text-sm font-medium text-slate-700">My Trackers</span>
                 </a>
-                <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
+                <a href="{{ route('performance.employee-trackers') }}" class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">
                     <span class="text-sm font-medium text-slate-700">Employee Trackers</span>
                 </a>
             </div>
@@ -44,15 +44,15 @@
         <!-- Key Performance Indicators for Job Title Section -->
         <section class="hr-card p-6 mb-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-bullseye text-purple-500"></i> <span class="mt-0.5">Key Performance Indicators for Job Title</span>
+                <i class="fas fa-bullseye text-[var(--color-primary)]"></i> <span class="mt-0.5">Key Performance Indicators for Job Title</span>
             </h2>
 
             <!-- Search Panel -->
-            <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
+            <div class="bg-[var(--color-primary-light)] rounded-lg p-3 mb-3 border border-[var(--border-default)]">
                 <div class="flex items-end gap-3">
                     <div class="flex-1">
                         <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                             <option>-- Select --</option>
                             <option>Payroll Administrator</option>
                             <option>QA Lead</option>

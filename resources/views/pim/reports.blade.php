@@ -10,7 +10,7 @@
             <!-- Employee Reports Search Panel Card -->
             <section class="hr-card p-6">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                    <i class="fas fa-search text-purple-500"></i> Employee Reports
+                    <i class="fas fa-search text-[var(--color-primary)]"></i> Employee Reports
                 </h2>
                 <form method="GET" action="{{ route('pim.reports') }}" id="reports-search-form">
                 <div class="mb-3">
@@ -19,7 +19,7 @@
                             type="text" 
                             name="report_name"
                             value="{{ request('report_name') }}"
-                            class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                            class="hr-input w-full px-2 py-1.5 text-xs border bordtext-[var(--color-primary)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                             placeholder="Type for hints...">
                 </div>
                     <x-admin.action-buttons resetType="reset" searchType="submit" />
@@ -30,7 +30,7 @@
             <section class="hr-card p-6">
                 <div class="flex items-center justify-between mb-5 mt-2" style="overflow: visible;">
                     <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fas fa-file-alt text-purple-500"></i> Reports List
+                        <i class="fas fa-file-alt text-[var(--color-primary)]"></i> Reports List
                     </h2>
                     <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                         <button

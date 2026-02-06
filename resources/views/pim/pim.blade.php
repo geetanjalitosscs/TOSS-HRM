@@ -6,17 +6,17 @@
     <x-main-layout title="PIM">
                     <!-- Top Navigation Tabs -->
                     <div class="hr-sticky-tabs">
-                        <div class="flex items-center border-b border-purple-100 overflow-x-auto">
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                        <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Configuration</span>
                             </div>
-                            <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-purple-50/50">
+                            <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]">
                                 <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Employee List</span>
                             </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Add Employee</span>
                             </div>
-                            <div class="px-6 py-3 hover:bg-purple-50/30 cursor-pointer transition-all">
+                            <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all">
                                 <span class="text-sm font-medium text-slate-700">Reports</span>
                             </div>
                         </div>
@@ -27,7 +27,7 @@
                         <!-- Employee Information Search Panel Card -->
                         <section class="hr-card p-6">
                             <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                                <i class="fas fa-search text-purple-500"></i> Employee Information
+                                <i class="fas fa-search text-[var(--color-primary)]"></i> Employee Information
                             </h2>
 
                             <!-- Filter Form -->
@@ -35,15 +35,15 @@
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
-                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
+                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Employee Id</label>
-                                    <input type="text" class="w-full px-3 py-2 text-sm border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Enter employee ID">
+                                    <input type="text" class="w-full px-3 py-2 text-sm border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Enter employee ID">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Employment Status</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                         <option>-- Select --</option>
                                         <option>Full-Time Permanent</option>
                                         <option>Full-Time Contract</option>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Include</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                         <option>Current Employees Only</option>
                                         <option>Past Employees Only</option>
                                         <option>All Employees</option>
@@ -63,11 +63,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Supervisor Name</label>
-                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
+                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                         <option>-- Select --</option>
                                         <option>Software Engineer</option>
                                         <option>QA Engineer</option>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-700 mb-1">Sub Unit</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                         <option>-- Select --</option>
                                         <option>Engineering</option>
                                         <option>Human Resources</option>
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-end gap-2">
-                                <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all">
+                                <button class="hr-btn-secondary px-3 py-1.5 text-xs font-medium text-[var(--color-primary)] border border-[var(--border-strong)] rounded-lg hover:bg-[var(--color-primary-light)] transition-all">
                                     Reset
                                 </button>
                                 <button class="hr-btn-primary px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-md transition-all shadow-sm">
@@ -104,7 +104,7 @@
                         <section class="hr-card p-6">
                             <div class="flex items-center justify-between mb-5">
                                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                    <i class="fas fa-users text-purple-500"></i> Employee List
+                                    <i class="fas fa-users text-[var(--color-primary)]"></i> Employee List
                                 </h2>
                                 <x-admin.add-button label="+ Add" />
                             </div>

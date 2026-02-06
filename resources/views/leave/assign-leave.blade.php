@@ -9,7 +9,7 @@
         <!-- Assign Leave Section -->
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-user-check text-purple-500"></i> <span class="mt-0.5">Assign Leave</span>
+                <i class="fas fa-user-check text-[var(--color-primary)]"></i> <span class="mt-0.5">Assign Leave</span>
             </h2>
             
             <form method="POST" action="{{ route('leave.assign-leave.store') }}" id="assign-leave-form">

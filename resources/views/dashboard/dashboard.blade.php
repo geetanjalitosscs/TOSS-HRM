@@ -8,67 +8,83 @@
             <!-- First Row -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                 <!-- Total Employees Card -->
-                <section class="hr-card p-6">
-                    <div class="flex flex-col h-full">
-                        <div class="flex items-center justify-between mb-4">
+                <section class="hr-card dashboard-metric-card p-4">
+                    <div class="flex flex-col">
+                        <div class="dashboard-metric-header">
                             <div>
-                                <p class="text-xs text-slate-500 font-medium mb-1">Total Employees</p>
-                                <h3 class="text-xl font-bold text-slate-800">{{ $totalEmployees }}</h3>
+                                <p class="dashboard-metric-label mb-1">Total Employees</p>
+                                <h3 class="dashboard-metric-value">{{ $totalEmployees }}</h3>
                             </div>
-                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-200/50">
-                                <i class="fas fa-users text-white text-lg"></i>
+                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] flex items-center justify-center shadow-lg shadow-[var(--color-primary-light)]">
+                                <i class="fas fa-users text-lg" style="color: var(--text-primary);"></i>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-500 mb-4">Active workforce across all departments</p>
-                        <div class="mt-auto pt-4 border-t border-purple-100">
+                        <p class="dashboard-metric-subtitle mb-4">Active workforce across all departments</p>
+
+                        @php
+                            $onLeaveCount = $employeesOnLeave->count();
+                            $activeCount = max(0, $totalEmployees - $onLeaveCount);
+                        @endphp
+                        <div class="dashboard-metric-rows mb-4">
+                            <div class="dashboard-metric-row">
+                                <span class="dashboard-metric-row-label">Active Employees</span>
+                                <span class="dashboard-metric-row-value">{{ $activeCount }}</span>
+                            </div>
+                            <div class="dashboard-metric-row">
+                                <span class="dashboard-metric-row-label">On Leave Today</span>
+                                <span class="dashboard-metric-row-value">{{ $onLeaveCount }}</span>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-metric-footer dashboard-metric-footer--compact">
                             <div class="flex justify-center">
-                                <a href="{{ route('pim.employee-list') }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-purple-500 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg hover:shadow-md hover:scale-105 transition-all duration-200 shadow-sm">
-                                    <i class="fas fa-users"></i>
+                                <a href="{{ route('pim.employee-list') }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] rounded-lg hover:shadow-md hover:scale-105 transition-all duration-200 shadow-sm" style="color: var(--text-primary);">
+                                    <i class="fas fa-users" style="color: var(--text-primary);"></i>
                                     View Employee List
-                                    <i class="fas fa-arrow-right text-[10px]"></i>
+                                    <i class="fas fa-arrow-right text-[10px]" style="color: var(--text-primary);"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </section>
                 <!-- Quick Launch Card -->
-                <section class="hr-card p-6">
-                    <div class="flex flex-col h-full">
+                <section class="hr-card dashboard-metric-card p-5">
+                    <div class="flex flex-col">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <p class="text-xs text-slate-500 font-medium mb-1">Quick Launch</p>
-                                <h3 class="text-xl font-bold text-slate-800">6 Actions</h3>
+                                <p class="text-xs text-[var(--text-muted)] font-medium mb-1">Quick Launch</p>
+                                <h3 class="text-xl font-bold text-[var(--text-primary)]">6 Actions</h3>
                             </div>
-                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-200/50">
-                                <i class="fas fa-bolt text-white text-lg"></i>
+                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] flex items-center justify-center shadow-lg shadow-[var(--color-primary-light)]">
+                                <i class="fas fa-bolt text-lg" style="color: var(--text-primary);"></i>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-500 mb-4">Quick access to common tasks</p>
-                        <div class="mt-auto pt-4 border-t border-purple-100">
+                        <p class="text-xs text-[var(--text-muted)] mb-4">Quick access to common tasks</p>
+                        <div class="mt-auto pt-4 border-t border-[var(--border-default)]">
                             <div class="grid grid-cols-3 gap-3">
-                                <a href="{{ route('pim.add-employee') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-user-plus"></i></div>
-                                    <span class="text-[10px] text-slate-700 text-center font-medium">Add Employee</span>
+                                <a href="{{ route('pim.add-employee') }}" class="quick-launch-item flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg transition-all group">
+                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all" style="color: var(--text-primary);"><i class="fas fa-user-plus"></i></div>
+                                    <span class="text-[10px] text-[var(--text-primary)] text-center font-medium">Add Employee</span>
                                 </a>
-                                <a href="{{ route('pim.employee-list') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-list"></i></div>
-                                    <span class="text-[10px] text-slate-700 text-center font-medium">Employee List</span>
+                                <a href="{{ route('pim.employee-list') }}" class="quick-launch-item flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg transition-all group">
+                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all" style="color: var(--text-primary);"><i class="fas fa-list"></i></div>
+                                    <span class="text-[10px] text-[var(--text-primary)] text-center font-medium">Employee List</span>
                                 </a>
-                                <a href="{{ route('leave.leave-list') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-calendar-alt"></i></div>
-                                    <span class="text-[10px] text-slate-700 text-center font-medium">Leave List</span>
+                                <a href="{{ route('leave.leave-list') }}" class="quick-launch-item flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg transition-all group">
+                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all" style="color: var(--text-primary);"><i class="fas fa-calendar-alt"></i></div>
+                                    <span class="text-[10px] text-[var(--text-primary)] text-center font-medium">Leave List</span>
                                 </a>
-                                <a href="{{ route('time.project-info.projects') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-project-diagram"></i></div>
-                                    <span class="text-[10px] text-slate-700 text-center font-medium">Project Management</span>
+                                <a href="{{ route('time.project-info.projects') }}" class="quick-launch-item flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg transition-all group">
+                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all" style="color: var(--text-primary);"><i class="fas fa-project-diagram"></i></div>
+                                    <span class="text-[10px] text-[var(--text-primary)] text-center font-medium">Project Management</span>
                                 </a>
-                                <a href="{{ route('leave.apply') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-paper-plane"></i></div>
-                                    <span class="text-[10px] text-slate-700 text-center font-medium">Apply Leave</span>
+                                <a href="{{ route('leave.apply') }}" class="quick-launch-item flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg transition-all group">
+                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all" style="color: var(--text-primary);"><i class="fas fa-paper-plane"></i></div>
+                                    <span class="text-[10px] text-[var(--text-primary)] text-center font-medium">Apply Leave</span>
                                 </a>
-                                <a href="{{ route('pim.configuration.data-import') }}" class="flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-purple-50 transition-all group">
-                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-purple-600 text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all"><i class="fas fa-file-import"></i></div>
-                                    <span class="text-[10px] text-slate-700 text-center font-medium">Data Import</span>
+                                <a href="{{ route('pim.configuration.data-import') }}" class="quick-launch-item flex flex-col items-center gap-2 cursor-pointer p-2 rounded-lg transition-all group">
+                                    <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-base shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all" style="color: var(--text-primary);"><i class="fas fa-file-import"></i></div>
+                                    <span class="text-[10px] text-[var(--text-primary)] text-center font-medium">Data Import</span>
                                 </a>
                             </div>
                         </div>
@@ -76,27 +92,28 @@
                 </section>
 
                 <!-- Employees on Leave Today -->
-                <section class="hr-card p-6">
-                    <div class="flex flex-col h-full">
+                <section class="hr-card dashboard-metric-card p-5 h-full">
+                    <div class="flex flex-col">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <p class="text-xs text-slate-500 font-medium mb-1">On Leave Today</p>
-                                <h3 class="text-xl font-bold text-slate-800">{{ $employeesOnLeave->count() }}</h3>
+                                <p class="text-xs text-[var(--text-muted)] font-medium mb-1">On Leave Today</p>
+                                <h3 class="text-xl font-bold text-[var(--text-primary)]">{{ $employeesOnLeave->count() }}</h3>
                             </div>
-                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-200/50">
-                                <i class="fas fa-calendar-times text-white text-lg"></i>
+                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] flex items-center justify-center shadow-lg shadow-[var(--color-primary-light)]">
+                                <i class="fas fa-calendar-times text-lg" style="color: var(--text-primary);"></i>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-500 mb-4">Employees currently on leave</p>
-                        <div class="mt-auto pt-4 border-t border-purple-100">
+                        <p class="text-xs text-[var(--text-muted)] mb-4">Employees currently on leave</p>
+                        <!-- Slightly lower the list in the 3rd component -->
+                        <div class="pt-4 border-t border-[var(--border-default)]">
                             @if($employeesOnLeave->count() > 0)
-                                <div class="space-y-2 max-h-32 overflow-y-auto employee-leave-scrollbar">
+                                <div class="space-y-2 max-h-40 overflow-y-auto employee-leave-scrollbar">
                                     @foreach($employeesOnLeave as $leave)
-                                        <div class="flex items-start gap-2 p-2 rounded-lg hover:bg-purple-50 transition-all">
+                                        <div class="on-leave-row flex items-start gap-2 p-2 rounded-lg transition-all">
                                             <div class="flex-1">
-                                                <div class="text-xs font-medium text-slate-800">{{ $leave->employee_name }}</div>
-                                                <div class="text-[10px] text-slate-500">{{ $leave->leave_type }}</div>
-                                                <div class="text-[10px] text-purple-500">
+                                                <div class="text-xs font-medium text-[var(--text-primary)]">{{ $leave->employee_name }}</div>
+                                                <div class="text-[10px] text-[var(--text-muted)]">{{ $leave->leave_type }}</div>
+                                                <div class="text-[10px] text-[var(--color-primary)]">
                                                     {{ \Carbon\Carbon::parse($leave->start_date)->format('M d') }} - {{ \Carbon\Carbon::parse($leave->end_date)->format('M d') }}
                                                 </div>
                                             </div>
@@ -105,8 +122,8 @@
                                 </div>
                             @else
                                 <div class="flex flex-col items-center justify-center h-20 text-center">
-                                    <i class="fas fa-clipboard text-3xl mb-2 opacity-60 text-purple-400"></i>
-                                    <p class="text-xs text-slate-600 font-medium">No one on leave today</p>
+                                    <i class="fas fa-clipboard text-3xl mb-2 opacity-60 text-[var(--color-primary-soft)]"></i>
+                                    <p class="text-xs text-[var(--text-secondary)] font-medium">No one on leave today</p>
                                 </div>
                             @endif
                         </div>
@@ -117,19 +134,20 @@
             <!-- Second Row: Quick Stats, Work Week, Holidays -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                 <!-- Quick Stats Card -->
-                <section class="hr-card p-6">
+                <section class="hr-card dashboard-metric-card p-5">
                     <div class="flex flex-col h-full">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <p class="text-xs text-slate-500 font-medium mb-1">Quick Stats</p>
-                                <h3 class="text-xl font-bold text-slate-800">2 Stats</h3>
+                                <p class="text-xs text-[var(--text-muted)] font-medium mb-1">Quick Stats</p>
+                                <h3 class="text-xl font-bold text-[var(--text-primary)]">2 Stats</h3>
                             </div>
-                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-200/50">
-                                <i class="fas fa-chart-bar text-white text-lg"></i>
+                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] flex items-center justify-center shadow-lg shadow-[var(--color-primary-light)]">
+                                <i class="fas fa-chart-bar text-lg" style="color: var(--text-primary);"></i>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-500 mb-4">Key workforce metrics</p>
-                        <div class="mt-auto pt-4 border-t border-purple-100">
+                        <p class="text-xs text-[var(--text-muted)] mb-5">Key workforce metrics</p>
+                        <!-- Lower the stats cards in the 4th component a bit more -->
+                        <div class="pt-6 border-t border-[var(--border-default)]">
                             <div class="space-y-4">
                                 <a href="{{ route('pim.employee-list') }}" class="block transition-all duration-200 hover:scale-[1.02] hover:shadow-md group">
                                     <div class="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 group-hover:shadow-md group-hover:scale-[1.02]" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
@@ -137,8 +155,8 @@
                                             <p class="text-xs font-medium transition-colors duration-200" style="color: var(--text-secondary);">Total Employees</p>
                                             <p class="text-lg font-bold mt-1 transition-colors duration-200" style="color: var(--text-primary);">{{ $totalEmployees }}</p>
                                         </div>
-                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105">
-                                            <i class="fas fa-users text-purple-600"></i>
+                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105" style="color: var(--text-primary);">
+                                            <i class="fas fa-users"></i>
                                         </div>
                                     </div>
                                 </a>
@@ -148,8 +166,8 @@
                                             <p class="text-xs font-medium transition-colors duration-200" style="color: var(--text-secondary);">On Leave Today</p>
                                             <p class="text-lg font-bold mt-1 transition-colors duration-200" style="color: var(--text-primary);">{{ $employeesOnLeave->count() }}</p>
                                         </div>
-                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105">
-                                            <i class="fas fa-calendar-check text-purple-600"></i>
+                                        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:scale-105" style="color: var(--text-primary);">
+                                            <i class="fas fa-calendar-check"></i>
                                         </div>
                                     </div>
                                 </a>
@@ -159,19 +177,20 @@
                 </section>
 
                 <!-- Work Week Chart -->
-                <section class="hr-card p-6">
+                <section class="hr-card dashboard-metric-card p-5">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-calendar-week text-purple-500"></i> Work Week
+                            <i class="fas fa-calendar-week text-[var(--color-primary)]"></i> Work Week
                         </h2>
-                        <a href="{{ route('leave.work-week') }}" class="text-xs text-purple-600 hover:text-purple-700">
+                        <a href="{{ route('leave.work-week') }}" class="text-xs text-[var(--color-primary)] hover:text-[var(--color-primary-soft)]">
                             <i class="fas fa-cog text-base"></i>
                         </a>
                     </div>
-                    <div class="flex items-end justify-between gap-2" style="height: 256px;">
+                    <!-- Add vertical space above bars using padding, keep outer height fixed -->
+                    <div class="flex items-end justify-between gap-2 mt-4" style="height: 256px; padding-top: 16px;">
                         @php
                             $maxHours = 8;
-                            $containerHeight = 256; // Height in pixels
+                            $containerHeight = 220; // Effective drawable height (below padding)
                         @endphp
                         @foreach($workWeekData as $day)
                             <div class="flex-1 flex flex-col items-center justify-end gap-2 h-full">
@@ -180,29 +199,29 @@
                                         $barHeight = ($day['hours'] / $maxHours) * $containerHeight;
                                         $barHeight = max(20, $barHeight); // Minimum 20px
                                     @endphp
-                                    <div class="work-week-bar w-full bg-purple-100 rounded-t relative overflow-hidden transition-all duration-300 ease-out hover:bg-purple-200 hover:shadow-lg hover:scale-105 cursor-pointer" style="height: {{ $barHeight }}px;" title="{{ $day['day'] }}: {{ $day['hours'] }} hours">
-                                        <div class="bg-gradient-to-t from-purple-400 to-purple-600 w-full h-full rounded-t flex items-center justify-center transition-all duration-300 hover:from-purple-500 hover:to-purple-700">
-                                            <span class="text-[9px] font-bold text-white transition-opacity duration-300 opacity-90 hover:opacity-100">{{ $day['hours'] }}h</span>
+                                    <div class="work-week-bar w-full bg-[var(--color-primary-light)] rounded-t relative overflow-hidden transition-all duration-300 ease-out hover:bg-[var(--color-primary-light)] hover:shadow-lg hover:scale-105 cursor-pointer" style="height: {{ $barHeight }}px;" title="{{ $day['day'] }}: {{ $day['hours'] }} hours">
+                                        <div class="bg-gradient-to-t from-[var(--color-primary)] to-[var(--color-primary-dark)] w-full h-full rounded-t flex items-center justify-center transition-all duration-300 hover:from-[var(--color-primary-soft)] hover:to-[var(--color-primary-dark)]">
+                                            <span class="text-[9px] font-bold transition-opacity duration-300 opacity-90 hover:opacity-100" style="color: var(--text-primary);">{{ $day['hours'] }}h</span>
                                         </div>
                                     </div>
                                 @else
-                                    <div class="work-week-bar w-full bg-slate-100 rounded-t flex items-center justify-center transition-all duration-300 ease-out hover:bg-slate-200 hover:shadow-md hover:scale-105 cursor-pointer" style="height: 20px;" title="{{ $day['day'] }}: Non-working day">
-                                        <span class="text-[8px] font-medium text-slate-500 transition-colors duration-300 hover:text-slate-600">-</span>
+                                    <div class="work-week-bar w-full bg-[var(--bg-surface)] rounded-t flex items-center justify-center transition-all duration-300 ease-out hover:bg-[var(--bg-hover)] hover:shadow-md hover:scale-105 cursor-pointer" style="height: 20px;" title="{{ $day['day'] }}: Non-working day">
+                                        <span class="text-[8px] font-medium text-[var(--text-muted)] transition-colors duration-300 hover:text-[var(--text-secondary)]">-</span>
                                     </div>
                                 @endif
-                                <span class="text-[9px] font-medium text-slate-700 text-center">{{ substr($day['day'], 0, 3) }}</span>
+                                <span class="text-[9px] font-medium text-[var(--text-primary)] text-center">{{ substr($day['day'], 0, 3) }}</span>
                             </div>
                         @endforeach
                     </div>
                 </section>
 
                 <!-- Holidays Chart -->
-                <section class="hr-card p-6">
+                <section class="hr-card dashboard-metric-card p-5">
                     <div class="flex items-center justify-between mb-5">
-                        <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-calendar-alt text-purple-500"></i> Holidays ({{ date('Y') }})
+                        <h2 class="text-sm font-bold text-[var(--text-primary)] flex items-center gap-2">
+                            <i class="fas fa-calendar-alt text-[var(--color-primary)]"></i> Holidays ({{ date('Y') }})
                         </h2>
-                        <a href="{{ route('leave.holidays') }}" class="text-xs text-purple-600 hover:text-purple-700">
+                        <a href="{{ route('leave.holidays') }}" class="text-xs text-[var(--color-primary)] hover:text-[var(--color-primary-soft)]">
                             <i class="fas fa-cog text-base"></i>
                         </a>
                     </div>
@@ -246,12 +265,12 @@
             <!-- Third Row: Job Titles Chart -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Job Titles Chart -->
-                <section class="hr-card p-6">
+                <section class="hr-card dashboard-metric-card p-5">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-briefcase text-purple-500"></i> Job Titles Distribution
+                            <i class="fas fa-briefcase text-[var(--color-primary)]"></i> Job Titles Distribution
                         </h2>
-                        <a href="{{ route('admin.job-titles') }}" class="text-xs text-purple-600 hover:text-purple-700">
+                        <a href="{{ route('admin.job-titles') }}" class="text-xs text-[var(--color-primary)] hover:text-[var(--color-primary-soft)]">
                             <i class="fas fa-cog text-base"></i>
                         </a>
                     </div>
@@ -262,7 +281,7 @@
                                 <div id="jobTitlesTooltip" class="absolute hidden px-2 py-1 text-xs font-medium rounded shadow-lg pointer-events-none z-50" style="background-color: var(--bg-card); border: 1px solid var(--border-default); color: var(--text-primary);"></div>
                             </div>
                         </div>
-                        <div class="space-y-2 text-xs max-h-40 overflow-y-auto">
+                        <div class="space-y-2 text-xs">
                             @foreach($jobTitlesData as $index => $jobData)
                                 <div class="flex items-center">
                                     <div class="flex items-center gap-2">
@@ -298,15 +317,14 @@
     // Helper function to get pie chart colors
     function getPieChartColor($index) {
         $colors = [
-            // Primary Purple Family (Your Theme)
-            '#8B5CF6', '#6D28D9', '#A78BFA', '#F5F3FF', '#c4b5fd', '#a78bfa',
+            // Primary Enterprise Red Family
+            '#E45745', '#F06A5A', '#FFD6D1', '#FFCDC6', '#FFF1EE',
             
-            // Extended Purple Shades
-            '#7C3AED', '#9333EA', '#A855F7', '#C084FC', '#c6b2dbff', '#a696aaff',
+            // Extended Red Shades
+            '#DC2626', '#B91C1C', '#991B1B', '#7F1D1D', '#F59E0B', '#FCD34D',
             
-            // Complementary Colors that work with Purple
-            '#DC2626', '#EA580C', '#D97706', '#65A30D', '#059669', '#0891B2',
-            '#2563EB', '#4F46E5', '#7C3AED', '#BE123C', '#DB2777', '#EC4899',
+            // Complementary Colors that work with Red
+            '#059669', '#10B981', '#6366F1', '#8B5CF6', '#EC4899', '#F43F5E',
             
             // Neutral Shades for Balance
             '#64748B', '#475569', '#334155', '#1E293B', '#94A3B8', '#6B7280',
@@ -372,17 +390,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const total = data.reduce((sum, item) => sum + item.count, 0);
             console.log('Total holidays:', total);
             
-            // Colors matching the PHP function - HR Suite Theme
+            // Colors matching the PHP function - HR Suite Enterprise Theme
             const colors = [
-                // Primary Purple Family (Your Theme)
-                '#8B5CF6', '#6D28D9', '#A78BFA', '#F5F3FF', '#c4b5fd', '#a78bfa',
+                // Primary Enterprise Red Family
+                '#E45745', '#F06A5A', '#FFD6D1', '#FFCDC6', '#FFF1EE',
                 
-                // Extended Purple Shades
-                '#7C3AED', '#9333EA', '#A855F7', '#C084FC', '#c6b2dbff', '#a696aaff',
+                // Extended Red Shades
+                '#DC2626', '#B91C1C', '#991B1B', '#7F1D1D', '#F59E0B', '#FCD34D',
                 
-                // Complementary Colors that work with Purple
-                '#DC2626', '#EA580C', '#D97706', '#65A30D', '#059669', '#0891B2',
-                '#2563EB', '#4F46E5', '#7C3AED', '#BE123C', '#DB2777', '#EC4899',
+                // Complementary Colors that work with Red
+                '#059669', '#10B981', '#6366F1', '#8B5CF6', '#EC4899', '#F43F5E',
                 
                 // Neutral Shades for Balance
                 '#64748B', '#475569', '#334155', '#1E293B', '#94A3B8', '#6B7280',
@@ -591,17 +608,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const total = data.reduce((sum, item) => sum + (item.count || 0), 0) + data.length; // Add 1 for each job title
             console.log('Total job titles (with minimum):', total);
             
-            // Colors matching the PHP function - HR Suite Theme
+            // Colors matching the PHP function - HR Suite Enterprise Theme
             const colors = [
-                // Primary Purple Family (Your Theme)
-                '#8B5CF6', '#6D28D9', '#A78BFA', '#F5F3FF', '#c4b5fd', '#a78bfa',
+                // Primary Enterprise Red Family
+                '#E45745', '#F06A5A', '#FFD6D1', '#FFCDC6', '#FFF1EE',
                 
-                // Extended Purple Shades
-                '#7C3AED', '#9333EA', '#A855F7', '#C084FC', '#E9D5FF', '#FAE8FF',
+                // Extended Red Shades
+                '#DC2626', '#B91C1C', '#991B1B', '#7F1D1D', '#F59E0B', '#FCD34D',
                 
-                // Complementary Colors that work with Purple
-                '#DC2626', '#EA580C', '#D97706', '#65A30D', '#059669', '#0891B2',
-                '#2563EB', '#4F46E5', '#7C3AED', '#BE123C', '#DB2777', '#EC4899',
+                // Complementary Colors that work with Red
+                '#059669', '#10B981', '#6366F1', '#8B5CF6', '#EC4899', '#F43F5E',
                 
                 // Neutral Shades for Balance
                 '#64748B', '#475569', '#334155', '#1E293B', '#94A3B8', '#6B7280',

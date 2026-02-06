@@ -9,7 +9,7 @@
         <!-- Search Panel -->
         <section class="hr-card p-6 mb-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-search text-purple-500"></i> <span class="mt-0.5">Location Search</span>
+                <i class="fas fa-search text-[var(--color-primary)]"></i> <span class="mt-0.5">Location Search</span>
             </h2>
             <x-admin.search-panel title="">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -44,7 +44,7 @@
         <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-map-marker-alt text-purple-500"></i> Locations
+                    <i class="fas fa-map-marker-alt text-[var(--color-primary)]"></i> Locations
                 </h2>
                 <x-admin.add-button />
             </div>

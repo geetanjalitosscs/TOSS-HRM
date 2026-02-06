@@ -6,7 +6,7 @@
     <x-main-layout title="Update Password">
         <section class="hr-card p-6 max-w-4xl mx-auto">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-key text-purple-500"></i> <span class="mt-0.5">Update Password</span>
+                <i class="fas fa-key text-[var(--color-primary)]"></i> <span class="mt-0.5">Update Password</span>
             </h2>
             
             @if(session('success'))
@@ -59,8 +59,7 @@
                             <button
                                 type="button"
                                 onclick="togglePasswordVisibility('password', 'password-eye')"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                                id="password-eye"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm transition-colors duration-200 hover:scale-105" style="color: var(--text-muted);" id="password-eye"
                             >
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -88,8 +87,7 @@
                             <button
                                 type="button"
                                 onclick="togglePasswordVisibility('current_password', 'current_password-eye')"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                                id="current_password-eye"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm transition-colors duration-200 hover:scale-105" style="color: var(--text-muted);" id="current_password-eye"
                             >
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -111,8 +109,7 @@
                             <button
                                 type="button"
                                 onclick="togglePasswordVisibility('password_confirmation', 'password_confirmation-eye')"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                                id="password_confirmation-eye"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm transition-colors duration-200 hover:scale-105" style="color: var(--text-muted);" id="password_confirmation-eye"
                             >
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -148,10 +145,12 @@
                 input.type = 'text';
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
+                button.style.color = 'var(--color-primary)';
             } else {
                 input.type = 'password';
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
+                button.style.color = 'var(--text-muted)';
             }
         }
     </script>

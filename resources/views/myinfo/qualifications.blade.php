@@ -13,7 +13,7 @@
                 <section id="work-experience-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-briefcase text-purple-500"></i> Work Experience
+                            <i class="fas fa-briefcase text-[var(--color-primary)]"></i> Work Experience
                         </h2>
                         <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                             <button
@@ -126,7 +126,7 @@
                 <section id="education-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-graduation-cap text-purple-500"></i> Education
+                            <i class="fas fa-graduation-cap text-[var(--color-primary)]"></i> Education
                         </h2>
                         <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                             <button
@@ -243,7 +243,7 @@
                 <section id="skills-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-tools text-purple-500"></i> Skills
+                            <i class="fas fa-tools text-[var(--color-primary)]"></i> Skills
                         </h2>
                         <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                             <button
@@ -341,7 +341,7 @@
                 <section id="languages-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-language text-purple-500"></i> Languages
+                            <i class="fas fa-language text-[var(--color-primary)]"></i> Languages
                         </h2>
                         <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                             <button
@@ -448,7 +448,7 @@
                 <section id="licenses-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fas fa-id-card text-purple-500"></i> License
+                            <i class="fas fa-id-card text-[var(--color-primary)]"></i> License
                         </h2>
                         <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                             <button
@@ -950,8 +950,8 @@
         }
 
         /* Remove extra padding from outer data row containers */
-        .border.border-purple-100>div.border-b,
-        .border.border-purple-100>div:first-child {
+        .border.border-[var(--border-default)]>div.border-b,
+        .border.border-[var(--border-default)]>div:first-child {
             padding-left: 0 !important;
             padding-right: 0 !important;
         }
@@ -1055,7 +1055,7 @@
 
             /* Responsive table - enable horizontal scroll */
             .qual-table-header,
-            .border.border-purple-100 {
+            .border.border-[var(--border-default)] {
                 min-width: 600px;
             }
 

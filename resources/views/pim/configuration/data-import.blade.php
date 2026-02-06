@@ -18,7 +18,7 @@
             @csrf
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-file-upload text-purple-500"></i> <span class="mt-0.5">Data Import</span>
+                <i class="fas fa-file-upload text-[var(--color-primary)]"></i> <span class="mt-0.5">Data Import</span>
             </h2>
             
             <!-- Note Section -->
@@ -50,7 +50,7 @@
                     >
                     <button 
                         type="button" 
-                        class="px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50 transition-all bg-[var(--bg-card)]"
+                        class="px-3 py-1.5 text-xs font-medium text-[var(--color-primary)] border border-[var(--border-strong)] rounded-lg hover:bg-[var(--color-primary-light)] transition-all bg-[var(--bg-card)]"
                         onclick="document.getElementById('data-import-file').click()"
                     >
                         Browse

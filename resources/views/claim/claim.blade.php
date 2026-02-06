@@ -41,7 +41,7 @@
             <!-- Employee Claims Search Panel Card -->
             <section class="hr-card p-6">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                    <i class="fas fa-search text-purple-500"></i> Employee Claims
+                    <i class="fas fa-search text-[var(--color-primary)]"></i> Employee Claims
                 </h2>
 
                 <!-- Filter Form -->
@@ -117,7 +117,7 @@
             <section id="claims-table-section" class="hr-card p-6">
                 <div class="flex items-center justify-between mb-5">
                     <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fas fa-list text-purple-500"></i> Claims List
+                        <i class="fas fa-list text-[var(--color-primary)]"></i> Claims List
                     </h2>
                     <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
                         <button
@@ -130,7 +130,7 @@
                         </button>
                         <a
                             href="{{ route('claim.assign') }}"
-                            class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-purple-300/50 transition-all flex items-center gap-1 shadow-md hover:scale-105 transform"
+                            class="hr-btn-primary px-4 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] rounded-lg hover:shadow-lg hover:shadow-[var(--color-primary-light)] transition-all flex items-center gap-1 shadow-md hover:scale-105 transform"
                             style="transform-origin: center; position: relative; z-index: 10;"
                         >
                             <i class="fas fa-plus"></i> Assign Claim
@@ -264,31 +264,24 @@
                             <!-- Actions -->
                             <div class="flex-shrink-0" style="width: 200px;">
                                 <div class="flex items-center justify-center gap-1">
-                                    <button 
-                                        type="button"
-                                        class="p-1 text-xs font-medium border rounded transition-all claim-view-btn" 
-                                        style="color: #a78bfa; border-color: #a78bfa; background-color: transparent;" 
-                                        onmouseover="this.style.backgroundColor='#ede9fe'; this.style.color='#7c3aed'; this.title='View';" 
-                                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='#a78bfa'; this.title='';"
-                                        title="View"
-                                    >
-                                        <i class="fas fa-eye text-xs"></i>
-                                    </button>
+                                        <button type="button" class="hr-action-view" title="View">
+                                            <i class="fas fa-eye text-xs"></i>
+                                        </button>
                                     <form method="POST" action="{{ route('claim.cancel', $claim->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #2563eb; border-color: #2563eb; background-color: transparent;" onmouseover="this.style.backgroundColor='#dbeafe'; this.style.color='#1e40af'; this.title='Cancel';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2563eb'; this.title='';" title="Cancel">
+                                        <button type="submit" class="hr-action-cancel" title="Cancel">
                                             <i class="fas fa-times text-xs"></i>
                                         </button>
                                     </form>
                                     <form method="POST" action="{{ route('claim.reject', $claim->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #dc2626; border-color: #dc2626; background-color: transparent;" onmouseover="this.style.backgroundColor='#fee2e2'; this.style.color='#991b1b'; this.title='Reject';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#dc2626'; this.title='';" title="Reject">
+                                        <button type="submit" class="hr-action-reject" title="Reject">
                                             <i class="fas fa-times-circle text-xs"></i>
                                         </button>
                                     </form>
                                     <form method="POST" action="{{ route('claim.approve', $claim->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #16a34a; border-color: #16a34a; background-color: transparent;" onmouseover="this.style.backgroundColor='#dcfce7'; this.style.color='#15803d'; this.title='Approve';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#16a34a'; this.title='';" title="Approve">
+                                        <button type="submit" class="hr-action-approve" title="Approve">
                                             <i class="fas fa-check text-xs"></i>
                                         </button>
                                     </form>

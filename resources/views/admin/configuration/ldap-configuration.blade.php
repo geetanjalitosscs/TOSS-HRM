@@ -9,7 +9,7 @@
         <section class="hr-card p-6">
             <div class="flex items-center justify-between mb-5">
                 <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
-                    <i class="fas fa-server text-purple-500"></i> <span class="mt-0.5">LDAP Configuration</span>
+                    <i class="fas fa-server text-[var(--color-primary)]"></i> <span class="mt-0.5">LDAP Configuration</span>
                 </h2>
                 <x-admin.toggle-switch id="ldap-enable-toggle" :checked="false" />
             </div>

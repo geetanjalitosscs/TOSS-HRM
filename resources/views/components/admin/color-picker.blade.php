@@ -20,7 +20,7 @@
         <!-- Color Swatch (Clickable) -->
         <div 
             class="w-12 h-12 rounded-full border-2 cursor-pointer transition-transform hover:scale-105 relative" 
-            style="border-color: var(--border-strong); background-color: {{ $value }};" 
+            style="border-color: var(--border-strong); background-color: {{ $value }}; box-shadow: 0 0 15px rgba(228, 87, 69, 0.2), 0 0 30px rgba(228, 87, 69, 0.1);" 
             id="{{ $swatchId }}"
             onclick="openColorPicker('{{ $uniqueId }}', '{{ $value }}', event)">
         </div>

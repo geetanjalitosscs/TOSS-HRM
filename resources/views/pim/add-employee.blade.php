@@ -8,7 +8,7 @@
 
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="{{ ($mode ?? 'create') === 'edit' ? 'fas fa-user-edit' : 'fas fa-user-plus' }} text-purple-500"></i>
+                <i class="{{ ($mode ?? 'create') === 'edit' ? 'fas fa-user-edit' : 'fas fa-user-plus' }} text-[var(--color-primary)]"></i>
                 <span class="mt-0.5">{{ ($mode ?? 'create') === 'edit' ? 'Edit Employee' : 'Add Employee' }}</span>
             </h2>
 
@@ -35,7 +35,7 @@
                         <i class="fas fa-user text-4xl employee-photo-icon" style="color: var(--text-muted); {{ !empty($photoUrl) ? 'display: none;' : '' }}"></i>
 
                         <input type="file" name="photo" id="employee-photo-input" accept=".jpg,.jpeg,.png,.gif,.webp" class="hidden">
-                        <button type="button" class="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg" style="background: var(--color-hr-primary);" onmouseover="this.style.background='var(--color-hr-primary-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='var(--color-hr-primary)'; this.style.transform='scale(1)'" onclick="document.getElementById('employee-photo-input')?.click()">
+                        <button type="button" class="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-105" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover)); box-shadow: 0 0 8px rgba(228, 87, 69, 0.15), 0 0 16px rgba(228, 87, 69, 0.08); overflow: visible;" onclick="document.getElementById('employee-photo-input')?.click()">
                             <i class="fas fa-camera text-xs"></i>
                         </button>
                     </div>
@@ -57,7 +57,7 @@
                                     name="first_name"
                                     value="{{ old('first_name', $employee->first_name ?? '') }}"
                                     required
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                                     placeholder="First Name"
                                 >
                             </div>
@@ -66,7 +66,7 @@
                                     type="text"
                                     name="middle_name"
                                     value="{{ old('middle_name') }}"
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                                     placeholder="Middle Name"
                                 >
                             </div>
@@ -76,7 +76,7 @@
                                     name="last_name"
                                     value="{{ old('last_name', $employee->last_name ?? '') }}"
                                     required
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                                     placeholder="Last Name"
                                 >
                             </div>
@@ -91,7 +91,7 @@
                             name="employee_number"
                             value="{{ old('employee_number', $employee->employee_number ?? ($suggestedEmployeeNumber ?? '')) }}"
                             required
-                            class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                            class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                             placeholder="Auto-generated or enter manually"
                         >
                     </div>
@@ -102,7 +102,7 @@
                             <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
                             <select
                                 name="job_title_id"
-                                class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                             >
                                 <option value="">-- Select --</option>
                                 @foreach($jobTitles ?? [] as $title)
@@ -119,7 +119,7 @@
                             <label class="block text-xs font-medium text-slate-700 mb-1">Employment Status</label>
                             <select
                                 name="employment_status_id"
-                                class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
                             >
                                 <option value="">-- Select --</option>
                                 @foreach($employmentStatuses ?? [] as $status)

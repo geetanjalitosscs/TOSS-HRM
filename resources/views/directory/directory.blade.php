@@ -7,12 +7,12 @@
         <!-- Directory Search/Filter Section -->
         <section class="hr-card p-6">
             <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-address-book text-purple-500"></i> <span class="mt-0.5">Directory</span>
+                <i class="fas fa-address-book text-[var(--color-primary)]"></i> <span class="mt-0.5">Directory</span>
             </h2>
 
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('directory') }}" id="directory-search-form">
-                    <div class="bg-purple-50/30 rounded-lg p-3 mb-3 border border-purple-100">
+                    <div class="bg-[var(--color-primary-light)] rounded-lg p-3 mb-3 border border-[var(--border-default)]">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
@@ -20,14 +20,14 @@
                                     type="text" 
                                     name="employee_name"
                                     value="{{ request('employee_name') }}"
-                                    class="hr-input w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
+                                    class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" 
                                     placeholder="Type for hints...">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
                                 <select 
                                     name="job_title"
-                                    class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                                    class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     @foreach($jobTitles ?? [] as $title)
                                         <option value="{{ $title->id }}" {{ request('job_title') == $title->id ? 'selected' : '' }}>
@@ -51,7 +51,7 @@
                         <!-- Profile Picture -->
                         <div class="flex justify-center mb-3">
                             @if($employee->photo_url)
-                                <div class="w-20 h-20 rounded-full overflow-hidden shadow-lg shadow-purple-200/50" style="background-color: var(--bg-hover); border: 2px solid var(--border-default);">
+                                <div class="w-20 h-20 rounded-full overflow-hidden shadow-lg shadow-[var(--color-primary-light)]" style="background-color: var(--bg-hover); border: 2px solid var(--border-default);">
                                     <img src="{{ $employee->photo_url }}?t={{ time() }}" alt="{{ $employee->name }}" class="w-full h-full object-contain">
                                 </div>
                             @else

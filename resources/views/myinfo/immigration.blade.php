@@ -10,7 +10,7 @@
             <!-- Right Content Area -->
             <div class="flex-1">
                 <!-- Assigned Immigration Records Section -->
-                <div class="rounded-lg shadow-sm border border-purple-100 p-4 mb-3" style="background-color: var(--bg-card);">
+                <div class="rounded-lg shadow-sm border border-[var(--border-default)] p-4 mb-3" style="background-color: var(--bg-card);">
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-sm font-bold text-slate-800">Assigned Immigration Records</h2>
                         <button type="button" onclick="toggleImmigrationForm()" class="myinfo-add-btn px-3 py-1.5 text-xs border border-gray-300 rounded-lg hover:bg-gray-100" style="background-color: #F9FAFB; border-color: #D1D5DB; color: #374151;">
@@ -96,7 +96,7 @@
                     <hr class="border-gray-200 mb-0">
 
                     <!-- Table Header -->
-                    <div class="myinfo-table-header bg-gray-100 rounded-t-lg border border-purple-100 border-b-0 px-2 py-1.5 mb-0">
+                    <div class="myinfo-table-header bg-gray-100 rounded-t-lg border border-[var(--border-default)] border-b-0 px-2 py-1.5 mb-0">
                         <div class="flex items-center gap-1 immigration-table-row">
                             <div class="myinfo-checkbox-cell" style="width: 40px; flex-shrink: 0;">
                                 <input type="checkbox" class="myinfo-checkbox w-4 h-4 text-[var(--color-hr-primary)] border-gray-300 rounded focus:ring-[var(--color-hr-primary)]">
@@ -123,9 +123,9 @@
                     </div>
 
                     <!-- Table Rows -->
-                    <div class="border border-purple-100 border-t-0 rounded-b-lg" style="overflow: visible;">
+                    <div class="border border-[var(--border-default)] border-t-0 rounded-b-lg" style="overflow: visible;">
                         @forelse($immigrationRecords ?? collect([]) as $record)
-                            <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors myinfo-table-row" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                            <div class="border-b border-[var(--border-default)] last:border-b-0 px-2 py-1.5 transition-colors myinfo-table-row" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <div class="flex items-center gap-1 immigration-table-row">
                                     <div class="myinfo-checkbox-cell" style="width: 40px; flex-shrink: 0;">
                                         <input type="checkbox" class="myinfo-checkbox w-4 h-4 text-[var(--color-hr-primary)] border-gray-300 rounded focus:ring-[var(--color-hr-primary)]">
@@ -164,7 +164,7 @@
                 </div>
 
                 <!-- Attachments Section -->
-                <div class="rounded-lg shadow-sm border border-purple-100 p-4" style="background-color: var(--bg-card);">
+                <div class="rounded-lg shadow-sm border border-[var(--border-default)] p-4" style="background-color: var(--bg-card);">
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-sm font-bold text-slate-800">Attachments</h2>
                         <button type="button" onclick="toggleAttachmentForm()" class="myinfo-add-btn px-3 py-1.5 text-xs border border-gray-300 rounded-lg hover:bg-gray-100" style="background-color: #F9FAFB; border-color: #D1D5DB; color: #374151;">
@@ -223,7 +223,7 @@
                     <hr class="border-gray-200 mb-0">
 
                     <!-- Table Header -->
-                    <div class="myinfo-table-header bg-gray-100 rounded-t-lg border border-purple-100 border-b-0 px-2 py-1.5 mb-0">
+                    <div class="myinfo-table-header bg-gray-100 rounded-t-lg border border-[var(--border-default)] border-b-0 px-2 py-1.5 mb-0">
                         <div class="flex items-center gap-1 attachments-table-row">
                             <div class="myinfo-checkbox-cell" style="width: 40px; flex-shrink: 0;">
                                 <input type="checkbox" class="myinfo-checkbox w-4 h-4 text-[var(--color-hr-primary)] border-gray-300 rounded focus:ring-[var(--color-hr-primary)]">
@@ -253,9 +253,9 @@
                     </div>
 
                     <!-- Table Rows -->
-                    <div class="border border-purple-100 border-t-0 rounded-b-lg" style="overflow: visible;">
+                    <div class="border border-[var(--border-default)] border-t-0 rounded-b-lg" style="overflow: visible;">
                         @forelse($attachments ?? collect([]) as $attachment)
-                            <div class="border-b border-purple-100 last:border-b-0 px-2 py-1.5 transition-colors myinfo-table-row" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                            <div class="border-b border-[var(--border-default)] last:border-b-0 px-2 py-1.5 transition-colors myinfo-table-row" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <div class="flex items-center gap-1 attachments-table-row">
                                     <div class="myinfo-checkbox-cell" style="width: 40px; flex-shrink: 0;">
                                         <input type="checkbox" class="myinfo-checkbox w-4 h-4 text-[var(--color-hr-primary)] border-gray-300 rounded focus:ring-[var(--color-hr-primary)]">

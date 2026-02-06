@@ -10,7 +10,7 @@
             <div class="flex-1">
                 <section class="hr-card p-6">
                     <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                        <i class="fas fa-comments text-purple-500"></i> <span class="mt-0.5">Buzz Newsfeed</span>
+                        <i class="fas fa-comments text-[var(--color-primary)]"></i> <span class="mt-0.5">Buzz Newsfeed</span>
                     </h2>
 
                     <!-- Post Creation Widget -->

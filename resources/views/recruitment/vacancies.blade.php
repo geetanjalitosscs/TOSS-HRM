@@ -10,12 +10,12 @@
             <!-- Vacancies Search Panel Card -->
             <section class="hr-card p-6">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-                    <i class="fas fa-search text-purple-500"></i> Vacancies
+                    <i class="fas fa-search text-[var(--color-primary)]"></i> Vacancies
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                             <option>-- Select --</option>
                             <option>Account Assistant</option>
                             <option>Payroll Administrator</option>
@@ -27,7 +27,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Vacancy</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                             <option>-- Select --</option>
                             <option>Junior Account Assistant</option>
                             <option>Payroll Administrator</option>
@@ -40,7 +40,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Hiring Manager</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                             <option>-- Select --</option>
                             <option>Jason Miller</option>
                             <option>(Deleted)</option>
@@ -48,7 +48,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1">Status</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
+                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                             <option>-- Select --</option>
                             <option>Active</option>
                             <option>Inactive</option>
@@ -62,7 +62,7 @@
             <section class="hr-card p-6">
                 <div class="flex items-center justify-between mb-5">
                     <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fas fa-briefcase text-purple-500"></i> Vacancies List
+                        <i class="fas fa-briefcase text-[var(--color-primary)]"></i> Vacancies List
                     </h2>
                     <x-admin.add-button />
                 </div>
