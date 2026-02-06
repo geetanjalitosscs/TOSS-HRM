@@ -52,7 +52,7 @@
                         <div class="flex justify-center mb-3">
                             @if($employee->photo_url)
                                 <div class="w-20 h-20 rounded-full overflow-hidden shadow-lg shadow-purple-200/50" style="background-color: var(--bg-hover); border: 2px solid var(--border-default);">
-                                    <img src="{{ $employee->photo_url }}" alt="{{ $employee->name }}" class="w-full h-full object-contain">
+                                    <img src="{{ $employee->photo_url }}?t={{ time() }}" alt="{{ $employee->name }}" class="w-full h-full object-contain">
                                 </div>
                             @else
                                 <div class="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 text-2xl">

@@ -73,6 +73,11 @@ class MyInfoController extends Controller
                     ->where('id', $employeeId)
                     ->first();
 
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
+
                 // Fetch personal details
                 $personalDetails = DB::table('employee_personal_details')
                     ->where('employee_id', $employeeId)
@@ -129,6 +134,94 @@ class MyInfoController extends Controller
             'nationalities',
             'user'
         ));
+    }
+
+    /**
+     * Get employee photo URL (same as DirectoryController)
+     */
+    private function getEmployeePhotoUrl(?int $employeeId): ?string
+    {
+        if (!$employeeId) {
+            return null;
+        }
+
+        $employee = DB::table('employees')->where('id', $employeeId)->first();
+        if (!$employee) {
+            return null;
+        }
+
+        // Check photo_path column first
+        if (!empty($employee->photo_path)) {
+            return asset('storage/' . ltrim((string) $employee->photo_path, '/'));
+        }
+
+        // Fallback: try common file paths
+        foreach (['jpg', 'jpeg', 'png', 'gif', 'webp'] as $ext) {
+            $path = "employee_photos/{$employeeId}.{$ext}";
+            if (Storage::disk('public')->exists($path)) {
+                return asset('storage/' . $path);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Profile Photo page
+     */
+    public function profilePhoto()
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+        
+        // Fetch employee data
+        $employee = null;
+        $user = null;
+        
+        if ($employeeId) {
+            $employee = DB::table('employees')
+                ->where('id', $employeeId)
+                ->first();
+                
+            // Add photo_url to employee object
+            if ($employee) {
+                $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+            }
+        }
+        
+        if ($userId) {
+            $user = DB::table('users')->where('id', $userId)->first();
+        }
+
+        return view('myinfo.profile-photo-update', compact(
+            'employee',
+            'user'
+        ));
+    }
+
+    /**
+     * Update employee photo
+     */
+    public function updatePhoto(Request $request)
+    {
+        [$userId, $employeeId] = $this->resolveUserAndEmployee();
+        
+        $request->validate([
+            'photo' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:1024'
+        ]);
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $fileName = $employeeId . '.' . $file->getClientOriginalExtension();
+            
+            // Store in employee_photos directory
+            $path = $file->storeAs('employee_photos', $fileName, 'public');
+            
+            // Update employee record with photo path
+            DB::table('employees')
+                ->where('id', $employeeId)
+                ->update(['photo_path' => $path]);
+        }
+
+        return redirect()->route('myinfo')->with('success', 'Profile photo updated successfully!');
     }
 
     /**
@@ -475,6 +568,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
 
                 $contactDetails = DB::table('employee_personal_details')
                     ->where('employee_id', $employeeId)
@@ -594,6 +692,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
             }
         }
 
@@ -773,6 +876,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
             }
         }
 
@@ -836,6 +944,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
             }
         }
 
@@ -858,6 +971,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
             }
         }
 
@@ -880,6 +998,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
             }
         }
 
@@ -902,6 +1025,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
             }
         }
 
@@ -915,6 +1043,11 @@ class MyInfoController extends Controller
         $employee = DB::table('employees')
             ->where('id', $employeeId)
             ->first();
+
+        // Add photo_url to employee object
+        if ($employee) {
+            $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+        }
 
         // Fetch work experience
         $workExperience = DB::table('employee_work_experience')
@@ -997,6 +1130,11 @@ class MyInfoController extends Controller
                 $employee = DB::table('employees')
                     ->where('id', $employeeId)
                     ->first();
+                    
+                // Add photo_url to employee object
+                if ($employee) {
+                    $employee->photo_url = $this->getEmployeePhotoUrl($employeeId);
+                }
             }
         }
 

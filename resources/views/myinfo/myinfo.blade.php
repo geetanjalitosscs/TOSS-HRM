@@ -17,7 +17,7 @@
                     <div class="space-y-3">
                         <!-- Employee Full Name -->
                         <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Full Name*</label>
+                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Full Name</label>
                             <div class="grid grid-cols-3 gap-2">
                                 <input type="text" name="first_name" class="hr-input" value="{{ $employee ? $employee->first_name : '' }}" placeholder="First Name">
                                 <input type="text" name="middle_name" class="hr-input" value="{{ $employee ? ($employee->middle_name ?? '') : '' }}" placeholder="Middle Name">
@@ -27,7 +27,7 @@
 
                         <!-- Username -->
                         <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Username*</label>
+                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Username</label>
                             <input type="text" name="username" class="hr-input" value="{{ $user ? $user->username : '' }}" placeholder="Username">
                         </div>
 
@@ -294,6 +294,8 @@
                 </form>
             </div>
     </x-main-layout>
+
+@endsection
 
     <!-- Attachment Modals -->
     <x-admin.modal
@@ -659,4 +661,3 @@
 
         updateDeleteButtonVisibility();
     </script>
-@endsection

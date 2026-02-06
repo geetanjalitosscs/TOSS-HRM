@@ -233,6 +233,7 @@ Route::middleware('auth.session')->group(function () {
         ];
     });
     Route::post('/my-info/personal-details', [MyInfoController::class, 'updatePersonalDetails'])->name('myinfo.personal.update');
+    Route::post('/my-info/photo', [MyInfoController::class, 'updatePhoto'])->name('myinfo.photo.update');
     Route::post('/my-info/custom-fields', [MyInfoController::class, 'updateCustomFields'])->name('myinfo.custom.update');
     Route::post('/my-info/attachments', [MyInfoController::class, 'storeAttachment'])->name('myinfo.attachments.store');
     Route::post('/my-info/attachments/{id}/update', [MyInfoController::class, 'updateAttachment'])->name('myinfo.attachments.update');
@@ -252,6 +253,7 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/my-info/salary', [MyInfoController::class, 'salary'])->name('myinfo.salary');
     Route::get('/my-info/report-to', [MyInfoController::class, 'reportTo'])->name('myinfo.report-to');
     Route::get('/my-info/qualifications', [MyInfoController::class, 'qualifications'])->name('myinfo.qualifications');
+    Route::get('/my-info/profile-photo', [MyInfoController::class, 'profilePhoto'])->name('myinfo.profile-photo');
     Route::post('/my-info/qualifications/work-experience', [MyInfoController::class, 'storeWorkExperience'])->name('myinfo.qualifications.work-experience.store');
     Route::put('/my-info/qualifications/work-experience/{id}', [MyInfoController::class, 'updateWorkExperience'])->name('myinfo.qualifications.work-experience.update');
     Route::delete('/my-info/qualifications/work-experience/{id}', [MyInfoController::class, 'deleteWorkExperience'])->name('myinfo.qualifications.work-experience.delete');

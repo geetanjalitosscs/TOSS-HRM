@@ -27,7 +27,7 @@
                         data-initial-photo="{{ $photoUrl ?? '' }}"
                     >
                         @if(!empty($photoUrl))
-                            <img src="{{ $photoUrl }}" alt="Employee Photo"
+                            <img src="{{ $photoUrl }}?t={{ time() }}" alt="Employee Photo"
                                  class="absolute inset-0 w-full h-full object-contain rounded-full employee-photo-preview"
                                  style="background-color: var(--bg-surface);"
                                  onerror="this.onerror=null; this.style.display='none'; const icon = this.parentElement.querySelector('.employee-photo-icon'); if(icon) icon.style.display='block';">

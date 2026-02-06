@@ -23,7 +23,7 @@
         <a href="{{ route('dashboard') }}" class="sidebar-link {{ request()->routeIs('dashboard') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-home"></i> Dashboard
         </a>
-        <a href="{{ route('myinfo') }}" class="sidebar-link {{ request()->routeIs('myinfo') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('myinfo') }}" class="sidebar-link {{ request()->routeIs('myinfo*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-user-circle"></i> My Info
         </a>
         <a href="{{ route('pim') }}" class="sidebar-link {{ request()->routeIs('pim*') ? 'sidebar-link--active' : '' }}">

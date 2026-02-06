@@ -6,9 +6,22 @@
             {{ $employee ? ($employee->display_name ?: trim($employee->first_name . ' ' . ($employee->middle_name ?? '') . ' ' . $employee->last_name)) : 'Employee' }}
         </h2>
         <div class="flex justify-center mb-3">
-            <div class="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                {{ $employee ? strtoupper(substr($employee->first_name, 0, 1)) : 'E' }}
-            </div>
+            @if($employee && $employee->photo_url)
+                <div class="h-24 w-24 rounded-full overflow-hidden shadow-lg border-2" style="border-color: var(--border-default);">
+                    <img src="{{ $employee->photo_url }}?t={{ time() }}" alt="{{ $employee->first_name }}" class="w-full h-full object-contain">
+                </div>
+            @else
+                <div class="h-24 w-24 rounded-full bg-gradient-to-br from-[var(--color-hr-primary)] to-[var(--color-hr-primary-dark)] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                    {{ $employee ? strtoupper(substr($employee->first_name, 0, 1)) : 'E' }}
+                </div>
+            @endif
+        </div>
+        
+        <!-- Update Photo Link -->
+        <div class="flex justify-center mb-3">
+            <a href="{{ route('myinfo.profile-photo') }}" class="text-xs font-medium px-3 py-1.5 rounded-lg transition-all" style="background-color: var(--color-hr-primary); color: white;" onmouseover="this.style.backgroundColor='var(--color-hr-primary-dark)'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='var(--color-hr-primary)'; this.style.transform='scale(1)'">
+                <i class="fas fa-camera mr-1"></i> Update Photo
+            </a>
         </div>
     </div>
 
