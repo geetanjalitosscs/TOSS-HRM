@@ -86,9 +86,9 @@
                     <div class="flex items-center justify-between text-xs" style="color: var(--text-primary);">
                         <span class="font-medium">{{ $balance['leave_type'] }}:</span>
                         @if(isset($balance['calculate_monthly']) && $balance['calculate_monthly'] == 1)
-                            <span>{{ number_format((float)$balance['display_total'], 0, '.', '') }}/{{ number_format((float)$balance['remaining'], 0, '.', '') }} ({{ number_format((float)$balance['remaining'], 0, '.', '') }} Day(s) remaining)</span>
+                            <span>{{ number_format((float)$balance['remaining'], 0, '.', '') }}/{{ number_format((float)$balance['display_total'], 0, '.', '') }} ({{ number_format((float)$balance['remaining'], 0, '.', '') }} Day(s) remaining)</span>
                         @else
-                            <span>{{ number_format((float)$balance['remaining'], 0, '.', '') }} Day(s) remaining ({{ number_format((float)$balance['display_total'], 0, '.', '') }} total - {{ number_format((float)$balance['total_taken'], 0, '.', '') }} taken)</span>
+                            <span>{{ number_format((float)$balance['remaining'], 0, '.', '') }}/{{ number_format((float)$balance['display_total'], 0, '.', '') }} ({{ number_format((float)$balance['remaining'], 0, '.', '') }} Day(s) remaining ({{ number_format((float)$balance['display_total'], 0, '.', '') }} total - {{ number_format((float)$balance['total_taken'], 0, '.', '') }} taken))</span>
                         @endif
                     </div>
                     @endforeach
@@ -109,25 +109,25 @@
                     <div class="flex-shrink-0" style="width: 24px;">
                         <input type="checkbox" id="my-leave-master-checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
                     </div>
-                    <div class="flex-shrink-0" style="width: 180px; min-width: 180px;">
+                    <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Date</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 120px; min-width: 120px;">
+                    <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Leave Type</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 100px; min-width: 100px;">
+                    <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Leave Balance (Days)</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 100px; min-width: 100px;">
+                    <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Leave Taken</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 100px; min-width: 100px;">
+                    <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Status</div>
                     </div>
-                    <div class="flex-1" style="min-width: 150px;">
+                    <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold text-gray-700 uppercase tracking-wide leading-tight break-words">Comments</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 200px;">
+                    <div class="flex-1" style="min-width: 0;">
                         <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                         </div>
                         
                         <!-- Date -->
-                        <div class="flex-shrink-0" style="width: 180px; min-width: 180px;">
+                        <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">
                                 @if($leave->start_date_formatted && $leave->end_date_formatted)
                                     {{ $leave->start_date_formatted }} - {{ $leave->end_date_formatted }}
@@ -154,15 +154,22 @@
                         </div>
                         
                         <!-- Leave Type -->
-                        <div class="flex-shrink-0" style="width: 120px; min-width: 120px;">
+                        <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">{{ $leave->leave_type ?? '-' }}</div>
                         </div>
                         
                         <!-- Leave Balance (Days) -->
-                        <div class="flex-shrink-0" style="width: 100px; min-width: 100px;">
+                        <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">
                                 @if(isset($leave->leave_balance) && $leave->leave_balance !== null && $leave->leave_balance !== '-')
-                                    {{ $leave->leave_balance }}
+                                    @php
+                                        $parts = explode('/', $leave->leave_balance);
+                                        if (count($parts) == 2) {
+                                            echo $parts[1] . '/' . $parts[0];
+                                        } else {
+                                            echo $leave->leave_balance;
+                                        }
+                                    @endphp
                                 @else
                                     -
                                 @endif
@@ -170,7 +177,7 @@
                         </div>
                         
                         <!-- Leave Taken -->
-                        <div class="flex-shrink-0" style="width: 100px; min-width: 100px;">
+                        <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">
                                 @if($leave->number_of_days !== null)
                                     {{ number_format((float)$leave->number_of_days, 0, '.', '') }}
@@ -181,34 +188,34 @@
                         </div>
                         
                         <!-- Status -->
-                        <div class="flex-shrink-0" style="width: 100px; min-width: 100px;">
+                        <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">{{ ucfirst($leave->status ?? '-') }}</div>
                         </div>
                         
                         <!-- Comments -->
-                        <div class="flex-1" style="min-width: 150px;">
+                        <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">{{ $leave->comments ?? '-' }}</div>
                         </div>
                         
                         <!-- Actions -->
-                        <div class="flex-shrink-0" style="width: 200px;">
+                        <div class="flex-1" style="min-width: 0;">
                             <div class="flex items-center justify-center gap-1">
                                 <form method="POST" action="{{ route('leave.cancel', $leave->id) }}" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #2563eb; border-color: #2563eb; background-color: transparent;" onmouseover="this.style.backgroundColor='#dbeafe'; this.style.color='#1e40af'; this.title='Cancel';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2563eb'; this.title='';" title="Cancel">
-                                        <i class="fas fa-times text-xs"></i>
+                                    <button type="submit" class="hr-action-cancel flex-shrink-0" title="Cancel">
+                                        <i class="fas fa-times text-sm"></i>
                                     </button>
                                 </form>
                                 <form method="POST" action="{{ route('leave.reject', $leave->id) }}" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #dc2626; border-color: #dc2626; background-color: transparent;" onmouseover="this.style.backgroundColor='#fee2e2'; this.style.color='#991b1b'; this.title='Reject';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#dc2626'; this.title='';" title="Reject">
-                                        <i class="fas fa-times-circle text-xs"></i>
+                                    <button type="submit" class="hr-action-reject flex-shrink-0" title="Reject">
+                                        <i class="fas fa-times-circle text-sm"></i>
                                     </button>
                                 </form>
                                 <form method="POST" action="{{ route('leave.approve', $leave->id) }}" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #16a34a; border-color: #16a34a; background-color: transparent;" onmouseover="this.style.backgroundColor='#dcfce7'; this.style.color='#15803d'; this.title='Approve';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#16a34a'; this.title='';" title="Approve">
-                                        <i class="fas fa-check text-xs"></i>
+                                    <button type="submit" class="hr-action-approve flex-shrink-0" title="Approve">
+                                        <i class="fas fa-check text-sm"></i>
                                     </button>
                                 </form>
                             </div>

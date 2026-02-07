@@ -80,7 +80,7 @@
                                     Type
                                 </div>
                             </div>
-                            <div class="flex-shrink-0" style="width: 80px;">
+                            <div class="flex-shrink-0" style="width: 150px;">
                                 <div class="text-xs font-semibold uppercase tracking-wide leading-tight text-center"
                                      style="color: var(--text-primary);">
                                     Actions
@@ -119,7 +119,7 @@
                                             {{ ucfirst($report->type ?? 'education') }}
                                         </div>
                                     </div>
-                                    <div class="flex-shrink-0" style="width: 80px;">
+                                    <div class="flex-shrink-0" style="width: 150px;">
                                         <div class="flex items-center justify-center gap-2">
                         <button class="hr-action-copy flex-shrink-0" title="Copy">
                             <i class="fas fa-copy text-sm"></i>

@@ -158,7 +158,14 @@
                         <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs text-gray-700 break-words">
                                 @if($leave->leave_balance !== null && $leave->leave_balance !== '-')
-                                    {{ $leave->leave_balance }}
+                                    @php
+                                        $parts = explode('/', $leave->leave_balance);
+                                        if (count($parts) == 2) {
+                                            echo $parts[1] . '/' . $parts[0];
+                                        } else {
+                                            echo $leave->leave_balance;
+                                        }
+                                    @endphp
                                 @else
                                     -
                                 @endif
@@ -185,20 +192,20 @@
                             <div class="flex items-center justify-center gap-1">
                                 <form method="POST" action="{{ route('leave.cancel', $leave->id) }}" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #2563eb; border-color: #2563eb; background-color: transparent;" onmouseover="this.style.backgroundColor='#dbeafe'; this.style.color='#1e40af'; this.title='Cancel';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2563eb'; this.title='';" title="Cancel">
-                                        <i class="fas fa-times text-xs"></i>
+                                    <button type="submit" class="hr-action-cancel flex-shrink-0" title="Cancel">
+                                        <i class="fas fa-times text-sm"></i>
                                     </button>
                                 </form>
                                 <form method="POST" action="{{ route('leave.reject', $leave->id) }}" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #dc2626; border-color: #dc2626; background-color: transparent;" onmouseover="this.style.backgroundColor='#fee2e2'; this.style.color='#991b1b'; this.title='Reject';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#dc2626'; this.title='';" title="Reject">
-                                        <i class="fas fa-times-circle text-xs"></i>
+                                    <button type="submit" class="hr-action-reject flex-shrink-0" title="Reject">
+                                        <i class="fas fa-times-circle text-sm"></i>
                                     </button>
                                 </form>
                                 <form method="POST" action="{{ route('leave.approve', $leave->id) }}" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="p-1 text-xs font-medium border rounded transition-all" style="color: #16a34a; border-color: #16a34a; background-color: transparent;" onmouseover="this.style.backgroundColor='#dcfce7'; this.style.color='#15803d'; this.title='Approve';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#16a34a'; this.title='';" title="Approve">
-                                        <i class="fas fa-check text-xs"></i>
+                                    <button type="submit" class="hr-action-approve flex-shrink-0" title="Approve">
+                                        <i class="fas fa-check text-sm"></i>
                                     </button>
                                 </form>
                             </div>

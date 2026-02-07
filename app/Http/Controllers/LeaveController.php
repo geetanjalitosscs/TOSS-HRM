@@ -315,8 +315,42 @@ class LeaveController extends Controller
             
             // Check if monthly calculation is enabled
             if ($calculateMonthly == 1) {
-                // Use new monthly calculation: current month only, no carry forward
-                $leave->leave_balance = $this->calculateMonthlyBalance($leave->employee_id, $leave->leave_type_id);
+                // Calculate balance at the time of this leave (cumulative totals)
+                $leaveDate = Carbon::parse($leave->start_date);
+                $leaveYear = $leaveDate->year;
+                $leaveMonth = $leaveDate->month;
+                
+                $monthlyAllocation = (int)($maxPerYear / 12);
+                
+                // Calculate cumulative total allocated up to this month
+                $cumulativeTotal = $monthlyAllocation * $leaveMonth;
+                
+                // Calculate total taken up to and including this leave's date
+                $totalTaken = DB::table('leave_applications')
+                    ->where('employee_id', $leave->employee_id)
+                    ->where('leave_type_id', $leave->leave_type_id)
+                    ->where('status', '!=', 'cancelled')
+                    ->whereYear('start_date', $leaveYear)
+                    ->where(function($query) use ($leaveDate, $leave) {
+                        // Leaves from months before this leave's month
+                        $query->where(function($q) use ($leaveDate) {
+                            $q->whereYear('start_date', $leaveDate->year)
+                              ->whereMonth('start_date', '<', $leaveDate->month);
+                        })
+                        // Or leaves from same month but on or before this leave's date
+                        ->orWhere(function($q) use ($leaveDate, $leave) {
+                            $q->whereYear('start_date', $leaveDate->year)
+                              ->whereMonth('start_date', $leaveDate->month)
+                              ->where('start_date', '<=', $leave->start_date);
+                        });
+                    })
+                    ->sum('total_days');
+                
+                $totalTaken = (int)($totalTaken ?? 0);
+                $remaining = $cumulativeTotal - $totalTaken;
+                
+                // Format as "total/remaining" (will be reversed in view to show "remaining/total")
+                $leave->leave_balance = number_format((float)$cumulativeTotal, 0, '.', '') . '/' . number_format((float)$remaining, 0, '.', '');
             } else {
                 // Yearly calculation
                 $totalTaken = DB::table('leave_applications')
@@ -423,8 +457,42 @@ class LeaveController extends Controller
             
             // Check if monthly calculation is enabled
             if ($calculateMonthly == 1) {
-                // Use new monthly calculation: current month only, no carry forward
-                $leave->leave_balance = $this->calculateMonthlyBalance($leave->employee_id, $leave->leave_type_id);
+                // Calculate balance at the time of this leave (cumulative totals)
+                $leaveDate = Carbon::parse($leave->start_date);
+                $leaveYear = $leaveDate->year;
+                $leaveMonth = $leaveDate->month;
+                
+                $monthlyAllocation = (int)($maxPerYear / 12);
+                
+                // Calculate cumulative total allocated up to this month
+                $cumulativeTotal = $monthlyAllocation * $leaveMonth;
+                
+                // Calculate total taken up to and including this leave's date
+                $totalTaken = DB::table('leave_applications')
+                    ->where('employee_id', $leave->employee_id)
+                    ->where('leave_type_id', $leave->leave_type_id)
+                    ->where('status', '!=', 'cancelled')
+                    ->whereYear('start_date', $leaveYear)
+                    ->where(function($query) use ($leaveDate, $leave) {
+                        // Leaves from months before this leave's month
+                        $query->where(function($q) use ($leaveDate) {
+                            $q->whereYear('start_date', $leaveDate->year)
+                              ->whereMonth('start_date', '<', $leaveDate->month);
+                        })
+                        // Or leaves from same month but on or before this leave's date
+                        ->orWhere(function($q) use ($leaveDate, $leave) {
+                            $q->whereYear('start_date', $leaveDate->year)
+                              ->whereMonth('start_date', $leaveDate->month)
+                              ->where('start_date', '<=', $leave->start_date);
+                        });
+                    })
+                    ->sum('total_days');
+                
+                $totalTaken = (int)($totalTaken ?? 0);
+                $remaining = $cumulativeTotal - $totalTaken;
+                
+                // Format as "total/remaining" (will be reversed in view to show "remaining/total")
+                $leave->leave_balance = number_format((float)$cumulativeTotal, 0, '.', '') . '/' . number_format((float)$remaining, 0, '.', '');
             } else {
                 // For Sick Leave and Annual Leave: simple total - taken calculation
                 $totalTaken = DB::table('leave_applications')

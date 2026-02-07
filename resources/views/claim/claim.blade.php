@@ -264,25 +264,25 @@
                             <!-- Actions -->
                             <div class="flex-shrink-0" style="width: 200px;">
                                 <div class="flex items-center justify-center gap-1">
-                                        <button type="button" class="hr-action-view" title="View">
-                                            <i class="fas fa-eye text-xs"></i>
+                                        <button type="button" class="hr-action-view flex-shrink-0" title="View">
+                                            <i class="fas fa-eye text-sm"></i>
                                         </button>
                                     <form method="POST" action="{{ route('claim.cancel', $claim->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="hr-action-cancel" title="Cancel">
-                                            <i class="fas fa-times text-xs"></i>
+                                        <button type="submit" class="hr-action-cancel flex-shrink-0" title="Cancel">
+                                            <i class="fas fa-times text-sm"></i>
                                         </button>
                                     </form>
                                     <form method="POST" action="{{ route('claim.reject', $claim->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="hr-action-reject" title="Reject">
-                                            <i class="fas fa-times-circle text-xs"></i>
+                                        <button type="submit" class="hr-action-reject flex-shrink-0" title="Reject">
+                                            <i class="fas fa-times-circle text-sm"></i>
                                         </button>
                                     </form>
                                     <form method="POST" action="{{ route('claim.approve', $claim->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="hr-action-approve" title="Approve">
-                                            <i class="fas fa-check text-xs"></i>
+                                        <button type="submit" class="hr-action-approve flex-shrink-0" title="Approve">
+                                            <i class="fas fa-check text-sm"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -508,7 +508,7 @@
                         return;
                     }
 
-                    var viewBtn = e.target.closest('.claim-view-btn');
+                    var viewBtn = e.target.closest('.hr-action-view');
                     var rowCheckbox = e.target.closest('.claim-row-checkbox');
 
                     if (viewBtn) {
