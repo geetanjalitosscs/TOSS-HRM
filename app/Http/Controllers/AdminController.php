@@ -127,6 +127,10 @@ class AdminController extends Controller
 
     public function updateUser(Request $request, int $id)
     {
+        // Check if user is main user
+        $user = DB::table('users')->where('id', $id)->first();
+        $isMainUser = $user && isset($user->is_main_user) && $user->is_main_user == 1;
+
         $data = $request->validate([
             'username' => ['required', 'string', 'max:100', 'unique:users,username,' . $id],
             'email' => ['required', 'email', 'max:191', 'unique:users,email,' . $id],
@@ -141,10 +145,17 @@ class AdminController extends Controller
             'username' => $data['username'],
             'email' => $data['email'],
             'employee_id' => !empty($data['employee_id']) ? (int)$data['employee_id'] : null,
-            'is_active' => isset($data['is_active']) && $data['is_active'] == '1' ? 1 : 0,
-            'is_main_user' => isset($data['is_main_user']) && $data['is_main_user'] == '1' ? 1 : 0,
             'updated_at' => now(),
         ];
+
+        // If main user, preserve original is_active and is_main_user values
+        if ($isMainUser) {
+            $updateData['is_active'] = $user->is_active ?? 1;
+            $updateData['is_main_user'] = 1;
+        } else {
+            $updateData['is_active'] = isset($data['is_active']) && $data['is_active'] == '1' ? 1 : 0;
+            $updateData['is_main_user'] = isset($data['is_main_user']) && $data['is_main_user'] == '1' ? 1 : 0;
+        }
 
         if (!empty($data['password'])) {
             $updateData['password_hash'] = Hash::make($data['password']);
@@ -171,6 +182,13 @@ class AdminController extends Controller
 
     public function deleteUser(int $id)
     {
+        // Check if user is main user
+        $user = DB::table('users')->where('id', $id)->first();
+        if ($user && isset($user->is_main_user) && $user->is_main_user == 1) {
+            return redirect()->route('admin')
+                ->with('error', 'Cannot delete main user. This user account is protected and required for system administration.');
+        }
+
         DB::table('users')
             ->where('id', $id)
             ->update(['deleted_at' => now()]);
@@ -190,6 +208,20 @@ class AdminController extends Controller
         if (empty($ids)) {
             return redirect()->route('admin')
                 ->with('status', 'No users selected.');
+        }
+
+        // Filter out main users
+        $mainUserIds = DB::table('users')
+            ->whereIn('id', $ids)
+            ->where('is_main_user', 1)
+            ->pluck('id')
+            ->toArray();
+
+        $ids = array_diff($ids, $mainUserIds);
+
+        if (empty($ids)) {
+            return redirect()->route('admin')
+                ->with('error', 'Cannot delete main users. These user accounts are protected and required for system administration.');
         }
 
         DB::table('users')
@@ -640,6 +672,124 @@ class AdminController extends Controller
     public function ldapConfiguration()
     {
         return view('admin.configuration.ldap-configuration');
+    }
+
+    public function roles(Request $request)
+    {
+        $roles = DB::table('roles')
+            ->select('id', 'name', 'slug', 'description', 'is_system')
+            ->orderByDesc('id')
+            ->get();
+        return view('admin.roles', compact('roles'));
+    }
+
+    public function storeRole(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'slug' => ['required', 'string', 'max:100', 'unique:roles,slug'],
+            'description' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        DB::table('roles')->insert([
+            'name' => $data['name'],
+            'slug' => $data['slug'],
+            'description' => $data['description'] ?? null,
+            'is_system' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('admin.roles')
+            ->with('status', 'Role added successfully.');
+    }
+
+    public function updateRole(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'slug' => ['required', 'string', 'max:100', 'unique:roles,slug,' . $id],
+            'description' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        DB::table('roles')
+            ->where('id', $id)
+            ->update([
+                'name' => $data['name'],
+                'slug' => $data['slug'],
+                'description' => $data['description'] ?? null,
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->route('admin.roles')
+            ->with('status', 'Role updated successfully.');
+    }
+
+    public function deleteRole(int $id)
+    {
+        // Check if role is system role
+        $role = DB::table('roles')->where('id', $id)->first();
+        if ($role && $role->is_system == 1) {
+            return redirect()->route('admin.roles')
+                ->with('error', 'Cannot delete system role.');
+        }
+
+        // Check if role is assigned to any user
+        $userCount = DB::table('user_roles')->where('role_id', $id)->count();
+        if ($userCount > 0) {
+            return redirect()->route('admin.roles')
+                ->with('error', 'Cannot delete role. It is assigned to ' . $userCount . ' user(s).');
+        }
+
+        DB::table('roles')->where('id', $id)->delete();
+
+        return redirect()->route('admin.roles')
+            ->with('status', 'Role deleted successfully.');
+    }
+
+    public function bulkDeleteRoles(Request $request)
+    {
+        $data = $request->validate([
+            'ids' => ['required', 'string'],
+        ]);
+
+        $ids = array_filter(explode(',', $data['ids']));
+        
+        if (empty($ids)) {
+            return redirect()->route('admin.roles')
+                ->with('status', 'No roles selected.');
+        }
+
+        // Filter out system roles
+        $systemRoleIds = DB::table('roles')
+            ->whereIn('id', $ids)
+            ->where('is_system', 1)
+            ->pluck('id')
+            ->toArray();
+
+        $ids = array_diff($ids, $systemRoleIds);
+
+        if (empty($ids)) {
+            return redirect()->route('admin.roles')
+                ->with('error', 'Cannot delete system roles.');
+        }
+
+        // Check if any role is assigned to users
+        $assignedRoles = DB::table('user_roles')
+            ->whereIn('role_id', $ids)
+            ->distinct()
+            ->pluck('role_id')
+            ->toArray();
+
+        if (!empty($assignedRoles)) {
+            return redirect()->route('admin.roles')
+                ->with('error', 'Cannot delete role(s). Some roles are assigned to users.');
+        }
+
+        DB::table('roles')->whereIn('id', $ids)->delete();
+
+        return redirect()->route('admin.roles')
+            ->with('status', count($ids) . ' role(s) deleted successfully.');
     }
 }
 

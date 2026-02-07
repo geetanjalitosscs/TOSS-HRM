@@ -31,6 +31,11 @@
             </div>
         </x-dropdown-menu>
         
+        <!-- Roles Tab -->
+        <a href="{{ route('admin.roles') }}" class="px-4 py-3 {{ $activeTab === 'roles' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'roles' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}">
+            <span class="text-sm" style="{{ $activeTab === 'roles' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">Roles</span>
+        </a>
+        
         <!-- General Information Tab -->
         <a href="{{ route('admin.organization.general-information') }}" class="px-4 py-3 {{ $activeTab === 'organization-general' ? 'border-b-2 border-[var(--color-hr-primary)]' : '' }} cursor-pointer transition-all flex-shrink-0 flex items-center hr-tab-hover whitespace-nowrap" style="{{ $activeTab === 'organization-general' ? 'background-color: var(--bg-hover); color: var(--color-hr-primary-dark); font-weight: 600;' : 'color: var(--text-primary);' }}">
             <span class="text-sm" style="{{ $activeTab === 'organization-general' ? 'font-weight: 600; color: var(--color-hr-primary-dark);' : 'font-weight: 500; color: var(--text-primary);' }}">General Information</span>

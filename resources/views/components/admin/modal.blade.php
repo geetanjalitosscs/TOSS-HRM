@@ -26,7 +26,7 @@
 
     <div 
         class="relative w-full {{ $widthClass }} mx-4 rounded-2xl border shadow-xl"
-        style="background-color: var(--bg-card); border-color: var(--border-strong);"
+        style="background-color: var(--bg-card); border-color: var(--border-strong); z-index: 51; pointer-events: auto;"
     >
         <div class="px-5 py-4 border-b" style="border-color: var(--border-default);">
             <h3 class="text-sm font-bold flex items-center gap-2" style="color: var(--text-primary);">

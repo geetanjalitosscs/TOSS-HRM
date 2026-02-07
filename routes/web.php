@@ -22,6 +22,10 @@ Route::get('/', function() {
 });
 
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
+Route::get('/password/forgot', [LoginController::class, 'showForgotPassword'])->name('password.forgot');
+Route::post('/password/forgot', [LoginController::class, 'sendPasswordReset'])->name('password.forgot.post');
+Route::get('/password/reset/{token}', [LoginController::class, 'showResetPassword'])->name('password.reset');
+Route::post('/password/reset', [LoginController::class, 'resetPassword'])->name('password.reset.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout.get');
 
@@ -58,6 +62,11 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/admin/employment-status/bulk-delete', [AdminController::class, 'bulkDeleteEmploymentStatuses'])->name('admin.employment-status.bulk-delete');
     Route::get('/admin/job-categories', [AdminController::class, 'jobCategories'])->name('admin.job-categories');
     Route::get('/admin/work-shifts', [AdminController::class, 'workShifts'])->name('admin.work-shifts');
+    Route::get('/admin/roles', [AdminController::class, 'roles'])->name('admin.roles');
+    Route::post('/admin/roles', [AdminController::class, 'storeRole'])->name('admin.roles.store');
+    Route::post('/admin/roles/{id}', [AdminController::class, 'updateRole'])->whereNumber('id')->name('admin.roles.update');
+    Route::post('/admin/roles/{id}/delete', [AdminController::class, 'deleteRole'])->whereNumber('id')->name('admin.roles.delete');
+    Route::post('/admin/roles/bulk-delete', [AdminController::class, 'bulkDeleteRoles'])->name('admin.roles.bulk-delete');
     
     // Organization routes
     Route::get('/admin/organization/general-information', [AdminController::class, 'organizationGeneral'])->name('admin.organization.general-information');

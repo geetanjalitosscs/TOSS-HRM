@@ -201,7 +201,7 @@
                     <h3 class="text-md font-semibold mb-4" style="color: var(--text-primary);">Data Mapping</h3>
                     
                     <div class="grid grid-cols-3 gap-4 items-center">
-                        <div class="text-sm font-medium" style="color: var(--text-secondary);">Field in TOAI HR</div>
+                        <div class="text-sm font-medium" style="color: var(--text-secondary);">Field in TOAI HRM</div>
                         <div></div>
                         <div class="text-sm font-medium" style="color: var(--text-secondary);">Field in LDAP Directory</div>
                     </div>

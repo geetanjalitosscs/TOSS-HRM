@@ -90,45 +90,7 @@ class MyInfoController extends Controller
             ->orderBy('name')
             ->get();
 
-        // Fetch attachments
-        $query = DB::table('file_uploads')
-            ->leftJoin('users', 'file_uploads.uploaded_by', '=', 'users.id')
-            ->select(
-                'file_uploads.id',
-                'file_uploads.original_name as file_name',
-                'file_uploads.description',
-                'file_uploads.mime_type as type',
-                'file_uploads.size_bytes',
-                'file_uploads.uploaded_at',
-                DB::raw("COALESCE(users.username, 'System') as added_by")
-            )
-            ->orderByDesc('file_uploads.uploaded_at');
-
-        if ($userId) {
-            $query->where('file_uploads.uploaded_by', $userId);
-        }
-
-        $attachments = $query->limit(50)->get()->map(function ($row) {
-            // Human readable size
-            $row->size = $row->size_bytes >= 1024
-                ? number_format($row->size_bytes / 1024, 2) . ' kB'
-                : $row->size_bytes . ' B';
-
-            // Split date and time for nicer display (localised to Asia/Kolkata)
-            if ($row->uploaded_at) {
-                $dt = Carbon::parse($row->uploaded_at)->timezone('Asia/Kolkata');
-                $row->date_only = $dt->format('Y-m-d');
-                $row->time_only = $dt->format('h:i A');
-            } else {
-                $row->date_only = null;
-                $row->time_only = null;
-            }
-
-            return $row;
-        });
-
         return view('myinfo.myinfo', compact(
-            'attachments',
             'employee',
             'personalDetails',
             'nationalities',
@@ -385,10 +347,11 @@ class MyInfoController extends Controller
             'uploaded_at' => now(),
         ]);
 
-        return redirect()->route('myinfo')
+        return redirect()->route('myinfo.qualifications')
             ->with([
                 'status' => 'Attachment uploaded.',
                 'scroll_to_attachment' => $id,
+                'scroll_section' => 'attachments-section',
             ]);
     }
 
@@ -441,10 +404,11 @@ class MyInfoController extends Controller
 
         $query->update($updatePayload);
 
-        return redirect()->route('myinfo')
+        return redirect()->route('myinfo.qualifications')
             ->with([
                 'status' => 'Attachment updated.',
                 'scroll_to_attachment' => $id,
+                'scroll_section' => 'attachments-section',
             ]);
     }
 
@@ -470,8 +434,9 @@ class MyInfoController extends Controller
                 ->delete();
         }
 
-        return redirect()->route('myinfo')
-            ->with('status', 'Attachment deleted.');
+        return redirect()->route('myinfo.qualifications')
+            ->with('status', 'Attachment deleted.')
+            ->with('scroll_section', 'attachments-section');
     }
 
     /**
@@ -484,7 +449,7 @@ class MyInfoController extends Controller
         $attachmentIds = $request->input('attachment_ids', '');
         
         if (empty($attachmentIds)) {
-            return redirect()->route('myinfo')->with('error', 'No attachments selected for deletion.');
+            return redirect()->route('myinfo.qualifications')->with('error', 'No attachments selected for deletion.');
         }
 
         // Handle comma-separated string
@@ -499,7 +464,7 @@ class MyInfoController extends Controller
         });
 
         if (empty($attachmentIds)) {
-            return redirect()->route('myinfo')->with('error', 'Invalid attachment IDs provided.');
+            return redirect()->route('myinfo.qualifications')->with('error', 'Invalid attachment IDs provided.');
         }
 
         // Get attachments to delete (only user's own attachments)
@@ -524,9 +489,13 @@ class MyInfoController extends Controller
         }
 
         if ($deletedCount > 0) {
-            return redirect()->route('myinfo')->with('status', "Successfully deleted {$deletedCount} attachment(s).");
+            return redirect()->route('myinfo.qualifications')
+                ->with('status', "Successfully deleted {$deletedCount} attachment(s).")
+                ->with('scroll_section', 'attachments-section');
         } else {
-            return redirect()->route('myinfo')->with('error', 'No attachments found to delete.');
+            return redirect()->route('myinfo.qualifications')
+                ->with('error', 'No attachments found to delete.')
+                ->with('scroll_section', 'attachments-section');
         }
     }
 
@@ -1079,27 +1048,38 @@ class MyInfoController extends Controller
             ->orderBy('id')
             ->get();
 
-        // Fetch qualification attachments
-        $attachments = DB::table('employee_qualification_attachments')
-            ->leftJoin('file_uploads', 'employee_qualification_attachments.file_upload_id', '=', 'file_uploads.id')
+        // Fetch attachments (regular file_uploads, not qualification attachments)
+        $attachments = DB::table('file_uploads')
             ->leftJoin('users', 'file_uploads.uploaded_by', '=', 'users.id')
             ->select(
                 'file_uploads.id',
                 'file_uploads.original_name as file_name',
-                'employee_qualification_attachments.comment',
+                'file_uploads.description',
                 'file_uploads.mime_type as type',
                 'file_uploads.size_bytes',
                 'file_uploads.uploaded_at',
                 DB::raw("COALESCE(users.username, 'System') as added_by")
             )
-            ->where('employee_qualification_attachments.employee_id', $employeeId)
+            ->where('file_uploads.uploaded_by', $userId)
             ->orderByDesc('file_uploads.uploaded_at')
+            ->limit(50)
             ->get()
             ->map(function ($row) {
+                // Human readable size
                 $row->size = $row->size_bytes >= 1024
                     ? number_format($row->size_bytes / 1024, 2) . ' kB'
                     : $row->size_bytes . ' B';
-                $row->date_added = $row->uploaded_at ? Carbon::parse($row->uploaded_at)->format('Y-m-d') : null;
+
+                // Split date and time for nicer display (localised to Asia/Kolkata)
+                if ($row->uploaded_at) {
+                    $dt = Carbon::parse($row->uploaded_at)->timezone('Asia/Kolkata');
+                    $row->date_only = $dt->format('Y-m-d');
+                    $row->time_only = $dt->format('h:i A');
+                } else {
+                    $row->date_only = null;
+                    $row->time_only = null;
+                }
+
                 return $row;
             });
 

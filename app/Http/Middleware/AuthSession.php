@@ -15,9 +15,16 @@ class AuthSession
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Very simple session-based auth just for this project.
-        if (!$request->session()->has('auth_user')) {
-            return redirect()->route('login');
+        // Check if session exists and is valid
+        $session = $request->session();
+        
+        // If session is not started or auth_user doesn't exist, redirect to login
+        if (!$session->has('auth_user')) {
+            // Clear any stale session data
+            $session->invalidate();
+            $session->regenerateToken();
+            
+            return redirect()->route('login')->with('session_expired', 'Your session has expired. Please login again.');
         }
 
         return $next($request);

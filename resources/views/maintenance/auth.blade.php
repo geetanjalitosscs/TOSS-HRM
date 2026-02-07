@@ -9,7 +9,7 @@
         <div class="rounded-xl shadow-lg p-8" style="background-color: var(--bg-card); border: 1px solid var(--border-default);">
             <h1 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Administrator Access</h1>
             <p class="text-sm mb-6 leading-relaxed" style="color: var(--text-secondary);">
-                You have requested to access a critical Administrator function in TOAI HR and are required to validate your credentials below.
+                You have requested to access a critical Administrator function in TOAI HRM and are required to validate your credentials below.
             </p>
 
             <form action="{{ route('maintenance.auth.post') }}" method="POST" class="space-y-5">
@@ -72,8 +72,8 @@
 
         <!-- Footer -->
         <div class="text-center mt-8 text-sm" style="color: var(--text-muted);">
-            <p class="font-medium">TOAI HR Suite Professional Edition</p>
-            <p class="mt-1">© {{ date('Y') }} TOAI HR. All rights reserved.</p>
+            <p class="font-medium">TOAI HRM Suite Professional Edition</p>
+            <p class="mt-1">© {{ date('Y') }} TOAI HRM. All rights reserved.</p>
         </div>
     </div>
 </div>

@@ -1,37 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', 'Reset Password')
 
 @section('body')
 <script>
-    // Default to dark theme on login page
+    // Default to dark theme on reset password page
     (function() {
-        // Set dark theme as default for login page
         document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('hr-theme', 'dark');
     })();
-
-    // Password visibility toggle function
-    function togglePasswordVisibility(inputId, button) {
-        const input = document.getElementById(inputId);
-        const eyeIcon = document.getElementById(inputId + '-eye');
-        
-        if (input.type === 'password') {
-            input.type = 'text';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-            button.style.color = 'var(--color-primary)';
-        } else {
-            input.type = 'password';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-            button.style.color = 'var(--text-muted)';
-        }
-    }
 </script>
     <div class="min-h-screen flex items-center justify-center px-4 py-8 bg-hr-gradient overflow-y-auto" style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-soft) 50%, var(--color-primary-light) 100%);">
         <div class="max-w-2xl w-full hr-card overflow-hidden flex flex-col">
-            <!-- Login form section -->
+            <!-- Reset Password form section -->
             <div class="px-8 sm:px-10 py-10 sm:py-12">
                 <div class="flex items-center gap-3 mb-8">
                     <div class="h-11 w-11 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl" style="background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-ultra-light) 100%); border: 2px solid var(--border-default); box-shadow: 0 0 15px rgba(228, 87, 69, 0.2), 0 0 30px rgba(228, 87, 69, 0.1);">
@@ -43,50 +24,36 @@
                     </div>
                 </div>
 
-                <h1 class="text-2xl font-bold mb-2.5" style="color: var(--text-primary);">Welcome Back</h1>
+                <h1 class="text-2xl font-bold mb-2.5" style="color: var(--text-primary);">Reset Password</h1>
                 <p class="text-sm mb-8" style="color: var(--text-muted);">
-                    Sign in to <span class="font-semibold" style="color: var(--text-primary);">TOAI HRM Suite</span> to access your dashboard.
+                    Enter your new password below.
                 </p>
 
-                <form action="{{ route('login.post') }}" method="POST" class="space-y-5">
+                <form action="{{ route('password.reset.post') }}" method="POST" class="space-y-5">
                     @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
 
-                    @if (session('session_expired'))
-                        <div class="rounded-lg px-4 py-3 text-sm font-medium" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #F59E0B;">
-                            <i class="fas fa-clock mr-2"></i>{{ session('session_expired') }}
+                    @if (session('status'))
+                        <div class="rounded-lg px-4 py-3 text-sm font-medium" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10B981;">
+                            <i class="fas fa-check-circle mr-2"></i>{{ session('status') }}
                         </div>
                     @endif
 
-                    @if ($errors->has('login'))
+                    @if ($errors->has('token'))
                         <div class="rounded-lg px-4 py-3 text-sm font-medium" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #DC2626;">
-                            <i class="fas fa-exclamation-circle mr-2"></i>{{ $errors->first('login') }}
+                            <i class="fas fa-exclamation-circle mr-2"></i>{{ $errors->first('token') }}
                         </div>
                     @endif
 
-                    <div class="space-y-2">
-                        <label for="username" class="block text-sm font-semibold" style="color: var(--text-primary);">
-                            Username <span style="color: #DC2626;">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center" style="color: var(--text-muted); width: 1rem;">
-                                <i class="fas fa-user text-sm"></i>
-                            </span>
-                            <input
-                                id="username"
-                                name="username"
-                                type="text"
-                                autocomplete="username"
-                                class="hr-input"
-                                style="padding-left: 2.75rem; padding-right: 0.75rem;"
-                                placeholder="Enter your username"
-                                value="{{ old('username') }}"
-                            />
+                    @if ($errors->has('password'))
+                        <div class="rounded-lg px-4 py-3 text-sm font-medium" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #DC2626;">
+                            <i class="fas fa-exclamation-circle mr-2"></i>{{ $errors->first('password') }}
                         </div>
-                    </div>
+                    @endif
 
                     <div class="space-y-2">
                         <label for="password" class="block text-sm font-semibold" style="color: var(--text-primary);">
-                            Password <span style="color: #DC2626;">*</span>
+                            New Password <span style="color: #DC2626;">*</span>
                         </label>
                         <div class="relative">
                             <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center" style="color: var(--text-muted); width: 1rem;">
@@ -96,24 +63,42 @@
                                 id="password"
                                 name="password"
                                 type="password"
-                                autocomplete="current-password"
+                                autocomplete="new-password"
                                 class="hr-input"
-                                style="padding-left: 2.75rem; padding-right: 2.75rem;"
-                                placeholder="Enter your password"
+                                style="padding-left: 2.75rem; padding-right: 0.75rem;"
+                                placeholder="Enter your new password"
+                                required
+                                minlength="8"
                             />
-                            <button type="button" class="absolute inset-y-0 right-3 flex items-center text-sm transition-colors duration-200" style="color: var(--text-muted);" onclick="togglePasswordVisibility('password', this)">
-                                <i class="fas fa-eye" id="password-eye"></i>
-                            </button>
+                        </div>
+                        <p class="text-xs" style="color: var(--text-muted);">Password must be at least 8 characters long.</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="password_confirmation" class="block text-sm font-semibold" style="color: var(--text-primary);">
+                            Confirm Password <span style="color: #DC2626;">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center" style="color: var(--text-muted); width: 1rem;">
+                                <i class="fas fa-lock text-sm"></i>
+                            </span>
+                            <input
+                                id="password_confirmation"
+                                name="password_confirmation"
+                                type="password"
+                                autocomplete="new-password"
+                                class="hr-input"
+                                style="padding-left: 2.75rem; padding-right: 0.75rem;"
+                                placeholder="Confirm your new password"
+                                required
+                                minlength="8"
+                            />
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between text-sm pt-1">
-                        <label class="inline-flex items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105">
-                            <input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded cursor-pointer transition" style="border: 1.5px solid var(--border-default); accent-color: var(--color-primary);" {{ old('remember') ? 'checked' : '' }} />
-                            <span style="color: var(--text-secondary); font-weight: 500;" onmouseover="this.style.color='var(--color-primary)'; this.style.transform='translateY(-1px)'" onmouseout="this.style.color='var(--text-secondary)'; this.style.transform='translateY(0)'">Remember me</span>
-                        </label>
-                        <a href="{{ route('password.forgot') }}" class="font-semibold text-sm transition-all duration-300 hover:scale-105" style="color: var(--color-primary);" onmouseover="this.style.color='var(--color-primary-dark)'; this.style.transform='translateY(-1px)'" onmouseout="this.style.color='var(--color-primary)'; this.style.transform='translateY(0)'">
-                            Forgot password?
+                        <a href="{{ route('login') }}" class="font-semibold text-sm transition-all duration-300 hover:scale-105" style="color: var(--color-primary);" onmouseover="this.style.color='var(--color-primary-dark)'; this.style.transform='translateY(-1px)'" onmouseout="this.style.color='var(--color-primary)'; this.style.transform='translateY(0)'">
+                            <i class="fas fa-arrow-left mr-1"></i>Back to Login
                         </a>
                     </div>
 
@@ -123,7 +108,7 @@
                             class="hr-btn-primary inline-flex items-center justify-center px-6 py-2.5 transition-all duration-300 hover:scale-105 hover:shadow-xl"
                             style="box-shadow: 0 0 15px rgba(228, 87, 69, 0.2), 0 0 30px rgba(228, 87, 69, 0.1);"
                         >
-                            <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                            <i class="fas fa-key mr-2"></i>Reset Password
                         </button>
                     </div>
                 </form>
@@ -141,3 +126,4 @@
         </div>
     </div>
 @endsection
+

@@ -1,4 +1,4 @@
-# TOAI HR Suite – Professional Edition
+# TOAI HRM Suite – Professional Edition
 ## Project Rulebook & Development Guidelines
 
 **Version:** 1.1  
@@ -10,7 +10,7 @@
 ## SECTION 1: PRODUCT IDENTITY
 
 ### 1.1 Product Type
-**TOAI HR Suite – Professional Edition** is an **Enterprise HR SaaS Application** designed for professional organizations requiring comprehensive human resource management capabilities.
+**TOAI HRM Suite – Professional Edition** is an **Enterprise HR SaaS Application** designed for professional organizations requiring comprehensive human resource management capabilities.
 
 ### 1.2 Quality Benchmark
 This application must meet or exceed the quality standards of industry-leading HR platforms:
@@ -740,7 +740,7 @@ app/
 
 ### 10.1 Mandatory Compliance
 
-**This document is MANDATORY.** All developers working on TOAI HR Suite – Professional Edition must read, understand, and comply with these rules.
+**This document is MANDATORY.** All developers working on TOAI HRM Suite – Professional Edition must read, understand, and comply with these rules.
 
 ### 10.2 Quality Standard
 
@@ -762,7 +762,7 @@ This rulebook is a living document. As the project evolves, rules may be updated
 
 ### 10.5 Enterprise Commitment
 
-**TOAI HR Suite – Professional Edition** is an enterprise-grade application. Every line of code, every UI element, and every interaction must reflect this commitment to quality, consistency, and professionalism.
+**TOAI HRM Suite – Professional Edition** is an enterprise-grade application. Every line of code, every UI element, and every interaction must reflect this commitment to quality, consistency, and professionalism.
 
 ---
 
@@ -792,5 +792,5 @@ This rulebook is a living document. As the project evolves, rules may be updated
 
 **END OF DOCUMENT**
 
-*This rulebook is the foundation of quality for TOAI HR Suite – Professional Edition. Follow it religiously.*
+*This rulebook is the foundation of quality for TOAI HRM Suite – Professional Edition. Follow it religiously.*
 

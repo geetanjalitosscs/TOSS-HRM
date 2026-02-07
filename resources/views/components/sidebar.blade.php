@@ -8,7 +8,7 @@
     <div class="hr-sidebar-logo">
         <div class="hr-logo-icon">T</div>
         <div class="ml-3 sidebar-logo-text">
-            <div class="text-sm font-bold text-slate-800 tracking-tight">TOAI HR Suite</div>
+            <div class="text-sm font-bold text-slate-800 tracking-tight">TOAI HRM Suite</div>
             <div class="text-[10px] text-[var(--color-primary)] font-medium">New Edition</div>
         </div>
         
@@ -59,7 +59,7 @@
     </nav>
 
     <div class="hr-sidebar-footer">
-        © {{ date('Y') }} TOAI HR. All rights reserved.
+        © {{ date('Y') }} TOAI HRM. All rights reserved.
     </div>
 </aside>
 

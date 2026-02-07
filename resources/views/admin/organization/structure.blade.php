@@ -34,7 +34,7 @@
                     <!-- Root Node -->
                     <li class="org-tree-node org-tree-node-root">
                         <div class="org-tree-node-box">
-                            <span class="org-tree-node-label">TOAI HR Suite</span>
+                            <span class="org-tree-node-label">TOAI HRM Suite</span>
                             <div class="org-tree-node-actions action-buttons" style="display: none;">
                                 <button class="org-tree-action-btn org-tree-action-delete" title="Delete">
                                     <i class="fas fa-trash-alt"></i>

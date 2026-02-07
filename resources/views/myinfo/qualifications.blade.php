@@ -444,6 +444,156 @@
                     </div>
                 </section>
 
+                <!-- Attachments Section -->
+                <section id="attachments-section" class="hr-card p-6">
+                    <form id="attachments-section-form" method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="flex justify-between items-center mb-5">
+                            <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fas fa-paperclip text-[var(--color-primary)]"></i> Marksheets & Attachments
+                            </h2>
+                            <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
+                                <button
+                                    id="attachments-delete-selected"
+                                    type="button"
+                                    class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
+                                    onclick="openAttachmentsBulkDeleteModal()"
+                                >
+                                    Delete Selected
+                                </button>
+                                <button 
+                                    type="button" 
+                                    class="hr-btn-primary px-3 py-1.5 text-xs"
+                                    onclick="openAddAttachmentModal()"
+                                >
+                                    + Add
+                                </button>
+                            </div>
+                        </div>
+
+                        <x-records-found :count="count($attachments ?? [])" />
+
+                        <!-- Table Header -->
+                        <div class="bg-[var(--color-primary-light)] rounded-t-lg border border-[var(--border-default)] border-b-0 px-2 py-1.5 mb-0">
+                            <div class="flex items-center gap-1">
+                                <div class="flex-shrink-0" style="width: 24px;">
+                                    <input type="checkbox"
+                                        id="attachments-master-checkbox"
+                                        class="rounded w-3.5 h-3.5"
+                                        style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">File Name</span>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">Description</span>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">Size</span>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">Type</span>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words">Date Added</span>
+                                </div>
+                                <div class="flex-shrink-0" style="width: 90px;">
+                                    <span class="text-xs font-semibold text-slate-700 uppercase tracking-wide leading-tight break-words text-center">Actions</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table Rows -->
+                        <div class="border border-[var(--border-default)] border-t-0 rounded-b-lg" style="overflow: visible;">
+                            @if(isset($attachments) && count($attachments) > 0)
+                                @foreach($attachments as $attachment)
+                                    <div id="attachment-row-{{ $attachment->id }}" data-attachment-id="{{ $attachment->id }}" class="hr-table-row border-b border-[var(--border-default)] last:border-b-0 px-2 py-1.5 transition-colors" style="background-color: var(--bg-card); border-color: var(--border-default);">
+                                        <div class="flex items-center gap-1">
+                                            <div class="flex-shrink-0" style="width: 24px;">
+                                                <input type="checkbox"
+                                                    class="attachments-row-checkbox rounded w-3.5 h-3.5"
+                                                    data-attachment-id="{{ $attachment->id }}"
+                                                    style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                                            </div>
+                                            <div class="flex-1" style="min-width: 0;">
+                                                <div class="text-xs text-slate-700 break-words">{{ $attachment->file_name }}</div>
+                                            </div>
+                                            <div class="flex-1" style="min-width: 0;">
+                                                <div class="text-xs text-slate-700 break-words">{{ $attachment->description ?: '-' }}</div>
+                                            </div>
+                                            <div class="flex-1" style="min-width: 0;">
+                                                <div class="text-xs text-slate-700 break-words">{{ $attachment->size }}</div>
+                                            </div>
+                                            <div class="flex-1" style="min-width: 0;">
+                                                <div class="text-xs text-slate-700 break-words">{{ $attachment->type }}</div>
+                                            </div>
+                                            <div class="flex-1" style="min-width: 0;">
+                                                @if($attachment->date_only || $attachment->time_only)
+                                                    <div class="text-xs text-slate-700 break-words">
+                                                        {{ $attachment->date_only ?? '-' }}
+                                                    </div>
+                                                    @if($attachment->time_only)
+                                                        <div class="text-xs break-words" style="color: var(--text-muted);">
+                                                            {{ $attachment->time_only }}
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    <div class="text-xs text-slate-500 break-words">-</div>
+                                                @endif
+                                            </div>
+                                            <div class="flex-shrink-0" style="width: 90px; overflow: visible;">
+                                                <div class="flex items-center justify-center gap-2" style="overflow: visible;">
+                                                <!-- Edit (description + file) -->
+                                                <button
+                                                    type="button"
+                                                    class="hr-action-edit flex-shrink-0"
+                                                    title="Edit"
+                                                    onclick='openEditAttachmentModal({{ $attachment->id }}, @json($attachment->description), "{{ route('myinfo.attachments.update', $attachment->id) }}")'
+                                                >
+                                                        <i class="fas fa-edit text-sm"></i>
+                                                    </button>
+
+                                                <!-- Delete -->
+                                                <button
+                                                    type="button"
+                                                    class="hr-action-delete flex-shrink-0"
+                                                    title="Delete"
+                                                    onclick="submitDeleteAttachment({{ $attachment->id }})"
+                                                >
+                                                        <i class="fas fa-trash-alt text-sm"></i>
+                                                    </button>
+
+                                                <!-- Download -->
+                                                <a
+                                                    href="{{ route('myinfo.attachments.download', $attachment->id) }}"
+                                                    class="hr-action-download flex-shrink-0"
+                                                    title="Download"
+                                                >
+                                                        <i class="fas fa-download text-sm"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hidden form for delete -->
+                                    <form
+                                        id="attachment-delete-form-{{ $attachment->id }}"
+                                        method="POST"
+                                        action="{{ route('myinfo.attachments.delete', $attachment->id) }}"
+                                        class="hidden"
+                                    >
+                                        @csrf
+                                    </form>
+                                @endforeach
+                            @else
+                                <div class="px-2 py-1.5" style="background-color: var(--bg-card);">
+                                    <div class="text-xs text-slate-500 text-center py-4">No attachments found</div>
+                                </div>
+                            @endif
+                        </div>
+                    </form>
+                </section>
+
                 <!-- License Section -->
                 <section id="licenses-section" class="hr-card p-6">
                     <div class="flex items-center justify-between mb-5">
@@ -1566,7 +1716,310 @@
         </div>
     </x-admin.modal>
 
+    <!-- Attachment Modals -->
+    <x-admin.modal
+        id="attachment-add-modal"
+        title="Add Attachment"
+        icon="fas fa-paperclip"
+        maxWidth="md"
+        backdropOnClick="closeAddAttachmentModal(true)"
+    >
+        <form method="POST" action="{{ route('myinfo.attachments.store') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        File <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        id="add-attachment-file"
+                        type="file"
+                        name="attachment"
+                        class="hr-input text-xs"
+                        required
+                    >
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Click to browse or drag & drop files here
+                    </p>
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Accepts pdf, doc, docx, jpg, png up to 5MB.
+                    </p>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Description
+                    </label>
+                    <input
+                        id="add-attachment-description"
+                        type="text"
+                        name="description"
+                        class="hr-input text-xs"
+                        maxlength="255"
+                    >
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeAddAttachmentModal(true)"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        class="hr-btn-primary px-4 py-1.5 text-xs"
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </x-admin.modal>
+
+    <x-admin.modal
+        id="attachment-edit-modal"
+        title="Edit Attachment"
+        icon="fas fa-edit"
+        maxWidth="md"
+        backdropOnClick="closeEditAttachmentModal(true)"
+    >
+        <form method="POST" id="attachment-edit-form" enctype="multipart/form-data" action="#">
+            @csrf
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Description
+                    </label>
+                    <input
+                        id="edit-attachment-description"
+                        type="text"
+                        name="description"
+                        class="hr-input text-xs"
+                        maxlength="255"
+                    >
+                </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Replace File (optional)
+                    </label>
+                    <input
+                        id="edit-attachment-file"
+                        type="file"
+                        name="attachment"
+                        class="hr-input text-xs"
+                    >
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Click to browse or drag & drop files here
+                    </p>
+                    <p class="mt-1 text-[11px]" style="color: var(--text-muted);">
+                        Leave empty to keep existing file.
+                    </p>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeEditAttachmentModal(true)"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        class="hr-btn-primary px-4 py-1.5 text-xs"
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </x-admin.modal>
+
+    <x-admin.modal
+        id="attachment-delete-modal"
+        title="Delete Attachment"
+        icon="fas fa-trash-alt"
+        maxWidth="xs"
+        backdropOnClick="closeDeleteAttachmentModal()"
+    >
+        <div class="space-y-4">
+            <p class="text-xs" style="color: var(--text-primary);">
+                Are you sure you want to delete this attachment?
+            </p>
+            <div class="flex justify-end gap-2">
+                <button
+                    type="button"
+                    class="hr-btn-secondary px-4 py-1.5 text-xs"
+                    onclick="closeDeleteAttachmentModal()"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    class="hr-btn-primary px-4 py-1.5 text-xs"
+                    onclick="confirmDeleteAttachment()"
+                >
+                    Delete
+                </button>
+            </div>
+        </div>
+    </x-admin.modal>
+
+    <x-admin.modal
+        id="attachments-bulk-delete-modal"
+        title="Delete Selected Attachments"
+        icon="fas fa-trash-alt"
+        maxWidth="xs"
+        backdropOnClick="closeAttachmentsBulkDeleteModal()"
+    >
+        <div class="space-y-4">
+            <p class="text-xs" style="color: var(--text-primary);">
+                Are you sure you want to delete all selected attachments?
+            </p>
+            <form 
+                id="attachments-bulk-delete-form" 
+                method="POST" 
+                action="{{ route('myinfo.attachments.bulk-delete') }}"
+                style="display: none;"
+            >
+                @csrf
+                <input type="hidden" name="attachment_ids" id="attachments-bulk-delete-ids">
+            </form>
+            <div class="flex justify-end gap-2">
+                <button
+                    type="button"
+                    class="hr-btn-secondary px-4 py-1.5 text-xs"
+                    onclick="closeAttachmentsBulkDeleteModal()"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    class="hr-btn-primary px-4 py-1.5 text-xs"
+                    onclick="confirmAttachmentsBulkDelete()"
+                >
+                    Delete Selected
+                </button>
+            </div>
+        </div>
+    </x-admin.modal>
+
     <script>
+        // Attachment Functions
+        function openAddAttachmentModal() {
+            const modal = document.getElementById('attachment-add-modal');
+            const fileInput = document.getElementById('add-attachment-file');
+            const descInput = document.getElementById('add-attachment-description');
+            if (fileInput) fileInput.value = '';
+            if (descInput) descInput.value = '';
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeAddAttachmentModal(reset = false) {
+            const modal = document.getElementById('attachment-add-modal');
+            if (modal) modal.classList.add('hidden');
+            if (reset) {
+                const fileInput = document.getElementById('add-attachment-file');
+                const descInput = document.getElementById('add-attachment-description');
+                if (fileInput) fileInput.value = '';
+                if (descInput) descInput.value = '';
+            }
+        }
+
+        function openEditAttachmentModal(id, currentDescription, updateUrl) {
+            const modal = document.getElementById('attachment-edit-modal');
+            const form = document.getElementById('attachment-edit-form');
+            const descInput = document.getElementById('edit-attachment-description');
+            const fileInput = document.getElementById('edit-attachment-file');
+
+            if (!modal || !form || !descInput || !fileInput) return;
+
+            form.action = updateUrl;
+            descInput.value = currentDescription || '';
+            fileInput.value = '';
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeEditAttachmentModal(reset = false) {
+            const modal = document.getElementById('attachment-edit-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            if (reset) {
+                const descInput = document.getElementById('edit-attachment-description');
+                const fileInput = document.getElementById('edit-attachment-file');
+                if (descInput) descInput.value = '';
+                if (fileInput) fileInput.value = '';
+            }
+        }
+
+        let pendingDeleteAttachmentId = null;
+
+        function submitDeleteAttachment(id) {
+            pendingDeleteAttachmentId = id;
+            const modal = document.getElementById('attachment-delete-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeDeleteAttachmentModal() {
+            const modal = document.getElementById('attachment-delete-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            pendingDeleteAttachmentId = null;
+        }
+
+        function confirmDeleteAttachment() {
+            if (!pendingDeleteAttachmentId) {
+                closeDeleteAttachmentModal();
+                return;
+            }
+            
+            // Create and submit form dynamically
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/my-info/attachments/' + pendingDeleteAttachmentId + '/delete';
+            form.style.display = 'none';
+            
+            // Add CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (csrfToken) {
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = csrfToken.getAttribute('content');
+                form.appendChild(csrfInput);
+            }
+            
+            document.body.appendChild(form);
+            closeDeleteAttachmentModal();
+            form.submit();
+        }
+
+        // Bulk Delete Functions
+        function openAttachmentsBulkDeleteModal() {
+            const checkboxes = document.querySelectorAll('.attachments-row-checkbox:checked');
+            const ids = Array.from(checkboxes).map(cb => cb.dataset.attachmentId);
+            
+            if (ids.length === 0) return;
+            
+            document.getElementById('attachments-bulk-delete-ids').value = ids.join(',');
+            document.getElementById('attachments-bulk-delete-modal').classList.remove('hidden');
+        }
+
+        function closeAttachmentsBulkDeleteModal() {
+            document.getElementById('attachments-bulk-delete-modal').classList.add('hidden');
+        }
+
+        function confirmAttachmentsBulkDelete() {
+            const form = document.getElementById('attachments-bulk-delete-form');
+            if (form) {
+                form.submit();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             @if(session('scroll_section'))
                 const section = document.getElementById('{{ session('scroll_section') }}');
@@ -1576,6 +2029,63 @@
                     }, 100);
                 }
             @endif
+
+            var targetId = @json(session('scroll_to_attachment'));
+            if (targetId) {
+                var row = document.getElementById('attachment-row-' + targetId);
+                if (row && typeof row.scrollIntoView === 'function') {
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Highlight the attachment row
+                    row.style.backgroundColor = 'var(--color-hr-primary)';
+                    row.style.transition = 'background-color 1s ease';
+                    setTimeout(() => {
+                        row.style.backgroundColor = 'var(--bg-card)';
+                    }, 2000);
+                }
+            }
+
+            // Initialize checkbox functionality for attachments
+            const masterCheckbox = document.getElementById('attachments-master-checkbox');
+            const rowCheckboxes = document.querySelectorAll('.attachments-row-checkbox');
+            const deleteButton = document.getElementById('attachments-delete-selected');
+
+            if (masterCheckbox) {
+                masterCheckbox.addEventListener('change', function() {
+                    rowCheckboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateDeleteButtonVisibility();
+                });
+            }
+
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateMasterCheckboxState();
+                    updateDeleteButtonVisibility();
+                });
+            });
+
+            function updateMasterCheckboxState() {
+                const totalCheckboxes = rowCheckboxes.length;
+                const checkedCheckboxes = document.querySelectorAll('.attachments-row-checkbox:checked').length;
+                
+                if (masterCheckbox) {
+                    masterCheckbox.checked = totalCheckboxes > 0 && checkedCheckboxes === totalCheckboxes;
+                }
+            }
+
+            function updateDeleteButtonVisibility() {
+                const checkedCount = document.querySelectorAll('.attachments-row-checkbox:checked').length;
+                if (deleteButton) {
+                    if (checkedCount > 0) {
+                        deleteButton.classList.remove('hidden');
+                    } else {
+                        deleteButton.classList.add('hidden');
+                    }
+                }
+            }
+
+            updateDeleteButtonVisibility();
         });
     </script>
 @endsection

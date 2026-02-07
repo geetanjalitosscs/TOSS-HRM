@@ -1,4 +1,4 @@
-# TOAI HR Suite - Professional Edition
+# TOAI HRM Suite - Professional Edition
 
 A comprehensive, enterprise-grade Human Resource Management System built with Laravel 12 and modern web technologies, featuring a professional lavender-themed UI with complete dark mode support and real database integration.
 
@@ -712,7 +712,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## 👥 Contributing
 
-We welcome contributions to the TOAI HR Suite! Please follow these guidelines:
+We welcome contributions to the TOAI HRM Suite! Please follow these guidelines:
 
 ### Contribution Guidelines
 1. **Fork the Repository**: Create a personal fork of the project
@@ -744,7 +744,7 @@ We welcome contributions to the TOAI HR Suite! Please follow these guidelines:
 
 **Built with ❤️ using Laravel 12 and modern web technologies**
 
-**TOAI HR Suite - New Edition**
+**TOAI HRM Suite - New Edition**
 *Enterprise-grade Human Resource Management System*
 
 For support and inquiries, please visit our [GitHub Repository](https://github.com/geetanjalitosscs/TOSS-HRM).

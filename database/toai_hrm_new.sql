@@ -468,7 +468,7 @@ CREATE TABLE `email_settings` (
 --
 
 INSERT INTO `email_settings` (`id`, `mail_from_name`, `mail_from_address`, `sending_method`, `smtp_host`, `smtp_port`, `smtp_username`, `smtp_password`, `smtp_encryption`, `sendmail_path`, `send_test_mail`, `test_recipient`, `created_at`, `updated_at`) VALUES
-(1, 'TOAI HR', 'no-reply@toai-demo.test', 'smtp', 'smtp.example.test', 587, 'user', 'pass', 'tls', NULL, 0, NULL, '2026-01-28 12:20:20', '2026-01-28 12:20:20');
+(1, 'TOAI HRM', 'no-reply@toai-demo.test', 'smtp', 'smtp.example.test', 587, 'user', 'pass', 'tls', NULL, 0, NULL, '2026-01-28 12:20:20', '2026-01-28 12:20:20');
 
 -- --------------------------------------------------------
 
@@ -1326,7 +1326,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`id`, `name`, `registration_number`, `tax_id`, `phone`, `fax`, `email`, `website`, `address_line1`, `address_line2`, `city`, `state`, `zip_postal_code`, `country`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 'TOAI HR Suite Demo', 'TOAI-REG-001', '120568', '+91 8456213955', 'none', 'hr@toai.com', 'https://demo.toai-hr.test', 'Madan mahal road', 'Shastri bridge road', 'Jabalpur', 'Madhya Pradesh', '482002', 'India', 'This is the best company.', '2026-01-27 17:06:38', '2026-01-30 11:27:10');
+(1, 'TOAI HRM Suite Demo', 'TOAI-REG-001', '120568', '+91 8456213955', 'none', 'hr@toai.com', 'https://demo.toai-hr.test', 'Madan mahal road', 'Shastri bridge road', 'Jabalpur', 'Madhya Pradesh', '482002', 'India', 'This is the best company.', '2026-01-27 17:06:38', '2026-01-30 11:27:10');
 
 -- --------------------------------------------------------
 
@@ -1961,7 +1961,7 @@ CREATE TABLE `vacancies` (
 --
 
 INSERT INTO `vacancies` (`id`, `job_title_id`, `hiring_manager_id`, `location_id`, `name`, `description`, `positions`, `status`, `posted_date`, `closing_date`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 2, 'Senior QA Lead', 'Lead QA for TOAI HR Suite', 1, 'open', '2026-01-01', '2026-03-31', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(1, 2, 1, 2, 'Senior QA Lead', 'Lead QA for TOAI HRM Suite', 1, 'open', '2026-01-01', '2026-03-31', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
 
 -- --------------------------------------------------------
 

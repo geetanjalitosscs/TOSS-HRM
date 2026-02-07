@@ -1,4 +1,4 @@
-# TOAI HR Suite — Codebase Architecture & Structure (Team Project)
+# TOAI HRM Suite — Codebase Architecture & Structure (Team Project)
 
 This document is a **code-accurate** explanation of how this Laravel project is structured and how it works at runtime. It is written so you can understand and extend the system **without changing the overall folder structure**.
 

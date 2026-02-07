@@ -85,6 +85,18 @@
                     </div>
                 </div>
 
+                @if(session('status'))
+                    <div class="rounded-lg px-4 py-3 text-sm font-medium mb-4" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10B981;">
+                        <i class="fas fa-check-circle mr-2"></i>{{ session('status') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="rounded-lg px-4 py-3 text-sm font-medium mb-4" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #DC2626;">
+                        <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
+                    </div>
+                @endif
+
                 <!-- Records Count -->
                 <x-records-found :count="count($users)" />
 
@@ -122,7 +134,11 @@
                                  onmouseout="this.style.backgroundColor='var(--bg-card)'">
                                 <!-- Checkbox -->
                                 <div class="flex-shrink-0" style="width: 24px;">
-                                    <input type="checkbox" class="user-row-checkbox rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                                    <input type="checkbox" 
+                                           class="user-row-checkbox rounded w-3.5 h-3.5" 
+                                           style="border-color: var(--border-default); accent-color: var(--color-hr-primary);"
+                                           data-user-checkbox-id="{{ $user->id }}"
+                                           {{ $user->is_main_user == 1 ? 'disabled' : '' }}>
                                 </div>
                                 
                                 <!-- Username -->
@@ -135,7 +151,12 @@
                                      data-user-is-active="{{ $user->is_active ?? 1 }}"
                                      data-user-is-main-user="{{ $user->is_main_user ?? 0 }}"
                                 >
-                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $user->username }}</div>
+                                    <div class="text-xs font-medium break-words" style="color: var(--text-primary);">
+                                        {{ $user->username }}
+                                        @if($user->is_main_user == 1)
+                                            <span class="text-[10px] ml-1" style="color: var(--text-muted);">(Main User)</span>
+                                        @endif
+                                    </div>
                                 </div>
                                 
                                 <!-- User Role -->
@@ -156,10 +177,10 @@
                                 <!-- Actions -->
                                 <div class="flex-shrink-0" style="width: 90px;">
                                     <div class="flex items-center justify-center gap-2">
-                                        <button class="hr-action-delete flex-shrink-0" title="Delete">
+                                        <button class="hr-action-delete flex-shrink-0" title="Delete" type="button">
                                             <i class="fas fa-trash-alt text-sm"></i>
                                         </button>
-                                        <button class="hr-action-edit flex-shrink-0" title="Edit">
+                                        <button class="hr-action-edit flex-shrink-0" title="Edit" type="button">
                                             <i class="fas fa-edit text-sm"></i>
                                         </button>
                                     </div>
@@ -486,6 +507,49 @@
             </div>
         </x-admin.modal>
 
+        <!-- Error/Warning Modal -->
+        <div 
+            id="user-error-modal" 
+            class="hidden fixed inset-0 z-50 flex items-center justify-center"
+        >
+            <div 
+                class="absolute inset-0 bg-black/40"
+                onclick="closeUserErrorModal()"
+            ></div>
+
+            <div 
+                class="relative w-full max-w-xs mx-4 rounded-2xl border shadow-xl"
+                style="background-color: var(--bg-card); border-color: var(--border-strong); z-index: 51; pointer-events: auto;"
+            >
+                <div class="px-5 py-4 border-b" style="border-color: var(--border-default);">
+                    <h3 class="text-sm font-bold flex items-center gap-2" style="color: var(--text-primary);">
+                        <i class="fas fa-exclamation-triangle text-[var(--color-primary)]"></i>
+                        <span id="user-error-title">Warning</span>
+                    </h3>
+                </div>
+
+                <div class="px-5 py-4">
+                    <div class="flex items-start gap-3 mb-4">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center" style="background: rgba(239, 68, 68, 0.1);">
+                            <i class="fas fa-exclamation-triangle text-lg" style="color: #DC2626;"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs leading-relaxed" style="color: var(--text-muted);" id="user-error-message">This action cannot be performed.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <button
+                            type="button"
+                            class="hr-btn-primary px-4 py-1.5 text-xs"
+                            onclick="closeUserErrorModal()"
+                        >
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Hidden forms for deletes -->
         <form id="user-delete-form" method="POST" action="#">
             @csrf
@@ -549,10 +613,26 @@
                     if (employeeSelect) employeeSelect.value = employeeId;
 
                     var isActiveCheckbox = document.getElementById('user-edit-is-active');
-                    if (isActiveCheckbox) isActiveCheckbox.checked = isActive == '1';
+                    if (isActiveCheckbox) {
+                        isActiveCheckbox.checked = isActive == '1';
+                        // Disable if main user
+                        if (isMainUser == '1') {
+                            isActiveCheckbox.disabled = true;
+                        } else {
+                            isActiveCheckbox.disabled = false;
+                        }
+                    }
 
                     var isMainUserCheckbox = document.getElementById('user-edit-is-main-user');
-                    if (isMainUserCheckbox) isMainUserCheckbox.checked = isMainUser == '1';
+                    if (isMainUserCheckbox) {
+                        isMainUserCheckbox.checked = isMainUser == '1';
+                        // Always disable main user checkbox (cannot be changed)
+                        if (isMainUser == '1') {
+                            isMainUserCheckbox.disabled = true;
+                        } else {
+                            isMainUserCheckbox.disabled = false;
+                        }
+                    }
 
                     var form = document.getElementById('user-edit-form');
                     if (form) {
@@ -569,6 +649,11 @@
                     if (reset) {
                         var form = m ? m.querySelector('form') : null;
                         if (form) form.reset();
+                        // Reset disabled state of checkboxes
+                        var isActiveCheckbox = document.getElementById('user-edit-is-active');
+                        if (isActiveCheckbox) isActiveCheckbox.disabled = false;
+                        var isMainUserCheckbox = document.getElementById('user-edit-is-main-user');
+                        if (isMainUserCheckbox) isMainUserCheckbox.disabled = false;
                     }
                 }
                 window.closeUserEditModal = closeUserEditModal;
@@ -576,6 +661,13 @@
                 function openUserDeleteModalFromRow(row) {
                     var info = row.querySelector('[data-user-id]');
                     if (!info) return;
+                    
+                    var isMainUser = info.dataset.userIsMainUser == '1';
+                    if (isMainUser) {
+                        showUserError('Cannot Delete Main User', 'Main users cannot be deleted. This user account is protected and required for system administration.');
+                        return;
+                    }
+                    
                     pendingUserDeleteId = info.dataset.userId || null;
                     var m = document.getElementById('user-delete-modal');
                     if (m) m.classList.remove('hidden');
@@ -623,16 +715,32 @@
                         closeUserBulkDeleteModal();
                         return;
                     }
-                    var checked = table.querySelectorAll('.user-row-checkbox:checked');
+                    var allChecked = table.querySelectorAll('.user-row-checkbox:checked');
                     var ids = [];
-                    checked.forEach(function (cb) {
+                    var hasMainUser = false;
+                    
+                    allChecked.forEach(function (cb) {
+                        if (cb.disabled) {
+                            hasMainUser = true;
+                            return;
+                        }
                         var row = cb.closest('.hr-table-row');
                         if (!row) return;
                         var info = row.querySelector('[data-user-id]');
                         if (info && info.dataset.userId) {
-                            ids.push(info.dataset.userId);
+                            if (info.dataset.userIsMainUser == '1') {
+                                hasMainUser = true;
+                            } else {
+                                ids.push(info.dataset.userId);
+                            }
                         }
                     });
+
+                    if (hasMainUser && ids.length === 0) {
+                        showUserError('Cannot Delete Main Users', 'Main users cannot be deleted. These user accounts are protected and required for system administration.');
+                        closeUserBulkDeleteModal();
+                        return;
+                    }
 
                     if (!ids.length) {
                         closeUserBulkDeleteModal();
@@ -652,12 +760,33 @@
                 }
                 window.confirmUserBulkDelete = confirmUserBulkDelete;
 
+                function showUserError(title, message) {
+                    var modal = document.getElementById('user-error-modal');
+                    var titleEl = document.getElementById('user-error-title');
+                    var messageEl = document.getElementById('user-error-message');
+                    if (modal && titleEl && messageEl) {
+                        titleEl.textContent = title;
+                        messageEl.textContent = message;
+                        modal.classList.remove('hidden');
+                    }
+                }
+                window.showUserError = showUserError;
+
+                function closeUserErrorModal() {
+                    var modal = document.getElementById('user-error-modal');
+                    if (modal) modal.classList.add('hidden');
+                }
+                window.closeUserErrorModal = closeUserErrorModal;
+
                 function refreshUserSelectionState() {
                     var table = document.getElementById('users-table');
                     if (!table) return;
 
                     var headerCheckbox = document.getElementById('users-master-checkbox');
-                    var rowCheckboxes = table.querySelectorAll('.user-row-checkbox');
+                    var allRowCheckboxes = table.querySelectorAll('.user-row-checkbox');
+                    var rowCheckboxes = Array.from(allRowCheckboxes).filter(function(cb) {
+                        return !cb.disabled;
+                    });
                     var deleteSelectedBtn = document.getElementById('users-delete-selected');
 
                     var checkedCount = 0;
@@ -672,12 +801,12 @@
                     if (headerCheckbox) {
                         if (rowCheckboxes.length === 0) {
                             headerCheckbox.checked = false;
-                        } else if (checkedCount === rowCheckboxes.length) {
+                        } else if (checkedCount === rowCheckboxes.length && checkedCount > 0) {
                             headerCheckbox.checked = true;
                         } else {
                             headerCheckbox.checked = false;
                         }
-                        headerCheckbox.indeterminate = false;
+                        headerCheckbox.indeterminate = (checkedCount > 0 && checkedCount < rowCheckboxes.length);
                     }
                 }
 
@@ -688,9 +817,11 @@
                     var headerCheckbox = document.getElementById('users-master-checkbox');
                     if (headerCheckbox) {
                         headerCheckbox.addEventListener('change', function () {
-                            var rowCheckboxes = table.querySelectorAll('.user-row-checkbox');
-                            rowCheckboxes.forEach(function (cb) {
-                                cb.checked = headerCheckbox.checked;
+                            var allRowCheckboxes = table.querySelectorAll('.user-row-checkbox');
+                            allRowCheckboxes.forEach(function (cb) {
+                                if (!cb.disabled) {
+                                    cb.checked = headerCheckbox.checked;
+                                }
                             });
                             refreshUserSelectionState();
                         });
@@ -713,8 +844,17 @@
                         }
 
                         if (deleteBtn) {
-                            var rowDel = e.target.closest('.hr-table-row');
-                            if (rowDel) openUserDeleteModalFromRow(rowDel);
+                            e.preventDefault();
+                            e.stopPropagation();
+                            var rowDel = deleteBtn.closest('.hr-table-row');
+                            if (rowDel) {
+                                var info = rowDel.querySelector('[data-user-id]');
+                                if (info && info.dataset.userIsMainUser == '1') {
+                                    showUserError('Cannot Delete Main User', 'Main users cannot be deleted. This user account is protected and required for system administration.');
+                                    return;
+                                }
+                                openUserDeleteModalFromRow(rowDel);
+                            }
                             return;
                         }
 

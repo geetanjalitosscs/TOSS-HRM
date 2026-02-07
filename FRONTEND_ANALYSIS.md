@@ -1,7 +1,7 @@
 # TOSS-HRM Frontend Analysis
 
 **Analysis Date:** January 27, 2026  
-**Project:** TOAI HR Suite - Professional Edition  
+**Project:** TOAI HRM Suite - Professional Edition  
 **Framework:** Laravel (Blade Templates)
 
 ---

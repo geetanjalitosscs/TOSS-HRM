@@ -5,10 +5,10 @@
 @section('body')
     <x-main-layout title="Getting Started">
         <div class="hr-card p-8 max-w-4xl mx-auto">
-            <h1 class="text-2xl font-bold text-gray-900 mb-4">Getting Started with TOAI HR</h1>
+            <h1 class="text-2xl font-bold text-gray-900 mb-4">Getting Started with TOAI HRM</h1>
             
             <p class="text-sm text-gray-600 mb-6 leading-relaxed">
-                Learning how to use a new application can be challenging. At TOAI HR, we are committed to providing you with the necessary knowledge and skills required to fully utilize the application thereby allowing you to quickly and efficiently manage your HR processes.
+                Learning how to use a new application can be challenging. At TOAI HRM, we are committed to providing you with the necessary knowledge and skills required to fully utilize the application thereby allowing you to quickly and efficiently manage your HR processes.
             </p>
             
             <p class="text-sm text-gray-700 mb-6 font-medium">

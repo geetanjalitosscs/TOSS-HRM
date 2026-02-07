@@ -14,10 +14,14 @@ class ProfileController extends Controller
         $activeEmployees = DB::table('employees')->where('status', 'active')->count();
         $terminatedEmployees = DB::table('employees')->where('status', 'terminated')->count();
 
+        // Get organization name from database
+        $organization = DB::table('organizations')->first();
+        $companyName = $organization->name ?? 'TOSS CONSULTANCY SERVICES'; // Fallback to default if not found
+
         // Version is still static (no dedicated table for it yet)
         return response()->json([
-            'company_name'      => 'TOAI HR',
-            'version'           => 'TOAI HR OS 1.0',
+            'company_name'      => $companyName,
+            'version'           => 'TOAI HRM OS 1.0',
             'active_employees'  => $activeEmployees,
             'employees'         => $totalEmployees,
             'terminated'        => $terminatedEmployees,

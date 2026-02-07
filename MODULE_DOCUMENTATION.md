@@ -1,8 +1,8 @@
-# TOAI HR Suite - Complete Module Documentation
+# TOAI HRM Suite - Complete Module Documentation
 
 **Version:** 1.0  
 **Last Updated:** 2025-01-27  
-**System:** TOAI HR Suite Professional Edition
+**System:** TOAI HRM Suite Professional Edition
 
 ---
 
@@ -29,7 +29,7 @@
 
 ## Overview
 
-TOAI HR Suite is a comprehensive Human Resources Management System built with Laravel, featuring a modern lavender/purple theme with full dark mode support. The system follows MVC architecture and uses reusable Blade components for consistent UI/UX across all modules.
+TOAI HRM Suite is a comprehensive Human Resources Management System built with Laravel, featuring a modern lavender/purple theme with full dark mode support. The system follows MVC architecture and uses reusable Blade components for consistent UI/UX across all modules.
 
 ### Key Features
 - **12 Main Modules** covering all HR operations

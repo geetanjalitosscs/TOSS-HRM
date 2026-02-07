@@ -1,4 +1,4 @@
-# TOAI HR Suite – Functional Overview
+# TOAI HRM Suite – Functional Overview
 
 This document gives a **functional map of the whole website** – module by module and page by page – so that a new developer or admin can quickly understand:
 - What each page does
