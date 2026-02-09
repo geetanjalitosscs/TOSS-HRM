@@ -92,7 +92,7 @@
                     <!-- Newsfeed Posts -->
                     <div class="space-y-4">
                         @foreach($posts as $post)
-                        <div class="border rounded-lg p-4 transition-all" data-post-id="{{ $post->id }}" style="background-color: var(--bg-card); border: 1px solid var(--border-default);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='none'">
+                        <div id="buzz-post-{{ $post->id }}" class="border rounded-lg p-4 transition-all" data-post-id="{{ $post->id }}" style="background-color: var(--bg-card); border: 1px solid var(--border-default);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='none'">
                             <div class="flex gap-3 items-start">
                                 <!-- Profile Picture -->
                                 @php
@@ -111,7 +111,17 @@
                                     <div class="flex items-center justify-between mb-1">
                                         <div class="flex items-center gap-2">
                                             <span class="text-sm font-semibold" style="color: var(--text-primary);">{{ $post->user_name }}</span>
-                                            <span class="text-xs" style="color: var(--text-muted);">{{ $post->timestamp }}</span>
+                                            @php
+                                                $createdAtIst = \Carbon\Carbon::parse($post->created_at)->timezone('Asia/Kolkata');
+                                                $updatedAtIst = $post->updated_at ? \Carbon\Carbon::parse($post->updated_at)->timezone('Asia/Kolkata') : null;
+                                                $isEdited = $updatedAtIst && $updatedAtIst->gt($createdAtIst);
+                                            @endphp
+                                            <span class="text-xs" style="color: var(--text-muted);">
+                                                {{ $createdAtIst->format('M d, Y h:i A') }}
+                                                @if($isEdited)
+                                                    &nbsp;·&nbsp;Edited {{ $updatedAtIst->format('M d, Y h:i A') }}
+                                                @endif
+                                            </span>
                                         </div>
                                         @if($userId && $post->author_id == $userId)
                                         <div class="relative" style="position: relative;">
@@ -213,7 +223,9 @@
                                                         <div class="flex-1">
                                                             <div class="flex items-center gap-2 mb-1">
                                                                 <span class="text-xs font-semibold" style="color: var(--text-primary);">{{ $comment->username }}</span>
-                                                                <span class="text-[10px]" style="color: var(--text-muted);">{{ \Carbon\Carbon::parse($comment->created_at)->format('M d, Y h:i A') }}</span>
+                                                                <span class="text-[10px]" style="color: var(--text-muted);">
+                                                                    {{ \Carbon\Carbon::parse($comment->created_at)->timezone('Asia/Kolkata')->format('M d, Y h:i A') }}
+                                                                </span>
                                                             </div>
                                                             <p class="text-xs leading-relaxed" style="color: var(--text-primary);">{{ $comment->comment }}</p>
                                                         </div>
@@ -712,6 +724,12 @@
                     commentsContainer.appendChild(commentDiv);
                 }
                 
+                // Scroll to the commented post
+                var postElement = document.getElementById('buzz-post-' + currentCommentPostId);
+                if (postElement) {
+                    postElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                
                 closeBuzzCommentModal();
             })
             .catch(error => {
@@ -720,8 +738,44 @@
             });
         });
 
-        // Share functionality
+        // Share functionality: copy post link + update share count
         function shareBuzzPost(postId) {
+            // Build sharable URL pointing to this post
+            var baseUrl = window.location.origin + window.location.pathname.split('?')[0];
+            var shareUrl = baseUrl + '#buzz-post-' + postId;
+
+            // Copy to clipboard (modern API with fallback)
+            function copyToClipboard(text) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    return navigator.clipboard.writeText(text);
+                }
+                return new Promise(function(resolve, reject) {
+                    try {
+                        var tempInput = document.createElement('textarea');
+                        tempInput.value = text;
+                        tempInput.style.position = 'fixed';
+                        tempInput.style.opacity = '0';
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        resolve();
+                    } catch (err) {
+                        reject(err);
+                    }
+                });
+            }
+
+            copyToClipboard(shareUrl)
+                .then(function () {
+                    // Optionally show a small notice
+                    showBuzzAlert('Post link copied to clipboard.');
+                })
+                .catch(function () {
+                    showBuzzAlert('Unable to copy link. Please copy it manually: ' + shareUrl);
+                });
+
+            // Still call backend to increment share count
             fetch('{{ route("buzz.posts.share", ":id") }}'.replace(':id', postId), {
                 method: 'POST',
                 headers: {
@@ -732,7 +786,9 @@
             .then(response => response.json())
             .then(data => {
                 var countEl = document.querySelector('.buzz-shares-count-' + postId);
-                countEl.textContent = data.shares_count;
+                if (countEl && typeof data.shares_count !== 'undefined') {
+                    countEl.textContent = data.shares_count;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -740,7 +796,9 @@
         }
 
         // Edit functionality
+        var currentEditPostId = null;
         function openBuzzEditModal(postId, content) {
+            currentEditPostId = postId;
             document.getElementById('buzz-edit-modal').classList.remove('hidden');
             document.getElementById('buzz-edit-content').value = content;
             document.getElementById('buzz-edit-form').action = '{{ route("buzz.posts.update", ":id") }}'.replace(':id', postId);
@@ -749,13 +807,15 @@
         function closeBuzzEditModal() {
             document.getElementById('buzz-edit-modal').classList.add('hidden');
             document.getElementById('buzz-edit-content').value = '';
+            currentEditPostId = null;
         }
 
         document.getElementById('buzz-edit-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            var formData = new FormData(this);
+            var form = this;
+            var formData = new FormData(form);
             
-            fetch(this.action, {
+            fetch(form.action, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -764,7 +824,12 @@
             })
             .then(response => {
                 if (response.ok || response.redirected) {
-                    window.location.reload();
+                    // Close modal first
+                    closeBuzzEditModal();
+                    // Then reload and scroll to edited post (if we know its id)
+                    var basePath = window.location.pathname.split('?')[0];
+                    var target = currentEditPostId ? (basePath + '#buzz-post-' + currentEditPostId) : basePath;
+                    window.location.href = target;
                 } else {
                     alert('Error updating post. Please try again.');
                 }

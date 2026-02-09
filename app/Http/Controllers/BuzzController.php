@@ -20,10 +20,11 @@ class BuzzController extends Controller
             ->select(
                 'buzz_posts.id',
                 'buzz_posts.author_id',
+                'buzz_posts.created_at',
+                'buzz_posts.updated_at',
                 'users.username as user_name',
                 DB::raw("COALESCE(employees.photo_path, UPPER(LEFT(users.username, 1))) as profile_pic"),
                 DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL ELSE 'from-purple-400 to-purple-600' END as profile_color"),
-                DB::raw("DATE_FORMAT(buzz_posts.created_at, '%Y-%m-%d %h:%i %p') as timestamp"),
                 'buzz_posts.title',
                 'buzz_posts.body as content',
                 DB::raw("(SELECT COUNT(*) FROM buzz_post_likes WHERE buzz_post_likes.post_id = buzz_posts.id) as likes_count"),

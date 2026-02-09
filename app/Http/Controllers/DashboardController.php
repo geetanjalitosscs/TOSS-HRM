@@ -85,13 +85,39 @@ class DashboardController extends Controller
         // Calculate total job titles
         $totalJobTitles = count($jobTitlesData);
 
+        // Buzz activity - recent posts
+        $totalBuzzPosts = DB::table('buzz_posts')->count();
+
+        $recentBuzzPosts = DB::table('buzz_posts')
+            ->join('users', 'buzz_posts.author_id', '=', 'users.id')
+            ->select(
+                'buzz_posts.id',
+                'buzz_posts.body as content',
+                'buzz_posts.created_at',
+                'users.username'
+            )
+            ->orderByDesc('buzz_posts.created_at')
+            ->limit(5)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'username' => $item->username,
+                    'content' => mb_strimwidth($item->content ?? '', 0, 80, '...'),
+                    'timestamp' => Carbon::parse($item->created_at)->timezone('Asia/Kolkata')->format('M d, Y h:i A'),
+                ];
+            })
+            ->toArray();
+
         return view('dashboard.dashboard', compact(
             'totalEmployees',
             'employeesOnLeave',
             'workWeekData',
             'holidaysData',
             'jobTitlesData',
-            'totalJobTitles'
+            'totalJobTitles',
+            'totalBuzzPosts',
+            'recentBuzzPosts'
         ));
     }
 }

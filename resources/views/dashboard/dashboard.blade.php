@@ -262,7 +262,7 @@
                 </section>
             </div>
 
-            <!-- Third Row: Job Titles Chart -->
+            <!-- Third Row: Job Titles Chart + Buzz Activity -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Job Titles Chart -->
                 <section class="hr-card dashboard-metric-card p-5">
@@ -307,6 +307,61 @@
                             <p class="text-xs text-slate-500">No job titles data</p>
                         </div>
                     @endif
+                </section>
+
+                <!-- Buzz Activity Card -->
+                <section class="hr-card dashboard-metric-card p-5">
+                    <div class="flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-xs text-[var(--text-muted)] font-medium mb-1">Buzz Activity</p>
+                                <h3 class="text-xl font-bold text-[var(--text-primary)]">{{ $totalBuzzPosts }} Posts</h3>
+                            </div>
+                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] flex items-center justify-center shadow-lg shadow-[var(--color-primary-light)]">
+                                <i class="fas fa-comments text-lg" style="color: var(--text-primary);"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-[var(--text-muted)] mb-4">Latest conversations in Buzz</p>
+
+                        <div class="pt-4 border-t border-[var(--border-default)] flex-1 flex flex-col">
+                            @if(count($recentBuzzPosts) > 0)
+                                <div class="space-y-2 overflow-y-auto employee-leave-scrollbar flex-1">
+                                    @foreach($recentBuzzPosts as $buzz)
+                                        <a href="{{ route('buzz') }}#buzz-post-{{ $buzz['id'] }}" class="block">
+                                            <div class="flex items-start gap-2 p-2 rounded-lg transition-all hover:bg-[var(--bg-hover)] cursor-pointer">
+                                                <div class="flex-1">
+                                                    <div class="text-xs font-semibold" style="color: var(--text-primary);">
+                                                        {{ $buzz['username'] }}
+                                                    </div>
+                                                    <div class="text-[10px] mb-1" style="color: var(--text-muted);">
+                                                        {{ $buzz['timestamp'] }}
+                                                    </div>
+                                                    <div class="text-[11px] leading-snug" style="color: var(--text-primary);">
+                                                        {{ $buzz['content'] ?: 'Media post' }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="flex flex-col items-center justify-center h-24 text-center">
+                                    <i class="fas fa-comments text-3xl mb-2 opacity-60 text-[var(--color-primary-soft)]"></i>
+                                    <p class="text-xs text-[var(--text-secondary)] font-medium">No Buzz posts yet</p>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="mt-3 pt-3 border-t border-[var(--border-default)]">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-[var(--text-muted)]">Open Buzz</span>
+                                <a href="{{ route('buzz') }}" class="inline-flex items-center gap-1 text-[var(--color-primary)] hover:text-[var(--color-primary-soft)] font-medium">
+                                    Go to Buzz
+                                    <i class="fas fa-arrow-right text-[10px]"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>
