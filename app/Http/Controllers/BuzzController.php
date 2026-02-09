@@ -118,18 +118,54 @@ class BuzzController extends Controller
     {
         $userId = session('auth_user')['id'] ?? 1; // TODO: Get from auth when wired
 
-        $data = $request->validate([
-            'content' => ['required', 'string', 'max:5000'],
-            'photos' => ['nullable', 'array'],
-            'photos.*' => ['image', 'mimes:jpg,jpeg,png,gif,webp', 'max:5120'], // 5MB per photo
-            'videos' => ['nullable', 'array'],
-            'videos.*' => ['mimes:mp4,avi,mov,wmv,flv', 'max:51200'], // 50MB per video
-        ]);
+        // Check PHP upload limits
+        $uploadMaxSize = ini_get('upload_max_filesize');
+        $postMaxSize = ini_get('post_max_size');
+        
+        try {
+            $data = $request->validate([
+                // Content is optional – user can post only photo/video as well
+                'content' => ['nullable', 'string', 'max:5000'],
+                'photos' => ['nullable', 'array'],
+                'photos.*' => ['image', 'mimes:jpg,jpeg,png,gif,webp', 'max:5120'], // 5MB per photo
+                'videos' => ['nullable', 'array'],
+                // 500MB per video (Laravel max is in kilobytes: 500 * 1024 = 512000)
+                'videos.*' => ['file', 'mimes:mp4,avi,mov,wmv,flv,webm,quicktime', 'max:512000'],
+            ]);
+
+            // Ensure at least some content (text or media) is present
+            $hasText = !empty($data['content']);
+            $hasPhotos = $request->hasFile('photos');
+            $hasVideos = $request->hasFile('videos');
+
+            if (!$hasText && !$hasPhotos && !$hasVideos) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'content' => ['Please add some text or at least one photo or video.'],
+                ]);
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'error' => 'Validation failed',
+                    'message' => $e->getMessage(),
+                    'errors' => $e->errors(),
+                    'php_limits' => [
+                        'upload_max_filesize' => $uploadMaxSize,
+                        'post_max_size' => $postMaxSize,
+                    ]
+                ], 422);
+            }
+            return back()->withErrors($e->errors())->withInput();
+        }
+
+        // Prepare safe title/body values (title column is NOT NULL)
+        $contentText = $data['content'] ?? '';
+        $title = trim($contentText) !== '' ? Str::limit($contentText, 100) : 'Buzz Post';
 
         $postId = DB::table('buzz_posts')->insertGetId([
             'author_id' => $userId,
-            'title' => Str::limit($data['content'], 100),
-            'body' => $data['content'],
+            'title' => $title,
+            'body' => $contentText,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

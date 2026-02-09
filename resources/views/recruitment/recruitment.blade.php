@@ -15,36 +15,36 @@
 
                 <form id="candidates-search-form" method="GET" action="{{ route('recruitment') }}">
                     <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
                                 <select name="job_title" class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     @foreach($jobTitles ?? [] as $title)
                                         <option value="{{ $title->id }}" {{ request('job_title') == $title->id ? 'selected' : '' }}>{{ $title->name }}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Vacancy</label>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Vacancy</label>
                                 <select name="vacancy" class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     @foreach($vacancies ?? [] as $vacancy)
                                         <option value="{{ $vacancy->id }}" {{ request('vacancy') == $vacancy->id ? 'selected' : '' }}>{{ $vacancy->name }}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Hiring Manager</label>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Hiring Manager</label>
                                 <select name="hiring_manager" class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     @foreach($employees ?? [] as $emp)
                                         <option value="{{ $emp->id }}" {{ request('hiring_manager') == $emp->id ? 'selected' : '' }}>{{ $emp->display_name }}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Status</label>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Status</label>
                                 <select name="status" class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     <option value="new" {{ request('status') == 'new' ? 'selected' : '' }}>Application Initiated</option>
@@ -53,40 +53,40 @@
                                     <option value="offered" {{ request('status') == 'offered' ? 'selected' : '' }}>Offered</option>
                                     <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                                     <option value="hired" {{ request('status') == 'hired' ? 'selected' : '' }}>Hired</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Candidate Name</label>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Candidate Name</label>
                                 <input type="text" name="candidate_name" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints..." value="{{ request('candidate_name') }}">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Keywords</label>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Keywords</label>
                                 <input type="text" name="keywords" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Enter comma separated words..." value="{{ request('keywords') }}">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Date of Application</label>
-                                <div class="flex gap-2">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Date of Application</label>
+                        <div class="flex gap-2">
                                     <x-date-picker name="from_date" :value="request('from_date')" placeholder="From" wrapperClass="flex-1" />
                                     <x-date-picker name="to_date" :value="request('to_date')" placeholder="To" wrapperClass="flex-1" />
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Method of Application</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Method of Application</label>
                                 <select name="method" class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
                                     <option value="">-- Select --</option>
                                     <option value="online" {{ request('method') == 'online' ? 'selected' : '' }}>Online</option>
                                     <option value="email" {{ request('method') == 'email' ? 'selected' : '' }}>Email</option>
                                     <option value="walk-in" {{ request('method') == 'walk-in' ? 'selected' : '' }}>Walk-in</option>
                                     <option value="referral" {{ request('method') == 'referral' ? 'selected' : '' }}>Referral</option>
-                                </select>
-                            </div>
-                        </div>
-                        <x-admin.action-buttons resetType="button" searchType="submit" />
+                        </select>
                     </div>
+                </div>
+                        <x-admin.action-buttons resetType="button" searchType="submit" />
+            </div>
                 </form>
             </section>
 
@@ -138,19 +138,19 @@
                                    onblur="this.style.outline='none'">
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Vacancy</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Vacancy</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Candidate</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Candidate</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Hiring Manager</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Hiring Manager</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Date of Application</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Date of Application</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</span>
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</span>
                         </div>
                         <div class="flex-shrink-0" style="width: 160px;">
                             <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</span>

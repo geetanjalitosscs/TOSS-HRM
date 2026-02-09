@@ -47,7 +47,6 @@
                                     class="w-full px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] transition-all resize-none" 
                                     style="border: 1px solid var(--border-default); background-color: var(--bg-input); color: var(--text-primary);" 
                                     placeholder="What's on your mind?"
-                                    required
                                 ></textarea>
                                 
                                 <!-- File Preview Area -->
@@ -56,15 +55,18 @@
                                 </div>
 
                                 <div class="flex items-center justify-between mt-3">
-                                    <div class="flex gap-3">
-                                        <label class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all cursor-pointer" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                                            <i class="fas fa-camera"></i> Share Photos
-                                            <input type="file" name="photos[]" id="buzz-photos-input" accept="image/*" multiple class="hidden" onchange="handleBuzzFileSelect(event, 'photo')">
-                                        </label>
-                                        <label class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all cursor-pointer" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
-                                            <i class="fas fa-video"></i> Share Video
-                                            <input type="file" name="videos[]" id="buzz-videos-input" accept="video/*" multiple class="hidden" onchange="handleBuzzFileSelect(event, 'video')">
-                                        </label>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex gap-3">
+                                            <label class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all cursor-pointer" style="color: var(--text-primary); border: 1px solid transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.borderColor='var(--border-default)'; this.style.transform='scale(1.05)'; this.querySelector('i').style.color='var(--color-hr-primary)';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='transparent'; this.style.transform='scale(1)'; this.querySelector('i').style.color='';">
+                                                <i class="fas fa-camera transition-colors"></i> Share Photos
+                                                <input type="file" name="photos[]" id="buzz-photos-input" accept="image/*" multiple class="hidden" onchange="handleBuzzFileSelect(event, 'photo')">
+                                            </label>
+                                            <label class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all cursor-pointer" style="color: var(--text-primary); border: 1px solid transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.borderColor='var(--border-default)'; this.style.transform='scale(1.05)'; this.querySelector('i').style.color='var(--color-hr-primary)';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='transparent'; this.style.transform='scale(1)'; this.querySelector('i').style.color='';">
+                                                <i class="fas fa-video transition-colors"></i> Share Video
+                                                <input type="file" name="videos[]" id="buzz-videos-input" accept="video/*" multiple class="hidden" onchange="handleBuzzFileSelect(event, 'video')">
+                                            </label>
+                                        </div>
+                                        <p class="text-[10px] ml-1" style="color: var(--text-muted);">Hold <kbd class="px-1 py-0.5 rounded text-[9px] font-mono" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">Ctrl</kbd> to select multiple photos & videos</p>
                                     </div>
                                     <button type="submit" class="hr-btn-primary px-4 py-1.5 text-xs font-semibold">
                                         Post
@@ -138,12 +140,12 @@
                                                     $photoPath = ltrim($photoPath, '/');
                                                     $imageUrl = asset('storage/' . $photoPath);
                                                 @endphp
-                                                <div class="relative rounded-lg overflow-hidden shadow-sm transition-all hover:shadow-md" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                                                <div class="relative rounded-lg overflow-hidden shadow-sm transition-all hover:shadow-md flex items-center justify-center" style="background-color: var(--bg-hover); border: 1px solid var(--border-default); min-height: 200px;">
                                                     <img 
                                                         src="{{ $imageUrl }}" 
                                                         alt="Post image" 
-                                                        class="w-full h-auto object-cover cursor-pointer"
-                                                        style="max-height: 400px; min-height: 200px; display: block;"
+                                                        class="w-full h-auto object-contain cursor-pointer"
+                                                        style="max-height: 400px; max-width: 100%; display: block;"
                                                         loading="lazy"
                                                         onclick="openImageModal('{{ $imageUrl }}')"
                                                     >
@@ -251,6 +253,39 @@
         </div>
     </div>
 
+    <!-- Alert Modal -->
+    <div id="buzz-alert-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background-color: rgba(0, 0, 0, 0.5);" onclick="closeBuzzAlertModal()">
+        <div class="relative max-w-md w-full rounded-lg shadow-xl" style="background-color: var(--bg-card); border: 1px solid var(--border-default);" onclick="event.stopPropagation();">
+            <div class="px-5 py-4 border-b" style="border-color: var(--border-default);">
+                <h3 class="text-sm font-semibold" style="color: var(--text-primary);">
+                    <i class="fas fa-exclamation-triangle mr-2" style="color: #F59E0B;"></i> Notice
+                </h3>
+            </div>
+            <div class="px-5 py-4">
+                <p class="text-xs mb-4" style="color: var(--text-primary);" id="buzz-alert-message"></p>
+                <div class="flex justify-end">
+                    <button onclick="closeBuzzAlertModal()" class="hr-btn-primary px-4 py-1.5 text-xs font-medium">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posting Loading Modal -->
+    <x-admin.modal
+        id="buzz-loading-modal"
+        title="Posting"
+        maxWidth="xs"
+    >
+        <div class="flex flex-col items-center justify-center py-2">
+            <div id="buzz-loading-spinner" class="w-8 h-8 border-2 border-[var(--color-hr-primary)] border-t-transparent rounded-full mb-3"></div>
+            <p class="text-xs text-center" style="color: var(--text-muted);">
+                Please wait while your post is being uploaded...
+            </p>
+        </div>
+    </x-admin.modal>
+
     <!-- Edit Post Modal -->
     <x-admin.modal
         id="buzz-edit-modal"
@@ -336,6 +371,18 @@
         </div>
     </x-admin.modal>
 
+    <style>
+        @keyframes buzz-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #buzz-loading-spinner {
+            animation: buzz-spin 0.8s linear infinite;
+        }
+    </style>
+
     <script>
         var buzzSelectedFiles = {
             photos: [],
@@ -347,24 +394,60 @@
             var previewContainer = document.getElementById('buzz-preview-container');
             var previewArea = document.getElementById('buzz-file-preview');
 
-            files.forEach(function(file) {
-                if (type === 'photo' && file.type.startsWith('image/')) {
+            if (type === 'photo') {
+                // Check max 5 images limit
+                var currentPhotoCount = buzzSelectedFiles.photos.length;
+                var newPhotos = files.filter(file => file.type.startsWith('image/'));
+                
+                if (currentPhotoCount + newPhotos.length > 5) {
+                    showBuzzAlert('You can upload a maximum of 5 images at a time. Please remove some images first.');
+                    event.target.value = ''; // Reset file input
+                    return;
+                }
+
+                newPhotos.forEach(function(file) {
                     buzzSelectedFiles.photos.push(file);
                     addBuzzFilePreview(file, type, previewContainer);
-                } else if (type === 'video' && file.type.startsWith('video/')) {
+                });
+            } else if (type === 'video') {
+                // Check max 5 videos limit
+                var currentVideoCount = buzzSelectedFiles.videos.length;
+                var newVideos = files.filter(file => file.type.startsWith('video/'));
+                
+                if (currentVideoCount + newVideos.length > 5) {
+                    showBuzzAlert('You can upload a maximum of 5 videos at a time. Please remove some videos first.');
+                    event.target.value = ''; // Reset file input
+                    return;
+                }
+
+                // Check file size (500MB = 500 * 1024 * 1024 bytes)
+                var maxSize = 500 * 1024 * 1024; // 500MB in bytes
+                var oversizedFiles = newVideos.filter(file => file.size > maxSize);
+                
+                if (oversizedFiles.length > 0) {
+                    showBuzzAlert('Each video file must be 500MB or less. Please select smaller files.');
+                    event.target.value = ''; // Reset file input
+                    return;
+                }
+
+                newVideos.forEach(function(file) {
                     buzzSelectedFiles.videos.push(file);
                     addBuzzFilePreview(file, type, previewContainer);
-                }
-            });
+                });
+            }
 
             if (buzzSelectedFiles.photos.length > 0 || buzzSelectedFiles.videos.length > 0) {
                 previewArea.classList.remove('hidden');
             }
+            
+            // Reset file input to allow selecting same files again
+            event.target.value = '';
         }
 
         function addBuzzFilePreview(file, type, container) {
             var previewDiv = document.createElement('div');
             previewDiv.className = 'relative';
+            previewDiv.style.position = 'relative'; // Ensure cross button positions relative to this box
             previewDiv.style.width = '150px';
             previewDiv.style.height = '150px';
             previewDiv.dataset.fileName = file.name;
@@ -372,10 +455,14 @@
 
             if (type === 'photo') {
                 var img = document.createElement('img');
-                img.src = URL.createObjectURL(file);
-                img.className = 'w-full h-full rounded-lg';
+                var objectUrl = URL.createObjectURL(file);
+                img.src = objectUrl;
+                img.className = 'w-full h-full rounded-lg cursor-pointer';
                 img.style.objectFit = 'contain';
                 img.style.backgroundColor = 'var(--bg-hover)';
+                img.onclick = function() {
+                    openImageModal(objectUrl);
+                };
                 previewDiv.appendChild(img);
             } else {
                 var video = document.createElement('video');
@@ -388,9 +475,30 @@
 
             var removeBtn = document.createElement('button');
             removeBtn.type = 'button';
-            removeBtn.className = 'absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs';
+            removeBtn.className = 'absolute rounded-full flex items-center justify-center transition-all duration-200';
+            removeBtn.style.position = 'absolute';
+            removeBtn.style.top = '4px';
+            removeBtn.style.right = '4px';
+            removeBtn.style.width = '20px';
+            removeBtn.style.height = '20px';
+            removeBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            removeBtn.style.color = '#ffffff';
+            removeBtn.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+            removeBtn.style.fontSize = '10px';
+            removeBtn.style.zIndex = '10';
             removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-            removeBtn.onclick = function() {
+            removeBtn.onmouseover = function() {
+                this.style.backgroundColor = 'rgba(220, 38, 38, 0.95)';
+                this.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+                this.style.transform = 'scale(1.15)';
+            };
+            removeBtn.onmouseout = function() {
+                this.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                this.style.transform = 'scale(1)';
+            };
+            removeBtn.onclick = function(e) {
+                e.stopPropagation();
                 removeBuzzFilePreview(file.name, type);
                 previewDiv.remove();
             };
@@ -415,6 +523,12 @@
         document.getElementById('buzz-post-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Show loading modal while post is being uploaded
+            var loadingModal = document.getElementById('buzz-loading-modal');
+            if (loadingModal) {
+                loadingModal.classList.remove('hidden');
+            }
+
             var formData = new FormData();
             formData.append('content', document.getElementById('buzz-post-content').value);
             formData.append('_token', '{{ csrf_token() }}');
@@ -441,14 +555,42 @@
                 if (response.ok || response.redirected) {
                     window.location.reload();
                 } else {
-                    return response.json().then(data => {
-                        throw new Error(data.message || 'Error creating post');
+                    return response.text().then(text => {
+                        try {
+                            var data = JSON.parse(text);
+                            var errorMsg = data.message || data.error || 'Error creating post';
+
+                            // If we have field-specific validation errors, prefer those
+                            if (data.errors) {
+                                if (data.errors['videos.0'] && data.errors['videos.0'][0]) {
+                                    errorMsg = data.errors['videos.0'][0];
+                                } else if (data.errors['content'] && data.errors['content'][0]) {
+                                    errorMsg = data.errors['content'][0];
+                                } else {
+                                    // Fallback: first validation error message
+                                    var firstKey = Object.keys(data.errors)[0];
+                                    if (firstKey && data.errors[firstKey][0]) {
+                                        errorMsg = data.errors[firstKey][0];
+                                    }
+                                }
+                            }
+
+                            throw new Error(errorMsg);
+                        } catch (e) {
+                            // Fallback generic error if response is not JSON
+                            throw new Error('Error creating post. Please try again.');
+                        }
                     });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error creating post. Please try again.');
+                // Hide loading modal on error
+                var loadingModal = document.getElementById('buzz-loading-modal');
+                if (loadingModal) {
+                    loadingModal.classList.add('hidden');
+                }
+                showBuzzAlert(error.message || 'Error creating post. Please try again.');
             });
         });
 
@@ -680,6 +822,25 @@
                 document.body.style.overflow = '';
             }
         }
+
+        function showBuzzAlert(message) {
+            var modal = document.getElementById('buzz-alert-modal');
+            var messageEl = document.getElementById('buzz-alert-message');
+            if (modal && messageEl) {
+                messageEl.textContent = message;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeBuzzAlertModal() {
+            var modal = document.getElementById('buzz-alert-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+        window.closeBuzzAlertModal = closeBuzzAlertModal;
 
         // Close image modal on Escape key
         document.addEventListener('keydown', function(e) {
