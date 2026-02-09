@@ -324,9 +324,9 @@
                         <p class="text-xs text-[var(--text-muted)] mb-4">Latest conversations in Buzz</p>
 
                         <div class="pt-4 border-t border-[var(--border-default)] flex-1 flex flex-col">
-                            @if(count($recentBuzzPosts) > 0)
+                            @if(count($recentBuzzActivities ?? []) > 0)
                                 <div class="space-y-2 overflow-y-auto employee-leave-scrollbar flex-1">
-                                    @foreach($recentBuzzPosts as $buzz)
+                                    @foreach($recentBuzzActivities as $buzz)
                                         <a href="{{ route('buzz') }}#buzz-post-{{ $buzz['id'] }}" class="block">
                                             <div class="flex items-start gap-2 p-2 rounded-lg transition-all hover:bg-[var(--bg-hover)] cursor-pointer">
                                                 <div class="flex-1">

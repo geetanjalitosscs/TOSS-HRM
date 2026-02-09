@@ -21,6 +21,7 @@ class AdminController extends Controller
                 ->select('id', 'is_main_user')
                 ->first();
         }
+        $isMainUserCurrent = $currentUser && isset($currentUser->is_main_user) && $currentUser->is_main_user == 1;
 
         $username = $request->input('username');
         $userRole = $request->input('user_role');
@@ -43,6 +44,7 @@ class AdminController extends Controller
                 'users.is_active',
                 'users.is_main_user',
                 'users.created_by',
+                'users.page_permissions',
                 DB::raw("COALESCE(roles.id, 0) as role_id"),
                 DB::raw("COALESCE(roles.name, 'HR') as role"),
                 DB::raw("COALESCE(employees.display_name, CONCAT(COALESCE(employees.first_name, ''), ' ', COALESCE(employees.last_name, '')), '') as employee_name")
@@ -84,7 +86,7 @@ class AdminController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('admin.admin', compact('users', 'roles', 'employees'));
+        return view('admin.admin', compact('users', 'roles', 'employees', 'isMainUserCurrent'));
     }
 
     public function storeUser(Request $request)
@@ -92,7 +94,18 @@ class AdminController extends Controller
         $authUser = session('auth_user');
         $currentUserId = $authUser['id'] ?? null;
 
-        $data = $request->validate([
+        $isMainUserCurrent = DB::table('users')
+            ->where('id', $currentUserId)
+            ->where('is_main_user', 1)
+            ->exists();
+
+        // Only main user can create users
+        if (!$isMainUserCurrent) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Only the main user can manage user accounts.');
+        }
+
+        $rules = [
             'username' => ['required', 'string', 'max:100', 'unique:users,username'],
             'email' => ['required', 'email', 'max:191', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
@@ -100,7 +113,14 @@ class AdminController extends Controller
             'employee_id' => ['nullable', 'integer', 'exists:employees,id'],
             'is_active' => ['nullable', 'boolean'],
             'is_main_user' => ['nullable', 'boolean'],
-        ]);
+        ];
+
+        if ($isMainUserCurrent) {
+            $rules['page_permissions'] = ['nullable', 'array'];
+            $rules['page_permissions.*'] = ['string', 'max:191'];
+        }
+
+        $data = $request->validate($rules);
 
         $userId = DB::table('users')->insertGetId([
             'username' => $data['username'],
@@ -109,6 +129,9 @@ class AdminController extends Controller
             'employee_id' => !empty($data['employee_id']) ? (int)$data['employee_id'] : null,
             'is_active' => isset($data['is_active']) && $data['is_active'] == '1' ? 1 : 0,
             'is_main_user' => isset($data['is_main_user']) && $data['is_main_user'] == '1' ? 1 : 0,
+            'page_permissions' => $isMainUserCurrent && isset($data['page_permissions'])
+                ? json_encode(array_values($data['page_permissions']))
+                : null,
             'created_by' => $currentUserId,
             'created_at' => now(),
             'updated_at' => now(),
@@ -131,7 +154,20 @@ class AdminController extends Controller
         $user = DB::table('users')->where('id', $id)->first();
         $isMainUser = $user && isset($user->is_main_user) && $user->is_main_user == 1;
 
-        $data = $request->validate([
+        $authUser = session('auth_user');
+        $currentUserId = $authUser['id'] ?? null;
+        $isMainUserCurrent = DB::table('users')
+            ->where('id', $currentUserId)
+            ->where('is_main_user', 1)
+            ->exists();
+
+        // Only main user can update users
+        if (!$isMainUserCurrent) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Only the main user can manage user accounts.');
+        }
+
+        $rules = [
             'username' => ['required', 'string', 'max:100', 'unique:users,username,' . $id],
             'email' => ['required', 'email', 'max:191', 'unique:users,email,' . $id],
             'password' => ['nullable', 'string', 'min:6'],
@@ -139,7 +175,14 @@ class AdminController extends Controller
             'employee_id' => ['nullable', 'integer', 'exists:employees,id'],
             'is_active' => ['nullable', 'boolean'],
             'is_main_user' => ['nullable', 'boolean'],
-        ]);
+        ];
+
+        if ($isMainUserCurrent) {
+            $rules['page_permissions'] = ['nullable', 'array'];
+            $rules['page_permissions.*'] = ['string', 'max:191'];
+        }
+
+        $data = $request->validate($rules);
 
         $updateData = [
             'username' => $data['username'],
@@ -155,6 +198,13 @@ class AdminController extends Controller
         } else {
             $updateData['is_active'] = isset($data['is_active']) && $data['is_active'] == '1' ? 1 : 0;
             $updateData['is_main_user'] = isset($data['is_main_user']) && $data['is_main_user'] == '1' ? 1 : 0;
+        }
+
+        // Only main user can update page permissions, and never for target main user
+        if ($isMainUserCurrent && !$isMainUser) {
+            $updateData['page_permissions'] = isset($data['page_permissions'])
+                ? json_encode(array_values($data['page_permissions']))
+                : null;
         }
 
         if (!empty($data['password'])) {
@@ -182,6 +232,19 @@ class AdminController extends Controller
 
     public function deleteUser(int $id)
     {
+        // Only main user can delete users
+        $authUser = session('auth_user');
+        $currentUserId = $authUser['id'] ?? null;
+        $isMainUserCurrent = DB::table('users')
+            ->where('id', $currentUserId)
+            ->where('is_main_user', 1)
+            ->exists();
+
+        if (!$isMainUserCurrent) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Only the main user can manage user accounts.');
+        }
+
         // Check if user is main user
         $user = DB::table('users')->where('id', $id)->first();
         if ($user && isset($user->is_main_user) && $user->is_main_user == 1) {
@@ -199,6 +262,19 @@ class AdminController extends Controller
 
     public function bulkDeleteUsers(Request $request)
     {
+        // Only main user can bulk delete users
+        $authUser = session('auth_user');
+        $currentUserId = $authUser['id'] ?? null;
+        $isMainUserCurrent = DB::table('users')
+            ->where('id', $currentUserId)
+            ->where('is_main_user', 1)
+            ->exists();
+
+        if (!$isMainUserCurrent) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Only the main user can manage user accounts.');
+        }
+
         $data = $request->validate([
             'ids' => ['required', 'string'],
         ]);

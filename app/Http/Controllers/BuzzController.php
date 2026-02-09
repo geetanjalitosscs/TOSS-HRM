@@ -38,9 +38,10 @@ class BuzzController extends Controller
                 ->groupBy(
                     'buzz_posts.id',
                     'buzz_posts.author_id',
+                    'buzz_posts.created_at',
+                    'buzz_posts.updated_at',
                     'users.username',
                     'employees.photo_path',
-                    'buzz_posts.created_at',
                     'buzz_posts.title',
                     'buzz_posts.body'
                 )
@@ -50,9 +51,10 @@ class BuzzController extends Controller
                 ->groupBy(
                     'buzz_posts.id',
                     'buzz_posts.author_id',
+                    'buzz_posts.created_at',
+                    'buzz_posts.updated_at',
                     'users.username',
                     'employees.photo_path',
-                    'buzz_posts.created_at',
                     'buzz_posts.title',
                     'buzz_posts.body'
                 )

@@ -72,17 +72,19 @@
                     <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="fas fa-users text-[var(--color-primary)]"></i> User List
                     </h2>
-                    <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
-                        <button
-                            id="users-delete-selected"
-                            type="button"
-                            class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
-                            onclick="openUserBulkDeleteModal()"
-                        >
-                            Delete Selected
-                        </button>
-                        <x-admin.add-button label="+ Add" onClick="openUserAddModal()" />
-                    </div>
+                    @if(!empty($isMainUserCurrent) && $isMainUserCurrent)
+                        <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
+                            <button
+                                id="users-delete-selected"
+                                type="button"
+                                class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
+                                onclick="openUserBulkDeleteModal()"
+                            >
+                                Delete Selected
+                            </button>
+                            <x-admin.add-button label="+ Add" onClick="openUserAddModal()" />
+                        </div>
+                    @endif
                 </div>
 
                 @if(session('status'))
@@ -120,9 +122,11 @@
                             <div class="flex-1" style="min-width: 0;">
                                 <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</div>
                             </div>
-                            <div class="flex-shrink-0" style="width: 90px;">
-                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                            </div>
+                            @if(!empty($isMainUserCurrent) && $isMainUserCurrent)
+                                <div class="flex-shrink-0" style="width: 90px;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
+                                </div>
+                            @endif
                         </div>
 
                         <!-- User Rows -->
@@ -142,6 +146,19 @@
                                 </div>
                                 
                                 <!-- Username -->
+                                @php
+                                    $pagePermRaw = $user->page_permissions ?? null;
+                                    $pagePermArray = [];
+                                    if (is_string($pagePermRaw) && $pagePermRaw !== '') {
+                                        $decoded = json_decode($pagePermRaw, true);
+                                        if (is_array($decoded)) {
+                                            $pagePermArray = $decoded;
+                                        }
+                                    } elseif (is_array($pagePermRaw)) {
+                                        $pagePermArray = $pagePermRaw;
+                                    }
+                                    $pagePermCsv = implode(',', $pagePermArray);
+                                @endphp
                                 <div class="flex-1" style="min-width: 0;"
                                      data-user-id="{{ $user->id }}"
                                      data-user-username="{{ $user->username }}"
@@ -150,6 +167,7 @@
                                      data-user-employee-id="{{ $user->employee_id ?? '' }}"
                                      data-user-is-active="{{ $user->is_active ?? 1 }}"
                                      data-user-is-main-user="{{ $user->is_main_user ?? 0 }}"
+                                     data-user-page-permissions="{{ e($pagePermCsv) }}"
                                 >
                                     <div class="text-xs font-medium break-words" style="color: var(--text-primary);">
                                         {{ $user->username }}
@@ -175,16 +193,18 @@
                                 </div>
                                 
                                 <!-- Actions -->
-                                <div class="flex-shrink-0" style="width: 90px;">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button class="hr-action-delete flex-shrink-0" title="Delete" type="button">
-                                            <i class="fas fa-trash-alt text-sm"></i>
-                                        </button>
-                                        <button class="hr-action-edit flex-shrink-0" title="Edit" type="button">
-                                            <i class="fas fa-edit text-sm"></i>
-                                        </button>
+                                @if(!empty($isMainUserCurrent) && $isMainUserCurrent)
+                                    <div class="flex-shrink-0" style="width: 90px;">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <button class="hr-action-delete flex-shrink-0" title="Delete" type="button">
+                                                <i class="fas fa-trash-alt text-sm"></i>
+                                            </button>
+                                            <button class="hr-action-edit flex-shrink-0" title="Edit" type="button">
+                                                <i class="fas fa-edit text-sm"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                             @empty
                                 <div class="px-4 py-10 text-center text-xs" style="color: var(--text-muted);">
@@ -205,7 +225,7 @@
             maxWidth="md"
             backdropOnClick="closeUserAddModal(true)"
         >
-            <form method="POST" action="{{ route('admin.users.store') }}">
+            <form method="POST" action="{{ route('admin.users.store') }}" style="max-height: 65vh; overflow-y: auto; overflow-x: hidden;">
                 @csrf
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
@@ -305,6 +325,45 @@
                     </label>
                 </div>
 
+                @if(!empty($isMainUserCurrent) && $isMainUserCurrent)
+                    @php
+                        // High-level sections for page access control
+                        $pagePermissionOptions = [
+                            'dashboard'   => 'Dashboard',
+                            'my-info'     => 'My Info',
+                            'pim'         => 'PIM (Personnel Information Management)',
+                            'leave'       => 'Leave',
+                            'time'        => 'Time',
+                            'recruitment' => 'Recruitment',
+                            'performance' => 'Performance',
+                            'claim'       => 'Claim',
+                            'directory'   => 'Directory',
+                            'buzz'        => 'Buzz',
+                            'admin'       => 'Admin',
+                        ];
+                    @endphp
+                    <div class="mb-4" id="user-add-page-access-section">
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                            Page Access (only main user can change)
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 rounded border px-3 py-2" style="border-color: var(--border-default); background-color: var(--bg-input); max-height: 9rem; overflow-y: auto;">
+                            @foreach($pagePermissionOptions as $key => $label)
+                                <label class="flex items-center gap-2 text-[11px]" style="color: var(--text-primary);">
+                                    <input
+                                        type="checkbox"
+                                        name="page_permissions[]"
+                                        value="{{ $key }}"
+                                        class="rounded w-3.5 h-3.5"
+                                        style="border-color: var(--border-default); accent-color: var(--color-hr-primary);"
+                                    >
+                                    <span class="truncate">{{ $label }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        <p class="text-[10px] mt-1" style="color: var(--text-muted);">These permissions control which pages and tabs this user can access.</p>
+                    </div>
+                @endif
+
                 <div class="flex justify-end gap-2 mt-1">
                     <button
                         type="button"
@@ -328,7 +387,7 @@
             maxWidth="md"
             backdropOnClick="closeUserEditModal(true)"
         >
-            <form method="POST" id="user-edit-form" action="#">
+            <form method="POST" id="user-edit-form" action="#" style="max-height: 65vh; overflow-y: auto; overflow-x: hidden;">
                 @csrf
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
@@ -358,6 +417,45 @@
                         maxlength="191"
                     >
                 </div>
+
+                @if(!empty($isMainUserCurrent) && $isMainUserCurrent)
+                    @php
+                        // High-level sections for page access control
+                        $pagePermissionOptions = [
+                            'dashboard'   => 'Dashboard',
+                            'my-info'     => 'My Info',
+                            'pim'         => 'PIM (Personnel Information Management)',
+                            'leave'       => 'Leave',
+                            'time'        => 'Time',
+                            'recruitment' => 'Recruitment',
+                            'performance' => 'Performance',
+                            'claim'       => 'Claim',
+                            'directory'   => 'Directory',
+                            'buzz'        => 'Buzz',
+                            'admin'       => 'Admin',
+                        ];
+                    @endphp
+                    <div class="mb-4" id="user-edit-page-access-section">
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                            Page Access (only main user can change)
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 rounded border px-3 py-2" style="border-color: var(--border-default); background-color: var(--bg-input); max-height: 9rem; overflow-y: auto;">
+                            @foreach($pagePermissionOptions as $key => $label)
+                                <label class="flex items-center gap-2 text-[11px]" style="color: var(--text-primary);">
+                                    <input
+                                        type="checkbox"
+                                        name="page_permissions[]"
+                                        value="{{ $key }}"
+                                        class="rounded w-3.5 h-3.5 user-edit-page-permission"
+                                        style="border-color: var(--border-default); accent-color: var(--color-hr-primary);"
+                                    >
+                                    <span class="truncate">{{ $label }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        <p class="text-[10px] mt-1" style="color: var(--text-muted);">These permissions control which pages and tabs this user can access.</p>
+                    </div>
+                @endif
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Password (leave blank to keep current)
@@ -568,7 +666,18 @@
 
                 function openUserAddModal() {
                     var m = document.getElementById('user-add-modal');
-                    if (m) m.classList.remove('hidden');
+                    if (m) {
+                        m.classList.remove('hidden');
+                        // Hide page access section initially if "Main User" is checked
+                        var mainUserCheckbox = m.querySelector('input[name="is_main_user"][type="checkbox"]');
+                        var pageSection = document.getElementById('user-add-page-access-section');
+                        if (mainUserCheckbox && pageSection) {
+                            pageSection.style.display = mainUserCheckbox.checked ? 'none' : '';
+                            mainUserCheckbox.addEventListener('change', function () {
+                                pageSection.style.display = this.checked ? 'none' : '';
+                            });
+                        }
+                    }
                 }
                 window.openUserAddModal = openUserAddModal;
 
@@ -593,6 +702,7 @@
                     var employeeId = info.dataset.userEmployeeId || '';
                     var isActive = info.dataset.userIsActive || '1';
                     var isMainUser = info.dataset.userIsMainUser || '0';
+                    var pagePermJson = info.dataset.userPagePermissions || null;
 
                     var m = document.getElementById('user-edit-modal');
                     if (!m) return;
@@ -633,6 +743,34 @@
                             isMainUserCheckbox.disabled = false;
                         }
                     }
+
+                    // Show/hide page access section based on main user flag
+                    var editPageSection = document.getElementById('user-edit-page-access-section');
+                    if (editPageSection) {
+                        editPageSection.style.display = (isMainUser == '1') ? 'none' : '';
+                    }
+
+                    if (isMainUserCheckbox && editPageSection) {
+                        isMainUserCheckbox.addEventListener('change', function () {
+                            editPageSection.style.display = this.checked ? 'none' : '';
+                        });
+                    }
+
+                    // Pre-select page access checkboxes for this user (only visible for main user)
+                    // Pre-select page access checkboxes for this user (only visible for main user)
+                    (function () {
+                        var pagePerms = [];
+                        if (pagePermJson && pagePermJson.trim() !== '') {
+                            var trimmed = pagePermJson.trim();
+                            pagePerms = trimmed.split(',').map(function (s) {
+                                return s.trim();
+                            }).filter(function (s) { return s.length > 0; });
+                        }
+                        var pageCheckboxes = m.querySelectorAll('input.user-edit-page-permission[name="page_permissions[]"]');
+                        pageCheckboxes.forEach(function(cb) {
+                            cb.checked = pagePerms.indexOf(cb.value) !== -1;
+                        });
+                    })();
 
                     var form = document.getElementById('user-edit-form');
                     if (form) {

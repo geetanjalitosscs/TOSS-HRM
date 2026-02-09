@@ -85,26 +85,36 @@ class DashboardController extends Controller
         // Calculate total job titles
         $totalJobTitles = count($jobTitlesData);
 
-        // Buzz activity - recent posts
+        // Buzz activity - recent 5 items (posts or comments)
         $totalBuzzPosts = DB::table('buzz_posts')->count();
 
-        $recentBuzzPosts = DB::table('buzz_posts')
-            ->join('users', 'buzz_posts.author_id', '=', 'users.id')
-            ->select(
-                'buzz_posts.id',
-                'buzz_posts.body as content',
-                'buzz_posts.created_at',
-                'users.username'
-            )
-            ->orderByDesc('buzz_posts.created_at')
+        $recentBuzzActivities = DB::query()
+            ->fromSub(function ($query) {
+                // Posts
+                $query->from(function ($q) {
+                    $q->from('buzz_posts')
+                        ->join('users', 'buzz_posts.author_id', '=', 'users.id')
+                        ->selectRaw('buzz_posts.id as post_id, buzz_posts.created_at as activity_at, users.username, buzz_posts.body as content, "post" as activity_type');
+                }, 'p')
+                // UNION ALL with comments
+                ->unionAll(
+                    DB::table('buzz_post_comments')
+                        ->join('buzz_posts', 'buzz_post_comments.post_id', '=', 'buzz_posts.id')
+                        ->join('users', 'buzz_post_comments.author_id', '=', 'users.id')
+                        ->selectRaw('buzz_posts.id as post_id, buzz_post_comments.created_at as activity_at, users.username, buzz_post_comments.body as content, "comment" as activity_type')
+                );
+            }, 'activities')
+            ->orderByDesc('activity_at')
             ->limit(5)
             ->get()
             ->map(function ($item) {
                 return [
-                    'id' => $item->id,
+                    // Always link to the post
+                    'id' => $item->post_id,
                     'username' => $item->username,
+                    // Trim content to keep card height same
                     'content' => mb_strimwidth($item->content ?? '', 0, 80, '...'),
-                    'timestamp' => Carbon::parse($item->created_at)->timezone('Asia/Kolkata')->format('M d, Y h:i A'),
+                    'timestamp' => Carbon::parse($item->activity_at)->timezone('Asia/Kolkata')->format('M d, Y h:i A'),
                 ];
             })
             ->toArray();
@@ -117,7 +127,7 @@ class DashboardController extends Controller
             'jobTitlesData',
             'totalJobTitles',
             'totalBuzzPosts',
-            'recentBuzzPosts'
+            'recentBuzzActivities'
         ));
     }
 }
