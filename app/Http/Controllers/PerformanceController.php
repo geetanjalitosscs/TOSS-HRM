@@ -27,7 +27,91 @@ class PerformanceController extends Controller
             ->limit(20)
             ->get();
 
-        return view('performance.performance', compact('reviews'));
+        $employees = DB::table('employees')
+            ->whereNull('deleted_at')
+            ->select('id', 'display_name')
+            ->orderBy('display_name')
+            ->get();
+
+        $cycles = DB::table('performance_cycles')
+            ->select('id', 'name', 'start_date', 'end_date')
+            ->orderByDesc('end_date')
+            ->get()
+            ->map(function($cycle) {
+                $cycle->name = $cycle->name . ' (' . date('Y-m-d', strtotime($cycle->start_date)) . ' - ' . date('Y-m-d', strtotime($cycle->end_date)) . ')';
+                return $cycle;
+            });
+
+        return view('performance.performance', compact('reviews', 'employees', 'cycles'));
+    }
+
+    public function storeReview(Request $request)
+    {
+        $data = $request->validate([
+            'employee_id' => ['required', 'integer', 'exists:employees,id'],
+            'cycle_id' => ['required', 'integer', 'exists:performance_cycles,id'],
+            'reviewer_id' => ['nullable', 'integer', 'exists:employees,id'],
+            'status' => ['required', 'string', 'in:pending,in_progress,completed,cancelled'],
+        ]);
+
+        DB::table('performance_reviews')->insert([
+            'employee_id' => $data['employee_id'],
+            'cycle_id' => $data['cycle_id'],
+            'reviewer_id' => $data['reviewer_id'] ?? null,
+            'status' => $data['status'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('performance')
+            ->with('status', 'Performance review added successfully.');
+    }
+
+    public function updateReview(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'employee_id' => ['required', 'integer', 'exists:employees,id'],
+            'cycle_id' => ['required', 'integer', 'exists:performance_cycles,id'],
+            'reviewer_id' => ['nullable', 'integer', 'exists:employees,id'],
+            'status' => ['required', 'string', 'in:pending,in_progress,completed,cancelled'],
+        ]);
+
+        DB::table('performance_reviews')
+            ->where('id', $id)
+            ->update([
+                'employee_id' => $data['employee_id'],
+                'cycle_id' => $data['cycle_id'],
+                'reviewer_id' => $data['reviewer_id'] ?? null,
+                'status' => $data['status'],
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->route('performance')
+            ->with('status', 'Performance review updated successfully.');
+    }
+
+    public function deleteReview(int $id)
+    {
+        DB::table('performance_reviews')->where('id', $id)->delete();
+
+        return redirect()->route('performance')
+            ->with('status', 'Performance review deleted successfully.');
+    }
+
+    public function bulkDeleteReviews(Request $request)
+    {
+        $ids = explode(',', $request->input('ids', ''));
+        $ids = array_filter(array_map('intval', $ids));
+
+        if (empty($ids)) {
+            return redirect()->route('performance')
+                ->with('error', 'No reviews selected for deletion.');
+        }
+
+        DB::table('performance_reviews')->whereIn('id', $ids)->delete();
+
+        return redirect()->route('performance')
+            ->with('status', count($ids) . ' review(s) deleted successfully.');
     }
 
     public function myTrackers()

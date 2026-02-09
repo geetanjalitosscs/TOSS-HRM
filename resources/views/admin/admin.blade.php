@@ -731,8 +731,8 @@
                             if (info.dataset.userIsMainUser == '1') {
                                 hasMainUser = true;
                             } else {
-                                ids.push(info.dataset.userId);
-                            }
+                            ids.push(info.dataset.userId);
+                        }
                         }
                     });
 
@@ -820,7 +820,7 @@
                             var allRowCheckboxes = table.querySelectorAll('.user-row-checkbox');
                             allRowCheckboxes.forEach(function (cb) {
                                 if (!cb.disabled) {
-                                    cb.checked = headerCheckbox.checked;
+                                cb.checked = headerCheckbox.checked;
                                 }
                             });
                             refreshUserSelectionState();

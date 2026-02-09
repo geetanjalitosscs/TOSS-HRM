@@ -1,5 +1,5 @@
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -314,9 +314,9 @@ aside[class*="fixed"] {
 }
 
 .hr-card:hover {
-    /* Enterprise glow on hover without increasing layout height (no scale) */
+    /* Enterprise glow on hover with subtle scale */
     box-shadow: var(--shadow-medium);
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-4px) scale(1.01);
     border-color: var(--color-primary-light);
 }
 
@@ -2584,4 +2584,30 @@ html[data-theme="dark"] .hr-modal-header {
 /* Ensure color picker overlays everything */
 .color-picker-overlay {
     z-index: 99999 !important;
+}
+
+/* Buzz Post Content Placeholder Styling */
+#buzz-post-content::placeholder {
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+html[data-theme="dark"] #buzz-post-content::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+/* Buzz Post Content Text Alignment */
+.buzz-post-content-wrapper {
+    text-align: left !important;
+}
+
+.buzz-post-content-wrapper > p {
+    text-align: left !important;
+    display: block !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }

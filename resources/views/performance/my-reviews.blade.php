@@ -3,7 +3,7 @@
 @section('title', 'Performance - My Reviews')
 
 @section('body')
-    <x-main-layout title="Performance / Manage Reviews">
+    <x-main-layout title="Performance">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible flex-nowrap">
@@ -16,7 +16,7 @@
                     width="w-48">
                     <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-medium text-slate-700">Configure</span>
-                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
+                        <x-dropdown-arrow class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <x-dropdown-menu 
@@ -29,7 +29,7 @@
                     width="w-48">
                     <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)] cursor-pointer flex items-center gap-2 flex-shrink-0 whitespace-nowrap">
                         <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Manage Reviews</span>
-                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
+                        <x-dropdown-arrow class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
                 <a href="{{ route('performance.my-trackers') }}" class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center flex-shrink-0 whitespace-nowrap">

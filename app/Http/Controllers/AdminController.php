@@ -791,5 +791,173 @@ class AdminController extends Controller
         return redirect()->route('admin.roles')
             ->with('status', count($ids) . ' role(s) deleted successfully.');
     }
+
+    /**
+     * Display theme manager page
+     */
+    public function themeManager()
+    {
+        $lightThemeColors = DB::table('theme_colors')
+            ->where('theme', 'light')
+            ->orderBy('category')
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('category');
+
+        $darkThemeColors = DB::table('theme_colors')
+            ->where('theme', 'dark')
+            ->orderBy('category')
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('category');
+
+        return view('admin.theme-manager', compact('lightThemeColors', 'darkThemeColors'));
+    }
+
+    /**
+     * Update theme colors
+     */
+    public function updateThemeColors(Request $request)
+    {
+        $colors = $request->input('colors', []);
+
+        foreach ($colors as $id => $colorValue) {
+            if (!empty($colorValue)) {
+                DB::table('theme_colors')
+                    ->where('id', $id)
+                    ->update([
+                        'color_value' => $colorValue,
+                        'updated_at' => now(),
+                    ]);
+            }
+        }
+
+        return redirect()->route('admin.theme-manager')
+            ->with('status', 'Theme colors updated successfully.');
+    }
+
+    /**
+     * Reset theme colors to default
+     */
+    public function resetThemeColors()
+    {
+        // Get default colors from CSS
+        $defaultColors = $this->getDefaultThemeColors();
+
+        foreach ($defaultColors as $theme => $categories) {
+            foreach ($categories as $category => $colors) {
+                foreach ($colors as $varName => $colorValue) {
+                    DB::table('theme_colors')
+                        ->where('variable_name', $varName)
+                        ->where('theme', $theme)
+                        ->update([
+                            'color_value' => $colorValue,
+                            'updated_at' => now(),
+                        ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.theme-manager')
+            ->with('status', 'Theme colors reset to default successfully.');
+    }
+
+    /**
+     * Get default theme colors from CSS
+     */
+    private function getDefaultThemeColors()
+    {
+        return [
+            'light' => [
+                'primary' => [
+                    '--color-primary' => '#E45745',
+                    '--color-primary-hover' => '#F06A5A',
+                    '--color-primary-light' => '#FFF1EE',
+                    '--color-primary-ultra-light' => '#FFD6D1',
+                    '--color-primary-soft' => '#FFCDC6',
+                ],
+                'background' => [
+                    '--bg-main' => '#FFF8F5',
+                    '--bg-surface' => '#FFF1EE',
+                    '--bg-card' => '#FFFFFF',
+                    '--bg-sidebar' => '#FFF1EE',
+                    '--bg-elevated' => '#FFFFFF',
+                    '--bg-hover' => 'rgba(228, 87, 69, 0.08)',
+                    '--bg-input' => '#FFFFFF',
+                ],
+                'text' => [
+                    '--text-primary' => '#1A1A1A',
+                    '--text-secondary' => '#6B7280',
+                    '--text-muted' => '#9CA3AF',
+                    '--text-disabled' => '#D1D5DB',
+                ],
+                'border' => [
+                    '--border-soft' => '#FFD6D1',
+                    '--border-default' => '#FFCDC6',
+                    '--border-strong' => '#F06A5A',
+                    '--border-subtle' => '#FFF8F5',
+                ],
+                'scrollbar' => [
+                    '--scrollbar-thumb' => '#F06A5A',
+                    '--scrollbar-thumb-hover' => '#E45745',
+                ],
+            ],
+            'dark' => [
+                'primary' => [
+                    '--color-primary' => '#E45745',
+                    '--color-primary-hover' => '#F06A5A',
+                    '--color-primary-light' => 'rgba(228, 87, 69, 0.15)',
+                    '--color-primary-ultra-light' => 'rgba(228, 87, 69, 0.08)',
+                    '--color-primary-soft' => 'rgba(228, 87, 69, 0.25)',
+                ],
+                'background' => [
+                    '--bg-main' => '#121212',
+                    '--bg-surface' => '#1C1C1C',
+                    '--bg-card' => '#1F1F1F',
+                    '--bg-sidebar' => '#1C1C1C',
+                    '--bg-elevated' => '#222222',
+                    '--bg-hover' => 'rgba(228, 87, 69, 0.12)',
+                    '--bg-input' => '#2F2F2F',
+                ],
+                'text' => [
+                    '--text-primary' => '#EDEDED',
+                    '--text-secondary' => '#CBD5E1',
+                    '--text-muted' => '#9CA3AF',
+                    '--text-disabled' => '#6B7280',
+                ],
+                'border' => [
+                    '--border-soft' => '#2F2F2F',
+                    '--border-default' => '#374151',
+                    '--border-strong' => '#4B5563',
+                    '--border-subtle' => '#1C1C1C',
+                ],
+                'scrollbar' => [
+                    '--scrollbar-thumb' => '#4B5563',
+                    '--scrollbar-thumb-hover' => '#6B7280',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Get theme colors as JSON (for JavaScript)
+     */
+    public function getThemeColors()
+    {
+        $lightColors = DB::table('theme_colors')
+            ->where('theme', 'light')
+            ->pluck('color_value', 'variable_name')
+            ->toArray();
+
+        $darkColors = DB::table('theme_colors')
+            ->where('theme', 'dark')
+            ->pluck('color_value', 'variable_name')
+            ->toArray();
+
+        return response()->json([
+            'light' => $lightColors,
+            'dark' => $darkColors,
+        ]);
+    }
 }
 

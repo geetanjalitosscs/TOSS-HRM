@@ -68,6 +68,12 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/admin/roles/{id}/delete', [AdminController::class, 'deleteRole'])->whereNumber('id')->name('admin.roles.delete');
     Route::post('/admin/roles/bulk-delete', [AdminController::class, 'bulkDeleteRoles'])->name('admin.roles.bulk-delete');
     
+    // Theme Manager routes
+    Route::get('/admin/theme-manager', [AdminController::class, 'themeManager'])->name('admin.theme-manager');
+    Route::post('/admin/theme-manager', [AdminController::class, 'updateThemeColors'])->name('admin.theme-manager.update');
+    Route::get('/admin/theme-manager/reset', [AdminController::class, 'resetThemeColors'])->name('admin.theme-manager.reset');
+    Route::get('/admin/theme-manager/colors', [AdminController::class, 'getThemeColors'])->name('admin.theme-manager.get-colors');
+    
     // Organization routes
     Route::get('/admin/organization/general-information', [AdminController::class, 'organizationGeneral'])->name('admin.organization.general-information');
     Route::post('/admin/organization/general-information', [AdminController::class, 'updateOrganizationGeneral'])->name('admin.organization.general-information.update');
@@ -224,7 +230,15 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/time/project-info/projects/delete/{id}', [TimeController::class, 'deleteProject'])->whereNumber('id')->name('time.project-info.projects.delete');
     Route::post('/time/project-info/projects/bulk-delete', [TimeController::class, 'bulkDeleteProjects'])->name('time.project-info.projects.bulk-delete');
     Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment');
+    Route::post('/recruitment/candidates', [RecruitmentController::class, 'storeCandidate'])->name('recruitment.candidates.store');
+    Route::post('/recruitment/candidates/{id}', [RecruitmentController::class, 'updateCandidate'])->whereNumber('id')->name('recruitment.candidates.update');
+    Route::post('/recruitment/candidates/{id}/delete', [RecruitmentController::class, 'deleteCandidate'])->whereNumber('id')->name('recruitment.candidates.delete');
+    Route::post('/recruitment/candidates/bulk-delete', [RecruitmentController::class, 'bulkDeleteCandidates'])->name('recruitment.candidates.bulk-delete');
     Route::get('/recruitment/vacancies', [RecruitmentController::class, 'vacancies'])->name('recruitment.vacancies');
+    Route::post('/recruitment/vacancies', [RecruitmentController::class, 'storeVacancy'])->name('recruitment.vacancies.store');
+    Route::post('/recruitment/vacancies/{id}', [RecruitmentController::class, 'updateVacancy'])->whereNumber('id')->name('recruitment.vacancies.update');
+    Route::post('/recruitment/vacancies/{id}/delete', [RecruitmentController::class, 'deleteVacancy'])->whereNumber('id')->name('recruitment.vacancies.delete');
+    Route::post('/recruitment/vacancies/bulk-delete', [RecruitmentController::class, 'bulkDeleteVacancies'])->name('recruitment.vacancies.bulk-delete');
     Route::get('/my-info', [MyInfoController::class, 'index'])->name('myinfo');
     Route::get('/my-info/test-session', function() {
         $authUser = session('auth_user');
@@ -287,6 +301,10 @@ Route::middleware('auth.session')->group(function () {
     Route::delete('/my-info/qualifications/attachments/{id}', [MyInfoController::class, 'deleteQualificationAttachment'])->name('myinfo.qualifications.attachments.delete');
     Route::get('/my-info/memberships', [MyInfoController::class, 'memberships'])->name('myinfo.memberships');
     Route::get('/performance', [PerformanceController::class, 'index'])->name('performance');
+    Route::post('/performance/reviews', [PerformanceController::class, 'storeReview'])->name('performance.reviews.store');
+    Route::post('/performance/reviews/{id}', [PerformanceController::class, 'updateReview'])->whereNumber('id')->name('performance.reviews.update');
+    Route::post('/performance/reviews/{id}/delete', [PerformanceController::class, 'deleteReview'])->whereNumber('id')->name('performance.reviews.delete');
+    Route::post('/performance/reviews/bulk-delete', [PerformanceController::class, 'bulkDeleteReviews'])->name('performance.reviews.bulk-delete');
     Route::get('/performance/my-trackers', [PerformanceController::class, 'myTrackers'])->name('performance.my-trackers');
     Route::get('/performance/employee-trackers', [PerformanceController::class, 'employeeTrackers'])->name('performance.employee-trackers');
     Route::get('/performance/kpis', [PerformanceController::class, 'kpis'])->name('performance.kpis');
@@ -319,6 +337,12 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/claim/configuration/expenses-types/add', [ClaimController::class, 'addExpenseType'])->name('claim.configuration.expenses-types.add');
     Route::get('/claim/configuration/expenses-types/{id}/edit', [ClaimController::class, 'editExpenseType'])->whereNumber('id')->name('claim.configuration.expenses-types.edit');
     Route::get('/buzz', [BuzzController::class, 'index'])->name('buzz');
+    Route::post('/buzz/posts', [BuzzController::class, 'storePost'])->name('buzz.posts.store');
+    Route::post('/buzz/posts/{id}/like', [BuzzController::class, 'toggleLike'])->whereNumber('id')->name('buzz.posts.like');
+    Route::post('/buzz/posts/{id}/comment', [BuzzController::class, 'addComment'])->whereNumber('id')->name('buzz.posts.comment');
+    Route::post('/buzz/posts/{id}/share', [BuzzController::class, 'sharePost'])->whereNumber('id')->name('buzz.posts.share');
+    Route::post('/buzz/posts/{id}', [BuzzController::class, 'updatePost'])->whereNumber('id')->name('buzz.posts.update');
+    Route::post('/buzz/posts/{id}/delete', [BuzzController::class, 'deletePost'])->whereNumber('id')->name('buzz.posts.delete');
     
     // Profile routes
     Route::get('/profile/about', [ProfileController::class, 'about'])->name('profile.about');

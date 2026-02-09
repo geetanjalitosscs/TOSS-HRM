@@ -10,7 +10,7 @@
                 <div class="relative group" onclick="toggleDropdown(event)" style="overflow: visible;">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center justify-between gap-2" style="background-color: transparent;" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                         <span class="text-sm font-medium" style="color: var(--text-primary);">Configuration</span>
-                        <x-dropdown-arrow color="#a78bfa" class="flex-shrink-0" />
+                        <x-dropdown-arrow class="flex-shrink-0" />
                     </div>
                     <div class="hr-dropdown-menu absolute top-full left-0 mt-0 w-48" style="z-index: 9999; display: none; background-color: var(--bg-card); border: 1px solid var(--border-default); border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); padding: 0.5rem 0;">
                         <a href="{{ route('claim.configuration.events') }}" class="block px-4 py-2 text-xs transition-all" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
@@ -149,58 +149,22 @@
                             <input type="checkbox" id="claims-master-checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
-                                Reference Id
-                                <div class="flex items-center gap-0.5">
-                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                                </div>
-                            </div>
+                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Reference Id</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
-                                Employee Name
-                                <div class="flex items-center gap-0.5">
-                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                                </div>
-                            </div>
+                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee Name</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
-                                Event Name
-                                <div class="flex items-center gap-0.5">
-                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                                </div>
-                            </div>
+                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Event Name</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
-                                Submitted Date
-                                <div class="flex items-center gap-0.5">
-                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                                </div>
-                            </div>
+                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Submitted Date</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
-                                Status
-                                <div class="flex items-center gap-0.5">
-                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                                </div>
-                            </div>
+                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</span>
                         </div>
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words flex items-center gap-1" style="color: var(--text-primary);">
-                                Amount
-                                <div class="flex items-center gap-0.5">
-                                    <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                                    <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                                </div>
-                            </div>
+                            <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Amount</span>
                         </div>
                         <div class="flex-shrink-0" style="width: 200px;">
                             <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>

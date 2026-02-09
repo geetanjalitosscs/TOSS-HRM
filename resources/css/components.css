@@ -459,13 +459,13 @@
 }
 
 html[data-theme="light"] .dashboard-metric-card:hover {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-4px) scale(1.01);
     box-shadow: var(--shadow-medium);
     border-color: var(--color-primary-light);
 }
 
 html[data-theme="dark"] .dashboard-metric-card:hover {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-4px) scale(1.01);
     box-shadow: var(--shadow-medium);
     border-color: var(--color-primary-light);
 }

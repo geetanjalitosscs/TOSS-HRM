@@ -35,21 +35,21 @@
         <a href="{{ route('time.project-info.projects') }}" class="sidebar-link {{ request()->routeIs('time.project-info*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-project-diagram"></i> Project Management
         </a>
-        {{-- <a href="{{ route('performance') }}" class="sidebar-link {{ request()->routeIs('performance*') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('performance') }}" class="sidebar-link {{ request()->routeIs('performance*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-star"></i> Performance
         </a>
         <a href="{{ route('recruitment') }}" class="sidebar-link {{ request()->routeIs('recruitment*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-briefcase"></i> Recruitment
-        </a> --}}
+        </a>
         <a href="{{ route('directory') }}" class="sidebar-link {{ request()->routeIs('directory*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-search"></i> Directory
         </a>
         <a href="{{ route('claim') }}" class="sidebar-link {{ request()->routeIs('claim*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-hand-holding-usd"></i> Claim
         </a>
-        {{-- <a href="{{ route('buzz') }}" class="sidebar-link {{ request()->routeIs('buzz*') ? 'sidebar-link--active' : '' }}">
+        <a href="{{ route('buzz') }}" class="sidebar-link {{ request()->routeIs('buzz*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-comments"></i> Buzz
-        </a> --}}
+        </a>
         <a href="{{ route('admin') }}" class="sidebar-link {{ request()->routeIs('admin*') ? 'sidebar-link--active' : '' }}">
             <i class="fas fa-id-card"></i> Admin
         </a>

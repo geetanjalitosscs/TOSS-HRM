@@ -18,7 +18,22 @@ import './bootstrap';
     function setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('hr-theme', theme);
+        
+        // Immediately reload theme colors when theme changes (if function is available)
+        if (typeof window.loadThemeColors === 'function') {
+            window.loadThemeColors();
+        } else {
+            // If not available yet, try again after a short delay
+            setTimeout(function() {
+                if (typeof window.loadThemeColors === 'function') {
+                    window.loadThemeColors();
+                }
+            }, 10);
+        }
     }
+    
+    // Make setTheme globally available
+    window.setTheme = setTheme;
 
     // Initialize theme on page load
     const initialTheme = getInitialTheme();
@@ -68,7 +83,20 @@ import './bootstrap';
             button.addEventListener('click', function() {
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                setTheme(newTheme);
+                
+                // Change theme attribute first
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('hr-theme', newTheme);
+                
+                // Immediately switch theme colors using cache for instant change
+                if (typeof window.switchThemeInstantly === 'function') {
+                    window.switchThemeInstantly(newTheme);
+                } else if (typeof window.loadThemeColors === 'function') {
+                    // Fallback if cache not available yet
+                    window.loadThemeColors();
+                }
+                
+                // Update icon
                 updateThemeIcon();
             });
         });
@@ -434,4 +462,102 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+// Theme Colors Manager - Load and apply theme colors dynamically
+(function() {
+    'use strict';
+
+    // Cache for theme colors to enable instant switching
+    let themeColorsCache = {
+        light: null,
+        dark: null
+    };
+
+    // Load theme colors from database and apply them
+    function loadThemeColors(useCache = false) {
+        // If cache is available and we want to use it, apply immediately
+        if (useCache) {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const cachedColors = themeColorsCache[currentTheme];
+            if (cachedColors) {
+                // Apply cached colors immediately for instant theme change
+                Object.keys(cachedColors).forEach(variable => {
+                    document.documentElement.style.setProperty(variable, cachedColors[variable]);
+                });
+            }
+        }
+
+        // Fetch fresh colors from server
+        fetch('/admin/theme-manager/colors', {
+            cache: 'no-cache',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Cache both themes for instant switching
+                themeColorsCache.light = data['light'] || {};
+                themeColorsCache.dark = data['dark'] || {};
+                
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                const themeColors = themeColorsCache[currentTheme] || themeColorsCache['light'] || {};
+                
+                // Apply each color variable
+                Object.keys(themeColors).forEach(variable => {
+                    document.documentElement.style.setProperty(variable, themeColors[variable]);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading theme colors:', error);
+            });
+    }
+
+    // Function to instantly switch theme using cached colors
+    function switchThemeInstantly(theme) {
+        const cachedColors = themeColorsCache[theme];
+        if (cachedColors) {
+            // Apply cached colors immediately
+            Object.keys(cachedColors).forEach(variable => {
+                document.documentElement.style.setProperty(variable, cachedColors[variable]);
+            });
+        }
+        // Then refresh from server to ensure we have latest
+        loadThemeColors(false);
+    }
+
+    // Make functions globally available
+    window.loadThemeColors = loadThemeColors;
+    window.switchThemeInstantly = switchThemeInstantly;
+
+    // Load theme colors on page load (as fallback if head script didn't run)
+    // Also reload to ensure colors are always up-to-date
+    function ensureThemeColorsLoaded() {
+        loadThemeColors();
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            ensureThemeColorsLoaded();
+        });
+    } else {
+        // DOM already loaded, load colors immediately
+        ensureThemeColorsLoaded();
+    }
+    
+    // Also load colors after a short delay to ensure they override any default CSS
+    setTimeout(ensureThemeColorsLoaded, 100);
+
+    // Note: setTheme is already defined globally above and includes color reloading
+    // No need to wrap it again here
+    
+    // Reload colors when navigating to a new page (for SPA-like behavior)
+    // This ensures colors are loaded even if the head script didn't run
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            // Page was loaded from cache, reload colors
+            loadThemeColors();
+        }
+    });
+})();
 

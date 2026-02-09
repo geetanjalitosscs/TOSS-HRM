@@ -3,7 +3,7 @@
 @section('title', 'Performance - Trackers')
 
 @section('body')
-    <x-main-layout title="Performance / Configure">
+    <x-main-layout title="Performance">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b overflow-x-auto overflow-y-visible flex-nowrap" style="border-color: var(--border-default);">

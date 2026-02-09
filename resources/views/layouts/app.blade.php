@@ -39,6 +39,38 @@
                     const theme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
                     document.documentElement.setAttribute('data-theme', theme);
                 }
+                
+                // Load theme colors immediately from database (before page renders)
+                (function loadThemeColorsSync() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    
+                    // Use fetch with immediate execution
+                    fetch('/admin/theme-manager/colors', {
+                        method: 'GET',
+                        cache: 'no-cache',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const themeColors = data[currentTheme] || data['light'] || {};
+                            
+                            // Apply each color variable immediately
+                            Object.keys(themeColors).forEach(variable => {
+                                document.documentElement.style.setProperty(variable, themeColors[variable]);
+                            });
+                        })
+                        .catch(error => {
+                            // Silently fail - colors will load via app.js as fallback
+                            console.error('Error loading theme colors in head:', error);
+                        });
+                })();
             })();
         </script>
         
