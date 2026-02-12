@@ -44,18 +44,25 @@ class DashboardController extends Controller
         })->toArray();
 
         // Holidays Data (by month for current year)
+        // NOTE: We want to count:
+        // - Holidays whose date is in the current year, AND
+        // - Holidays marked as recurring (is_recurring = 1), even if their original year is different.
         $currentYear = Carbon::now()->year;
         $holidaysData = DB::table('holidays')
-            ->whereYear('holiday_date', $currentYear)
+            ->where(function ($q) use ($currentYear) {
+                $q->whereYear('holiday_date', $currentYear)
+                  ->orWhere('is_recurring', 1);
+            })
             ->orderBy('holiday_date')
             ->get()
             ->groupBy(function ($item) {
+                // Group by month short name (Jan, Feb, ...) based on the holiday_date
                 return Carbon::parse($item->holiday_date)->format('M');
             })
             ->map(function ($monthHolidays, $month) {
                 return [
                     'month' => $month,
-                    'count' => $monthHolidays->count()
+                    'count' => $monthHolidays->count(),
                 ];
             })
             ->values()

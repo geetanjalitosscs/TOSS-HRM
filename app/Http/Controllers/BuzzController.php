@@ -24,7 +24,7 @@ class BuzzController extends Controller
                 'buzz_posts.updated_at',
                 'users.username as user_name',
                 DB::raw("COALESCE(employees.photo_path, UPPER(LEFT(users.username, 1))) as profile_pic"),
-                DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL ELSE 'from-purple-400 to-purple-600' END as profile_color"),
+                DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL END as profile_color"),
                 'buzz_posts.title',
                 'buzz_posts.body as content',
                 DB::raw("(SELECT COUNT(*) FROM buzz_post_likes WHERE buzz_post_likes.post_id = buzz_posts.id) as likes_count"),
@@ -86,7 +86,7 @@ class BuzzController extends Controller
                     'buzz_post_comments.created_at',
                     'users.username',
                     DB::raw("COALESCE(employees.photo_path, UPPER(LEFT(users.username, 1))) as profile_pic"),
-                    DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL ELSE 'from-purple-400 to-purple-600' END as profile_color")
+                    DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL END as profile_color")
                 )
                 ->where('buzz_post_comments.post_id', $post->id)
                 ->whereNull('buzz_post_comments.deleted_at')
@@ -96,21 +96,21 @@ class BuzzController extends Controller
 
         // Get current user profile photo for post creation widget
         $currentUserProfilePic = null;
-        $currentUserProfileColor = 'from-purple-400 to-purple-600';
+        $currentUserProfileColor = null;
         if ($userId) {
             $currentUser = DB::table('users')
                 ->leftJoin('employees', 'users.employee_id', '=', 'employees.id')
                 ->select(
                     'users.username',
                     DB::raw("COALESCE(employees.photo_path, UPPER(LEFT(users.username, 1))) as profile_pic"),
-                    DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL ELSE 'from-purple-400 to-purple-600' END as profile_color")
+                    DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL END as profile_color")
                 )
                 ->where('users.id', $userId)
                 ->first();
             
             if ($currentUser) {
                 $currentUserProfilePic = $currentUser->profile_pic;
-                $currentUserProfileColor = $currentUser->profile_color ?? 'from-purple-400 to-purple-600';
+                $currentUserProfileColor = null;
             }
         }
 
@@ -282,7 +282,7 @@ class BuzzController extends Controller
                 'buzz_post_comments.created_at',
                 'users.username',
                 DB::raw("COALESCE(employees.photo_path, UPPER(LEFT(users.username, 1))) as profile_pic"),
-                DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL ELSE 'from-purple-400 to-purple-600' END as profile_color")
+                DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL END as profile_color")
             )
             ->where('buzz_post_comments.id', $commentId)
             ->first();

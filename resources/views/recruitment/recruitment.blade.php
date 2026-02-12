@@ -160,7 +160,7 @@
 
                 <!-- Candidate Rows -->
                 <div class="border border-t-0 rounded-b-lg" id="candidates-table" style="border-color: var(--border-default);">
-                @foreach($candidates as $index => $candidate)
+                @forelse($candidates as $index => $candidate)
                     <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors hr-table-row" 
                          style="background-color: var(--bg-card); border-color: var(--border-default);" 
                          onmouseover="this.style.backgroundColor='var(--bg-hover)'" 
@@ -219,7 +219,11 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="px-4 py-10 text-center text-xs" style="color: var(--text-muted);">
+                        No candidates found.
+                    </div>
+                @endforelse
                 </div>
             </div>
             </section>

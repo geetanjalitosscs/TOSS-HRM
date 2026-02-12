@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2026 at 02:05 PM
+-- Generation Time: Feb 12, 2026 at 02:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -151,7 +151,35 @@ INSERT INTO `buzz_posts` (`id`, `author_id`, `title`, `body`, `visibility`, `org
 (1, 1, 'Hi All: Linda has been blessed with a baby boy!', 'With love, we welcome your dear new baby to this world. Congratulations!', 'employees', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL),
 (2, 1, 'World Championship: Perfect Snooker Player?', '“You need to be mentally strong and have a good technique.” – Mark Selby. “Consistency and practice are key to success.” – John Higgins.', 'employees', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL),
 (3, 1, 'Throwback Thursdays!!', 'Throwback Thursdays!!', 'employees', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL),
-(4, 1, 'Live SIMPLY Dream BIG', 'Live SIMPLY Dream BIG Be GREATFULL Give LOVE Laugh LOT.......', 'employees', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL);
+(4, 1, 'Live SIMPLY Dream BIG', 'Live SIMPLY Dream BIG Be GREATFULL Give LOVE Laugh LOT.......', 'employees', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL),
+(5, 1, 'hi', 'hi', 'employees', NULL, '2026-02-11 12:23:38', '2026-02-11 12:23:38', NULL),
+(6, 2, 'See this..', 'See this..', 'employees', NULL, '2026-02-12 06:31:45', '2026-02-12 06:31:45', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `buzz_post_attachments`
+--
+
+CREATE TABLE `buzz_post_attachments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `post_id` bigint(20) UNSIGNED NOT NULL,
+  `type` enum('photo','video') NOT NULL,
+  `path` varchar(500) NOT NULL,
+  `original_name` varchar(255) NOT NULL,
+  `mime_type` varchar(100) DEFAULT NULL,
+  `size_bytes` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `buzz_post_attachments`
+--
+
+INSERT INTO `buzz_post_attachments` (`id`, `post_id`, `type`, `path`, `original_name`, `mime_type`, `size_bytes`, `created_at`, `updated_at`) VALUES
+(1, 5, 'photo', 'buzz/images/f2814876-98df-42c9-991e-aaaad0f290b3.png', 'tcs icon.png', 'image/png', 22747, '2026-02-11 06:53:39', '2026-02-11 06:53:39'),
+(2, 6, 'photo', 'buzz/images/bd36e99d-45ff-45e7-91ef-c5c27c98cf86.jpg', 'images (2).jpg', 'image/jpeg', 6302, '2026-02-12 01:01:45', '2026-02-12 01:01:45');
 
 -- --------------------------------------------------------
 
@@ -175,7 +203,8 @@ CREATE TABLE `buzz_post_comments` (
 INSERT INTO `buzz_post_comments` (`id`, `post_id`, `author_id`, `body`, `created_at`, `deleted_at`) VALUES
 (2, 1, 1, 'Nice update!', '2026-01-28 12:20:21', NULL),
 (3, 2, 1, 'Nice update!', '2026-01-28 12:20:21', NULL),
-(4, 3, 1, 'Nice update!', '2026-01-28 12:20:21', NULL);
+(4, 3, 1, 'Nice update!', '2026-01-28 12:20:21', NULL),
+(5, 6, 1, 'I like that', '2026-02-12 06:32:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -198,7 +227,31 @@ INSERT INTO `buzz_post_likes` (`id`, `post_id`, `user_id`, `created_at`) VALUES
 (2, 1, 1, '2026-01-28 12:20:21'),
 (3, 2, 1, '2026-01-28 12:20:21'),
 (4, 3, 1, '2026-01-28 12:20:21'),
-(5, 4, 1, '2026-01-28 12:20:21');
+(5, 4, 1, '2026-01-28 12:20:21'),
+(6, 5, 1, '2026-02-11 12:23:43'),
+(7, 6, 2, '2026-02-12 06:31:56'),
+(8, 6, 1, '2026-02-12 06:32:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `buzz_post_shares`
+--
+
+CREATE TABLE `buzz_post_shares` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `post_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `buzz_post_shares`
+--
+
+INSERT INTO `buzz_post_shares` (`id`, `post_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 6, 1, '2026-02-12 01:02:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -225,7 +278,8 @@ CREATE TABLE `candidates` (
 --
 
 INSERT INTO `candidates` (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `source_id`, `resume_file_id`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 'Alex', NULL, 'Smith', 'alex.smith@example.test', '+1-555-0200', 1, NULL, 'Strong QA background.', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(1, 'Alex', NULL, 'Smith', 'alex.smith@example.test', '+1-555-0200', 1, NULL, 'Strong QA background.', '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
+(2, 'Rohit', NULL, 'Mehra', 'rohit76@gmail.com', NULL, NULL, NULL, NULL, '2026-02-12 05:52:33', '2026-02-12 05:52:33');
 
 -- --------------------------------------------------------
 
@@ -249,7 +303,8 @@ CREATE TABLE `candidate_applications` (
 --
 
 INSERT INTO `candidate_applications` (`id`, `candidate_id`, `vacancy_id`, `applied_date`, `status`, `current_stage`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2026-01-10', 'shortlisted', 'Interview Scheduled', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(1, 1, 1, '2026-01-10', 'shortlisted', 'Interview Scheduled', '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
+(2, 2, 2, '2026-02-12', 'new', NULL, '2026-02-12 05:52:33', '2026-02-12 05:52:33');
 
 -- --------------------------------------------------------
 
@@ -338,7 +393,8 @@ CREATE TABLE `claim_items` (
 
 INSERT INTO `claim_items` (`id`, `claim_request_id`, `claim_event_id`, `item_date`, `description`, `amount`, `currency`, `receipt_file_id`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, '2026-01-31', 'Flight ticket', 180.00, 'USD', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
-(2, 1, 2, '2026-01-31', 'Clinic visit', 70.00, 'USD', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(2, 1, 2, '2026-01-31', 'Clinic visit', 70.00, 'USD', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
+(3, 3, 2, '2026-02-12', NULL, 5000.00, 'IDR', NULL, '2026-02-12 06:01:27', '2026-02-12 06:01:27');
 
 -- --------------------------------------------------------
 
@@ -367,8 +423,8 @@ CREATE TABLE `claim_requests` (
 --
 
 INSERT INTO `claim_requests` (`id`, `employee_id`, `claim_date`, `total_amount`, `currency`, `status`, `submitted_at`, `approved_by`, `approved_at`, `paid_at`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 1, '2026-02-01', 250.00, 'USD', 'approved', '2026-01-27 17:06:39', 2, '2026-01-27 17:06:39', NULL, 'Client visit expenses', '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
-(2, 1, '2026-01-28', 250.00, 'USD', 'approved', '2026-01-28 12:20:20', 2, '2026-01-28 12:20:20', NULL, 'Seed claim', '2026-01-28 12:20:20', '2026-01-28 12:20:20');
+(1, 1, '2026-02-01', 250.00, 'USD', 'approved', '2026-01-27 17:06:39', 2, '2026-02-12 06:02:42', NULL, 'Client visit expenses', '2026-01-27 17:06:39', '2026-02-12 06:02:42'),
+(3, 5, '2026-02-12', 5000.00, 'IDR', 'draft', NULL, NULL, NULL, NULL, NULL, '2026-02-12 06:01:27', '2026-02-12 06:01:27');
 
 -- --------------------------------------------------------
 
@@ -504,6 +560,7 @@ INSERT INTO `email_subscriptions` (`id`, `notification_key`, `name`, `descriptio
 
 CREATE TABLE `employees` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `photo_path` varchar(255) DEFAULT NULL,
   `employee_number` varchar(50) NOT NULL,
   `organization_id` bigint(20) UNSIGNED NOT NULL,
   `first_name` varchar(100) NOT NULL,
@@ -532,11 +589,12 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `employee_number`, `organization_id`, `first_name`, `middle_name`, `last_name`, `display_name`, `date_of_birth`, `gender`, `marital_status`, `national_id`, `hire_date`, `termination_date`, `status`, `location_id`, `organization_unit_id`, `job_title_id`, `employment_status_id`, `pay_grade_id`, `supervisor_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '0001', 1, 'Kritika', NULL, 'Singh', 'Kritika Singh', '1995-01-17', 'female', 'single', 'NID-0001', '2020-06-01', NULL, 'active', 2, 1, 1, 1, NULL, 1, '2026-01-27 17:06:38', '2026-01-30 11:03:39', NULL),
-(2, '0002', 1, 'Jane', NULL, 'Doe', 'Jane Doe', '1990-03-10', 'female', 'married', 'NID-0002', '2019-03-01', NULL, 'active', 3, 4, 5, 1, NULL, 1, '2026-01-27 17:06:38', '2026-01-27 17:06:38', NULL),
-(5, '0003', 1, 'hema', NULL, 'sharma', NULL, NULL, 'unspecified', NULL, NULL, '2026-01-30', NULL, 'active', NULL, NULL, 6, 1, NULL, NULL, '2026-01-30 10:23:33', '2026-01-30 10:23:33', NULL),
-(10, '0008', 1, 'rahul', NULL, 'kumar', NULL, NULL, 'unspecified', NULL, NULL, '2026-01-30', NULL, 'active', NULL, NULL, 7, 3, NULL, NULL, '2026-01-30 10:43:06', '2026-01-30 10:43:06', NULL);
+INSERT INTO `employees` (`id`, `photo_path`, `employee_number`, `organization_id`, `first_name`, `middle_name`, `last_name`, `display_name`, `date_of_birth`, `gender`, `marital_status`, `national_id`, `hire_date`, `termination_date`, `status`, `location_id`, `organization_unit_id`, `job_title_id`, `employment_status_id`, `pay_grade_id`, `supervisor_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'employee_photos/1.jpg', '0001', 1, 'Kritika', NULL, 'Singh', 'Kritika Singh', '1995-01-17', 'female', 'single', 'NID-0001', '2020-06-01', NULL, 'active', 2, 1, 1, 1, NULL, 1, '2026-01-27 17:06:38', '2026-02-12 11:52:22', NULL),
+(2, 'employee_photos/2.jpg', '0002', 1, 'Jane', NULL, 'Doe', 'Jane Doe', '1990-03-10', 'female', 'married', 'NID-0002', '2019-03-01', NULL, 'active', 3, 4, 4, 1, NULL, 1, '2026-01-27 17:06:38', '2026-02-12 11:52:22', NULL),
+(5, 'employee_photos/5.jpg', '0003', 1, 'Hema', NULL, 'Sharma', 'Hema Sharma', NULL, 'unspecified', NULL, NULL, '2026-01-30', NULL, 'active', NULL, NULL, 6, 1, NULL, NULL, '2026-01-30 10:23:33', '2026-02-12 11:52:22', NULL),
+(10, 'employee_photos/10.jpg', '0008', 1, 'Rahul', NULL, 'Kumar', 'Rahul Kumar', NULL, 'unspecified', NULL, NULL, '2026-01-30', NULL, 'active', NULL, NULL, 5, 3, NULL, NULL, '2026-01-30 10:43:06', '2026-02-12 11:52:22', NULL),
+(11, 'employee_photos/11.jpg', '0009', 1, 'Fara', NULL, 'Rahe', 'Fara Rahe', NULL, 'unspecified', NULL, NULL, '2026-02-12', NULL, 'active', NULL, NULL, 7, 1, NULL, NULL, '2026-02-12 05:27:51', '2026-02-12 05:27:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -572,6 +630,33 @@ CREATE TABLE `employee_dependents` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employee_education`
+--
+
+CREATE TABLE `employee_education` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `level` varchar(100) NOT NULL,
+  `institute` varchar(191) DEFAULT NULL,
+  `major_specialization` varchar(191) DEFAULT NULL,
+  `year` varchar(20) DEFAULT NULL,
+  `gpa_score` varchar(50) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employee_education`
+--
+
+INSERT INTO `employee_education` (`id`, `employee_id`, `level`, `institute`, `major_specialization`, `year`, `gpa_score`, `start_date`, `end_date`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Bachelor\'s Degree', 'Global', 'CSE', '2026', '8.6', '2022-07-13', '2026-06-12', '2026-02-11 23:52:59', '2026-02-11 23:52:59');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employee_emergency_contacts`
 --
 
@@ -583,10 +668,18 @@ CREATE TABLE `employee_emergency_contacts` (
   `home_phone` varchar(50) DEFAULT NULL,
   `mobile_phone` varchar(50) DEFAULT NULL,
   `work_phone` varchar(50) DEFAULT NULL,
+  `email` varchar(191) DEFAULT NULL,
   `is_primary` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Employee emergency contacts.';
+
+--
+-- Dumping data for table `employee_emergency_contacts`
+--
+
+INSERT INTO `employee_emergency_contacts` (`id`, `employee_id`, `name`, `relationship`, `home_phone`, `mobile_phone`, `work_phone`, `email`, `is_primary`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Renuka Singh', 'Sister', NULL, '7896544565', NULL, 'renuka90@gmail.com', 1, '2026-02-11 12:49:29', '2026-02-11 12:50:03');
 
 -- --------------------------------------------------------
 
@@ -615,6 +708,47 @@ CREATE TABLE `employee_job_details` (
 INSERT INTO `employee_job_details` (`id`, `employee_id`, `job_title_id`, `employment_status_id`, `organization_unit_id`, `location_id`, `supervisor_id`, `effective_date`, `end_date`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 1, 1, 2, NULL, '2020-06-01', NULL, '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
 (2, 2, 5, 1, 4, 3, 1, '2019-03-01', NULL, '2026-01-28 12:20:20', '2026-01-28 12:20:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_languages`
+--
+
+CREATE TABLE `employee_languages` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `language` varchar(100) NOT NULL,
+  `fluency` varchar(100) NOT NULL,
+  `competency` varchar(100) NOT NULL,
+  `comments` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employee_languages`
+--
+
+INSERT INTO `employee_languages` (`id`, `employee_id`, `language`, `fluency`, `competency`, `comments`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Japanese', 'Speaking', 'Basic', 'This is my hobby', '2026-02-11 23:53:58', '2026-02-11 23:53:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_licenses`
+--
+
+CREATE TABLE `employee_licenses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `license_type` varchar(191) NOT NULL,
+  `license_number` varchar(100) DEFAULT NULL,
+  `issued_date` date DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -650,7 +784,7 @@ CREATE TABLE `employee_personal_details` (
 --
 
 INSERT INTO `employee_personal_details` (`employee_id`, `nationality_id`, `other_id`, `drivers_license`, `license_expiry`, `smoker`, `blood_group`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`, `home_phone`, `mobile_phone`, `work_phone`, `work_email`, `other_email`, `created_at`, `updated_at`) VALUES
-(1, 2, 'ID-000001', 'DL-00000001', '2031-01-29', 0, 'O+', '10 Main Street', NULL, 'Austin', 'Texas', '00000', 'United States', NULL, '+1-555-1001', NULL, 'manda.akhil.user@company.test', NULL, '2026-01-28 12:20:20', '2026-01-29 12:44:41'),
+(1, 2, 'ID-000001', 'DL-00000001', '2031-01-29', 0, 'AB+', '10 Main Street', NULL, 'Jabalpur', 'Texas', '482002', 'India', NULL, '+91-8965324178', NULL, 'hrtoss@gmail.com', NULL, '2026-01-28 12:20:20', '2026-02-11 18:12:34'),
 (2, 1, 'ID-000002', 'DL-00000002', '2031-01-28', 0, 'O+', '20 Main Street', NULL, 'Austin', 'Texas', '00000', 'United States', NULL, '+1-555-1002', NULL, 'jane.doe@company.test', NULL, '2026-01-28 12:20:20', '2026-01-28 12:20:20');
 
 -- --------------------------------------------------------
@@ -674,6 +808,20 @@ CREATE TABLE `employee_qualifications` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employee_qualification_attachments`
+--
+
+CREATE TABLE `employee_qualification_attachments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `file_upload_id` bigint(20) UNSIGNED NOT NULL,
+  `comment` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employee_salary`
 --
 
@@ -689,6 +837,54 @@ CREATE TABLE `employee_salary` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Salary / compensation history.';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_skills`
+--
+
+CREATE TABLE `employee_skills` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `skill` varchar(191) NOT NULL,
+  `years_of_experience` varchar(50) DEFAULT NULL,
+  `comments` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employee_skills`
+--
+
+INSERT INTO `employee_skills` (`id`, `employee_id`, `skill`, `years_of_experience`, `comments`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Communication', '1', 'Good in English', '2026-02-11 23:53:32', '2026-02-11 23:53:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_work_experience`
+--
+
+CREATE TABLE `employee_work_experience` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `company` varchar(191) NOT NULL,
+  `job_title` varchar(191) NOT NULL,
+  `from_date` date DEFAULT NULL,
+  `to_date` date DEFAULT NULL,
+  `comment` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employee_work_experience`
+--
+
+INSERT INTO `employee_work_experience` (`id`, `employee_id`, `company`, `job_title`, `from_date`, `to_date`, `comment`, `created_at`, `updated_at`) VALUES
+(1, 1, 'TOSS Solution', 'HR', '2025-12-08', '2026-02-12', 'Till now working', '2026-02-11 23:48:51', '2026-02-11 23:48:51');
 
 -- --------------------------------------------------------
 
@@ -768,8 +964,8 @@ CREATE TABLE `file_uploads` (
 --
 
 INSERT INTO `file_uploads` (`id`, `stored_name`, `original_name`, `description`, `mime_type`, `size_bytes`, `path`, `uploaded_by`, `uploaded_at`) VALUES
-(1, 'b66f049e-15c4-4c18-b890-a4687e85206c.pdf', 'Software Requirement - The Hen\'s Co..pdf', 'Yes', 'application/pdf', 439491, 'private/myinfo/b66f049e-15c4-4c18-b890-a4687e85206c.pdf', 1, '2026-01-28 10:05:22'),
-(2, 'd54d1547-f6d7-4ba7-8f84-d29050e671ba.sql', 'toai_hrm.sql', 'Here', 'application/octet-stream', 119202, 'private/myinfo/d54d1547-f6d7-4ba7-8f84-d29050e671ba.sql', 1, '2026-01-28 10:14:28');
+(4, '83d82c96-68ac-4173-a08a-858e6cb6709e.csv', '10th-result.csv', 'My 10th result', 'text/csv', 279, 'private/myinfo/83d82c96-68ac-4173-a08a-858e6cb6709e.csv', 1, '2026-02-12 05:17:17'),
+(5, '8f2afd9b-ce24-4010-9e20-7b5e1eaa9b73.csv', '12th-result.csv', 'My 12th result', 'text/csv', 279, 'private/myinfo/8f2afd9b-ce24-4010-9e20-7b5e1eaa9b73.csv', 1, '2026-02-12 05:17:55');
 
 -- --------------------------------------------------------
 
@@ -794,7 +990,9 @@ CREATE TABLE `holidays` (
 
 INSERT INTO `holidays` (`id`, `name`, `holiday_date`, `is_recurring`, `is_full_day`, `location_id`, `created_at`, `updated_at`) VALUES
 (1, 'New Year\'s Day', '2026-01-01', 1, 1, NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
-(2, 'Independence Day', '2026-09-25', 1, 1, NULL, '2026-01-27 17:06:39', '2026-01-30 06:55:05');
+(2, 'Independence Day', '2026-09-25', 1, 1, NULL, '2026-01-27 17:06:39', '2026-01-30 06:55:05'),
+(3, 'Republic Day', '2026-01-26', 1, 1, NULL, '2026-02-11 12:28:43', '2026-02-11 12:28:43'),
+(4, 'Gandhi Jayanti', '2025-10-02', 1, 1, NULL, '2026-02-11 12:29:55', '2026-02-11 12:29:55');
 
 -- --------------------------------------------------------
 
@@ -903,8 +1101,8 @@ CREATE TABLE `kpis` (
 --
 
 INSERT INTO `kpis` (`id`, `name`, `description`, `weight`, `created_at`, `updated_at`) VALUES
-(1, 'Code Quality', 'Static analysis and defect rate', 0.50, '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
-(2, 'Delivery Timeliness', 'On-time delivery of milestones', 0.50, '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(1, 'Code Quality', 'Static analysis and defect rate', 100.00, '2026-01-27 17:06:39', '2026-02-12 12:14:05'),
+(2, 'Delivery Timeliness', 'On-time delivery of milestones', 60.00, '2026-01-27 17:06:39', '2026-02-12 12:14:10');
 
 -- --------------------------------------------------------
 
@@ -1000,8 +1198,8 @@ CREATE TABLE `leave_applications` (
 --
 
 INSERT INTO `leave_applications` (`id`, `employee_id`, `leave_type_id`, `start_date`, `end_date`, `total_days`, `status`, `applied_at`, `approved_by`, `approved_at`, `reason`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2026-03-10', '2026-03-11', 2.00, 'approved', '2026-01-27 17:06:39', 2, '2026-01-27 17:06:39', 'Annual vacation', '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
-(2, 1, 1, '2026-01-28', '2026-01-28', 1.00, 'approved', '2026-01-28 12:20:20', 2, '2026-01-28 12:20:20', 'Seed leave for dashboard', '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
+(1, 1, 1, '2026-03-10', '2026-03-11', 2.00, 'approved', '2026-01-27 17:06:39', 2, '2026-01-27 17:06:39', 'Annual vacation', '2026-01-27 17:06:39', '2026-02-12 05:29:51'),
+(2, 1, 1, '2026-01-28', '2026-01-28', 1.00, 'cancelled', '2026-01-28 12:20:20', 2, '2026-01-28 12:20:20', 'Seed leave for dashboard', '2026-01-28 12:20:20', '2026-02-12 05:30:19'),
 (3, 2, 3, '2026-01-30', '2026-01-31', 2.00, 'pending', '2026-01-30 04:56:39', NULL, NULL, NULL, '2026-01-30 04:56:39', '2026-01-30 04:56:39'),
 (4, 2, 2, '2026-01-30', '2026-01-30', 1.00, 'pending', '2026-01-30 05:22:51', NULL, NULL, 'he is sick', '2026-01-30 05:22:51', '2026-01-30 05:22:51'),
 (5, 2, 1, '2026-01-23', '2026-01-30', 8.00, 'approved', '2026-01-30 05:42:29', NULL, NULL, 'holidays', '2026-01-30 05:42:29', '2026-01-30 05:42:29');
@@ -1220,6 +1418,20 @@ CREATE TABLE `migrations` (
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2026_02_09_000001_add_page_permissions_to_users_table', 1),
+(2, '2026_02_02_052143_add_photo_path_to_employees_table', 2),
+(3, '2026_02_07_113450_create_buzz_post_shares_table', 3),
+(4, '2026_02_07_112348_create_buzz_post_attachments_table', 4),
+(5, '2026_02_11_000000_create_employee_qualification_tables', 5),
+(6, '2026_02_11_000100_add_deleted_at_to_vacancies_table', 6),
+(7, '2026_02_07_102355_create_theme_colors_table', 7),
+(8, '2026_02_11_000200_add_email_to_employee_emergency_contacts_table', 8);
+
 -- --------------------------------------------------------
 
 --
@@ -1326,7 +1538,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`id`, `name`, `registration_number`, `tax_id`, `phone`, `fax`, `email`, `website`, `address_line1`, `address_line2`, `city`, `state`, `zip_postal_code`, `country`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 'TOAI HRM Suite Demo', 'TOAI-REG-001', '120568', '+91 8456213955', 'none', 'hr@toai.com', 'https://demo.toai-hr.test', 'Madan mahal road', 'Shastri bridge road', 'Jabalpur', 'Madhya Pradesh', '482002', 'India', 'This is the best company.', '2026-01-27 17:06:38', '2026-01-30 11:27:10');
+(1, 'TOSS Consultancy Services', 'TOAI-REG-001', '120568', '+91 8456213955', 'none', 'hr@toai.com', 'https://demo.toai-hr.test', 'Madan mahal road', 'Shastri bridge road', 'Jabalpur', 'Madhya Pradesh', '482002', 'India', 'This is the best company.', '2026-01-27 17:06:38', '2026-02-11 12:27:00');
 
 -- --------------------------------------------------------
 
@@ -1484,7 +1696,8 @@ CREATE TABLE `performance_reviews` (
 --
 
 INSERT INTO `performance_reviews` (`id`, `cycle_id`, `employee_id`, `reviewer_id`, `status`, `overall_rating`, `comments`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 'completed', 4.50, 'Strong performance throughout the year.', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(3, 1, 2, NULL, 'in_progress', NULL, NULL, '2026-02-12 11:03:40', '2026-02-12 11:03:40'),
+(4, 1, 11, NULL, 'not_started', NULL, NULL, '2026-02-12 13:14:12', '2026-02-12 13:19:41');
 
 -- --------------------------------------------------------
 
@@ -1501,14 +1714,6 @@ CREATE TABLE `performance_review_kpis` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Ratings per KPI within a review.';
-
---
--- Dumping data for table `performance_review_kpis`
---
-
-INSERT INTO `performance_review_kpis` (`id`, `performance_review_id`, `kpi_id`, `rating`, `comments`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 4.50, 'Clean code and few defects.', '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
-(2, 1, 2, 4.50, 'Consistently on time.', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
 
 -- --------------------------------------------------------
 
@@ -1693,8 +1898,13 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('BI1Rb56WxVatwg1VZTAoy3ruyn0tmYs3HZlPaUHA', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiT2hVZ2xRb2FzVXRXald4V0NEOG5tbzYwQ2lwRUpLV2d4Mk5Gd1R6YyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6OToiZGFzaGJvYXJkIjt9czo5OiJhdXRoX3VzZXIiO2E6Mzp7czoyOiJpZCI7aToxO3M6NDoibmFtZSI7czo3OiJIUkBUT1NTIjtzOjg6InVzZXJuYW1lIjtzOjc6IkhSQFRPU1MiO319', 1769777333),
-('ejUF0duhQJqAksZggA0H3yMo8ZtIzOeGT4c1jTsN', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoieHRXTFhGN29IaWNIS2V4bUtMdHpxb1lBdzFHZXJud2dNekNybGN5NSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fX0=', 1769778281);
+('9o64QrjXZA5eS8bkJXQ0chabecEvgb4DIyji6CRx', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoieHgxR0xZVk12bHdIMG54emFTUnVQdk85MFI3OVR0OVZxcjFwMndDYSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902012),
+('H9FGmhuki2lUzRXUO8Gdhgh3AjJSjHxTaNkxUT5X', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiT245RXJrdTNkdnRYeHNNNnpPS1lqU29QbmNLd0pIVEloUzZ3ZnhMSyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902012),
+('hzy7emwR2RCbyHtmc0iphraqFX0f5VU0tFCvvTK1', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNGJjSVc1aklza3lCTnhNcUhxb3M2N1VtblhyM0xrcU1NTlJMWFdONCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJhdXRoX3VzZXIiO2E6Mzp7czoyOiJpZCI7aToxO3M6NDoibmFtZSI7czo3OiJIUkBUT1NTIjtzOjg6InVzZXJuYW1lIjtzOjc6IkhSQFRPU1MiO31zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czo0MjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3BlcmZvcm1hbmNlL3RyYWNrZXJzIjtzOjU6InJvdXRlIjtzOjIwOiJwZXJmb3JtYW5jZS50cmFja2VycyI7fX0=', 1770903295),
+('IsKb76j6MOXGTVGRjw4MLUOt4YEDUyXHNfJuqoEI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiRXNaUGtnSzRuMDZVR01PSHFxT0NiN0d4eVgzd2ZPTVlRellsckhHbyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902016),
+('iwMB7i271eR9UcvO2wj73A22MvEVw0IsGRp9hUsm', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiNTRJM1k5ZVNKbHdPQUp0eGxieGpkOVlNdTJ2bzJNYlhxbWlnTWdRTSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902015),
+('QMwzRKmloGAb6h4xB1fx0UVO7btvO8WYE3K7hD9X', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiV1V4OE9zaHBlM0VaejBTancwRXN3M0Z5RnVJUkdiMGZXQVVXdEZsdyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902016),
+('uZ3sbxgVPwnjdBIx3mMOiB1cwFBJQU8tprWVBAjr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiWkVUYnFOaktOM282dFZEV1ZTOHlaZ2NDbWZvenlQbXZya044dGxnZCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902013);
 
 -- --------------------------------------------------------
 
@@ -1745,6 +1955,75 @@ INSERT INTO `termination_reasons` (`id`, `name`, `description`, `is_active`, `cr
 (3, 'Termination - Cause', 'Employment terminated due to performance or disciplinary reasons', 1, '2026-01-27 18:57:13', '2026-01-27 18:57:13'),
 (4, 'Retirement', 'Employee retired as per company policy', 1, '2026-01-27 18:57:13', '2026-01-27 18:57:13'),
 (5, 'Redundancy / Layoff', 'Position made redundant or workforce reduction', 1, '2026-01-27 18:57:13', '2026-01-27 18:57:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `theme_colors`
+--
+
+CREATE TABLE `theme_colors` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `variable_name` varchar(100) NOT NULL,
+  `display_name` varchar(200) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `theme` varchar(20) NOT NULL DEFAULT 'light',
+  `color_value` varchar(50) NOT NULL,
+  `description` text DEFAULT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `theme_colors`
+--
+
+INSERT INTO `theme_colors` (`id`, `variable_name`, `display_name`, `category`, `theme`, `color_value`, `description`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, '--color-primary', 'Primary Color', 'primary', 'light', '#E45745', 'Main primary color for buttons, links, and highlights', 1, NULL, NULL),
+(2, '--color-primary-hover', 'Primary Hover', 'primary', 'light', '#F06A5A', 'Hover state for primary color', 2, NULL, NULL),
+(3, '--color-primary-light', 'Primary Light', 'primary', 'light', '#FFF1EE', 'Light variant of primary color', 3, NULL, NULL),
+(4, '--color-primary-ultra-light', 'Primary Ultra Light', 'primary', 'light', '#FFD6D1', 'Ultra light variant of primary color', 4, NULL, NULL),
+(5, '--color-primary-soft', 'Primary Soft', 'primary', 'light', '#FFCDC6', 'Soft variant of primary color', 5, NULL, NULL),
+(6, '--bg-main', 'Main Background', 'background', 'light', '#FFF8F5', 'Main page background color', 10, NULL, NULL),
+(7, '--bg-surface', 'Surface Background', 'background', 'light', '#FFF1EE', 'Surface and card backgrounds', 11, NULL, NULL),
+(8, '--bg-card', 'Card Background', 'background', 'light', '#FFFFFF', 'Card and modal backgrounds', 12, NULL, NULL),
+(9, '--bg-sidebar', 'Sidebar Background', 'background', 'light', '#FFF1EE', 'Sidebar navigation background', 13, NULL, NULL),
+(10, '--bg-elevated', 'Elevated Background', 'background', 'light', '#FFFFFF', 'Elevated elements background', 14, NULL, NULL),
+(11, '--bg-hover', 'Hover Background', 'background', 'light', 'rgba(228, 87, 69, 0.08)', 'Hover state background', 15, NULL, NULL),
+(12, '--bg-input', 'Input Background', 'background', 'light', '#FFFFFF', 'Form input backgrounds', 16, NULL, NULL),
+(13, '--text-primary', 'Primary Text', 'text', 'light', '#1A1A1A', 'Main text color for content', 20, NULL, NULL),
+(14, '--text-secondary', 'Secondary Text', 'text', 'light', '#6B7280', 'Secondary and supporting text', 21, NULL, NULL),
+(15, '--text-muted', 'Muted Text', 'text', 'light', '#9CA3AF', 'Muted and disabled text', 22, NULL, NULL),
+(16, '--text-disabled', 'Disabled Text', 'text', 'light', '#D1D5DB', 'Disabled state text', 23, NULL, NULL),
+(17, '--border-soft', 'Soft Border', 'border', 'light', '#FFD6D1', 'Soft borders and dividers', 30, NULL, NULL),
+(18, '--border-default', 'Default Border', 'border', 'light', '#FFCDC6', 'Default borders and inputs', 31, NULL, NULL),
+(19, '--border-strong', 'Strong Border', 'border', 'light', '#F06A5A', 'Strong borders and focus states', 32, NULL, NULL),
+(20, '--border-subtle', 'Subtle Border', 'border', 'light', '#FFF8F5', 'Subtle borders and separators', 33, NULL, NULL),
+(21, '--scrollbar-thumb', 'Scrollbar Thumb', 'scrollbar', 'light', '#F06A5A', 'Scrollbar thumb color', 40, NULL, NULL),
+(22, '--scrollbar-thumb-hover', 'Scrollbar Thumb Hover', 'scrollbar', 'light', '#E45745', 'Scrollbar thumb hover color', 41, NULL, NULL),
+(23, '--color-primary', 'Primary Color', 'primary', 'dark', '#E45745', 'Main primary color for buttons, links, and highlights', 1, NULL, NULL),
+(24, '--color-primary-hover', 'Primary Hover', 'primary', 'dark', '#F06A5A', 'Hover state for primary color', 2, NULL, NULL),
+(25, '--color-primary-light', 'Primary Light', 'primary', 'dark', 'rgba(228, 87, 69, 0.15)', 'Light variant of primary color', 3, NULL, NULL),
+(26, '--color-primary-ultra-light', 'Primary Ultra Light', 'primary', 'dark', 'rgba(228, 87, 69, 0.08)', 'Ultra light variant of primary color', 4, NULL, NULL),
+(27, '--color-primary-soft', 'Primary Soft', 'primary', 'dark', 'rgba(228, 87, 69, 0.25)', 'Soft variant of primary color', 5, NULL, NULL),
+(28, '--bg-main', 'Main Background', 'background', 'dark', '#121212', 'Main page background color', 10, NULL, NULL),
+(29, '--bg-surface', 'Surface Background', 'background', 'dark', '#1E1E1E', 'Surface and card backgrounds', 11, NULL, NULL),
+(30, '--bg-card', 'Card Background', 'background', 'dark', '#2A2A2A', 'Card and modal backgrounds', 12, NULL, NULL),
+(31, '--bg-sidebar', 'Sidebar Background', 'background', 'dark', '#1A1A1A', 'Sidebar navigation background', 13, NULL, NULL),
+(32, '--bg-elevated', 'Elevated Background', 'background', 'dark', '#333333', 'Elevated elements background', 14, NULL, NULL),
+(33, '--bg-hover', 'Hover Background', 'background', 'dark', 'rgba(228, 87, 69, 0.15)', 'Hover state background', 15, NULL, NULL),
+(34, '--bg-input', 'Input Background', 'background', 'dark', '#2A2A2A', 'Form input backgrounds', 16, NULL, NULL),
+(35, '--text-primary', 'Primary Text', 'text', 'dark', '#FFFFFF', 'Main text color for content', 20, NULL, NULL),
+(36, '--text-secondary', 'Secondary Text', 'text', 'dark', '#B3B3B3', 'Secondary and supporting text', 21, NULL, NULL),
+(37, '--text-muted', 'Muted Text', 'text', 'dark', '#808080', 'Muted and disabled text', 22, NULL, NULL),
+(38, '--text-disabled', 'Disabled Text', 'text', 'dark', '#5A5A5A', 'Disabled state text', 23, NULL, NULL),
+(39, '--border-soft', 'Soft Border', 'border', 'dark', '#404040', 'Soft borders and dividers', 30, NULL, NULL),
+(40, '--border-default', 'Default Border', 'border', 'dark', '#5A5A5A', 'Default borders and inputs', 31, NULL, NULL),
+(41, '--border-strong', 'Strong Border', 'border', 'dark', '#E45745', 'Strong borders and focus states', 32, NULL, NULL),
+(42, '--border-subtle', 'Subtle Border', 'border', 'dark', '#333333', 'Subtle borders and separators', 33, NULL, NULL),
+(43, '--scrollbar-thumb', 'Scrollbar Thumb', 'scrollbar', 'dark', '#5A5A5A', 'Scrollbar thumb color', 40, NULL, NULL),
+(44, '--scrollbar-thumb-hover', 'Scrollbar Thumb Hover', 'scrollbar', 'dark', '#E45745', 'Scrollbar thumb hover color', 41, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1821,7 +2100,8 @@ CREATE TABLE `time_customers` (
 --
 
 INSERT INTO `time_customers` (`id`, `name`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'Acme Corp', 'External customer for demo project', 1, '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(1, 'Acme Corp', 'External customer for demo project', 1, '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
+(2, 'Rivan Shorp', 'For website project', 1, '2026-02-12 05:35:22', '2026-02-12 05:35:49');
 
 -- --------------------------------------------------------
 
@@ -1844,7 +2124,8 @@ CREATE TABLE `time_projects` (
 --
 
 INSERT INTO `time_projects` (`id`, `customer_id`, `name`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Acme HR Implementation', 'Implementation project for Acme Corp', 1, '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+(1, 1, 'Acme HR Implementation', 'Implementation project for Acme Corp', 1, '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
+(2, 2, 'Computer Management', 'Manage multiple computers from website', 1, '2026-02-12 05:37:11', '2026-02-12 05:40:41');
 
 -- --------------------------------------------------------
 
@@ -1866,7 +2147,8 @@ CREATE TABLE `time_project_assignments` (
 --
 
 INSERT INTO `time_project_assignments` (`id`, `project_id`, `employee_id`, `role`, `hourly_rate`, `created_at`) VALUES
-(1, 1, 1, 'Developer', 75.00, '2026-01-27 17:06:39');
+(1, 1, 1, 'Developer', 75.00, '2026-01-27 17:06:39'),
+(6, 2, 10, 'Project Admin', NULL, '2026-02-12 05:40:41');
 
 -- --------------------------------------------------------
 
@@ -1883,6 +2165,7 @@ CREATE TABLE `users` (
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `is_main_user` tinyint(1) NOT NULL DEFAULT 0,
   `created_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `page_permissions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`page_permissions`)),
   `last_login_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -1893,9 +2176,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `employee_id`, `is_active`, `is_main_user`, `created_by`, `last_login_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'HR@TOSS', 'hr@gmail.com', '$2y$12$051MM95qGcbn8bHp05w7dOCnDgsP88Y3SJ8NX0kmi7Vayi5vlOlzG', 1, 1, 1, NULL, NULL, '2026-01-27 17:06:38', '2026-01-30 17:39:14', NULL),
-(2, 'neet', 'gg@gmail.com', '$2y$12$cAczoNQdtJBSIs/sU6piguTB0kUdlFAJ/B9fSvVdDVtxsyA/Mrfqa', 5, 0, 0, NULL, NULL, '2026-01-30 11:58:07', '2026-01-30 12:28:37', NULL);
+INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `employee_id`, `is_active`, `is_main_user`, `created_by`, `page_permissions`, `last_login_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'HR@TOSS', 'hrtoss@gmail.com', '$2y$12$051MM95qGcbn8bHp05w7dOCnDgsP88Y3SJ8NX0kmi7Vayi5vlOlzG', 1, 1, 1, NULL, NULL, NULL, '2026-01-27 17:06:38', '2026-02-11 12:37:01', NULL),
+(2, 'neet', 'neet@gmail.com', '$2y$12$cAczoNQdtJBSIs/sU6piguTB0kUdlFAJ/B9fSvVdDVtxsyA/Mrfqa', 5, 0, 0, NULL, '[\"dashboard\",\"my-info\",\"pim\",\"directory\",\"buzz\"]', NULL, '2026-01-30 11:58:07', '2026-02-12 06:33:10', NULL),
+(3, 'jj', 'owner@sukrivineyard.com', '$2y$12$TzDfzLI24Q5HSzC0./BhO.ZXSRoscV1dIb8DO9V2Tr9Dc.pHX9yka', 11, 1, 0, 1, '[\"dashboard\",\"recruitment\",\"performance\"]', NULL, '2026-02-12 06:24:40', '2026-02-12 12:03:03', '2026-02-12 06:33:03');
 
 -- --------------------------------------------------------
 
@@ -1932,8 +2216,9 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`user_id`, `role_id`, `created_at`) VALUES
-(1, 2, '2026-01-30 12:03:21'),
-(2, 1, '2026-01-30 12:28:37');
+(1, 2, '2026-02-11 12:37:01'),
+(2, 1, '2026-02-12 06:33:10'),
+(3, 1, '2026-02-12 06:24:40');
 
 -- --------------------------------------------------------
 
@@ -1953,15 +2238,17 @@ CREATE TABLE `vacancies` (
   `posted_date` date DEFAULT NULL,
   `closing_date` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Job vacancies.';
 
 --
 -- Dumping data for table `vacancies`
 --
 
-INSERT INTO `vacancies` (`id`, `job_title_id`, `hiring_manager_id`, `location_id`, `name`, `description`, `positions`, `status`, `posted_date`, `closing_date`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 2, 'Senior QA Lead', 'Lead QA for TOAI HRM Suite', 1, 'open', '2026-01-01', '2026-03-31', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+INSERT INTO `vacancies` (`id`, `job_title_id`, `hiring_manager_id`, `location_id`, `name`, `description`, `positions`, `status`, `posted_date`, `closing_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 2, 1, 2, 'Senior QA Lead', 'Lead QA for TOAI HRM Suite', 1, 'open', '2026-01-01', '2026-03-31', '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL),
+(2, 1, 5, NULL, 'Junior Software Engineer', NULL, 1, 'open', NULL, NULL, '2026-02-12 05:43:25', '2026-02-12 05:43:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -2001,13 +2288,13 @@ CREATE TABLE `work_weeks` (
 --
 
 INSERT INTO `work_weeks` (`id`, `location_id`, `day_of_week`, `is_working_day`, `hours_per_day`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 1, 8.00, '2026-01-27 17:06:39', '2026-01-30 06:42:33'),
-(2, NULL, 2, 1, 8.00, '2026-01-27 17:06:39', '2026-01-30 06:42:33'),
-(3, NULL, 3, 1, 8.00, '2026-01-27 17:06:39', '2026-01-30 06:42:33'),
-(4, NULL, 4, 1, 8.00, '2026-01-27 17:06:39', '2026-01-30 06:42:33'),
-(5, NULL, 5, 1, 8.00, '2026-01-27 17:06:39', '2026-01-30 06:42:33'),
-(6, NULL, 6, 1, 8.00, '2026-01-27 17:06:39', '2026-01-30 06:42:33'),
-(7, NULL, 7, 0, 0.00, '2026-01-27 17:06:39', '2026-01-30 06:42:33');
+(1, NULL, 1, 1, 8.00, '2026-01-27 17:06:39', '2026-02-12 06:41:56'),
+(2, NULL, 2, 1, 8.00, '2026-01-27 17:06:39', '2026-02-12 06:41:56'),
+(3, NULL, 3, 1, 8.00, '2026-01-27 17:06:39', '2026-02-12 06:41:57'),
+(4, NULL, 4, 1, 8.00, '2026-01-27 17:06:39', '2026-02-12 06:41:57'),
+(5, NULL, 5, 1, 8.00, '2026-01-27 17:06:39', '2026-02-12 06:41:57'),
+(6, NULL, 6, 1, 4.00, '2026-01-27 17:06:39', '2026-02-12 06:41:57'),
+(7, NULL, 7, 0, 0.00, '2026-01-27 17:06:39', '2026-02-12 06:41:57');
 
 --
 -- Indexes for dumped tables
@@ -2058,6 +2345,14 @@ ALTER TABLE `buzz_posts`
   ADD KEY `organization_unit_id` (`organization_unit_id`);
 
 --
+-- Indexes for table `buzz_post_attachments`
+--
+ALTER TABLE `buzz_post_attachments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `buzz_post_attachments_post_id_index` (`post_id`),
+  ADD KEY `buzz_post_attachments_type_index` (`type`);
+
+--
 -- Indexes for table `buzz_post_comments`
 --
 ALTER TABLE `buzz_post_comments`
@@ -2072,6 +2367,14 @@ ALTER TABLE `buzz_post_likes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_post_like` (`post_id`,`user_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `buzz_post_shares`
+--
+ALTER TABLE `buzz_post_shares`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `buzz_post_shares_post_id_index` (`post_id`),
+  ADD KEY `buzz_post_shares_user_id_index` (`user_id`);
 
 --
 -- Indexes for table `candidates`
@@ -2191,6 +2494,13 @@ ALTER TABLE `employee_dependents`
   ADD KEY `idx_dependents_employee` (`employee_id`);
 
 --
+-- Indexes for table `employee_education`
+--
+ALTER TABLE `employee_education`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_education_employee` (`employee_id`);
+
+--
 -- Indexes for table `employee_emergency_contacts`
 --
 ALTER TABLE `employee_emergency_contacts`
@@ -2210,6 +2520,20 @@ ALTER TABLE `employee_job_details`
   ADD KEY `fk_emp_job_supervisor` (`supervisor_id`);
 
 --
+-- Indexes for table `employee_languages`
+--
+ALTER TABLE `employee_languages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_languages_employee` (`employee_id`);
+
+--
+-- Indexes for table `employee_licenses`
+--
+ALTER TABLE `employee_licenses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_licenses_employee` (`employee_id`);
+
+--
 -- Indexes for table `employee_personal_details`
 --
 ALTER TABLE `employee_personal_details`
@@ -2225,12 +2549,34 @@ ALTER TABLE `employee_qualifications`
   ADD KEY `fk_emp_qual_qualification` (`qualification_id`);
 
 --
+-- Indexes for table `employee_qualification_attachments`
+--
+ALTER TABLE `employee_qualification_attachments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_qual_att_employee` (`employee_id`),
+  ADD KEY `idx_qual_att_file` (`file_upload_id`);
+
+--
 -- Indexes for table `employee_salary`
 --
 ALTER TABLE `employee_salary`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_emp_salary_employee` (`employee_id`,`effective_date`),
   ADD KEY `fk_emp_salary_pay_grade` (`pay_grade_id`);
+
+--
+-- Indexes for table `employee_skills`
+--
+ALTER TABLE `employee_skills`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_skills_employee` (`employee_id`);
+
+--
+-- Indexes for table `employee_work_experience`
+--
+ALTER TABLE `employee_work_experience`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_work_exp_employee` (`employee_id`);
 
 --
 -- Indexes for table `employment_statuses`
@@ -2568,6 +2914,13 @@ ALTER TABLE `termination_reasons`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `theme_colors`
+--
+ALTER TABLE `theme_colors`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `theme_colors_variable_name_theme_unique` (`variable_name`,`theme`);
+
+--
 -- Indexes for table `timesheets`
 --
 ALTER TABLE `timesheets`
@@ -2692,31 +3045,43 @@ ALTER TABLE `auth_sessions`
 -- AUTO_INCREMENT for table `buzz_posts`
 --
 ALTER TABLE `buzz_posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `buzz_post_attachments`
+--
+ALTER TABLE `buzz_post_attachments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `buzz_post_comments`
 --
 ALTER TABLE `buzz_post_comments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `buzz_post_likes`
 --
 ALTER TABLE `buzz_post_likes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `buzz_post_shares`
+--
+ALTER TABLE `buzz_post_shares`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `candidates`
 --
 ALTER TABLE `candidates`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `candidate_applications`
 --
 ALTER TABLE `candidate_applications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `claim_attachments`
@@ -2728,25 +3093,25 @@ ALTER TABLE `claim_attachments`
 -- AUTO_INCREMENT for table `claim_events`
 --
 ALTER TABLE `claim_events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `claim_expense_types`
 --
 ALTER TABLE `claim_expense_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `claim_items`
 --
 ALTER TABLE `claim_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `claim_requests`
 --
 ALTER TABLE `claim_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `claim_status_history`
@@ -2782,7 +3147,7 @@ ALTER TABLE `email_subscriptions`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `employee_custom_field_values`
@@ -2797,10 +3162,16 @@ ALTER TABLE `employee_dependents`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `employee_education`
+--
+ALTER TABLE `employee_education`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `employee_emergency_contacts`
 --
 ALTER TABLE `employee_emergency_contacts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `employee_job_details`
@@ -2809,10 +3180,28 @@ ALTER TABLE `employee_job_details`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `employee_languages`
+--
+ALTER TABLE `employee_languages`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `employee_licenses`
+--
+ALTER TABLE `employee_licenses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `employee_qualifications`
 --
 ALTER TABLE `employee_qualifications`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `employee_qualification_attachments`
+--
+ALTER TABLE `employee_qualification_attachments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employee_salary`
@@ -2821,10 +3210,22 @@ ALTER TABLE `employee_salary`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `employee_skills`
+--
+ALTER TABLE `employee_skills`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `employee_work_experience`
+--
+ALTER TABLE `employee_work_experience`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `employment_statuses`
 --
 ALTER TABLE `employment_statuses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `enabled_modules`
@@ -2836,13 +3237,13 @@ ALTER TABLE `enabled_modules`
 -- AUTO_INCREMENT for table `file_uploads`
 --
 ALTER TABLE `file_uploads`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `interviews`
@@ -2866,13 +3267,13 @@ ALTER TABLE `job_categories`
 -- AUTO_INCREMENT for table `job_titles`
 --
 ALTER TABLE `job_titles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `kpis`
 --
 ALTER TABLE `kpis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `language_packages`
@@ -2950,7 +3351,7 @@ ALTER TABLE `login_attempts`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `nationalities`
@@ -3028,7 +3429,7 @@ ALTER TABLE `performance_cycles`
 -- AUTO_INCREMENT for table `performance_reviews`
 --
 ALTER TABLE `performance_reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `performance_review_kpis`
@@ -3088,7 +3489,13 @@ ALTER TABLE `social_providers`
 -- AUTO_INCREMENT for table `termination_reasons`
 --
 ALTER TABLE `termination_reasons`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `theme_colors`
+--
+ALTER TABLE `theme_colors`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `timesheets`
@@ -3106,25 +3513,25 @@ ALTER TABLE `timesheet_rows`
 -- AUTO_INCREMENT for table `time_customers`
 --
 ALTER TABLE `time_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `time_projects`
 --
 ALTER TABLE `time_projects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `time_project_assignments`
 --
 ALTER TABLE `time_project_assignments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_preferences`
@@ -3136,7 +3543,7 @@ ALTER TABLE `user_preferences`
 -- AUTO_INCREMENT for table `vacancies`
 --
 ALTER TABLE `vacancies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `work_shifts`
@@ -3186,6 +3593,12 @@ ALTER TABLE `buzz_posts`
   ADD CONSTRAINT `buzz_posts_ibfk_2` FOREIGN KEY (`organization_unit_id`) REFERENCES `organization_units` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `buzz_post_attachments`
+--
+ALTER TABLE `buzz_post_attachments`
+  ADD CONSTRAINT `buzz_post_attachments_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `buzz_posts` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `buzz_post_comments`
 --
 ALTER TABLE `buzz_post_comments`
@@ -3198,6 +3611,13 @@ ALTER TABLE `buzz_post_comments`
 ALTER TABLE `buzz_post_likes`
   ADD CONSTRAINT `buzz_post_likes_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `buzz_posts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `buzz_post_likes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `buzz_post_shares`
+--
+ALTER TABLE `buzz_post_shares`
+  ADD CONSTRAINT `buzz_post_shares_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `buzz_posts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `buzz_post_shares_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `candidates`
@@ -3271,6 +3691,12 @@ ALTER TABLE `employee_dependents`
   ADD CONSTRAINT `fk_dependents_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `employee_education`
+--
+ALTER TABLE `employee_education`
+  ADD CONSTRAINT `fk_education_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `employee_emergency_contacts`
 --
 ALTER TABLE `employee_emergency_contacts`
@@ -3288,6 +3714,18 @@ ALTER TABLE `employee_job_details`
   ADD CONSTRAINT `fk_emp_job_unit` FOREIGN KEY (`organization_unit_id`) REFERENCES `organization_units` (`id`);
 
 --
+-- Constraints for table `employee_languages`
+--
+ALTER TABLE `employee_languages`
+  ADD CONSTRAINT `fk_languages_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `employee_licenses`
+--
+ALTER TABLE `employee_licenses`
+  ADD CONSTRAINT `fk_licenses_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `employee_personal_details`
 --
 ALTER TABLE `employee_personal_details`
@@ -3302,11 +3740,30 @@ ALTER TABLE `employee_qualifications`
   ADD CONSTRAINT `fk_emp_qual_qualification` FOREIGN KEY (`qualification_id`) REFERENCES `pim_reports` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `employee_qualification_attachments`
+--
+ALTER TABLE `employee_qualification_attachments`
+  ADD CONSTRAINT `fk_qual_att_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_qual_att_file` FOREIGN KEY (`file_upload_id`) REFERENCES `file_uploads` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `employee_salary`
 --
 ALTER TABLE `employee_salary`
   ADD CONSTRAINT `fk_emp_salary_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_emp_salary_pay_grade` FOREIGN KEY (`pay_grade_id`) REFERENCES `pay_grades` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `employee_skills`
+--
+ALTER TABLE `employee_skills`
+  ADD CONSTRAINT `fk_skills_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `employee_work_experience`
+--
+ALTER TABLE `employee_work_experience`
+  ADD CONSTRAINT `fk_work_exp_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `file_uploads`

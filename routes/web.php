@@ -308,7 +308,15 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/performance/my-trackers', [PerformanceController::class, 'myTrackers'])->name('performance.my-trackers');
     Route::get('/performance/employee-trackers', [PerformanceController::class, 'employeeTrackers'])->name('performance.employee-trackers');
     Route::get('/performance/kpis', [PerformanceController::class, 'kpis'])->name('performance.kpis');
+    Route::post('/performance/kpis', [PerformanceController::class, 'storeKpi'])->name('performance.kpis.store');
+    Route::post('/performance/kpis/{id}', [PerformanceController::class, 'updateKpi'])->whereNumber('id')->name('performance.kpis.update');
+    Route::post('/performance/kpis/{id}/delete', [PerformanceController::class, 'deleteKpi'])->whereNumber('id')->name('performance.kpis.delete');
+    Route::post('/performance/kpis/bulk-delete', [PerformanceController::class, 'bulkDeleteKpis'])->name('performance.kpis.bulk-delete');
     Route::get('/performance/trackers', [PerformanceController::class, 'trackers'])->name('performance.trackers');
+    Route::post('/performance/trackers', [PerformanceController::class, 'storeTracker'])->name('performance.trackers.store');
+    Route::post('/performance/trackers/{id}', [PerformanceController::class, 'updateTracker'])->whereNumber('id')->name('performance.trackers.update');
+    Route::post('/performance/trackers/{id}/delete', [PerformanceController::class, 'deleteTracker'])->whereNumber('id')->name('performance.trackers.delete');
+    Route::post('/performance/trackers/bulk-delete', [PerformanceController::class, 'bulkDeleteTrackers'])->name('performance.trackers.bulk-delete');
     Route::get('/performance/my-reviews', [PerformanceController::class, 'myReviews'])->name('performance.my-reviews');
     Route::get('/performance/employee-reviews', [PerformanceController::class, 'employeeReviews'])->name('performance.employee-reviews');
     Route::get('/directory', [DirectoryController::class, 'index'])->name('directory');

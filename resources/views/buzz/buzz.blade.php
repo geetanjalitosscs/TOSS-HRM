@@ -35,7 +35,7 @@
                             @if($isCurrentUserImagePath)
                                 <img src="{{ asset('storage/' . ltrim(str_replace('public/', '', $currentUserProfilePic), '/')) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
                             @else
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $currentUserProfileColor }} flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $currentUserProfileColor ?? 'from-[var(--color-primary)] to-[var(--color-primary-hover)]' }} flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                                     {{ $currentUserProfilePic ?? 'U' }}
                                 </div>
                             @endif
@@ -101,7 +101,7 @@
                                 @if($isImagePath)
                                     <img src="{{ asset('storage/' . ltrim(str_replace('public/', '', $post->profile_pic), '/')) }}" alt="{{ $post->user_name }}" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
                                 @else
-                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $post->profile_color ?? 'from-purple-400 to-purple-600' }} flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $post->profile_color ?? 'from-[var(--color-primary)] to-[var(--color-primary-hover)]' }} flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                                         {{ $post->profile_pic ?? strtoupper(substr($post->user_name, 0, 1)) }}
                                     </div>
                                 @endif
@@ -216,7 +216,7 @@
                                                         @if($isCommentImagePath)
                                                             <img src="{{ asset('storage/' . ltrim(str_replace('public/', '', $comment->profile_pic), '/')) }}" alt="{{ $comment->username }}" class="w-8 h-8 rounded-full object-cover flex-shrink-0">
                                                         @else
-                                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br {{ $comment->profile_color ?? 'from-purple-400 to-purple-600' }} flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+                                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br {{ $comment->profile_color ?? 'from-[var(--color-primary)] to-[var(--color-primary-hover)]' }} flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
                                                                 {{ $comment->profile_pic ?? strtoupper(substr($comment->username, 0, 1)) }}
                                                             </div>
                                                         @endif
@@ -709,7 +709,7 @@
                     commentDiv.className = 'flex gap-2';
                     var profilePic = data.comment.profile_pic || data.comment.username.charAt(0).toUpperCase();
                     var isImagePath = profilePic && (profilePic.includes('/') || profilePic.includes('\\') || profilePic.includes('.'));
-                    var profileColor = data.comment.profile_color || 'from-purple-400 to-purple-600';
+                    var profileColor = data.comment.profile_color || 'from-[var(--color-primary)] to-[var(--color-primary-hover)]';
                     var profileHtml = isImagePath 
                         ? '<img src="{{ asset("storage/") }}/' + profilePic.replace('public/', '').replace(/^\//, '') + '" alt="' + data.comment.username + '" class="w-8 h-8 rounded-full object-cover flex-shrink-0">'
                         : '<div class="w-8 h-8 rounded-full bg-gradient-to-br ' + profileColor + ' flex items-center justify-center text-white font-bold text-xs flex-shrink-0">' + profilePic + '</div>';

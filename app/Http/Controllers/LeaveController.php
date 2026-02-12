@@ -530,7 +530,10 @@ class LeaveController extends Controller
 
         // Get all employees except current user
         $employees = DB::table('employees')
-            ->select('id', 'display_name')
+            ->select(
+                'id',
+                DB::raw("COALESCE(display_name, CONCAT(first_name, ' ', COALESCE(last_name, ''))) as display_name")
+            )
             ->when($currentEmployeeId, function ($query) use ($currentEmployeeId) {
                 $query->where('id', '!=', $currentEmployeeId);
             })
