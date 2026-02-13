@@ -126,6 +126,43 @@ class DashboardController extends Controller
             })
             ->toArray();
 
+        // Recent Performance Reviews - Get 5 most recent submitted reviews
+        $recentPerformanceReviews = DB::table('performance_reviews')
+            ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
+            ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
+            ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
+            ->whereIn('performance_reviews.status', ['completed', 'approved'])
+            ->select(
+                'performance_reviews.id',
+                'employees.display_name as employee_name',
+                'performance_cycles.name as cycle_name',
+                DB::raw("COALESCE(reviewers.display_name, '-') as reviewer_name"),
+                'performance_reviews.status',
+                'performance_reviews.overall_rating',
+                'performance_reviews.updated_at'
+            )
+            ->orderByDesc('performance_reviews.updated_at')
+            ->limit(5)
+            ->get()
+            ->map(function ($review) {
+                $statusLabelMap = [
+                    'not_started' => 'Not Started',
+                    'in_progress' => 'In Progress',
+                    'completed' => 'Completed',
+                    'approved' => 'Approved',
+                ];
+                return [
+                    'id' => $review->id,
+                    'employee_name' => $review->employee_name,
+                    'cycle_name' => $review->cycle_name,
+                    'reviewer_name' => $review->reviewer_name,
+                    'status' => $statusLabelMap[$review->status] ?? ucfirst(str_replace('_', ' ', $review->status)),
+                    'overall_rating' => $review->overall_rating !== null ? number_format($review->overall_rating, 2) : '-',
+                    'submitted_at' => Carbon::parse($review->updated_at)->timezone('Asia/Kolkata')->format('M d, Y h:i A'),
+                ];
+            })
+            ->toArray();
+
         return view('dashboard.dashboard', compact(
             'totalEmployees',
             'employeesOnLeave',
@@ -134,7 +171,8 @@ class DashboardController extends Controller
             'jobTitlesData',
             'totalJobTitles',
             'totalBuzzPosts',
-            'recentBuzzActivities'
+            'recentBuzzActivities',
+            'recentPerformanceReviews'
         ));
     }
 }
