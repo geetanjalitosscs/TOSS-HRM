@@ -13,9 +13,9 @@ return new class extends Migration
     {
         // Only add the column if the table exists and the column doesn't.
         if (Schema::hasTable('employees') && ! Schema::hasColumn('employees', 'photo_path')) {
-            Schema::table('employees', function (Blueprint $table) {
-                $table->string('photo_path', 255)->nullable()->after('id');
-            });
+        Schema::table('employees', function (Blueprint $table) {
+            $table->string('photo_path', 255)->nullable()->after('id');
+        });
         }
     }
 
@@ -25,9 +25,9 @@ return new class extends Migration
     public function down(): void
     {
         if (Schema::hasTable('employees') && Schema::hasColumn('employees', 'photo_path')) {
-            Schema::table('employees', function (Blueprint $table) {
-                $table->dropColumn('photo_path');
-            });
+        Schema::table('employees', function (Blueprint $table) {
+            $table->dropColumn('photo_path');
+        });
         }
     }
 };

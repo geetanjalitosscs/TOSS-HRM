@@ -50,7 +50,7 @@
             
             <form method="GET" action="{{ route('performance.trackers') }}" id="trackers-search-form">
             <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
                             <input
@@ -72,29 +72,34 @@
                             >
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Added Date Range</label>
-                            <div class="flex gap-2">
-                                <input
-                                    type="date"
-                                    name="from_date"
-                                    class="hr-input flex-1 px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
-                                    value="{{ request('from_date') }}"
-                                    placeholder="From"
-                                >
-                            </div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Comments</label>
+                            <input
+                                type="text"
+                                name="comments"
+                                class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white"
+                                placeholder="Search in comments..."
+                                value="{{ request('comments') }}"
+                            >
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Status</label>
-                            <select
-                                name="status"
-                                class="hr-select w-full px-2 py-1.5 text-xs"
-                            >
-                                <option value="">All</option>
-                                <option value="not_started" {{ request('status') === 'not_started' ? 'selected' : '' }}>Not Started</option>
-                                <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Completed</option>
-                                <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approved</option>
-                            </select>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">From Date</label>
+                            <x-date-picker 
+                                name="from_date"
+                                value="{{ request('from_date') }}"
+                                placeholder="From"
+                                variant="default"
+                                class="w-full"
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">To Date</label>
+                            <x-date-picker 
+                                name="to_date"
+                                value="{{ request('to_date') }}"
+                                placeholder="To"
+                                variant="default"
+                                class="w-full"
+                            />
                         </div>
                     </div>
                     <x-admin.action-buttons resetType="button" searchType="submit" />
@@ -126,82 +131,78 @@
                 </div>
             </div>
 
-            <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto; overflow-x: hidden;">
-                <!-- Table Header -->
-                <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                    <div class="flex-shrink-0" style="width: 24px;">
-                        <input type="checkbox" id="trackers-master-checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee</span>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Tracker</span>
-                    </div>
-                    <div class="flex-1" style="min-width: 0%;">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Added Date</span>
-                    </div>
-                    <div class="flex-1" style="min-width: 0%;">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Modified Date</span>
-                    </div>
-                    <div class="flex-1" style="min-width: 0%;">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</span>
-                    </div>
-                    <div class="flex-shrink-0" style="width: 90px;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                    </div>
-                </div>
+            <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto; overflow-x: auto;">
+                <!-- Traditional Table Structure -->
+                <table class="w-full border-collapse">
+                    <!-- Table Header -->
+                    <thead>
+                        <tr class="border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                            <th class="pl-1 pr-2 py-1.5 text-left" style="width: 24px;">
+                                <input type="checkbox" id="trackers-master-checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);">
+                            </th>
+                            <th class="pl-2 pr-2 py-1.5 text-left" style="width: 16.67%;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight" style="color: var(--text-primary);">Employee</span>
+                            </th>
+                            <th class="pl-2 pr-2 py-1.5 text-left" style="width: 16.67%;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight" style="color: var(--text-primary);">Tracker</span>
+                            </th>
+                            <th class="pl-2 pr-2 py-1.5 text-left" style="width: 16.67%;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight" style="color: var(--text-primary);">Added Date</span>
+                            </th>
+                            <th class="pl-2 pr-2 py-1.5 text-left" style="width: 16.67%;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight" style="color: var(--text-primary);">Modified Date</span>
+                            </th>
+                            <th class="pl-2 pr-2 py-1.5 text-left" style="width: 16.67%;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight" style="color: var(--text-primary);">Comments</span>
+                            </th>
+                            <th class="pl-2 pr-2 py-1.5 text-center" style="width: 90px;">
+                                <span class="text-xs font-semibold uppercase tracking-wide leading-tight" style="color: var(--text-primary);">Actions</span>
+                            </th>
+                        </tr>
+                    </thead>
 
-                <!-- Table Rows -->
-                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                    @foreach($trackers as $tracker)
-                    <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1 hr-table-row" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'"
+                    <!-- Table Body -->
+                    <tbody>
+                        @foreach($trackers as $tracker)
+                        <tr class="border-b last:border-b-0 transition-colors hr-table-row" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'"
                          data-tracker-id="{{ $tracker->id }}"
                          data-tracker-employee-id="{{ $tracker->employee_id }}"
                          data-tracker-cycle-id="{{ $tracker->cycle_id }}"
-                         data-tracker-status="{{ $tracker->status }}">
-                        <div class="flex-shrink-0" style="width: 24px;">
-                            <input type="checkbox" class="tracker-row-checkbox rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" data-tracker-checkbox-id="{{ $tracker->id }}">
-                        </div>
-                        <div class="flex-1" style="min-width: 0%;">
-                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $tracker->employee }}</div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0%;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->tracker }}</div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0%;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->added_date }}</div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0%;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->modified_date }}</div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0%;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">
-                                @php
-                                    $statusLabelMap = [
-                                        'not_started' => 'Not Started',
-                                        'in_progress' => 'In Progress',
-                                        'completed'   => 'Completed',
-                                        'approved'    => 'Approved',
-                                    ];
-                                    $statusValue = $tracker->status ?? 'not_started';
-                                @endphp
-                                {{ $statusLabelMap[$statusValue] ?? ucfirst(str_replace('_', ' ', $statusValue)) }}
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0" style="width: 90px;">
-                            <div class="flex items-center justify-center gap-2">
-                                <button class="hr-action-edit flex-shrink-0" title="Edit" type="button" onclick="openTrackerEditModalFromRow(this.closest('.hr-table-row'))">
-                                    <i class="fas fa-edit text-sm"></i>
-                                </button>
-                                <button class="hr-action-delete flex-shrink-0" title="Delete" type="button" onclick="openTrackerDeleteModalFromRow(this.closest('.hr-table-row'))">
-                                    <i class="fas fa-trash-alt text-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
+                         data-tracker-reviewer-id="{{ $tracker->reviewer_id ?? '' }}"
+                         data-tracker-status="{{ $tracker->status }}"
+                         data-tracker-comments="{{ htmlspecialchars($tracker->comments ?? '', ENT_QUOTES, 'UTF-8') }}">
+                            <td class="pl-1 pr-2 py-1.5">
+                                <input type="checkbox" class="tracker-row-checkbox rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" data-tracker-checkbox-id="{{ $tracker->id }}">
+                            </td>
+                            <td class="pl-2 pr-2 py-1.5">
+                                <div class="text-xs font-medium" style="color: var(--text-primary);">{{ $tracker->employee }}</div>
+                            </td>
+                            <td class="pl-2 pr-2 py-1.5">
+                                <div class="text-xs" style="color: var(--text-primary);">{{ $tracker->tracker }}</div>
+                            </td>
+                            <td class="pl-2 pr-2 py-1.5">
+                                <div class="text-xs" style="color: var(--text-primary);">{{ $tracker->added_date }}</div>
+                            </td>
+                            <td class="pl-2 pr-2 py-1.5">
+                                <div class="text-xs" style="color: var(--text-primary);">{{ $tracker->modified_date }}</div>
+                            </td>
+                            <td class="pl-2 pr-2 py-1.5">
+                                <div class="text-xs" style="color: var(--text-primary);">{{ $tracker->comments ? (strlen($tracker->comments) > 50 ? substr($tracker->comments, 0, 50) . '...' : $tracker->comments) : '-' }}</div>
+                            </td>
+                            <td class="pl-2 pr-2 py-1.5">
+                                <div class="flex items-center justify-center gap-2">
+                                    <button class="hr-action-edit flex-shrink-0" title="Edit" type="button" onclick="openTrackerEditModalFromRow(this.closest('.hr-table-row'))">
+                                        <i class="fas fa-edit text-sm"></i>
+                                    </button>
+                                    <button class="hr-action-delete flex-shrink-0" title="Delete" type="button" onclick="openTrackerDeleteModalFromRow(this.closest('.hr-table-row'))">
+                                        <i class="fas fa-trash-alt text-sm"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
             @else
             <!-- No Records Found -->
@@ -228,6 +229,15 @@
                     </div>
                     <div class="flex-1" style="min-width: 0%;">
                         <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Status</span>
+                    </div>
+                    <div class="flex-1" style="min-width: 0%;">
+                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Reviewer</span>
+                    </div>
+                    <div class="flex-1" style="min-width: 0%;">
+                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Overall Rating</span>
+                    </div>
+                    <div class="flex-1" style="min-width: 0%;">
+                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Comments</span>
                     </div>
                     <div class="flex-shrink-0" style="width: 90px;">
                         <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
@@ -286,6 +296,21 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Reviewer
+                    </label>
+                    <select
+                        name="reviewer_id"
+                        class="hr-select px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                        <option value="">-- Select Reviewer --</option>
+                        @foreach($employees ?? [] as $emp)
+                            <option value="{{ $emp->id }}">{{ $emp->display_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Status
                     </label>
                     <select
@@ -298,6 +323,18 @@
                         <option value="completed">Completed</option>
                         <option value="approved">Approved</option>
                     </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Comments (HR Notes)
+                    </label>
+                    <textarea
+                        name="comments"
+                        rows="3"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        placeholder="Add notes or comments about this tracker..."
+                    ></textarea>
                 </div>
                 <div class="flex justify-end gap-2 mt-1">
                     <button
@@ -360,6 +397,22 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Reviewer
+                    </label>
+                    <select
+                        name="reviewer_id"
+                        id="tracker-edit-reviewer-id"
+                        class="hr-select px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                    >
+                        <option value="">-- Select Reviewer --</option>
+                        @foreach($employees ?? [] as $emp)
+                            <option value="{{ $emp->id }}">{{ $emp->display_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Status
                     </label>
                     <select
@@ -373,6 +426,19 @@
                         <option value="completed">Completed</option>
                         <option value="approved">Approved</option>
                     </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Comments (HR Notes)
+                    </label>
+                    <textarea
+                        name="comments"
+                        id="tracker-edit-comments"
+                        rows="3"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        placeholder="Add notes or comments about this tracker..."
+                    ></textarea>
                 </div>
                 <div class="flex justify-end gap-2 mt-1">
                     <button
@@ -528,7 +594,9 @@
                     var id = row.dataset.trackerId;
                     var employeeId = row.dataset.trackerEmployeeId || '';
                     var cycleId = row.dataset.trackerCycleId || '';
+                    var reviewerId = row.dataset.trackerReviewerId || '';
                     var status = row.dataset.trackerStatus || 'not_started';
+                    var comments = row.dataset.trackerComments || '';
 
                     var m = document.getElementById('tracker-edit-modal');
                     if (!m) return;
@@ -539,8 +607,14 @@
                     var cycleSelect = document.getElementById('tracker-edit-cycle-id');
                     if (cycleSelect) cycleSelect.value = cycleId;
 
+                    var reviewerSelect = document.getElementById('tracker-edit-reviewer-id');
+                    if (reviewerSelect) reviewerSelect.value = reviewerId;
+
                     var statusSelect = document.getElementById('tracker-edit-status');
                     if (statusSelect) statusSelect.value = status;
+
+                    var commentsTextarea = document.getElementById('tracker-edit-comments');
+                    if (commentsTextarea) commentsTextarea.value = comments;
 
                     var form = document.getElementById('tracker-edit-form');
                     if (form) {

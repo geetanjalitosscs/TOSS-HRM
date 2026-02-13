@@ -41,200 +41,295 @@
             </div>
         </div>
 
-        <!-- Employee Reviews Section -->
-        <section class="hr-card p-6">
-            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2 mb-5">
-                <i class="fas fa-users text-[var(--color-primary)]"></i> <span class="mt-0.5">Employee Reviews</span>
+        <!-- Employee Reviews Search Panel -->
+        <section class="hr-card p-6 mb-6">
+            <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                <i class="fas fa-users" style="color: var(--color-hr-primary);"></i>
+                <span class="mt-0.5">Employee Reviews</span>
             </h2>
 
             <!-- Filter Form -->
-            <div class="bg-[var(--color-primary-light)] rounded-lg p-3 mb-3 border border-[var(--border-default)]">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
-                        <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white" placeholder="Type for hints...">
+            <form method="GET" action="{{ route('performance.employee-reviews') }}" id="employee-reviews-search-form">
+                <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
+                            <input 
+                                type="text" 
+                                name="employee_name"
+                                class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white" 
+                                placeholder="Type for hints..."
+                                value="{{ request('employee_name') }}"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
+                            <select 
+                                name="job_title"
+                                class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white"
+                            >
+                                <option value="">-- Select --</option>
+                                @foreach(($jobTitles ?? []) as $title)
+                                    <option value="{{ $title }}" {{ request('job_title') === $title ? 'selected' : '' }}>{{ $title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
-                            <option>-- Select --</option>
-                            <option>HR Manager</option>
-                            <option>Software Engineer</option>
-                        </select>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Review Status</label>
+                            <select 
+                                name="review_status"
+                                class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white"
+                            >
+                                <option value="">-- Select --</option>
+                                <option value="not_started" {{ request('review_status') === 'not_started' ? 'selected' : '' }}>Not Started</option>
+                                <option value="in_progress" {{ request('review_status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="completed" {{ request('review_status') === 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="approved" {{ request('review_status') === 'approved' ? 'selected' : '' }}>Approved</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">From Date</label>
+                            <x-date-picker 
+                                name="from_date"
+                                value="{{ request('from_date') }}"
+                                placeholder="From"
+                                variant="default"
+                                class="w-full text-xs"
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">To Date</label>
+                            <x-date-picker 
+                                name="to_date"
+                                value="{{ request('to_date') }}"
+                                placeholder="To"
+                                variant="default"
+                                class="w-full text-xs"
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Sub Unit</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
-                            <option>-- Select --</option>
-                            <option>Human Resources</option>
-                            <option>Engineering</option>
-                        </select>
-                    </div>
+                    <x-admin.action-buttons resetType="button" searchType="submit" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Review Status</label>
-                        <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-hr-primary)] focus:border-[var(--color-hr-primary)] bg-white">
-                            <option>-- Select --</option>
-                            <option>Activated</option>
-                            <option>In Progress</option>
-                        </select>
-                    </div>
-                    <div>
-                        <x-date-picker 
-                            name="from_date"
-                            value="2026-01-01"
-                            label="From Date"
-                            class="text-xs"
-                        />
-                    </div>
-                    <div>
-                        <x-date-picker 
-                            name="to_date"
-                            value="2026-12-31"
-                            label="To Date"
-                            class="text-xs"
-                        />
-                    </div>
-                </div>
-                <x-admin.action-buttons />
-            </div>
+            </form>
+        </section>
 
-            @if(count($reviews) > 0)
+        <!-- Employee Reviews Table Section -->
+        <section class="hr-card p-6" id="employee-reviews-table-section">
+            <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                <i class="fas fa-list-alt" style="color: var(--color-hr-primary);"></i>
+                <span class="mt-0.5">Reviews List</span>
+            </h2>
+
+            @if(isset($reviews) && count($reviews) > 0)
             <!-- Records Count -->
-            <x-records-found :count="count($reviews)" />
-
-            <!-- Table Header -->
-            <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Job Title</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Sub Unit</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Period</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0" style="width: 70px;">
-                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                </div>
+            <div class="flex items-center justify-between mb-2">
+                <x-records-found :count="count($reviews)" />
             </div>
 
-            <!-- Table Rows -->
-            <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                @foreach($reviews as $review)
-                <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+            <!-- Table -->
+            <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
+                <!-- Table Header -->
+                <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $review->employee ?? '' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->job_title ?? '' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Job Title</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->sub_unit ?? '' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Sub Unit</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_period ?? '' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Period</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->due_date ?? '' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</div>
                     </div>
                     <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_status ?? '' }}</div>
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Reviewer</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 70px;">
-                        <div class="flex items-center justify-center gap-2">
-                            <button class="hr-action-view flex-shrink-0" title="View">
-                                <i class="fas fa-file-alt text-sm"></i>
-                            </button>
-                            <button class="hr-action-edit flex-shrink-0" title="Edit">
-                                <i class="fas fa-edit text-sm"></i>
-                            </button>
-                            <button class="hr-action-delete flex-shrink-0" title="Delete">
-                                <i class="fas fa-trash-alt text-sm"></i>
-                            </button>
-                        </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Overall Rating</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Comments</div>
                     </div>
                 </div>
-                @endforeach
+
+                <!-- Table Rows -->
+                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                    @foreach($reviews as $review)
+                    <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-3" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $review->employee ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->job_title ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->sub_unit ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_period ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->due_date ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->reviewer ?? '-' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">
+                                @php
+                                    $statusLabelMap = [
+                                        'not_started' => 'Not Started',
+                                        'in_progress' => 'In Progress',
+                                        'completed' => 'Completed',
+                                        'approved' => 'Approved',
+                                    ];
+                                    $statusValue = strtolower($review->review_status ?? '');
+                                @endphp
+                                {{ $statusLabelMap[$statusValue] ?? ucfirst(str_replace('_', ' ', $statusValue)) }}
+                            </div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs font-semibold break-words" style="color: var(--text-primary);">{{ $review->overall_rating ?? '-' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->feedback ?? '-' }}</div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
             @else
             <!-- No Records Found -->
-            <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
-                No Records Found
+            <div class="flex items-center justify-between mb-2">
+                <x-records-found :count="0" />
             </div>
 
-            <!-- Table Headers (shown even when no records) -->
-            <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Job Title</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Sub Unit</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Period</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
+            <!-- Empty table structure -->
+            <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
+                <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Employee</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Job Title</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Sub Unit</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Period</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Reviewer</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Overall Rating</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Comments</div>
                     </div>
                 </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
+                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                    <div class="px-4 py-6 text-center text-xs" style="color: var(--text-muted);">
+                        No records found.
                     </div>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0" style="width: 70px;">
-                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
                 </div>
             </div>
             @endif
         </section>
+
+        <script>
+            // Search form submit: add hash so page scrolls to table after reload
+            var searchForm = document.getElementById('employee-reviews-search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    var formAction = searchForm.getAttribute('action') || window.location.pathname;
+                    var url = new URL(formAction, window.location.origin);
+
+                    var formData = new FormData(searchForm);
+                    for (var pair of formData.entries()) {
+                        if (pair[1]) {
+                            url.searchParams.set(pair[0], pair[1]);
+                        }
+                    }
+
+                    url.hash = 'employee-reviews-table-section';
+                    window.location.href = url.toString();
+                });
+
+                // Reset button: clear filters and go back to base route
+                var resetBtn = searchForm.querySelector('button.hr-btn-secondary[type="button"]') || searchForm.querySelector('button[type="button"]');
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        searchForm.querySelectorAll('input[name], select[name]').forEach(function (el) {
+                            el.value = '';
+                        });
+
+                        window.location.href = "{{ route('performance.employee-reviews') }}";
+                    });
+                }
+            }
+
+            // Scroll to table section if hash exists or if search parameters are present
+            if (window.location.hash === '#employee-reviews-table-section' ||
+                (window.location.search && (window.location.search.includes('employee_name=') ||
+                                            window.location.search.includes('job_title=') ||
+                                            window.location.search.includes('review_status=') ||
+                                            window.location.search.includes('from_date=') ||
+                                            window.location.search.includes('to_date=')))) {
+                var tableSection = document.getElementById('employee-reviews-table-section');
+                if (tableSection) {
+                    setTimeout(function () {
+                        tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }
+            }
+
+            function approveReview(reviewId) {
+                if (!confirm('Are you sure you want to approve this review?')) return;
+                var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                var formData = new FormData();
+                formData.append('_token', csrfToken);
+                fetch("{{ route('performance.reviews.approve', ['id' => '__ID__']) }}".replace('__ID__', reviewId), {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken || '',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error approving review:', error);
+                    alert('Error approving review. Please try again.');
+                });
+            }
+            window.approveReview = approveReview;
+        </script>
     </x-main-layout>
 @endsection
 

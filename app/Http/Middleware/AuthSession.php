@@ -89,6 +89,11 @@ class AuthSession
                 } elseif ($routeName === 'buzz' || str_starts_with($routeName, 'buzz.')) {
                     $accessKey = 'buzz';
                 } elseif ($routeName === 'admin' || str_starts_with($routeName, 'admin.')) {
+                    // Allow theme colors endpoint for all authenticated users (needed for CSS)
+                    if ($routeName === 'admin.theme-manager.get-colors') {
+                        // Skip permission check for theme colors endpoint
+                        return $next($request);
+                    }
                     $accessKey = 'admin';
                 }
 

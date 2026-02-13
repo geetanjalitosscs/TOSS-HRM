@@ -13,11 +13,11 @@ return new class extends Migration
     {
         // Create the table only if it doesn't already exist
         if (! Schema::hasTable('buzz_post_shares')) {
-            Schema::create('buzz_post_shares', function (Blueprint $table) {
-                $table->id();
-                $table->unsignedBigInteger('post_id');
-                $table->unsignedBigInteger('user_id');
-                $table->timestamps();
+        Schema::create('buzz_post_shares', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
 
                 $table->foreign('post_id')
                     ->references('id')
@@ -29,9 +29,9 @@ return new class extends Migration
                     ->on('users')
                     ->onDelete('cascade');
 
-                $table->index('post_id');
-                $table->index('user_id');
-            });
+            $table->index('post_id');
+            $table->index('user_id');
+        });
         }
     }
 

@@ -4,28 +4,102 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\PerformanceRatingService;
 
 class PerformanceController extends Controller
 {
-    public function index()
+    protected $ratingService;
+
+    public function __construct(PerformanceRatingService $ratingService)
     {
-        $reviews = DB::table('performance_reviews')
+        $this->ratingService = $ratingService;
+    }
+
+    /**
+     * Get current logged-in user's employee_id
+     */
+    private function getCurrentEmployeeId(): ?int
+    {
+        $authUser = session('auth_user');
+        $userId = $authUser['id'] ?? null;
+
+        if (!$userId) {
+            return null;
+        }
+
+        $user = DB::table('users')
+            ->where('id', $userId)
+            ->select('employee_id')
+            ->first();
+
+        return $user->employee_id ?? null;
+    }
+    public function index(Request $request)
+    {
+        $query = DB::table('performance_reviews')
             ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
             ->join('job_titles', 'employees.job_title_id', '=', 'job_titles.id')
             ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
             ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
+            ->leftJoin('organization_units', 'employees.organization_unit_id', '=', 'organization_units.id')
             ->select(
                 'performance_reviews.id',
+                'performance_reviews.employee_id',
+                'performance_reviews.cycle_id',
+                'performance_reviews.reviewer_id',
                 'employees.display_name as employee',
                 'job_titles.name as job_title',
                 DB::raw("CONCAT(DATE_FORMAT(performance_cycles.start_date, '%Y-%m-%d'), ' - ', DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d')) as review_period"),
                 DB::raw("DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d') as due_date"),
                 DB::raw("COALESCE(reviewers.display_name, '-') as reviewer"),
-                'performance_reviews.status as review_status'
-            )
-            ->orderByDesc('performance_cycles.end_date')
-            ->limit(20)
-            ->get();
+                'performance_reviews.status as review_status',
+                'performance_reviews.overall_rating',
+                'performance_reviews.comments'
+            );
+
+        // Apply filters
+        if ($request->filled('employee_name')) {
+            $query->where('employees.display_name', 'like', '%' . $request->input('employee_name') . '%');
+        }
+
+        if ($request->filled('job_title')) {
+            $query->where('job_titles.name', 'like', '%' . $request->input('job_title') . '%');
+        }
+
+        if ($request->filled('sub_unit')) {
+            $query->where('organization_units.name', 'like', '%' . $request->input('sub_unit') . '%');
+        }
+
+        if ($request->filled('include')) {
+            $include = $request->input('include');
+            if ($include === 'current') {
+                $query->whereNull('employees.deleted_at');
+            } elseif ($include === 'past') {
+                $query->whereNotNull('employees.deleted_at');
+            }
+            // 'all' doesn't need a filter
+        } else {
+            // Default to current employees only
+            $query->whereNull('employees.deleted_at');
+        }
+
+        if ($request->filled('review_status')) {
+            $query->where('performance_reviews.status', $request->input('review_status'));
+        }
+
+        if ($request->filled('reviewer')) {
+            $query->where('reviewers.display_name', 'like', '%' . $request->input('reviewer') . '%');
+        }
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('performance_cycles.end_date', '>=', $request->input('from_date'));
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('performance_cycles.end_date', '<=', $request->input('to_date'));
+        }
+
+        $reviews = $query->orderByDesc('performance_cycles.end_date')->get();
 
         $employees = DB::table('employees')
             ->whereNull('deleted_at')
@@ -42,7 +116,13 @@ class PerformanceController extends Controller
                 return $cycle;
             });
 
-        return view('performance.performance', compact('reviews', 'employees', 'cycles'));
+        $jobTitles = DB::table('job_titles')
+            ->select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+
+        return view('performance.performance', compact('reviews', 'employees', 'cycles', 'jobTitles'));
     }
 
     public function storeReview(Request $request)
@@ -51,17 +131,22 @@ class PerformanceController extends Controller
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
             'cycle_id' => ['required', 'integer', 'exists:performance_cycles,id'],
             'reviewer_id' => ['nullable', 'integer', 'exists:employees,id'],
-            'status' => ['required', 'string', 'in:pending,in_progress,completed,cancelled'],
+            'status' => ['required', 'string', 'in:not_started,in_progress,completed,approved'],
         ]);
 
-        DB::table('performance_reviews')->insert([
+        $reviewId = DB::table('performance_reviews')->insertGetId([
             'employee_id' => $data['employee_id'],
             'cycle_id' => $data['cycle_id'],
             'reviewer_id' => $data['reviewer_id'] ?? null,
             'status' => $data['status'],
+            'overall_rating' => null,
+            'comments' => null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        // Auto-create performance_review_kpis for all active KPIs
+        $this->ratingService->createReviewKpis($reviewId);
 
         return redirect()->route('performance')
             ->with('status', 'Performance review added successfully.');
@@ -69,25 +154,72 @@ class PerformanceController extends Controller
 
     public function updateReview(Request $request, int $id)
     {
+        // Get existing review data
+        $review = DB::table('performance_reviews')->where('id', $id)->first();
+        
+        if (!$review) {
+            return redirect()->route('performance')
+                ->with('error', 'Review not found.');
+        }
+
         $data = $request->validate([
-            'employee_id' => ['required', 'integer', 'exists:employees,id'],
-            'cycle_id' => ['required', 'integer', 'exists:performance_cycles,id'],
-            'reviewer_id' => ['nullable', 'integer', 'exists:employees,id'],
-            'status' => ['required', 'string', 'in:pending,in_progress,completed,cancelled'],
+            'overall_rating' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ]);
+
+        $updateData = [
+            'updated_at' => now(),
+        ];
+
+        // Update overall_rating if provided, otherwise keep existing
+        if (isset($data['overall_rating']) && $data['overall_rating'] !== null && $data['overall_rating'] !== '') {
+            $updateData['overall_rating'] = (float) $data['overall_rating'];
+        } else {
+            // If empty, keep existing rating (don't update)
+            $updateData['overall_rating'] = $review->overall_rating;
+        }
 
         DB::table('performance_reviews')
             ->where('id', $id)
-            ->update([
-                'employee_id' => $data['employee_id'],
-                'cycle_id' => $data['cycle_id'],
-                'reviewer_id' => $data['reviewer_id'] ?? null,
-                'status' => $data['status'],
-                'updated_at' => now(),
-            ]);
+            ->update($updateData);
 
         return redirect()->route('performance')
-            ->with('status', 'Performance review updated successfully.');
+            ->with('status', 'Overall rating updated successfully.');
+    }
+
+    public function viewReview(int $id)
+    {
+        $review = DB::table('performance_reviews')
+            ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
+            ->join('job_titles', 'employees.job_title_id', '=', 'job_titles.id')
+            ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
+            ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
+            ->where('performance_reviews.id', $id)
+            ->select(
+                'employees.display_name as employee',
+                'job_titles.name as job_title',
+                DB::raw("CONCAT(DATE_FORMAT(performance_cycles.start_date, '%Y-%m-%d'), ' - ', DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d')) as review_period"),
+                DB::raw("DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d') as due_date"),
+                DB::raw("COALESCE(reviewers.display_name, '-') as reviewer"),
+                'performance_reviews.status',
+                'performance_reviews.overall_rating',
+                'performance_reviews.comments'
+            )
+            ->first();
+
+        if (!$review) {
+            return response()->json(['error' => 'Review not found'], 404);
+        }
+
+        return response()->json([
+            'employee' => $review->employee,
+            'job_title' => $review->job_title,
+            'review_period' => $review->review_period,
+            'due_date' => $review->due_date,
+            'reviewer' => $review->reviewer,
+            'status' => $review->status,
+            'overall_rating' => $review->overall_rating,
+            'comments' => $review->comments,
+        ]);
     }
 
     public function deleteReview(int $id)
@@ -116,15 +248,29 @@ class PerformanceController extends Controller
 
     public function myTrackers()
     {
-        // TODO: when auth is wired, resolve employee_id from logged-in user
-        $employeeId = 1;
+        // MY TRACKERS = Reviews jahan current logged-in user reviewer (manager) hai
+        $currentEmployeeId = $this->getCurrentEmployeeId();
+
+        if (!$currentEmployeeId) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Employee record not found. Please contact HR.');
+        }
 
         $trackers = DB::table('performance_reviews')
+            ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
             ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
-            ->where('performance_reviews.employee_id', $employeeId)
+            ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
+            ->where('performance_reviews.reviewer_id', $currentEmployeeId) // Current user is the reviewer
+            ->whereIn('performance_reviews.status', ['not_started', 'in_progress']) // Only pending reviews
             ->select(
                 'performance_reviews.id',
                 'performance_cycles.name as tracker',
+                'performance_cycles.id as cycle_id',
+                'performance_reviews.status',
+                DB::raw("COALESCE(reviewers.display_name, '-') as reviewer"),
+                'performance_reviews.reviewer_id',
+                'performance_reviews.overall_rating',
+                'employees.display_name as employee_name',
                 DB::raw("DATE_FORMAT(performance_reviews.created_at, '%Y-%m-%d') as added_date"),
                 DB::raw("DATE_FORMAT(performance_reviews.updated_at, '%Y-%m-%d') as modified_date")
             )
@@ -134,20 +280,70 @@ class PerformanceController extends Controller
         return view('performance.my-trackers', compact('trackers'));
     }
 
-    public function employeeTrackers()
+    public function employeeTrackers(Request $request)
     {
-        $trackers = DB::table('performance_reviews')
+        // EMPLOYEE TRACKERS = Manager ke pending reviews (jahan wo reviewer hai)
+        $currentEmployeeId = $this->getCurrentEmployeeId();
+
+        if (!$currentEmployeeId) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Employee record not found. Please contact HR.');
+        }
+
+        // Get reviews where current user is the reviewer (only completed/approved - after form submission)
+        $query = DB::table('performance_reviews')
             ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
             ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
+            ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
+            ->where('performance_reviews.reviewer_id', $currentEmployeeId) // Only reviews where current user is reviewer
+            ->whereIn('performance_reviews.status', ['completed', 'approved']) // Only completed/approved reviews (after form submission)
             ->select(
                 'performance_reviews.id',
                 'employees.display_name as employee_name',
+                'employees.id as employee_id',
                 'performance_cycles.name as tracker',
+                'performance_cycles.id as cycle_id',
+                'performance_reviews.status',
+                DB::raw("COALESCE(reviewers.display_name, '-') as reviewer"),
+                'performance_reviews.overall_rating',
                 DB::raw("DATE_FORMAT(performance_reviews.created_at, '%Y-%m-%d') as added_date"),
                 DB::raw("DATE_FORMAT(performance_reviews.updated_at, '%Y-%m-%d') as modified_date")
-            )
-            ->orderBy('employees.display_name')
-            ->get();
+            );
+
+        // Apply filters
+        if ($request->filled('employee_name')) {
+            $query->where('employees.display_name', 'like', '%' . $request->input('employee_name') . '%');
+        }
+
+        // Date range filter: check both created_at (added_date) and updated_at (modified_date)
+        // Show records if either added_date or modified_date falls within the date range
+        if ($request->filled('from_date') || $request->filled('to_date')) {
+            $fromDate = $request->input('from_date');
+            $toDate = $request->input('to_date');
+            
+            $query->where(function($q) use ($fromDate, $toDate) {
+                // Check if created_at (added_date) is in range
+                $q->where(function($subQ) use ($fromDate, $toDate) {
+                    if ($fromDate) {
+                        $subQ->whereDate('performance_reviews.created_at', '>=', $fromDate);
+                    }
+                    if ($toDate) {
+                        $subQ->whereDate('performance_reviews.created_at', '<=', $toDate);
+                    }
+                })
+                // OR check if updated_at (modified_date) is in range
+                ->orWhere(function($subQ) use ($fromDate, $toDate) {
+                    if ($fromDate) {
+                        $subQ->whereDate('performance_reviews.updated_at', '>=', $fromDate);
+                    }
+                    if ($toDate) {
+                        $subQ->whereDate('performance_reviews.updated_at', '<=', $toDate);
+                    }
+                });
+            });
+        }
+
+        $trackers = $query->orderBy('employees.display_name')->get();
 
         return view('performance.employee-trackers', compact('trackers'));
     }
@@ -252,6 +448,7 @@ class PerformanceController extends Controller
         $query = DB::table('performance_reviews')
             ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
             ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
+            ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
             ->select(
                 'performance_reviews.id',
                 'employees.display_name as employee',
@@ -260,7 +457,11 @@ class PerformanceController extends Controller
                 'performance_cycles.name as tracker',
                 DB::raw("DATE_FORMAT(performance_reviews.created_at, '%Y-%m-%d') as added_date"),
                 DB::raw("DATE_FORMAT(performance_reviews.updated_at, '%Y-%m-%d') as modified_date"),
-                'performance_reviews.status'
+                'performance_reviews.status',
+                'performance_reviews.reviewer_id',
+                DB::raw("COALESCE(reviewers.display_name, '-') as reviewer"),
+                'performance_reviews.overall_rating',
+                'performance_reviews.comments'
             );
 
         if ($request->filled('employee_name')) {
@@ -286,6 +487,11 @@ class PerformanceController extends Controller
             $query->whereDate('performance_reviews.created_at', '<=', $request->input('to_date'));
         }
 
+        if ($request->filled('comments')) {
+            $comments = $request->input('comments');
+            $query->where('performance_reviews.comments', 'like', '%' . $comments . '%');
+        }
+
         $trackers = $query
             ->orderByDesc('performance_reviews.created_at')
             ->get();
@@ -300,6 +506,11 @@ class PerformanceController extends Controller
             ->orderByDesc('start_date')
             ->get();
 
+        // Get KPI ratings for each tracker
+        foreach ($trackers as $tracker) {
+            $tracker->kpis = $this->ratingService->getReviewKpis($tracker->id);
+        }
+
         return view('performance.trackers', compact('trackers', 'employees', 'cycles'));
     }
 
@@ -308,19 +519,24 @@ class PerformanceController extends Controller
         $data = $request->validate([
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
             'cycle_id' => ['required', 'integer', 'exists:performance_cycles,id'],
+            'reviewer_id' => ['nullable', 'integer', 'exists:employees,id'],
             'status' => ['nullable', 'string', 'in:not_started,in_progress,completed,approved'],
+            'comments' => ['nullable', 'string', 'max:2000'],
         ]);
 
-        DB::table('performance_reviews')->insert([
+        $reviewId = DB::table('performance_reviews')->insertGetId([
             'employee_id' => $data['employee_id'],
             'cycle_id' => $data['cycle_id'],
-            'reviewer_id' => null,
+            'reviewer_id' => $data['reviewer_id'] ?? null,
             'status' => $data['status'] ?? 'not_started',
             'overall_rating' => null,
-            'comments' => null,
+            'comments' => $data['comments'] ?? null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        // Auto-create performance_review_kpis for all active KPIs
+        $this->ratingService->createReviewKpis($reviewId);
 
         return redirect()->route('performance.trackers')
             ->with('status', 'Tracker added successfully.');
@@ -331,7 +547,9 @@ class PerformanceController extends Controller
         $data = $request->validate([
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
             'cycle_id' => ['required', 'integer', 'exists:performance_cycles,id'],
+            'reviewer_id' => ['nullable', 'integer', 'exists:employees,id'],
             'status' => ['nullable', 'string', 'in:not_started,in_progress,completed,approved'],
+            'comments' => ['nullable', 'string', 'max:2000'],
         ]);
 
         DB::table('performance_reviews')
@@ -339,7 +557,9 @@ class PerformanceController extends Controller
             ->update([
                 'employee_id' => $data['employee_id'],
                 'cycle_id' => $data['cycle_id'],
+                'reviewer_id' => $data['reviewer_id'] ?? null,
                 'status' => $data['status'] ?? 'not_started',
+                'comments' => $data['comments'] ?? null,
                 'updated_at' => now(),
             ]);
 
@@ -377,14 +597,20 @@ class PerformanceController extends Controller
 
     public function myReviews()
     {
-        // TODO: when auth is wired, resolve employee_id from logged-in user
-        $employeeId = 1;
+        // MY REVIEWS = Employee ko sabhi reviews dikhane (all statuses)
+        $employeeId = $this->getCurrentEmployeeId();
+
+        if (!$employeeId) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Employee record not found. Please contact HR.');
+        }
 
         $reviews = DB::table('performance_reviews')
             ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
             ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
             ->join('job_titles', 'employees.job_title_id', '=', 'job_titles.id')
             ->leftJoin('organization_units', 'employees.organization_unit_id', '=', 'organization_units.id')
+            ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
             ->where('performance_reviews.employee_id', $employeeId)
             ->select(
                 'performance_reviews.id',
@@ -392,8 +618,10 @@ class PerformanceController extends Controller
                 DB::raw("COALESCE(organization_units.name, '-') as sub_unit"),
                 DB::raw("CONCAT(DATE_FORMAT(performance_cycles.start_date, '%Y-%m-%d'), ' - ', DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d')) as review_period"),
                 DB::raw("DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d') as due_date"),
-                DB::raw("CASE WHEN performance_reviews.status IN ('in_progress','completed') THEN 'Activated' ELSE UPPER(performance_reviews.status) END as self_evaluation_status"),
-                DB::raw("UPPER(performance_reviews.status) as review_status")
+                'performance_reviews.status as review_status',
+                'performance_reviews.overall_rating',
+                'performance_reviews.comments as feedback',
+                DB::raw("COALESCE(reviewers.display_name, '-') as reviewer")
             )
             ->orderByDesc('performance_cycles.end_date')
             ->get();
@@ -401,13 +629,15 @@ class PerformanceController extends Controller
         return view('performance.my-reviews', compact('reviews'));
     }
 
-    public function employeeReviews()
+    public function employeeReviews(Request $request)
     {
-        $reviews = DB::table('performance_reviews')
+        // EMPLOYEE REVIEWS = HR/Manager ko sab employees ke results (report view)
+        $query = DB::table('performance_reviews')
             ->join('performance_cycles', 'performance_reviews.cycle_id', '=', 'performance_cycles.id')
             ->join('employees', 'performance_reviews.employee_id', '=', 'employees.id')
             ->join('job_titles', 'employees.job_title_id', '=', 'job_titles.id')
             ->leftJoin('organization_units', 'employees.organization_unit_id', '=', 'organization_units.id')
+            ->leftJoin('employees as reviewers', 'performance_reviews.reviewer_id', '=', 'reviewers.id')
             ->select(
                 'performance_reviews.id',
                 'employees.display_name as employee',
@@ -415,12 +645,186 @@ class PerformanceController extends Controller
                 DB::raw("COALESCE(organization_units.name, '-') as sub_unit"),
                 DB::raw("CONCAT(DATE_FORMAT(performance_cycles.start_date, '%Y-%m-%d'), ' - ', DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d')) as review_period"),
                 DB::raw("DATE_FORMAT(performance_cycles.end_date, '%Y-%m-%d') as due_date"),
-                DB::raw("UPPER(performance_reviews.status) as review_status")
-            )
-            ->orderBy('employees.display_name')
+                'performance_reviews.status as review_status',
+                'performance_reviews.overall_rating',
+                'performance_reviews.comments as feedback',
+                DB::raw("COALESCE(reviewers.display_name, '-') as reviewer")
+            );
+
+        // Apply filters
+        if ($request->filled('employee_name')) {
+            $query->where('employees.display_name', 'like', '%' . $request->input('employee_name') . '%');
+        }
+
+        if ($request->filled('job_title')) {
+            $query->where('job_titles.name', 'like', '%' . $request->input('job_title') . '%');
+        }
+
+        if ($request->filled('review_status')) {
+            $query->where('performance_reviews.status', $request->input('review_status'));
+        }
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('performance_cycles.end_date', '>=', $request->input('from_date'));
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('performance_cycles.end_date', '<=', $request->input('to_date'));
+        }
+
+        $reviews = $query->orderBy('employees.display_name')
+            ->orderByDesc('performance_cycles.end_date')
             ->get();
 
-        return view('performance.employee-reviews', compact('reviews'));
+        // Get distinct job titles for dropdown
+        $jobTitles = DB::table('job_titles')
+            ->select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+
+        return view('performance.employee-reviews', compact('reviews', 'jobTitles'));
+    }
+
+    /**
+     * Get KPI ratings for a review
+     */
+    public function getReviewKpis(int $reviewId)
+    {
+        // Validate that review exists
+        $review = DB::table('performance_reviews')->where('id', $reviewId)->first();
+        if (!$review) {
+            return response()->json(['error' => 'Review not found.'], 404);
+        }
+
+        // Ensure KPIs exist for this review (create if missing)
+        $existingKpis = DB::table('performance_review_kpis')
+            ->where('performance_review_id', $reviewId)
+            ->count();
+        
+        if ($existingKpis == 0) {
+            // Auto-create KPIs if they don't exist
+            $this->ratingService->createReviewKpis($reviewId);
+        }
+
+        $kpis = $this->ratingService->getReviewKpis($reviewId);
+        return response()->json($kpis);
+    }
+
+    /**
+     * Save KPI ratings for a review
+     */
+    public function saveKpiRatings(Request $request, int $reviewId)
+    {
+        // Validate that review exists
+        $review = DB::table('performance_reviews')->where('id', $reviewId)->first();
+        if (!$review) {
+            return redirect()->back()
+                ->with('error', 'Review not found.');
+        }
+
+        // Ensure KPIs exist for this review (create if missing)
+        $existingKpis = DB::table('performance_review_kpis')
+            ->where('performance_review_id', $reviewId)
+            ->count();
+        
+        if ($existingKpis == 0) {
+            // Auto-create KPIs if they don't exist
+            $this->ratingService->createReviewKpis($reviewId);
+        }
+
+        $data = $request->validate([
+            'kpi_ratings' => ['nullable', 'array'],
+            'kpi_ratings.*' => ['array'],
+            'kpi_ratings.*.rating' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'kpi_ratings.*.comments' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $ratings = [];
+        if (isset($data['kpi_ratings']) && is_array($data['kpi_ratings'])) {
+            foreach ($data['kpi_ratings'] as $kpiId => $ratingData) {
+                if (is_array($ratingData)) {
+                    $ratings[$kpiId] = [
+                        'rating' => isset($ratingData['rating']) && $ratingData['rating'] !== '' ? (float) $ratingData['rating'] : null,
+                        'comments' => $ratingData['comments'] ?? null,
+                    ];
+                }
+            }
+        }
+
+        if (!empty($ratings)) {
+            $this->ratingService->updateKpiRatings($reviewId, $ratings);
+        }
+
+        return redirect()->back()
+            ->with('status', 'KPI ratings saved successfully.');
+    }
+
+    /**
+     * Submit review - calculate overall rating
+     */
+    public function submitReview(Request $request, int $reviewId)
+    {
+        $data = $request->validate([
+            'kpi_ratings' => ['nullable', 'array'],
+            'kpi_ratings.*' => ['array'],
+            'kpi_ratings.*.rating' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'kpi_ratings.*.comments' => ['nullable', 'string', 'max:1000'],
+            'review_comments' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        // Save KPI ratings if provided
+        if (isset($data['kpi_ratings']) && !empty($data['kpi_ratings'])) {
+            $ratings = [];
+            foreach ($data['kpi_ratings'] as $kpiId => $ratingData) {
+                if (is_array($ratingData)) {
+                    $ratings[$kpiId] = [
+                        'rating' => isset($ratingData['rating']) && $ratingData['rating'] !== '' ? (float) $ratingData['rating'] : null,
+                        'comments' => $ratingData['comments'] ?? null,
+                    ];
+                }
+            }
+            if (!empty($ratings)) {
+                $this->ratingService->updateKpiRatings($reviewId, $ratings);
+            }
+        }
+
+        // Calculate overall rating
+        $overallRating = $this->ratingService->calculateOverallRating($reviewId);
+
+        // Update review
+        $updateData = [
+            'overall_rating' => $overallRating,
+            'status' => 'completed',
+            'updated_at' => now(),
+        ];
+
+        if (isset($data['review_comments'])) {
+            $updateData['comments'] = $data['review_comments'];
+        }
+
+        DB::table('performance_reviews')
+            ->where('id', $reviewId)
+            ->update($updateData);
+
+        return redirect()->route('performance.employee-trackers')
+            ->with('status', 'Review submitted successfully. Overall rating: ' . number_format($overallRating ?? 0, 2));
+    }
+
+    /**
+     * Approve review
+     */
+    public function approveReview(int $reviewId)
+    {
+        DB::table('performance_reviews')
+            ->where('id', $reviewId)
+            ->update([
+                'status' => 'approved',
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->back()
+            ->with('status', 'Review approved successfully.');
     }
 }
 

@@ -41,24 +41,96 @@
                         </div>
                     </div>
 
-                    <!-- Manage Performance Reviews Section -->
-                    <section class="hr-card p-6">
-                        <div class="flex items-center justify-between mb-5">
-                            <h2 class="text-sm font-bold text-slate-800 flex items-baseline gap-2">
-                            <i class="fas fa-star text-[var(--color-primary)]"></i> <span class="mt-0.5">Manage Performance Reviews</span>
+                    <!-- Performance Reviews Search Panel -->
+                    <section class="hr-card p-6 mb-6">
+                        <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                            <i class="fas fa-star" style="color: var(--color-hr-primary);"></i>
+                            <span class="mt-0.5">Manage Performance Reviews</span>
                         </h2>
-                            <div class="flex items-center gap-3" style="position: relative; z-index: 10; overflow: visible;">
-                                <button
-                                    id="reviews-delete-selected"
-                                    type="button"
-                                    class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
-                                    onclick="openReviewBulkDeleteModal()"
-                                >
-                                    <i class="fas fa-trash-alt mr-2"></i>Delete Selected
-                                </button>
-                                <x-admin.add-button class="mb-0" onClick="openReviewAddModal()" />
+
+                        <!-- Filter Form -->
+                        <form method="GET" action="{{ route('performance') }}" id="reviews-search-form">
+                            <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
+                                        <input 
+                                            type="text" 
+                                            name="employee_name"
+                                            class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white" 
+                                            placeholder="Type for hints..."
+                                            value="{{ request('employee_name') }}"
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
+                                        <select 
+                                            name="job_title"
+                                            class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white"
+                                        >
+                                            <option value="">-- Select --</option>
+                                            @foreach($jobTitles ?? [] as $title)
+                                                <option value="{{ $title }}" {{ request('job_title') === $title ? 'selected' : '' }}>{{ $title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Review Status</label>
+                                        <select 
+                                            name="review_status"
+                                            class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white"
+                                        >
+                                            <option value="">-- Select --</option>
+                                            <option value="pending" {{ request('review_status') === 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="in_progress" {{ request('review_status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                            <option value="completed" {{ request('review_status') === 'completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="cancelled" {{ request('review_status') === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Reviewer</label>
+                                        <input 
+                                            type="text" 
+                                            name="reviewer"
+                                            class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white" 
+                                            placeholder="Type for hints..."
+                                            value="{{ request('reviewer') }}"
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">From Date</label>
+                                        <x-date-picker 
+                                            name="from_date"
+                                            value="{{ request('from_date') }}"
+                                            placeholder="From"
+                                            variant="default"
+                                            class="w-full text-xs"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">To Date</label>
+                                        <x-date-picker 
+                                            name="to_date"
+                                            value="{{ request('to_date') }}"
+                                            placeholder="To"
+                                            variant="default"
+                                            class="w-full text-xs"
+                                        />
+                                    </div>
+                                </div>
+                                <x-admin.action-buttons resetType="button" searchType="submit" />
                             </div>
-                        </div>
+                        </form>
+                    </section>
+
+                    <!-- Performance Reviews Table Section -->
+                    <section class="hr-card p-6" id="reviews-table-section">
+                        <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                            <i class="fas fa-list-alt" style="color: var(--color-hr-primary);"></i>
+                            <span class="mt-0.5">Reviews List</span>
+                        </h2>
 
                         @if(session('status'))
                             <div class="rounded-lg px-4 py-3 text-sm font-medium mb-4" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10B981;">
@@ -72,84 +144,21 @@
                             </div>
                         @endif
 
-                        <!-- Filter Form -->
-                        <div class="bg-[var(--color-primary-light)] rounded-lg p-3 mb-3 border border-[var(--border-default)]">
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
-                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white" placeholder="Type for hints...">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Job Title</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white">
-                                        <option>-- Select --</option>
-                                        <option>Software Engineer</option>
-                                        <option>QA Engineer</option>
-                                        <option>HR Manager</option>
-                                        <option>Business Analyst</option>
-                                        <option>Project Manager</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Sub Unit</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white">
-                                        <option>-- Select --</option>
-                                        <option>Engineering</option>
-                                        <option>Human Resources</option>
-                                        <option>Quality Assurance</option>
-                                        <option>Business Development</option>
-                                        <option>Management</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Include</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white">
-                                        <option>Current Employees Only</option>
-                                        <option>Past Employees Only</option>
-                                        <option>All Employees</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Review Status</label>
-                                    <select class="hr-select w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white">
-                                        <option>-- Select --</option>
-                                        <option>Pending</option>
-                                        <option>In Progress</option>
-                                        <option>Completed</option>
-                                        <option>Cancelled</option>
-                                        <option>Activated</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-700 mb-1">Reviewer</label>
-                                    <input type="text" class="hr-input w-full px-2 py-1.5 text-xs border border-[var(--border-strong)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white" placeholder="Type for hints...">
-                                </div>
-                                <div>
-                                    <x-date-picker 
-                                        name="from_date"
-                                        value="2026-01-01"
-                                        label="From Date"
-                                        class="text-xs"
-                                    />
-                                </div>
-                                <div>
-                                    <x-date-picker 
-                                        name="to_date"
-                                        value="2026-12-31"
-                                        label="To Date"
-                                        class="text-xs"
-                                    />
-                                </div>
-                            </div>
-                            <x-admin.action-buttons />
-                        </div>
-
                         @if(isset($reviews) && count($reviews) > 0)
-                        <!-- Records Count -->
-                        <x-records-found :count="count($reviews)" />
-                        @endif
+                        <!-- Records Count + Actions -->
+                        <div class="flex items-center justify-between mb-2">
+                            <x-records-found :count="count($reviews)" />
+                            <div class="flex items-center gap-3">
+                                <button
+                                    id="reviews-delete-selected"
+                                    type="button"
+                                    class="hr-btn-secondary px-4 py-1.5 text-xs hidden"
+                                    onclick="openReviewBulkDeleteModal()"
+                                >
+                                    Delete Selected
+                                </button>
+                            </div>
+                        </div>
 
                         <!-- Table -->
                         <div id="reviews-table">
@@ -199,7 +208,13 @@
                                             Review Status
                                 </div>
                             </div>
-                            <div class="flex-shrink-0" style="width: 90px;">
+                                    <div class="flex-1" style="min-width: 0;">
+                                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                             style="color: var(--text-primary);">
+                                            Overall Rating
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0" style="width: 120px;">
                                         <div class="text-xs font-semibold uppercase tracking-wide leading-tight text-center"
                                              style="color: var(--text-primary);">
                                             Actions
@@ -223,6 +238,10 @@
                                             </div>
                                             <div class="flex-1" style="min-width: 0;"
                                                  data-review-id="{{ $review->id }}"
+                                                 data-review-employee-id="{{ $review->employee_id }}"
+                                                 data-review-cycle-id="{{ $review->cycle_id }}"
+                                                 data-review-reviewer-id="{{ $review->reviewer_id ?? '' }}"
+                                                 data-review-overall-rating="{{ $review->overall_rating ?? '' }}"
                                                  data-review-employee="{{ $review->employee }}"
                                                  data-review-job-title="{{ $review->job_title }}"
                                                  data-review-review-period="{{ $review->review_period }}"
@@ -255,19 +274,36 @@
                                 </div>
                                 <div class="flex-1" style="min-width: 0;">
                                                 <div class="text-xs break-words" style="color: var(--text-primary);">
-                                                    {{ $review->review_status }}
+                                                    @php
+                                                        $statusLabelMap = [
+                                                            'not_started' => 'Not Started',
+                                                            'in_progress' => 'In Progress',
+                                                            'completed' => 'Completed',
+                                                            'approved' => 'Approved',
+                                                            'cancelled' => 'Cancelled',
+                                                        ];
+                                                        $statusValue = strtolower($review->review_status ?? '');
+                                                    @endphp
+                                                    {{ $statusLabelMap[$statusValue] ?? ucfirst(str_replace('_', ' ', $statusValue)) }}
                                                 </div>
                                 </div>
-                                <div class="flex-shrink-0" style="width: 90px;">
+                                <div class="flex-1" style="min-width: 0;">
+                                                <div class="text-xs break-words" style="color: var(--text-primary);">
+                                                    @if($review->overall_rating !== null)
+                                                        {{ number_format($review->overall_rating, 2) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </div>
+                                </div>
+                                <div class="flex-shrink-0" style="width: 140px;">
                                     <div class="flex items-center justify-center gap-2">
-                                                    <button class="hr-action-view flex-shrink-0" title="View"
-                                                            onclick="event.preventDefault(); event.stopPropagation(); openReviewViewModal({{ $review->id }});">
-                                            <i class="fas fa-file-alt text-sm"></i>
-                                        </button>
-                                                    <button class="hr-action-edit flex-shrink-0" title="Edit"
-                                                            onclick="event.preventDefault(); event.stopPropagation(); openReviewEditModalFromRow(this.closest('.hr-table-row'));">
-                                            <i class="fas fa-edit text-sm"></i>
-                                        </button>
+                                        @if(strtolower($review->review_status) === 'completed')
+                                            <button class="hr-action-edit flex-shrink-0" title="Approve Review"
+                                                    onclick="event.preventDefault(); event.stopPropagation(); approveReview({{ $review->id }});">
+                                                <i class="fas fa-check text-sm"></i>
+                                            </button>
+                                        @endif
                                                     <button class="hr-action-delete flex-shrink-0" title="Delete"
                                                             onclick="event.preventDefault(); event.stopPropagation(); openReviewDeleteModalFromRow(this.closest('.hr-table-row'));">
                                                         <i class="fas fa-trash-alt text-sm"></i>
@@ -278,11 +314,81 @@
                                     @empty
                                         <div class="px-4 py-10 text-center text-xs" style="color: var(--text-muted);">
                                             No reviews found.
-                                    </div>
+                                        </div>
                                     @endforelse
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <!-- No Records Found -->
+                        <div class="flex items-center justify-between mb-2">
+                            <x-records-found :count="0" />
+                        </div>
+
+                        <!-- Empty table structure to match other pages -->
+                        <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
+                            <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b"
+                                 style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                                <div class="flex-shrink-0" style="width: 24px;">
+                                    <input type="checkbox" class="rounded w-3.5 h-3.5" style="border-color: var(--border-default); accent-color: var(--color-hr-primary);" disabled>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                         style="color: var(--text-primary);">
+                                        Employee
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                         style="color: var(--text-primary);">
+                                        Job Title
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                         style="color: var(--text-primary);">
+                                        Review Period
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                         style="color: var(--text-primary);">
+                                        Due Date
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                         style="color: var(--text-primary);">
+                                        Reviewer
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                         style="color: var(--text-primary);">
+                                        Review Status
+                                    </div>
+                                </div>
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                         style="color: var(--text-primary);">
+                                        Overall Rating
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0" style="width: 120px;">
+                                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight text-center"
+                                         style="color: var(--text-primary);">
+                                        Actions
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border border-t-0 rounded-b-lg"
+                                 style="border-color: var(--border-default);">
+                                <div class="px-4 py-6 text-center text-xs" style="color: var(--text-muted);">
+                                    No records found.
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </section>
 
         <!-- Add Review Modal -->
@@ -356,10 +462,10 @@
                         style="background-color: var(--bg-input); color: var(--text-primary);"
                         required
                     >
-                        <option value="pending">Pending</option>
+                        <option value="not_started">Not Started</option>
                         <option value="in_progress">In Progress</option>
                         <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="approved">Approved</option>
                     </select>
                 </div>
 
@@ -381,79 +487,36 @@
         <!-- Edit Review Modal -->
         <x-admin.modal
             id="review-edit-modal"
-            title="Edit Performance Review"
-            icon="fas fa-edit"
+            title="Edit Overall Rating"
+            icon="fas fa-star"
             maxWidth="md"
             backdropOnClick="closeReviewEditModal(true)"
         >
             <form method="POST" id="review-edit-form" action="#">
                 @csrf
+                <input type="hidden" name="employee_id" id="review-edit-employee-id">
+                <input type="hidden" name="cycle_id" id="review-edit-cycle-id">
+                <input type="hidden" name="reviewer_id" id="review-edit-reviewer-id">
+                <input type="hidden" name="status" id="review-edit-status">
+                
                 <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                        Employee <span class="text-red-500">*</span>
+                        Overall Rating
                     </label>
-                    <select
-                        name="employee_id"
-                        id="review-edit-employee-id"
-                        class="hr-select px-3 py-1.5 text-xs w-full"
+                    <input
+                        type="number"
+                        name="overall_rating"
+                        id="review-edit-overall-rating"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
                         style="background-color: var(--bg-input); color: var(--text-primary);"
-                        required
+                        placeholder="Enter overall rating (0-100)"
+                        min="0"
+                        max="100"
+                        step="0.01"
                     >
-                        <option value="">-- Select Employee --</option>
-                        @foreach($employees ?? [] as $emp)
-                            <option value="{{ $emp->id }}">{{ $emp->display_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                        Review Period <span class="text-red-500">*</span>
-                    </label>
-                    <select
-                        name="cycle_id"
-                        id="review-edit-cycle-id"
-                        class="hr-select px-3 py-1.5 text-xs w-full"
-                        style="background-color: var(--bg-input); color: var(--text-primary);"
-                        required
-                    >
-                        <option value="">-- Select Review Period --</option>
-                        @foreach($cycles ?? [] as $cycle)
-                            <option value="{{ $cycle->id }}">{{ $cycle->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                        Reviewer
-                    </label>
-                    <select
-                        name="reviewer_id"
-                        id="review-edit-reviewer-id"
-                        class="hr-select px-3 py-1.5 text-xs w-full"
-                        style="background-color: var(--bg-input); color: var(--text-primary);"
-                    >
-                        <option value="">-- Select Reviewer --</option>
-                        @foreach($employees ?? [] as $emp)
-                            <option value="{{ $emp->id }}">{{ $emp->display_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                        Status <span class="text-red-500">*</span>
-                    </label>
-                    <select
-                        name="status"
-                        id="review-edit-status"
-                        class="hr-select px-3 py-1.5 text-xs w-full"
-                        style="background-color: var(--bg-input); color: var(--text-primary);"
-                        required
-                    >
-                        <option value="pending">Pending</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
+                    <p class="text-xs mt-1" style="color: var(--text-muted);">
+                        Leave empty to keep auto-calculated rating or enter manually.
+                    </p>
                 </div>
 
                 <div class="flex justify-end gap-2 mt-1">
@@ -535,7 +598,7 @@
         <x-admin.modal
             id="review-view-modal"
             title="View Performance Review"
-            icon="fas fa-file-alt"
+            icon="fas fa-eye"
             maxWidth="lg"
             backdropOnClick="closeReviewViewModal()"
         >
@@ -543,6 +606,7 @@
                 <p class="text-xs" style="color: var(--text-muted);">Loading...</p>
             </div>
         </x-admin.modal>
+
 
         <!-- Hidden forms for deletes -->
         <form id="review-delete-form" method="POST" action="#">
@@ -554,11 +618,12 @@
         </form>
 
         <script>
-            (function () {
-                var reviewEditUrlTemplate = "{{ route('performance.reviews.update', ['id' => '__ID__']) }}";
-                var reviewDeleteUrlTemplate = "{{ route('performance.reviews.delete', ['id' => '__ID__']) }}";
+            // Global variables for review URLs
+            var reviewEditUrlTemplate = "{{ route('performance.reviews.update', ['id' => '__ID__']) }}";
+            var reviewDeleteUrlTemplate = "{{ route('performance.reviews.delete', ['id' => '__ID__']) }}";
+            var pendingReviewDeleteId = null;
 
-                var pendingReviewDeleteId = null;
+            (function () {
 
                 function refreshReviewSelectionState() {
                     var table = document.getElementById('reviews-table');
@@ -659,39 +724,67 @@
             window.closeReviewAddModal = closeReviewAddModal;
 
             function openReviewEditModalFromRow(row) {
+                if (!row) {
+                    console.error('Row element not found');
+                    return;
+                }
+                
                 var info = row.querySelector('[data-review-id]');
-                if (!info) return;
+                if (!info) {
+                    console.error('Review data element not found in row');
+                    return;
+                }
 
                 var reviewId = info.dataset.reviewId;
-                var employee = info.dataset.reviewEmployee || '';
-                var jobTitle = info.dataset.reviewJobTitle || '';
-                var reviewPeriod = info.dataset.reviewReviewPeriod || '';
-                var dueDate = info.dataset.reviewDueDate || '';
-                var reviewer = info.dataset.reviewReviewer || '';
-                var status = info.dataset.reviewStatus || 'pending';
+                if (!reviewId) {
+                    console.error('Review ID not found');
+                    return;
+                }
+
+                var employeeId = info.dataset.reviewEmployeeId || '';
+                var cycleId = info.dataset.reviewCycleId || '';
+                var reviewerId = info.dataset.reviewReviewerId || '';
+                var overallRating = info.dataset.reviewOverallRating || '';
+                var status = info.dataset.reviewStatus || 'not_started';
 
                 var form = document.getElementById('review-edit-form');
-                if (form) {
-                    form.action = reviewEditUrlTemplate.replace('__ID__', reviewId);
+                if (!form) {
+                    console.error('Edit form not found');
+                    return;
+                }
+                form.action = reviewEditUrlTemplate.replace('__ID__', reviewId);
+
+                var modal = document.getElementById('review-edit-modal');
+                if (!modal) {
+                    console.error('Edit modal not found');
+                    return;
                 }
 
-                var employeeSelect = document.getElementById('review-edit-employee-id');
-                if (employeeSelect) {
-                    employeeSelect.value = '';
-                    Array.from(employeeSelect.options).forEach(function(opt) {
-                        if (opt.text === employee) {
-                            employeeSelect.value = opt.value;
-                        }
-                    });
+                // Set hidden fields to preserve existing data
+                var employeeInput = document.getElementById('review-edit-employee-id');
+                if (employeeInput) employeeInput.value = employeeId;
+
+                var cycleInput = document.getElementById('review-edit-cycle-id');
+                if (cycleInput) cycleInput.value = cycleId;
+
+                var reviewerInput = document.getElementById('review-edit-reviewer-id');
+                if (reviewerInput) reviewerInput.value = reviewerId || '';
+
+                var statusInput = document.getElementById('review-edit-status');
+                if (statusInput) statusInput.value = status.toLowerCase();
+
+                // Set overall rating field
+                var overallRatingInput = document.getElementById('review-edit-overall-rating');
+                if (overallRatingInput) {
+                    if (overallRating) {
+                        overallRatingInput.value = overallRating;
+                    } else {
+                        overallRatingInput.value = '';
+                    }
+                    overallRatingInput.focus();
                 }
 
-                var statusSelect = document.getElementById('review-edit-status');
-                if (statusSelect) {
-                    statusSelect.value = status.toLowerCase();
-                }
-
-                document.getElementById('review-edit-modal').classList.remove('hidden');
-                if (employeeSelect) employeeSelect.focus();
+                modal.classList.remove('hidden');
             }
             window.openReviewEditModalFromRow = openReviewEditModalFromRow;
 
@@ -706,6 +799,15 @@
                 }
             }
             window.closeReviewEditModal = closeReviewEditModal;
+
+            // Handle edit form submission
+            var editForm = document.getElementById('review-edit-form');
+            if (editForm) {
+                editForm.addEventListener('submit', function(e) {
+                    // Form will submit normally - no need to prevent default
+                    // The action is set dynamically in openReviewEditModalFromRow
+                });
+            }
 
             function openReviewDeleteModalFromRow(row) {
                 var info = row.querySelector('[data-review-id]');
@@ -760,9 +862,43 @@
             window.confirmReviewBulkDelete = confirmReviewBulkDelete;
 
             function openReviewViewModal(reviewId) {
-                document.getElementById('review-view-modal').classList.remove('hidden');
-                document.getElementById('review-view-content').innerHTML = '<p class="text-xs" style="color: var(--text-muted);">Loading...</p>';
-                // TODO: Fetch review details via AJAX and populate modal
+                var modal = document.getElementById('review-view-modal');
+                var content = document.getElementById('review-view-content');
+                
+                if (!modal || !content) return;
+                
+                modal.classList.remove('hidden');
+                content.innerHTML = '<p class="text-xs" style="color: var(--text-muted);">Loading...</p>';
+                
+                fetch("{{ route('performance.reviews.view', ['id' => '__ID__']) }}".replace('__ID__', reviewId))
+                    .then(response => response.json())
+                    .then(data => {
+                        // Format status
+                        var statusText = data.status || '-';
+                        if (statusText !== '-') {
+                            statusText = statusText.replace(/_/g, ' ').replace(/\b\w/g, function(l) {
+                                return l.toUpperCase();
+                            });
+                        }
+                        
+                        var html = '<div class="space-y-4">';
+                        html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Employee:</label><p class="text-xs mt-1" style="color: var(--text-muted);">' + (data.employee || '-') + '</p></div>';
+                        html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Job Title:</label><p class="text-xs mt-1" style="color: var(--text-muted);">' + (data.job_title || '-') + '</p></div>';
+                        html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Review Period:</label><p class="text-xs mt-1" style="color: var(--text-muted);">' + (data.review_period || '-') + '</p></div>';
+                        html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Due Date:</label><p class="text-xs mt-1" style="color: var(--text-muted);">' + (data.due_date || '-') + '</p></div>';
+                        html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Reviewer:</label><p class="text-xs mt-1" style="color: var(--text-muted);">' + (data.reviewer || '-') + '</p></div>';
+                        html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Status:</label><p class="text-xs mt-1" style="color: var(--text-muted);">' + statusText + '</p></div>';
+                        html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Overall Rating:</label><p class="text-xs mt-1" style="color: var(--text-muted);">' + (data.overall_rating || '-') + '</p></div>';
+                        if (data.comments) {
+                            html += '<div><label class="text-xs font-semibold" style="color: var(--text-primary);">Comments:</label><p class="text-xs mt-1 whitespace-pre-wrap" style="color: var(--text-muted);">' + data.comments + '</p></div>';
+                        }
+                        html += '</div>';
+                        content.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Error loading review:', error);
+                        content.innerHTML = '<p class="text-xs" style="color: #DC2626;">Error loading review details. Please try again.</p>';
+                    });
             }
             window.openReviewViewModal = openReviewViewModal;
 
@@ -770,6 +906,96 @@
                 document.getElementById('review-view-modal').classList.add('hidden');
             }
             window.closeReviewViewModal = closeReviewViewModal;
+
+
+            // Approve Review Function
+            function approveReview(reviewId) {
+                var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                var formData = new FormData();
+                formData.append('_token', csrfToken);
+                fetch("{{ route('performance.reviews.approve', ['id' => '__ID__']) }}".replace('__ID__', reviewId), {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken || '',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error approving review:', error);
+                    alert('Error approving review. Please try again.');
+                });
+            }
+            window.approveReview = approveReview;
+
+            // Search form submit: add hash so page scrolls to table after reload
+            var searchForm = document.getElementById('reviews-search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    var formAction = searchForm.getAttribute('action') || window.location.pathname;
+                    var url = new URL(formAction, window.location.origin);
+
+                    var formData = new FormData(searchForm);
+                    for (var pair of formData.entries()) {
+                        if (pair[1]) {
+                            url.searchParams.set(pair[0], pair[1]);
+                        }
+                    }
+
+                    url.hash = 'reviews-table-section';
+                    window.location.href = url.toString();
+                });
+
+                // Reset button: clear filters and go back to base route
+                var resetBtn = searchForm.querySelector('button.hr-btn-secondary[type="button"]') || searchForm.querySelector('button[type="button"]');
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        searchForm.querySelectorAll('input[name], select[name]').forEach(function (el) {
+                            el.value = '';
+                        });
+
+                        window.location.href = "{{ route('performance') }}";
+                    });
+                }
+            }
+
+            // Scroll to table section if status message exists (after add/edit/delete)
+            @if(session('status') || session('error'))
+                (function () {
+                    var tableSection = document.getElementById('reviews-table-section');
+                    if (tableSection) {
+                        setTimeout(function () {
+                            tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
+                })();
+            @endif
+
+            // Scroll to table section if hash exists or if search parameters are present
+            if (window.location.hash === '#reviews-table-section' ||
+                (window.location.search && (window.location.search.includes('employee_name=') ||
+                                            window.location.search.includes('job_title=') ||
+                                            window.location.search.includes('review_status=') ||
+                                            window.location.search.includes('reviewer=') ||
+                                            window.location.search.includes('from_date=') ||
+                                            window.location.search.includes('to_date=')))) {
+                var tableSection = document.getElementById('reviews-table-section');
+                if (tableSection) {
+                    setTimeout(function () {
+                        tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }
+            }
         </script>
     </x-main-layout>
 @endsection

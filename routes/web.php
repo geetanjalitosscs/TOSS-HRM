@@ -302,6 +302,7 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/my-info/memberships', [MyInfoController::class, 'memberships'])->name('myinfo.memberships');
     Route::get('/performance', [PerformanceController::class, 'index'])->name('performance');
     Route::post('/performance/reviews', [PerformanceController::class, 'storeReview'])->name('performance.reviews.store');
+    Route::get('/performance/reviews/{id}/view', [PerformanceController::class, 'viewReview'])->whereNumber('id')->name('performance.reviews.view');
     Route::post('/performance/reviews/{id}', [PerformanceController::class, 'updateReview'])->whereNumber('id')->name('performance.reviews.update');
     Route::post('/performance/reviews/{id}/delete', [PerformanceController::class, 'deleteReview'])->whereNumber('id')->name('performance.reviews.delete');
     Route::post('/performance/reviews/bulk-delete', [PerformanceController::class, 'bulkDeleteReviews'])->name('performance.reviews.bulk-delete');
@@ -319,6 +320,10 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/performance/trackers/bulk-delete', [PerformanceController::class, 'bulkDeleteTrackers'])->name('performance.trackers.bulk-delete');
     Route::get('/performance/my-reviews', [PerformanceController::class, 'myReviews'])->name('performance.my-reviews');
     Route::get('/performance/employee-reviews', [PerformanceController::class, 'employeeReviews'])->name('performance.employee-reviews');
+    Route::get('/performance/reviews/{id}/kpis', [PerformanceController::class, 'getReviewKpis'])->whereNumber('id')->name('performance.reviews.kpis');
+    Route::post('/performance/reviews/{id}/kpis', [PerformanceController::class, 'saveKpiRatings'])->whereNumber('id')->name('performance.reviews.kpis.save');
+    Route::post('/performance/reviews/{id}/submit', [PerformanceController::class, 'submitReview'])->whereNumber('id')->name('performance.reviews.submit');
+    Route::post('/performance/reviews/{id}/approve', [PerformanceController::class, 'approveReview'])->whereNumber('id')->name('performance.reviews.approve');
     Route::get('/directory', [DirectoryController::class, 'index'])->name('directory');
     Route::get('/claim', [ClaimController::class, 'index'])->name('claim');
     Route::post('/claim/{id}/cancel', [ClaimController::class, 'cancelClaim'])->whereNumber('id')->name('claim.cancel');

@@ -47,86 +47,87 @@
                 <i class="fas fa-clipboard-list text-[var(--color-primary)]"></i> <span class="mt-0.5">My Reviews</span>
             </h2>
 
-            @if(count($reviews) > 0)
-            <!-- Records Count -->
-            <x-records-found :count="count($reviews)" />
-
-            <!-- Table Header -->
-            <div class="rounded-t-lg pl-1 pr-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Job Title</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Sub Unit</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Period</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</span>
-                        <div class="flex items-center gap-0.5">
-                            <i class="fas fa-arrow-down text-[10px]" style="color: var(--text-muted);"></i>
-                            <i class="fas fa-arrow-up text-[10px]" style="color: var(--text-muted);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Self Evaluation Status</span>
-                </div>
-                <div class="flex-1" style="min-width: 0;">
-                    <span class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</span>
-                </div>
-                <div class="flex-shrink-0" style="width: 70px;">
-                    <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                </div>
-            </div>
-
-            <!-- Table Rows -->
-            <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                @foreach($reviews as $review)
-                <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $review->job_title }}</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->sub_unit }}</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_period }}</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->due_date }}</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->self_evaluation_status }}</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_status }}</div>
-                    </div>
-                    <div class="flex-shrink-0" style="width: 70px;">
-                        <div class="flex items-center justify-center">
-                            <button class="hr-action-view flex-shrink-0" title="View">
-                                <i class="fas fa-file-alt text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @else
-            <!-- No Records Found -->
-            <div class="mb-3 text-xs font-medium" style="color: var(--text-muted);">
-                No Records Found
-            </div>
+            @php
+                $reviews = $reviews ?? collect([]);
+                $reviewsCount = $reviews->count();
+            @endphp
+            @if($reviewsCount > 0)
+                <x-records-found :count="$reviewsCount" />
             @endif
+
+            <!-- Table -->
+            <div class="hr-table-wrapper" style="max-height: 22rem; overflow-y: auto;">
+                <!-- Table Header -->
+                <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Job Title</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Period</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Due Date</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Reviewer</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Review Status</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Score</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Feedback</div>
+                    </div>
+                </div>
+
+                <!-- Table Rows -->
+                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                    @forelse($reviews as $review)
+                    <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-3" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $review->job_title ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->review_period ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->due_date ?? '' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->reviewer ?? '-' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">
+                                @php
+                                    $statusLabelMap = [
+                                        'not_started' => 'Not Started',
+                                        'in_progress' => 'In Progress',
+                                        'completed' => 'Completed',
+                                        'approved' => 'Approved',
+                                    ];
+                                    $statusValue = strtolower($review->review_status ?? '');
+                                @endphp
+                                {{ $statusLabelMap[$statusValue] ?? ucfirst(str_replace('_', ' ', $statusValue)) }}
+                            </div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs font-semibold break-words" style="color: var(--text-primary);">{{ $review->overall_rating ?? '-' }}</div>
+                        </div>
+                        <div class="flex-1" style="min-width: 0;">
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $review->feedback ?? '-' }}</div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="px-2 py-1.5" style="background-color: var(--bg-card);">
+                        <div class="text-xs text-slate-500 text-center py-4">No reviews found</div>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
         </section>
+
     </x-main-layout>
 @endsection
 

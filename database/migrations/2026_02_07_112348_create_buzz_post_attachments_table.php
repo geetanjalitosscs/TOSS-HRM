@@ -13,24 +13,24 @@ return new class extends Migration
     {
         // Create the table only if it doesn't already exist
         if (! Schema::hasTable('buzz_post_attachments')) {
-            Schema::create('buzz_post_attachments', function (Blueprint $table) {
-                $table->id();
-                $table->unsignedBigInteger('post_id');
-                $table->enum('type', ['photo', 'video']);
-                $table->string('path', 500);
-                $table->string('original_name', 255);
-                $table->string('mime_type', 100)->nullable();
-                $table->unsignedBigInteger('size_bytes')->nullable();
-                $table->timestamps();
+        Schema::create('buzz_post_attachments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('post_id');
+            $table->enum('type', ['photo', 'video']);
+            $table->string('path', 500);
+            $table->string('original_name', 255);
+            $table->string('mime_type', 100)->nullable();
+            $table->unsignedBigInteger('size_bytes')->nullable();
+            $table->timestamps();
 
                 $table->foreign('post_id')
                     ->references('id')
                     ->on('buzz_posts')
                     ->onDelete('cascade');
 
-                $table->index('post_id');
-                $table->index('type');
-            });
+            $table->index('post_id');
+            $table->index('type');
+        });
         }
     }
 

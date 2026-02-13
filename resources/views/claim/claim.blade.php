@@ -301,13 +301,6 @@
                 </div>
             </div>
             <div class="flex justify-end gap-2 mt-6">
-                <button
-                    type="button"
-                    class="hr-btn-secondary px-4 py-1.5 text-xs"
-                    onclick="closeClaimViewModal()"
-                >
-                    Close
-                </button>
             </div>
         </x-admin.modal>
 

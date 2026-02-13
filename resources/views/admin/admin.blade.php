@@ -333,7 +333,7 @@
                             'my-info'     => 'My Info',
                             'pim'         => 'PIM (Personnel Information Management)',
                             'leave'       => 'Leave',
-                            'time'        => 'Time',
+                            'time'        => 'Project Management',
                             'recruitment' => 'Recruitment',
                             'performance' => 'Performance',
                             'claim'       => 'Claim',
@@ -346,7 +346,7 @@
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                             Page Access (only main user can change)
                         </label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 rounded border px-3 py-2" style="border-color: var(--border-default); background-color: var(--bg-input); max-height: 9rem; overflow-y: auto;">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 rounded border px-3 py-2" style="border-color: var(--border-default); background-color: var(--bg-input);">
                             @foreach($pagePermissionOptions as $key => $label)
                                 <label class="flex items-center gap-2 text-[11px]" style="color: var(--text-primary);">
                                     <input
@@ -426,7 +426,7 @@
                             'my-info'     => 'My Info',
                             'pim'         => 'PIM (Personnel Information Management)',
                             'leave'       => 'Leave',
-                            'time'        => 'Time',
+                            'time'        => 'Project Management',
                             'recruitment' => 'Recruitment',
                             'performance' => 'Performance',
                             'claim'       => 'Claim',
@@ -439,7 +439,7 @@
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                             Page Access (only main user can change)
                         </label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 rounded border px-3 py-2" style="border-color: var(--border-default); background-color: var(--bg-input); max-height: 9rem; overflow-y: auto;">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 rounded border px-3 py-2" style="border-color: var(--border-default); background-color: var(--bg-input);">
                             @foreach($pagePermissionOptions as $key => $label)
                                 <label class="flex items-center gap-2 text-[11px]" style="color: var(--text-primary);">
                                     <input
