@@ -52,8 +52,8 @@
             <form method="GET" action="{{ route('performance.employee-trackers') }}" id="employee-trackers-search-form">
                 <div class="rounded-lg p-3 mb-3" style="background-color: var(--bg-card);">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Employee Name</label>
                             <input 
                                 type="text" 
                                 name="employee_name"
@@ -70,8 +70,8 @@
                                 variant="default"
                                 class="w-full text-xs"
                             />
-                        </div>
-                        <div>
+                    </div>
+                    <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1">To Date</label>
                             <x-date-picker 
                                 name="to_date"
@@ -103,12 +103,12 @@
             @if(session('error'))
                 <div class="rounded-lg px-4 py-3 text-sm font-medium mb-4" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #DC2626;">
                     <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
-                </div>
+            </div>
             @endif
 
             <!-- Records Count -->
             @if(count($trackers) > 0)
-                <x-records-found :count="count($trackers)" />
+            <x-records-found :count="count($trackers)" />
             @else
                 <x-records-found :count="0" />
             @endif
@@ -141,35 +141,35 @@
             <!-- Table Body -->
             <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
                 @if(count($trackers) > 0)
-                    @foreach($trackers as $tracker)
-                    <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
-                        <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $tracker->employee_name }}</div>
+                @foreach($trackers as $tracker)
+                <div class="border-b last:border-b-0 pl-1 pr-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-medium break-words" style="color: var(--text-primary);">{{ $tracker->employee_name }}</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->tracker }}</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->added_date }}</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->modified_date ?: '' }}</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs break-words" style="color: var(--text-primary);">
+                            @php
+                                $statusLabelMap = [
+                                    'not_started' => 'Not Started',
+                                    'in_progress' => 'In Progress',
+                                    'completed'   => 'Completed',
+                                    'approved'    => 'Approved',
+                                ];
+                                $statusValue = $tracker->status ?? 'not_started';
+                            @endphp
+                            {{ $statusLabelMap[$statusValue] ?? ucfirst(str_replace('_', ' ', $statusValue)) }}
                         </div>
-                        <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->tracker }}</div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->added_date }}</div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $tracker->modified_date ?: '' }}</div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">
-                                @php
-                                    $statusLabelMap = [
-                                        'not_started' => 'Not Started',
-                                        'in_progress' => 'In Progress',
-                                        'completed'   => 'Completed',
-                                        'approved'    => 'Approved',
-                                    ];
-                                    $statusValue = $tracker->status ?? 'not_started';
-                                @endphp
-                                {{ $statusLabelMap[$statusValue] ?? ucfirst(str_replace('_', ' ', $statusValue)) }}
-                            </div>
-                        </div>
-                        <div class="flex-1" style="min-width: 0;">
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
                             <div class="text-xs break-words" style="color: var(--text-primary);">
                                 @if($tracker->overall_rating !== null)
                                     {{ number_format($tracker->overall_rating, 2) }}
@@ -177,9 +177,9 @@
                                     -
                                 @endif
                             </div>
-                        </div>
-                        <div class="flex-shrink-0" style="width: 120px;">
-                            <div class="flex items-center justify-center gap-2">
+                    </div>
+                    <div class="flex-shrink-0" style="width: 120px;">
+                        <div class="flex items-center justify-center gap-2">
                                 @if(in_array($tracker->status, ['completed', 'approved']))
                                     <button 
                                         class="hr-action-view flex-shrink-0" 
@@ -188,18 +188,18 @@
                                         onclick="openEmployeeTrackerViewModal({{ $tracker->id }})"
                                     >
                                         <i class="fas fa-eye text-sm"></i>
-                                    </button>
-                                @endif
-                            </div>
+                                </button>
+                            @endif
                         </div>
                     </div>
-                    @endforeach
-                @else
-                    <!-- No Records Found -->
+                </div>
+                @endforeach
+            @else
+            <!-- No Records Found -->
                     <div class="px-4 py-6 text-center text-xs" style="color: var(--text-muted);">
-                        No Records Found
-                    </div>
-                @endif
+                No Records Found
+            </div>
+            @endif
             </div>
         </section>
 
@@ -213,7 +213,7 @@
         >
             <div id="employee-tracker-view-content">
                 <p class="text-xs" style="color: var(--text-muted);">Loading...</p>
-            </div>
+                </div>
         </x-admin.modal>
 
         <script>

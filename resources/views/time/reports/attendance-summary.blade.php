@@ -3,50 +3,11 @@
 @section('title', 'Time - Reports - Attendance Summary')
 
 @section('body')
-    <x-main-layout title="Time / Reports / Attendance Summary">
+    <x-main-layout title="Project Management">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
+            <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible">
                 @php
-                    $timesheetsItems = [
-                        [
-                            'url' => route('time.my-timesheets'),
-                            'label' => 'My Timesheets',
-                            'active' => request()->routeIs('time.my-timesheets') || request()->routeIs('time.my-timesheets.edit')
-                        ],
-                        [
-                            'url' => route('time'),
-                            'label' => 'Employee Timesheets',
-                            'active' => request()->routeIs('time')
-                        ]
-                    ];
-                    $timesheetsHasActive = collect($timesheetsItems)->contains('active', true);
-                    
-                    $attendanceItems = [
-                        [
-                            'url' => route('time.attendance.my-records'),
-                            'label' => 'My Records',
-                            'active' => request()->routeIs('time.attendance.my-records')
-                        ],
-                        [
-                            'url' => route('time.attendance.punch-in-out'),
-                            'label' => 'Punch In/Out',
-                            'active' => request()->routeIs('time.attendance.punch-in-out')
-                        ],
-                        [
-                            'url' => route('time.attendance.employee-records'),
-                            'label' => 'Employee Records',
-                            'active' => request()->routeIs('time.attendance.employee-records')
-                        ],
-                        [
-                            'url' => route('time.attendance.configuration'),
-                            'label' => 'Configuration',
-                            'active' => request()->routeIs('time.attendance.configuration'),
-                            'hidden' => true
-                        ],
-                    ];
-                    $attendanceHasActive = collect($attendanceItems)->contains('active', true);
-                    
                     $reportsItems = [
                         [
                             'url' => route('time.reports.project-reports'),
@@ -66,30 +27,18 @@
                     ];
                     $reportsHasActive = collect($reportsItems)->contains('active', true);
                 @endphp
-                <x-dropdown-menu 
-                    :items="$timesheetsItems"
-                    position="left"
-                    width="w-48">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Timesheets</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="$attendanceItems"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
+                <a href="{{ route('time.project-info.customers') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.customers') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
+                    <span class="text-sm {{ request()->routeIs('time.project-info.customers') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Customers</span>
+                </a>
+                <a href="{{ route('time.project-info.projects') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.projects') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
+                    <span class="text-sm {{ request()->routeIs('time.project-info.projects') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Projects</span>
+                </a>
                 <x-dropdown-menu 
                     :items="$reportsItems"
                     position="left"
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
+                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
@@ -104,110 +53,119 @@
                     <i class="fas fa-calendar-check" style="color: var(--color-hr-primary);"></i>
                     <span class="mt-0.5">Attendance Total Summary Report</span>
                 </h2>
-                <button class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                    <span class="text-xs text-gray-600">▲</span>
-                </button>
             </div>
 
-            <!-- Form Fields -->
-            <div class="space-y-4">
-                <!-- Row 1: Employee Name, Job Title, Sub Unit -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Employee Name Input -->
-                    <div>
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name</label>
-                        <input 
-                            type="text" 
-                            name="employee_name" 
-                            class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
-                            placeholder="Type for hints..."
-                        >
-                    </div>
-
-                    <!-- Job Title Dropdown -->
-                    <div>
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Job Title</label>
-                        <div class="relative">
-                            <select 
-                                name="job_title" 
-                                class="hr-select appearance-none w-full px-3 py-2.5 text-sm rounded-lg pr-10"
-                                style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
+            <form method="GET" action="{{ route('time.reports.attendance-summary') }}" id="attendance-summary-search-form">
+                <!-- Form Fields -->
+                <div class="space-y-4">
+                    <!-- Row 1: Employee Name, Job Title -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Employee Name Input -->
+                        <div>
+                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name</label>
+                            <input 
+                                type="text" 
+                                name="employee_name" 
+                                value="{{ request('employee_name', '') }}"
+                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                                placeholder="Type for hints..."
                             >
-                                <option value="">-- Select --</option>
-                            </select>
-                            <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-3">
-                                <i class="fas fa-chevron-down text-xs" style="color: var(--text-muted);"></i>
+                        </div>
+
+                        <!-- Job Title Dropdown -->
+                        <div>
+                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Job Title</label>
+                            <div class="relative">
+                                <select 
+                                    name="job_title" 
+                                    class="hr-select appearance-none w-full px-3 py-2.5 text-sm rounded-lg pr-10"
+                                    style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
+                                >
+                                    <option value="">-- Select --</option>
+                                    @foreach($jobTitles ?? [] as $jobTitle)
+                                        <option value="{{ $jobTitle->name }}" {{ request('job_title') == $jobTitle->name ? 'selected' : '' }}>
+                                            {{ $jobTitle->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-3">
+                                    <i class="fas fa-chevron-down text-xs" style="color: var(--text-muted);"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Sub Unit Dropdown -->
-                    <div>
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Sub Unit</label>
-                        <div class="relative">
-                            <select 
-                                name="sub_unit" 
-                                class="hr-select appearance-none w-full px-3 py-2.5 text-sm rounded-lg pr-10"
-                                style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
-                            >
-                                <option value="">-- Select --</option>
-                            </select>
-                            <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-3">
-                                <i class="fas fa-chevron-down text-xs" style="color: var(--text-muted);"></i>
+                    <!-- Row 2: Date Range -->
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Date Range -->
+                        <div>
+                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date Range</label>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-1">
+                                    <x-date-picker 
+                                        name="date_from" 
+                                        value="{{ request('date_from') }}"
+                                        label="From"
+                                    />
+                                </div>
+                                <div class="flex-1">
+                                    <x-date-picker 
+                                        name="date_to" 
+                                        value="{{ request('date_to') }}"
+                                        label="To"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Row 2: Employment Status, Date Range -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Employment Status Dropdown -->
-                    <div>
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employment Status</label>
-                        <div class="relative">
-                            <select 
-                                name="employment_status" 
-                                class="hr-select appearance-none w-full px-3 py-2.5 text-sm rounded-lg pr-10"
-                                style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
-                            >
-                                <option value="">-- Select --</option>
-                            </select>
-                            <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-3">
-                                <i class="fas fa-chevron-down text-xs" style="color: var(--text-muted);"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Date Range -->
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date Range</label>
-                        <div class="flex items-center gap-4">
-                            <div class="flex-1">
-                                <x-date-picker 
-                                    name="date_from" 
-                                    label="From"
-                                />
-                            </div>
-                            <div class="flex-1">
-                                <x-date-picker 
-                                    name="date_to" 
-                                    label="To"
-                                />
-                            </div>
-                        </div>
-                    </div>
+                <!-- Footer: Search and Reset Buttons -->
+                <div class="flex items-center justify-end gap-2 mt-6">
+                    <button type="button" onclick="resetAttendanceSummaryFilters()" class="hr-btn-secondary">
+                        Reset
+                    </button>
+                    <button type="submit" class="hr-btn-primary">
+                        Search
+                    </button>
                 </div>
-            </div>
-
-            <!-- Footer: View Button -->
-            <div class="flex items-center justify-end mt-6">
-                <button type="button" class="hr-btn-primary">
-                    View
-                </button>
-            </div>
+            </form>
         </section>
 
         <script>
+            // Reset button handler
+            function resetAttendanceSummaryFilters() {
+                var searchForm = document.getElementById('attendance-summary-search-form');
+                if (searchForm) {
+                    // Clear all input fields
+                    var inputs = searchForm.querySelectorAll('input[type="text"]');
+                    inputs.forEach(function(input) {
+                        input.value = '';
+                    });
+                    
+                    // Clear select fields
+                    var selects = searchForm.querySelectorAll('select');
+                    selects.forEach(function(select) {
+                        select.selectedIndex = 0;
+                    });
+                    
+                    // Clear date picker values
+                    var dateInputs = searchForm.querySelectorAll('input[type="hidden"][name="date_from"], input[type="hidden"][name="date_to"]');
+                    dateInputs.forEach(function(input) {
+                        input.value = '';
+                    });
+                    
+                    // Clear visible date picker inputs
+                    var datePickerInputs = searchForm.querySelectorAll('input[data-date-input]');
+                    datePickerInputs.forEach(function(input) {
+                        input.value = '';
+                    });
+                    
+                    // Submit form to reload page with cleared filters
+                    window.location.href = '{{ route("time.reports.attendance-summary") }}';
+                }
+            }
+            
             document.addEventListener('DOMContentLoaded', function () {
                 // Handle tab hover and open states
                 const tabTriggers = document.querySelectorAll('.tab-trigger');

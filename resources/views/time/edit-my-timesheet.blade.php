@@ -3,7 +3,7 @@
 @section('title', 'Time - Edit Timesheet')
 
 @section('body')
-    <x-main-layout title="Time / Edit Timesheet">
+    <x-main-layout title="Time">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
@@ -61,152 +61,71 @@
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="[
-                        [
-                            'url' => route('time.reports.project-reports'),
-                            'label' => 'Project Reports',
-                            'active' => request()->routeIs('time.reports.project-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.employee-reports'),
-                            'label' => 'Employee Reports',
-                            'active' => request()->routeIs('time.reports.employee-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.attendance-summary'),
-                            'label' => 'Attendance Summary',
-                            'active' => request()->routeIs('time.reports.attendance-summary')
-                        ],
-                    ]"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 hover:bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center tab-trigger">
-                        <span class="text-sm font-medium" style="color: var(--text-primary);">Reports</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
             </div>
         </div>
 
         <!-- Edit Timesheet Card -->
         <section class="hr-card p-6 border-t-0 rounded-t-none">
             <!-- Header Row -->
-            <div class="flex items-center justify-between gap-6 mb-4">
+            <div class="flex items-center justify-between gap-6 mb-6">
                 <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
                     <i class="fas fa-edit" style="color: var(--color-hr-primary);"></i>
                     <span class="mt-0.5">Edit Timesheet</span>
                 </h2>
-
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-[var(--text-muted)]">
-                        Timesheet Period
-                    </span>
-                    <span class="text-xs font-semibold text-[var(--text-primary)] whitespace-nowrap">
-                        {{ $timesheetPeriod['start'] }} - {{ $timesheetPeriod['end'] }}
-                    </span>
-                </div>
             </div>
 
-            <!-- Timesheet Editable Grid -->
-            <div class="overflow-x-auto">
-                <div class="min-w-max rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)]">
-                    <!-- Header -->
-                    <div class="grid grid-cols-[minmax(160px,1.5fr)_minmax(160px,1.5fr)_repeat(7,minmax(72px,1fr))_minmax(64px,0.75fr)] text-center">
-                        <div class="px-4 py-3 border-b border-[var(--border-default)] text-left">
-                            <div class="text-xs font-semibold uppercase tracking-wide text-[var(--text-primary)]">
-                                Project
-                            </div>
-                        </div>
-                        <div class="px-4 py-3 border-b border-[var(--border-default)] text-left">
-                            <div class="text-xs font-semibold uppercase tracking-wide text-[var(--text-primary)]">
-                                Activity
-                            </div>
-                        </div>
-                        @foreach($days as $day)
-                            <div class="px-3 py-3 border-b border-[var(--border-default)] flex flex-col items-center justify-center gap-1">
-                                <span class="text-xs font-semibold text-[var(--text-primary)]">
-                                    {{ $day['day_of_month'] }}
-                                </span>
-                                <span class="text-[10px] font-medium text-[var(--text-muted)] uppercase tracking-wide">
-                                    {{ $day['day_name_short'] }}
-                                </span>
-                            </div>
-                        @endforeach
-                        <div class="px-3 py-3 border-b border-[var(--border-default)] flex items-center justify-center">
-                            <span class="text-xs font-semibold uppercase tracking-wide text-[var(--text-primary)]">
-                                &nbsp;
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Single Editable Row (static for now) -->
-                    @foreach($rows as $row)
-                        <div class="grid grid-cols-[minmax(160px,1.5fr)_minmax(160px,1.5fr)_repeat(7,minmax(72px,1fr))_minmax(64px,0.75fr)] items-center border-t border-[var(--border-default)]">
-                            <!-- Project -->
-                            <div class="px-4 py-3">
+            <!-- Add New Work Entry Form -->
+            <div class="mb-6 p-4 rounded-lg border" style="background-color: var(--bg-card); border-color: var(--border-default);">
+                <h3 class="text-xs font-semibold mb-4" style="color: var(--text-primary);">Add Work Entry</h3>
+                <form id="add-entry-form" method="POST" action="{{ route('time.timesheets.entries.store') }}">
+                    @csrf
+                    <input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">
+                    <input type="hidden" name="hours" value="0">
+                    <input type="hidden" name="project_id" value="">
+                    <input type="hidden" name="activity_name" value="">
+                    <input type="hidden" name="work_date" value="{{ date('Y-m-d') }}">
+                    
+                    <div class="space-y-4">
+                        <!-- Date (Read-only, Today's Date) -->
+                        <div>
+                            <label class="block text-xs font-medium mb-1.5" style="color: var(--text-primary);">
+                                Date <span class="text-red-500">*</span>
+                            </label>
                                 <input 
                                     type="text" 
-                                    class="hr-input" 
-                                    placeholder="Type for hints..."
-                                    value="{{ $row['project'] }}"
+                                value="{{ \Carbon\Carbon::now()->format('d M Y') }}"
+                                class="hr-input w-full"
+                                readonly
+                                style="background-color: var(--bg-hover); cursor: not-allowed;"
                                 >
                             </div>
 
-                            <!-- Activity -->
-                            <div class="px-4 py-3">
-                                <div class="relative">
-                                    <select class="hr-select pr-8">
-                                        <option>-- Select --</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Hours per day -->
-                            @foreach($days as $index => $day)
-                                <div class="px-3 py-3">
-                                    <input 
-                                        type="text" 
-                                        class="hr-input text-center" 
-                                        value="{{ $row['hours'][$index] }}"
-                                    >
-                                </div>
-                            @endforeach
-
-                            <!-- Delete row icon -->
-                            <div class="px-3 py-3 flex items-center justify-center">
-                                <button type="button" class="hr-btn-secondary !w-8 !h-8 !p-0 rounded-full">
-                                    🗑
-                                </button>
-                            </div>
+                        <!-- Work Description -->
+                        <div>
+                            <label class="block text-xs font-medium mb-1.5" style="color: var(--text-primary);">
+                                Work Description <span class="text-red-500">*</span>
+                            </label>
+                            <textarea 
+                                name="notes" 
+                                rows="4"
+                                class="hr-input w-full"
+                                placeholder="Describe what work you did..."
+                                required
+                            >{{ old('notes', $todayEntry->notes ?? 'Today\'s work') }}</textarea>
                         </div>
-                    @endforeach
-
-                    <!-- Add Row -->
-                    <div class="border-t border-[var(--border-default)] px-4 py-4 flex items-center gap-2">
-                        <button type="button" class="hr-btn-secondary !w-8 !h-8 !p-0 rounded-full">
-                            +
-                        </button>
-                        <span class="text-xs font-medium text-[var(--text-primary)]">
-                            Add Row
-                        </span>
-                    </div>
-                </div>
             </div>
 
-            <!-- Footer Actions -->
-            <div class="mt-4 flex items-center justify-end gap-3">
+                    <!-- Save and Cancel Buttons -->
+                    <div class="mt-6 flex justify-end gap-3">
                 <a href="{{ route('time.my-timesheets') }}" class="hr-btn-secondary inline-flex items-center justify-center">
                     Cancel
                 </a>
-                <button type="button" class="hr-btn-secondary">
-                    Reset
-                </button>
-                <button type="button" class="hr-btn-primary">
+                        <button type="submit" class="hr-btn-primary">
                     Save
                 </button>
+                    </div>
+                </form>
             </div>
         </section>
     </x-main-layout>
 @endsection
-

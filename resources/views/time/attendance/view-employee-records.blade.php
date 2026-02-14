@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Time - Attendance - My Records')
+@section('title', 'Time - Attendance - View Employee Records')
 
 @section('body')
     <x-main-layout title="Time">
@@ -36,7 +36,7 @@
                         [
                             'url' => route('time.attendance.employee-records'),
                             'label' => 'Employee Records',
-                            'active' => request()->routeIs('time.attendance.employee-records')
+                            'active' => request()->routeIs('time.attendance.employee-records') || request()->routeIs('time.attendance.employee-records.view')
                         ],
                         [
                             'url' => route('time.attendance.configuration'),
@@ -68,18 +68,21 @@
             </div>
         </div>
 
-        <!-- My Attendance Records Section -->
+        <!-- Employee Attendance Records Section -->
         <section class="hr-card p-6 mb-3 border-t-0 rounded-t-none">
             <!-- Header -->
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
                     <i class="fas fa-calendar-alt" style="color: var(--color-hr-primary);"></i>
-                    <span class="mt-0.5">My Attendance Records</span>
+                    <span class="mt-0.5">Attendance Records - {{ $employeeName }}</span>
                 </h2>
+                <a href="{{ route('time.attendance.employee-records', ['date' => $selectedDate]) }}" class="hr-btn-secondary inline-flex items-center justify-center">
+                    Back
+                </a>
             </div>
 
             <!-- Date Filter Section -->
-            <form method="GET" action="{{ route('time.attendance.my-records') }}" class="rounded-lg p-4 border mb-4" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+            <form method="GET" action="{{ route('time.attendance.employee-records.view', $employeeId) }}" class="rounded-lg p-4 border mb-4" style="background-color: var(--bg-hover); border-color: var(--border-default);">
                 <div class="flex gap-4">
                     <div class="w-full max-w-xs">
                         <x-date-picker 
@@ -126,9 +129,6 @@
                     <div class="flex-shrink-0" style="width: 100px;">
                         <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Duration (Hours)</div>
                     </div>
-                    <div class="flex-shrink-0" style="width: 90px;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                    </div>
                 </div>
 
                 <!-- Table Rows -->
@@ -137,7 +137,7 @@
                     <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
                         <!-- Punch In -->
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in ?? '—' }}</div>
                         </div>
 
                         <!-- Punch In Note -->
@@ -151,7 +151,7 @@
 
                         <!-- Punch Out -->
                         <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out }}</div>
+                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out ?? '—' }}</div>
                         </div>
 
                         <!-- Punch Out Note -->
@@ -167,61 +167,11 @@
                         <div class="flex-shrink-0" style="width: 100px;">
                             <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record->duration, 2) }}</div>
                         </div>
-
-                        <!-- Actions -->
-                        <div class="flex-shrink-0" style="width: 90px;">
-                            <div class="flex items-center justify-center gap-2">
-                                <button 
-                                    type="button" 
-                                    class="hr-action-delete flex-shrink-0" 
-                                    title="Delete"
-                                    onclick="openAttendanceDeleteModal({{ $record->id }})"
-                                >
-                                    <i class="fas fa-trash-alt text-sm"></i>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                     @endforeach
                 </div>
             </section>
         </section>
-
-        <!-- Delete Attendance Record Confirm Modal -->
-        <x-admin.modal 
-            id="attendance-delete-modal" 
-            title="Delete Attendance Record" 
-            maxWidth="xs"
-            backdropOnClick="closeAttendanceDeleteModal()"
-        >
-            <div>
-                <p class="text-xs mb-4" style="color: var(--text-muted);">
-                    Are you sure you want to delete this attendance record?
-                </p>
-                <div class="flex justify-end gap-2">
-                    <button 
-                        type="button" 
-                        class="hr-btn-secondary px-4 py-1.5 text-xs"
-                        onclick="closeAttendanceDeleteModal()"
-                    >
-                        Cancel
-                    </button>
-                    <button 
-                        type="button" 
-                        class="hr-btn-primary px-4 py-1.5 text-xs"
-                        onclick="confirmAttendanceDelete()"
-                    >
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </x-admin.modal>
-
-        <!-- Hidden form for delete -->
-        <form id="attendance-delete-form" method="POST" action="#">
-            @csrf
-            @method('POST')
-        </form>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -307,43 +257,6 @@
                 document.querySelectorAll('.hr-dropdown-menu').forEach(menu => {
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
-                
-                // Delete modal functions
-                var currentDeleteRecordId = null;
-                var attendanceDeleteUrlTemplate = '{{ route("time.attendance.records.delete", ":id") }}';
-
-                window.openAttendanceDeleteModal = function(recordId) {
-                    currentDeleteRecordId = recordId;
-                    var modal = document.getElementById('attendance-delete-modal');
-                    if (modal) {
-                        modal.classList.remove('hidden');
-                        document.body.style.overflow = 'hidden';
-                    }
-                };
-
-                window.closeAttendanceDeleteModal = function() {
-                    var modal = document.getElementById('attendance-delete-modal');
-                    if (modal) {
-                        modal.classList.add('hidden');
-                        document.body.style.overflow = '';
-                    }
-                    currentDeleteRecordId = null;
-                };
-
-                window.confirmAttendanceDelete = function() {
-                    if (!currentDeleteRecordId) {
-                        closeAttendanceDeleteModal();
-                        return;
-                    }
-                    var form = document.getElementById('attendance-delete-form');
-                    if (!form) {
-                        closeAttendanceDeleteModal();
-                        return;
-                    }
-                    form.action = attendanceDeleteUrlTemplate.replace(':id', currentDeleteRecordId);
-                    closeAttendanceDeleteModal();
-                    form.submit();
-                };
             });
         </script>
     </x-main-layout>

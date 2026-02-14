@@ -3,7 +3,7 @@
 @section('title', 'Time - Attendance - Punch In/Out')
 
 @section('body')
-    <x-main-layout title="Time / Attendance / Punch In/Out">
+    <x-main-layout title="Time">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
@@ -46,25 +46,6 @@
                         ],
                     ];
                     $attendanceHasActive = collect($attendanceItems)->contains('active', true);
-                    
-                    $reportsItems = [
-                        [
-                            'url' => route('time.reports.project-reports'),
-                            'label' => 'Project Reports',
-                            'active' => request()->routeIs('time.reports.project-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.employee-reports'),
-                            'label' => 'Employee Reports',
-                            'active' => request()->routeIs('time.reports.employee-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.attendance-summary'),
-                            'label' => 'Attendance Summary',
-                            'active' => request()->routeIs('time.reports.attendance-summary')
-                        ],
-                    ];
-                    $reportsHasActive = collect($reportsItems)->contains('active', true);
                 @endphp
                 <x-dropdown-menu 
                     :items="$timesheetsItems"
@@ -84,26 +65,137 @@
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="$reportsItems"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
             </div>
         </div>
 
-        <!-- Punch In/Out Form -->
+        @if($hasOpenPunchIn || $hasCompletedEntryToday)
+            <!-- Punch Out Form -->
+            <section class="hr-card p-6 border-t-0 rounded-t-none">
+                <h2 class="text-sm font-bold flex items-baseline gap-2 mb-6" style="color: var(--text-primary);">
+                    <i class="fas fa-clock" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Punch Out</span>
+                </h2>
+                
+                @if($hasCompletedEntryToday)
+                    <!-- Completed Entry Message -->
+                    <div class="mb-4 p-3 rounded-lg" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                        <div class="text-xs flex items-center" style="color: var(--text-primary);">
+                            <i class="fas fa-info-circle mr-2" style="color: var(--color-hr-primary);"></i>
+                            <span>You have already completed your attendance for today. You can punch in again tomorrow.</span>
+                        </div>
+                    </div>
+                    
+                    @php
+                        $punchInTime = \Carbon\Carbon::parse($completedEntry->punch_in ?? $completedEntry->punch_in_at)->format('h:i A');
+                        $punchInDate = \Carbon\Carbon::parse($completedEntry->punch_in ?? $completedEntry->punch_in_at)->format('M d, Y');
+                        $punchOutTime = \Carbon\Carbon::parse($completedEntry->punch_out ?? $completedEntry->punch_out_at)->format('h:i A');
+                        $punchOutDate = \Carbon\Carbon::parse($completedEntry->punch_out ?? $completedEntry->punch_out_at)->format('M d, Y');
+                    @endphp
+                    
+                    <div class="mb-3 p-3 rounded-lg" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                        <div class="text-xs font-medium mb-1" style="color: var(--text-primary);">Punch In Details:</div>
+                        <div class="text-xs" style="color: var(--text-primary);">
+                            <strong>Date:</strong> {{ $punchInDate }} | <strong>Time:</strong> {{ $punchInTime }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 p-3 rounded-lg" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                        <div class="text-xs font-medium mb-1" style="color: var(--text-primary);">Punch Out Details:</div>
+                        <div class="text-xs" style="color: var(--text-primary);">
+                            <strong>Date:</strong> {{ $punchOutDate }} | <strong>Time:</strong> {{ $punchOutTime }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 p-3 rounded-lg" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                        <div class="text-xs font-medium mb-1" style="color: var(--text-primary);">Current Time:</div>
+                        <div class="text-xs" style="color: var(--text-primary);">
+                            <strong>Date:</strong> {{ \Carbon\Carbon::parse($currentDate)->format('M d, Y') }} | <strong>Time:</strong> {{ $currentTime }}
+                        </div>
+                    </div>
+                    
+                    <!-- Disabled Form -->
+                    <form id="punchOutForm" method="POST" action="{{ route('time.attendance.punch-out') }}" class="space-y-5" style="opacity: 0.6; pointer-events: none;">
+                        @csrf
+                        
+                        <!-- Note Field -->
+                        <div>
+                            <label for="punchOutNote" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                                Note
+                            </label>
+                            <textarea 
+                                id="punchOutNote" 
+                                name="note" 
+                                rows="4"
+                                placeholder="Type here"
+                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg resize-y"
+                                disabled
+                            ></textarea>
+                        </div>
+
+                        <!-- Footer with Submit button -->
+                        <div class="flex items-center justify-end pt-2">
+                            <button type="button" class="hr-btn-secondary" disabled>
+                                Out (Already Completed)
+                            </button>
+                        </div>
+                    </form>
+                @else
+                    @php
+                        $punchInTime = \Carbon\Carbon::parse($openPunchIn->punch_in ?? $openPunchIn->punch_in_at)->format('h:i A');
+                        $punchInDate = \Carbon\Carbon::parse($openPunchIn->punch_in ?? $openPunchIn->punch_in_at)->format('M d, Y');
+                    @endphp
+                    
+                    <div class="mb-3 p-3 rounded-lg" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                        <div class="text-xs font-medium mb-1" style="color: var(--text-primary);">Punch In Details:</div>
+                        <div class="text-xs" style="color: var(--text-primary);">
+                            <strong>Date:</strong> {{ $punchInDate }} | <strong>Time:</strong> {{ $punchInTime }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 p-3 rounded-lg" style="background-color: var(--bg-hover); border: 1px solid var(--border-default);">
+                        <div class="text-xs font-medium mb-1" style="color: var(--text-primary);">Current Time:</div>
+                        <div class="text-xs" style="color: var(--text-primary);">
+                            <strong>Date:</strong> {{ \Carbon\Carbon::parse($currentDate)->format('M d, Y') }} | <strong>Time:</strong> {{ $currentTime }}
+                        </div>
+                    </div>
+                    
+                    <form id="punchOutForm" method="POST" action="{{ route('time.attendance.punch-out') }}" class="space-y-5">
+                        @csrf
+                        
+                        <!-- Note Field -->
+                        <div>
+                            <label for="punchOutNote" class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                                Note
+                            </label>
+                            <textarea 
+                                id="punchOutNote" 
+                                name="note" 
+                                rows="4"
+                                placeholder="Type here"
+                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg resize-y"
+                            ></textarea>
+                        </div>
+
+                        <!-- Footer with Submit button -->
+                        <div class="flex items-center justify-end pt-2">
+                            <button type="submit" class="hr-btn-primary">
+                                Out
+                            </button>
+                        </div>
+                    </form>
+                @endif
+            </section>
+        @else
+            <!-- Punch In Form -->
         <section class="hr-card p-6 border-t-0 rounded-t-none">
             <h2 class="text-sm font-bold flex items-baseline gap-2 mb-6" style="color: var(--text-primary);">
                 <i class="fas fa-clock" style="color: var(--color-hr-primary);"></i>
                 <span class="mt-0.5">Punch In</span>
             </h2>
             
-            <form id="punchInForm" class="space-y-5">
+                <form id="punchInForm" method="POST" action="{{ route('time.attendance.punch-in') }}" class="space-y-5">
+                    @csrf
+                    
                 <!-- Date and Time Fields in Same Row -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Date Field -->
@@ -171,6 +263,7 @@
                 </div>
             </form>
         </section>
+        @endif
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -257,11 +350,14 @@
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
                 
-                const form = document.getElementById('punchInForm');
+                // Time picker functionality for Punch In form
+                const punchInForm = document.getElementById('punchInForm');
+                if (punchInForm) {
                 const dateInput = document.getElementById('punchDate');
                 const timeInput = document.getElementById('punchTime');
                 const timePickerBtn = document.getElementById('timePickerBtn');
                 
+                    if (timeInput && timePickerBtn) {
                 // Create a hidden time input for native time picker
                 const hiddenTimeInput = document.createElement('input');
                 hiddenTimeInput.type = 'time';
@@ -272,10 +368,8 @@
                 hiddenTimeInput.style.padding = '0';
                 hiddenTimeInput.style.margin = '0';
                 hiddenTimeInput.style.zIndex = '-1';
-                // Set color-scheme for dark mode compatibility
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 hiddenTimeInput.style.colorScheme = currentTheme === 'dark' ? 'dark' : 'light';
-                // Update color-scheme when theme changes
                 const themeObserver = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
                         if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
@@ -322,33 +416,25 @@
                     hiddenTimeInput.value = convert12to24(currentTime12h);
                 }
                 
-                // Time picker button click handler - position hidden input exactly at visible input location
+                        // Time picker button click handler
                 timePickerBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Get exact position and dimensions of visible time input
                     const timeInputRect = timeInput.getBoundingClientRect();
-                    
-                    // Position hidden input exactly where visible input is
-                    // Use fixed positioning to match viewport coordinates
                     hiddenTimeInput.style.position = 'fixed';
                     hiddenTimeInput.style.left = timeInputRect.left + 'px';
                     hiddenTimeInput.style.top = timeInputRect.top + 'px';
                     hiddenTimeInput.style.width = timeInputRect.width + 'px';
                     hiddenTimeInput.style.height = timeInputRect.height + 'px';
                     hiddenTimeInput.style.zIndex = '9999';
-                    
-                    // Ensure it's visible to browser (but transparent to user) for proper anchoring
                     hiddenTimeInput.style.opacity = '0';
                     hiddenTimeInput.style.pointerEvents = 'auto';
                     
-                    // Small delay to ensure positioning is applied before showPicker
                     requestAnimationFrame(function() {
                         hiddenTimeInput.focus();
                         hiddenTimeInput.showPicker();
                         
-                        // Reset pointer events after picker opens
                         setTimeout(function() {
                             hiddenTimeInput.style.pointerEvents = 'none';
                         }, 100);
@@ -365,7 +451,6 @@
                     const timeValue = timeInput.value.trim();
                     const timePattern = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
                     if (timeValue && !timePattern.test(timeValue)) {
-                        // Try to fix common issues
                         const fixed = timeValue.replace(/(\d{1,2}):(\d{2})\s*(am|pm)/i, function(match, h, m, p) {
                             const hour = parseInt(h);
                             const min = parseInt(m);
@@ -380,17 +465,28 @@
                     }
                 });
                 
-                form.addEventListener('submit', function(e) {
+                        // Form validation
+                        punchInForm.addEventListener('submit', function(e) {
+                            const timeValue = timeInput.value.trim();
+                            const timePattern = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
+                            
+                            if (!timePattern.test(timeValue)) {
+                                e.preventDefault();
+                                alert('Please enter a valid time in HH:MM AM/PM format (e.g., 07:32 AM)');
+                                timeInput.focus();
+                                return false;
+                            }
+                            
+                            if (!dateInput.value) {
                     e.preventDefault();
-                    // TODO: Implement form submission logic
-                    console.log('Punch In submitted:', {
-                        date: dateInput.value,
-                        time: timeInput.value,
-                        note: document.getElementById('punchNote').value
+                                alert('Please select a date');
+                                dateInput.focus();
+                                return false;
+                            }
                     });
-                });
+                    }
+                }
             });
         </script>
     </x-main-layout>
 @endsection
-

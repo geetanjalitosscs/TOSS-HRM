@@ -203,14 +203,29 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/leave/holidays/{id}', [LeaveController::class, 'updateHoliday'])->name('leave.holidays.update');
     Route::post('/leave/holidays/{id}/delete', [LeaveController::class, 'deleteHoliday'])->name('leave.holidays.delete');
     Route::post('/leave/holidays/bulk-delete', [LeaveController::class, 'bulkDeleteHolidays'])->name('leave.holidays.bulk-delete');
+    // Time - Timesheets routes
     Route::get('/time', [TimeController::class, 'index'])->name('time');
     Route::get('/time/my-timesheets', [TimeController::class, 'myTimesheets'])->name('time.my-timesheets');
     Route::get('/time/my-timesheets/edit', [TimeController::class, 'editMyTimesheet'])->name('time.my-timesheets.edit');
+    Route::post('/time/timesheets/entries', [TimeController::class, 'storeEntry'])->name('time.timesheets.entries.store');
+    Route::post('/time/timesheets/entries/{id}', [TimeController::class, 'updateEntry'])->whereNumber('id')->name('time.timesheets.entries.update');
+    Route::post('/time/timesheets/entries/{id}/delete', [TimeController::class, 'deleteEntry'])->whereNumber('id')->name('time.timesheets.entries.delete');
+    Route::post('/time/timesheets/{id}/submit', [TimeController::class, 'submit'])->whereNumber('id')->name('time.timesheets.submit');
+    
+    // Time - Manager Timesheet routes
+    Route::get('/time/timesheets/{id}/view', [TimeController::class, 'viewTimesheet'])->whereNumber('id')->name('time.timesheets.view');
+    Route::post('/time/timesheets/{id}/approve', [TimeController::class, 'approve'])->whereNumber('id')->name('time.timesheets.approve');
+    Route::post('/time/timesheets/{id}/reject', [TimeController::class, 'reject'])->whereNumber('id')->name('time.timesheets.reject');
 
     // Time - Attendance routes
     Route::get('/time/attendance/my-records', [TimeController::class, 'attendanceMyRecords'])->name('time.attendance.my-records');
     Route::get('/time/attendance/punch-in-out', [TimeController::class, 'attendancePunchInOut'])->name('time.attendance.punch-in-out');
+    Route::post('/time/attendance/punch-in', [TimeController::class, 'punchIn'])->name('time.attendance.punch-in');
+    Route::post('/time/attendance/punch-out', [TimeController::class, 'punchOut'])->name('time.attendance.punch-out');
     Route::get('/time/attendance/employee-records', [TimeController::class, 'attendanceEmployeeRecords'])->name('time.attendance.employee-records');
+    Route::get('/time/attendance/employee-records/{employeeId}/view', [TimeController::class, 'viewEmployeeAttendanceRecords'])->whereNumber('employeeId')->name('time.attendance.employee-records.view');
+    Route::post('/time/attendance/records/{id}/calculate-duration', [TimeController::class, 'calculateDuration'])->whereNumber('id')->name('time.attendance.calculate-duration');
+    Route::post('/time/attendance/records/{id}/delete', [TimeController::class, 'deleteAttendanceRecord'])->whereNumber('id')->name('time.attendance.records.delete');
     Route::get('/time/attendance/configuration', [TimeController::class, 'attendanceConfiguration'])->name('time.attendance.configuration');
     
     // Time - Reports routes

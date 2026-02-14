@@ -3,7 +3,7 @@
 @section('title', 'Time - Attendance - Employee Records')
 
 @section('body')
-    <x-main-layout title="Time / Attendance / Employee Records">
+    <x-main-layout title="Time">
         <!-- Top Navigation Tabs -->
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
@@ -46,25 +46,6 @@
                         ],
                     ];
                     $attendanceHasActive = collect($attendanceItems)->contains('active', true);
-                    
-                    $reportsItems = [
-                        [
-                            'url' => route('time.reports.project-reports'),
-                            'label' => 'Project Reports',
-                            'active' => request()->routeIs('time.reports.project-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.employee-reports'),
-                            'label' => 'Employee Reports',
-                            'active' => request()->routeIs('time.reports.employee-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.attendance-summary'),
-                            'label' => 'Attendance Summary',
-                            'active' => request()->routeIs('time.reports.attendance-summary')
-                        ],
-                    ];
-                    $reportsHasActive = collect($reportsItems)->contains('active', true);
                 @endphp
                 <x-dropdown-menu 
                     :items="$timesheetsItems"
@@ -81,15 +62,6 @@
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                         <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="$reportsItems"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
@@ -110,6 +82,7 @@
             </div>
 
             <!-- Filter Form -->
+            <form method="GET" action="{{ route('time.attendance.employee-records') }}" id="employee-attendance-search-form" class="rounded-lg p-4 border mb-4" style="background-color: var(--bg-hover); border-color: var(--border-default);">
             <div class="flex gap-4">
                 <!-- Employee Name Input -->
                 <div class="flex-1">
@@ -117,6 +90,7 @@
                     <input 
                         type="text" 
                         name="employee_name" 
+                            value="{{ $employeeName ?? '' }}"
                         class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
                         placeholder="Type for hints..."
                     >
@@ -132,9 +106,12 @@
                     />
                 </div>
 
-                <!-- View Button -->
-                <div class="flex-shrink-0 flex items-start pt-6">
-                    <button type="button" class="hr-btn-primary">
+                    <!-- Buttons -->
+                    <div class="flex-shrink-0 flex items-start pt-6 gap-2">
+                        <button type="button" class="hr-btn-secondary" onclick="resetEmployeeAttendanceFilters()">
+                            Reset
+                        </button>
+                        <button type="submit" class="hr-btn-primary">
                         View
                     </button>
                 </div>
@@ -142,6 +119,7 @@
 
             <!-- Required Text -->
             <div class="text-xs text-gray-500 mt-2">* Required</div>
+            </form>
         </section>
 
         <!-- Records Found Section -->
@@ -178,9 +156,9 @@
                             </div>
                             <div class="flex-shrink-0" style="width: 100px;">
                                 <div class="flex items-center justify-center">
-                                    <button type="button" class="hr-btn-primary px-3 py-1 text-xs">
+                                    <a href="{{ route('time.attendance.employee-records.view', ['employeeId' => $record->employee_id, 'date' => $selectedDate]) }}" class="hr-btn-primary px-3 py-1 text-xs">
                                         View
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -278,6 +256,28 @@
                 document.querySelectorAll('.hr-dropdown-menu').forEach(menu => {
                     observer.observe(menu, { attributes: true, attributeFilter: ['class'] });
                 });
+
+                // Reset button handler
+                function resetEmployeeAttendanceFilters() {
+                    var searchForm = document.getElementById('employee-attendance-search-form');
+                    if (searchForm) {
+                        // Clear all input values including date picker
+                        var employeeNameInput = searchForm.querySelector('input[name="employee_name"]');
+                        if (employeeNameInput) {
+                            employeeNameInput.value = '';
+                        }
+                        
+                        // Clear date picker - find the actual date input inside the date-picker component
+                        var dateInput = searchForm.querySelector('input[name="date"]');
+                        if (dateInput) {
+                            dateInput.value = '';
+                        }
+                        
+                        // Navigate to base route (no query) so URL is clean
+                        window.location.href = "{{ route('time.attendance.employee-records') }}";
+                    }
+                }
+                window.resetEmployeeAttendanceFilters = resetEmployeeAttendanceFilters;
 
             });
         </script>

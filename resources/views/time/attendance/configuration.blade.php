@@ -46,25 +46,6 @@
                         ],
                     ];
                     $attendanceHasActive = collect($attendanceItems)->contains('active', true);
-                    
-                    $reportsItems = [
-                        [
-                            'url' => route('time.reports.project-reports'),
-                            'label' => 'Project Reports',
-                            'active' => request()->routeIs('time.reports.project-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.employee-reports'),
-                            'label' => 'Employee Reports',
-                            'active' => request()->routeIs('time.reports.employee-reports')
-                        ],
-                        [
-                            'url' => route('time.reports.attendance-summary'),
-                            'label' => 'Attendance Summary',
-                            'active' => request()->routeIs('time.reports.attendance-summary')
-                        ],
-                    ];
-                    $reportsHasActive = collect($reportsItems)->contains('active', true);
                 @endphp
                 <x-dropdown-menu 
                     :items="$timesheetsItems"
@@ -81,15 +62,6 @@
                     width="w-56">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                         <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="$reportsItems"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $reportsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $reportsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $reportsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>

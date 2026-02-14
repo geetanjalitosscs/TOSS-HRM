@@ -88,8 +88,8 @@ html[data-theme="dark"] {
     --shadow-strong: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
     
     /* Scrollbar Colors */
-    --scrollbar-thumb: #4B5563;
-    --scrollbar-thumb-hover: #6B7280;
+    --scrollbar-thumb: #E45745;
+    --scrollbar-thumb-hover: #F06A5A;
 }
 
 /* ============================================
@@ -1164,9 +1164,9 @@ button i, .hr-btn-primary i, .hr-btn-secondary i {
     font-size: 13px;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: calc(100vh - 140px);
+    max-height: calc(100vh - 120px);
     scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) transparent;
+    scrollbar-color: var(--color-primary) transparent;
 }
 
 .hr-sidebar-nav::-webkit-scrollbar {
@@ -1178,12 +1178,12 @@ button i, .hr-btn-primary i, .hr-btn-secondary i {
 }
 
 .hr-sidebar-nav::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb);
+    background-color: var(--color-primary);
     border-radius: 3px;
 }
 
 .hr-sidebar-nav::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover);
+    background-color: var(--color-primary-hover);
 }
 
 .hr-sidebar-footer {
@@ -1192,8 +1192,9 @@ button i, .hr-btn-primary i, .hr-btn-secondary i {
     font-size: 10px;
     color: var(--text-muted);
     flex-shrink: 0;
-    background: var(--bg-elevated);
+    background: var(--bg-sidebar);
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    margin-top: auto;
 }
 
 /* ============================================

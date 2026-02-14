@@ -46,6 +46,12 @@
             </a>
         @endif
 
+        @if($can('recruitment'))
+            <a href="{{ route('recruitment') }}" class="sidebar-link {{ request()->routeIs('recruitment*') ? 'sidebar-link--active' : '' }}">
+                <i class="fas fa-briefcase"></i> Recruitment
+            </a>
+        @endif
+
         @if($can('leave'))
             <a href="{{ route('leave') }}" class="sidebar-link {{ request()->routeIs('leave*') ? 'sidebar-link--active' : '' }}">
                 <i class="fas fa-calendar-alt"></i> Leave
@@ -53,14 +59,8 @@
         @endif
 
         @if($can('time'))
-            <a href="{{ route('time') }}" class="sidebar-link {{ request()->routeIs('time*') && !request()->routeIs('time.project-info*') ? 'sidebar-link--active' : '' }}">
+            <a href="{{ route('time') }}" class="sidebar-link {{ request()->routeIs('time*') && !request()->routeIs('time.project-info*') && !request()->routeIs('time.reports*') ? 'sidebar-link--active' : '' }}">
                 <i class="fas fa-clock"></i> Time
-            </a>
-        @endif
-
-        @if($can('time'))
-            <a href="{{ route('time.project-info.projects') }}" class="sidebar-link {{ request()->routeIs('time.project-info*') ? 'sidebar-link--active' : '' }}">
-                <i class="fas fa-project-diagram"></i> Project Management
             </a>
         @endif
 
@@ -70,15 +70,15 @@
             </a>
         @endif
 
-        @if($can('recruitment'))
-            <a href="{{ route('recruitment') }}" class="sidebar-link {{ request()->routeIs('recruitment*') ? 'sidebar-link--active' : '' }}">
-                <i class="fas fa-briefcase"></i> Recruitment
-            </a>
-        @endif
-
         @if($can('directory'))
             <a href="{{ route('directory') }}" class="sidebar-link {{ request()->routeIs('directory*') ? 'sidebar-link--active' : '' }}">
                 <i class="fas fa-search"></i> Directory
+            </a>
+        @endif
+
+        @if($can('time'))
+            <a href="{{ route('time.project-info.projects') }}" class="sidebar-link {{ request()->routeIs('time.project-info*') || request()->routeIs('time.reports*') ? 'sidebar-link--active' : '' }}">
+                <i class="fas fa-project-diagram"></i> Project Management
             </a>
         @endif
 

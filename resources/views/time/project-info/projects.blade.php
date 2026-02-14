@@ -8,45 +8,6 @@
         <div class="hr-sticky-tabs">
             <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible">
                 @php
-                    $timesheetsItems = [
-                        [
-                            'url' => route('time.my-timesheets'),
-                            'label' => 'My Timesheets',
-                            'active' => request()->routeIs('time.my-timesheets') || request()->routeIs('time.my-timesheets.edit')
-                        ],
-                        [
-                            'url' => route('time'),
-                            'label' => 'Employee Timesheets',
-                            'active' => request()->routeIs('time')
-                        ]
-                    ];
-                    $timesheetsHasActive = collect($timesheetsItems)->contains('active', true);
-                    
-                    $attendanceItems = [
-                        [
-                            'url' => route('time.attendance.my-records'),
-                            'label' => 'My Records',
-                            'active' => request()->routeIs('time.attendance.my-records')
-                        ],
-                        [
-                            'url' => route('time.attendance.punch-in-out'),
-                            'label' => 'Punch In/Out',
-                            'active' => request()->routeIs('time.attendance.punch-in-out')
-                        ],
-                        [
-                            'url' => route('time.attendance.employee-records'),
-                            'label' => 'Employee Records',
-                            'active' => request()->routeIs('time.attendance.employee-records')
-                        ],
-                        [
-                            'url' => route('time.attendance.configuration'),
-                            'label' => 'Configuration',
-                            'active' => request()->routeIs('time.attendance.configuration'),
-                            'hidden' => true
-                        ],
-                    ];
-                    $attendanceHasActive = collect($attendanceItems)->contains('active', true);
-                    
                     $reportsItems = [
                         [
                             'url' => route('time.reports.project-reports'),
@@ -65,39 +26,13 @@
                         ],
                     ];
                     $reportsHasActive = collect($reportsItems)->contains('active', true);
-                    
-                    $projectInfoItems = [
-                        [
-                            'url' => route('time.project-info.customers'),
-                            'label' => 'Customers',
-                            'active' => request()->routeIs('time.project-info.customers')
-                        ],
-                        [
-                            'url' => route('time.project-info.projects'),
-                            'label' => 'Projects',
-                            'active' => request()->routeIs('time.project-info.projects')
-                        ],
-                    ];
-                    $projectInfoHasActive = collect($projectInfoItems)->contains('active', true);
                 @endphp
-                {{-- <x-dropdown-menu 
-                    :items="$timesheetsItems"
-                    position="left"
-                    width="w-48">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Timesheets</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="$attendanceItems"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Attendance</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
+                <a href="{{ route('time.project-info.customers') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.customers') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
+                    <span class="text-sm {{ request()->routeIs('time.project-info.customers') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Customers</span>
+                </a>
+                <a href="{{ route('time.project-info.projects') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.projects') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
+                    <span class="text-sm {{ request()->routeIs('time.project-info.projects') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Projects</span>
+                </a>
                 <x-dropdown-menu 
                     :items="$reportsItems"
                     position="left"
@@ -106,13 +41,7 @@
                         <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
-                </x-dropdown-menu> --}}
-                <a href="{{ route('time.project-info.customers') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.customers') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                    <span class="text-sm {{ request()->routeIs('time.project-info.customers') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Customers</span>
-                </a>
-                <a href="{{ route('time.project-info.projects') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.projects') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                    <span class="text-sm {{ request()->routeIs('time.project-info.projects') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Projects</span>
-                </a>
+                </x-dropdown-menu>
             </div>
         </div>
 

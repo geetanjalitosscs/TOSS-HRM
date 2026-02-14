@@ -147,22 +147,22 @@
                     id="my-tracker-scroll-container"
                     style="flex: 1 1 auto; overflow-y: auto; min-height: 0; max-height: calc(90vh - 200px); padding-right: 4px;"
                 >
-                    <div id="my-tracker-kpis-container" class="mb-4">
-                        <p class="text-xs mb-3" style="color: var(--text-muted);">Loading KPIs...</p>
-                    </div>
+                <div id="my-tracker-kpis-container" class="mb-4">
+                    <p class="text-xs mb-3" style="color: var(--text-muted);">Loading KPIs...</p>
+                </div>
                     <div id="my-tracker-overall-comments-section" class="mb-4" style="display: none;">
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
-                            Overall Comments
-                        </label>
-                        <textarea
-                            name="review_comments"
-                            id="my-tracker-review-comments"
-                            rows="3"
-                            class="hr-input px-3 py-1.5 text-xs w-full"
-                            style="background-color: var(--bg-input); color: var(--text-primary);"
-                            placeholder="Enter overall review comments..."
-                        ></textarea>
-                    </div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
+                        Overall Comments
+                    </label>
+                    <textarea
+                        name="review_comments"
+                        id="my-tracker-review-comments"
+                        rows="3"
+                        class="hr-input px-3 py-1.5 text-xs w-full"
+                        style="background-color: var(--bg-input); color: var(--text-primary);"
+                        placeholder="Enter overall review comments..."
+                    ></textarea>
+                </div>
                 </div>
                 <!-- Buttons section - always visible at bottom -->
                 <div id="my-tracker-buttons-section" class="flex justify-end gap-2 pt-3 border-t" style="display: none; flex-shrink: 0; border-color: var(--border-default); margin-top: auto;">
@@ -188,7 +188,7 @@
 
             function openMyTrackerRateKpisModal(trackerId) {
                 currentMyTrackerId = trackerId;
-
+                
                 const modal = document.getElementById('my-tracker-rate-kpis-modal');
                 const container = document.getElementById('my-tracker-kpis-container');
                 const form = document.getElementById('my-tracker-rate-kpis-form');
@@ -198,7 +198,7 @@
                 if (!modal || !container || !form) {
                     console.error('My Tracker KPIs modal elements not found');
                     return;
-                }
+                    }
 
                 // Initial loading state - hide overall comments and buttons
                 container.innerHTML = '<p class="text-xs mb-3" style="color: var(--text-muted);">Loading KPIs...</p>';
