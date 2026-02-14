@@ -123,15 +123,17 @@
                                                 @endif
                                             </span>
                                         </div>
-                                        @if($userId && $post->author_id == $userId)
+                                        @if($userId && ($post->author_id == $userId || $isMainUser))
                                         <div class="relative" style="position: relative;">
                                             <button class="p-1 rounded transition-all buzz-post-menu-btn" data-post-id="{{ $post->id }}" style="color: var(--text-muted);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                                                 <i class="fas fa-ellipsis-h text-xs"></i>
                                             </button>
                                             <div id="buzz-menu-{{ $post->id }}" class="hidden absolute right-0 mt-1 rounded-lg shadow-lg z-10" style="background-color: var(--bg-card); border: 1px solid var(--border-default); min-width: 120px;">
+                                                @if($post->author_id == $userId || $isMainUser)
                                                 <button onclick="openBuzzEditModal({{ $post->id }}, '{{ addslashes($post->content) }}')" class="w-full text-left px-4 py-2 text-xs transition-all" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                                                     <i class="fas fa-edit mr-2"></i> Edit
                                                 </button>
+                                                @endif
                                                 <button onclick="confirmBuzzDelete({{ $post->id }})" class="w-full text-left px-4 py-2 text-xs transition-all" style="color: var(--text-primary);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='transparent'">
                                                     <i class="fas fa-trash-alt mr-2"></i> Delete
                                                 </button>

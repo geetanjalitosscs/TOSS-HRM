@@ -97,11 +97,13 @@ class BuzzController extends Controller
         // Get current user profile photo for post creation widget
         $currentUserProfilePic = null;
         $currentUserProfileColor = null;
+        $isMainUser = false;
         if ($userId) {
             $currentUser = DB::table('users')
                 ->leftJoin('employees', 'users.employee_id', '=', 'employees.id')
                 ->select(
                     'users.username',
+                    'users.is_main_user',
                     DB::raw("COALESCE(employees.photo_path, UPPER(LEFT(users.username, 1))) as profile_pic"),
                     DB::raw("CASE WHEN employees.photo_path IS NOT NULL THEN NULL END as profile_color")
                 )
@@ -111,10 +113,11 @@ class BuzzController extends Controller
             if ($currentUser) {
                 $currentUserProfilePic = $currentUser->profile_pic;
                 $currentUserProfileColor = null;
+                $isMainUser = isset($currentUser->is_main_user) && $currentUser->is_main_user == 1;
             }
         }
 
-        return view('buzz.buzz', compact('posts', 'tab', 'userId', 'currentUserProfilePic', 'currentUserProfileColor'));
+        return view('buzz.buzz', compact('posts', 'tab', 'userId', 'currentUserProfilePic', 'currentUserProfileColor', 'isMainUser'));
     }
 
     public function storePost(Request $request)
@@ -318,7 +321,20 @@ class BuzzController extends Controller
         }
 
         $post = DB::table('buzz_posts')->where('id', $id)->first();
-        if (!$post || $post->author_id != $userId) {
+        if (!$post) {
+            return back()->with('error', 'Post not found');
+        }
+
+        // Check if user is main user
+        $currentUser = DB::table('users')
+            ->where('id', $userId)
+            ->select('is_main_user')
+            ->first();
+        
+        $isMainUser = $currentUser && isset($currentUser->is_main_user) && $currentUser->is_main_user == 1;
+
+        // Allow edit if user is the author OR if user is main user
+        if ($post->author_id != $userId && !$isMainUser) {
             return back()->with('error', 'You can only edit your own posts');
         }
 
@@ -345,7 +361,20 @@ class BuzzController extends Controller
         }
 
         $post = DB::table('buzz_posts')->where('id', $id)->first();
-        if (!$post || $post->author_id != $userId) {
+        if (!$post) {
+            return back()->with('error', 'Post not found');
+        }
+
+        // Check if user is main user
+        $currentUser = DB::table('users')
+            ->where('id', $userId)
+            ->select('is_main_user')
+            ->first();
+        
+        $isMainUser = $currentUser && isset($currentUser->is_main_user) && $currentUser->is_main_user == 1;
+
+        // Allow deletion if user is the author OR if user is main user
+        if ($post->author_id != $userId && !$isMainUser) {
             return back()->with('error', 'You can only delete your own posts');
         }
 

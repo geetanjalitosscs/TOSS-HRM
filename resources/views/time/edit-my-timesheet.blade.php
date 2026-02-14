@@ -86,26 +86,6 @@
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="[
-                        [
-                            'url' => route('time.project-info.customers'),
-                            'label' => 'Customers',
-                            'active' => request()->routeIs('time.project-info.customers')
-                        ],
-                        [
-                            'url' => route('time.project-info.projects'),
-                            'label' => 'Projects',
-                            'active' => request()->routeIs('time.project-info.projects')
-                        ],
-                    ]"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $projectInfoHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $projectInfoHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $projectInfoHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Project Info</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
             </div>
         </div>
 
