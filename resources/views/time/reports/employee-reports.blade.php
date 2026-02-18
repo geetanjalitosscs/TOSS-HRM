@@ -56,68 +56,68 @@
             </div>
 
             <form method="GET" action="{{ route('time.reports.employee-reports') }}" id="employee-reports-search-form">
-                <!-- Form Fields -->
-                <div class="space-y-4">
+            <!-- Form Fields -->
+            <div class="space-y-4">
                     <!-- Employee Name and Project Name Row -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Employee Name Input -->
-                        <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name<span class="text-red-500">*</span></label>
-                            <input 
-                                type="text" 
-                                name="employee_name" 
+                <!-- Employee Name Input -->
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name<span class="text-red-500">*</span></label>
+                    <input 
+                        type="text" 
+                        name="employee_name" 
                                 value="{{ request('employee_name', '') }}"
-                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
-                                placeholder="Type for hints..."
-                            >
-                        </div>
+                        class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                        placeholder="Type for hints..."
+                    >
+                </div>
 
-                        <!-- Project Name Input -->
-                        <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Name</label>
-                            <input 
-                                type="text" 
+                    <!-- Project Name Input -->
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Name</label>
+                        <input 
+                            type="text" 
                                 name="project" 
                                 value="{{ request('project', '') }}"
-                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
-                                placeholder="Type for hints..."
-                            >
-                        </div>
+                            class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                            placeholder="Type for hints..."
+                        >
                     </div>
+                </div>
 
-                    <!-- Project Date Range -->
-                    <div>
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Date Range</label>
-                        <div class="flex items-center gap-4">
-                            <div class="flex-1">
-                                <x-date-picker 
+                <!-- Project Date Range -->
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Date Range</label>
+                    <div class="flex items-center gap-4">
+                        <div class="flex-1">
+                            <x-date-picker 
                                     name="from_date" 
                                     value="{{ request('from_date') }}"
-                                    label="From"
-                                />
-                            </div>
-                            <div class="flex-1">
-                                <x-date-picker 
+                                label="From"
+                            />
+                        </div>
+                        <div class="flex-1">
+                            <x-date-picker 
                                     name="to_date" 
                                     value="{{ request('to_date') }}"
-                                    label="To"
-                                />
+                                label="To"
+                            />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Footer: Required Text and Search/Reset Buttons -->
-                <div class="flex items-center justify-between mt-6">
-                    <div class="text-xs" style="color: var(--text-primary);">* Required</div>
+            <div class="flex items-center justify-between mt-6">
+                <div class="text-xs" style="color: var(--text-primary);">* Required</div>
                     <div class="flex items-center gap-2">
                         <button type="button" onclick="resetEmployeeReportsFilters()" class="hr-btn-secondary">
                             Reset
                         </button>
                         <button type="submit" class="hr-btn-primary">
                             Search
-                        </button>
-                    </div>
+                </button>
+            </div>
                 </div>
             </form>
         </section>

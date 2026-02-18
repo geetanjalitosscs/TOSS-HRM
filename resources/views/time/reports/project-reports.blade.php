@@ -56,58 +56,198 @@
             </div>
 
             <form method="GET" action="{{ route('time.reports.project-reports') }}" id="project-reports-search-form">
-                <!-- Form Fields -->
-                <div class="space-y-4">
-                    <!-- Project Name Input -->
-                    <div>
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Name<span class="text-red-500">*</span></label>
-                        <input 
-                            type="text" 
-                            name="project_name" 
+            <!-- Form Fields -->
+            <div class="space-y-4">
+                <!-- Project Name Input -->
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Name<span class="text-red-500">*</span></label>
+                    <input 
+                        type="text" 
+                        name="project_name" 
                             value="{{ request('project_name', '') }}"
-                            class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
-                            placeholder="Type for hints..."
-                        >
-                    </div>
+                        class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                        placeholder="Type for hints..."
+                    >
+                </div>
 
-                    <!-- Project Date Range -->
-                    <div>
-                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Date Range</label>
-                        <div class="flex items-center gap-4">
-                            <!-- From Date Input -->
-                            <div class="flex-1">
-                                <x-date-picker 
-                                    name="date_from" 
+                <!-- Project Date Range -->
+                <div>
+                    <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Project Date Range</label>
+                    <div class="flex items-center gap-4">
+                        <!-- From Date Input -->
+                        <div class="flex-1">
+                            <x-date-picker 
+                                name="date_from" 
                                     value="{{ request('date_from') }}"
-                                    label="From"
-                                />
-                            </div>
+                                label="From"
+                            />
+                        </div>
 
-                            <!-- To Date Input -->
-                            <div class="flex-1">
-                                <x-date-picker 
-                                    name="date_to" 
+                        <!-- To Date Input -->
+                        <div class="flex-1">
+                            <x-date-picker 
+                                name="date_to" 
                                     value="{{ request('date_to') }}"
-                                    label="To"
-                                />
-                            </div>
+                                label="To"
+                            />
                         </div>
                     </div>
                 </div>
+            </div>
 
                 <!-- Footer: Required Text and Search/Reset Buttons -->
-                <div class="flex items-center justify-between mt-6">
-                    <div class="text-xs text-gray-500">* Required</div>
+            <div class="flex items-center justify-between mt-6">
+                <div class="text-xs text-gray-500">* Required</div>
                     <div class="flex items-center gap-2">
                         <button type="button" onclick="resetProjectReportsFilters()" class="hr-btn-secondary">
                             Reset
                         </button>
                         <button type="submit" class="hr-btn-primary">
                             Search
-                        </button>
-                    </div>
+                </button>
+            </div>
                 </div>
             </form>
+        </section>
+
+        <!-- Project Report Results -->
+        <section class="hr-card p-6 mt-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
+                    <i class="fas fa-list" style="color: var(--color-hr-primary);"></i>
+                    <span class="mt-0.5">Results</span>
+                </h3>
+                <x-records-found :count="count($results ?? [])" />
+            </div>
+
+            <div class="hr-table-wrapper" style="max-height: 24rem; overflow-y: auto;">
+                <!-- Header -->
+                <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-3 border-b"
+                     style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                        <div class="flex-1" style="min-width: 140px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                 style="color: var(--text-primary);">
+                                Employee Name
+                            </div>
+                        </div>
+                        <div class="flex-1" style="min-width: 140px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                 style="color: var(--text-primary);">
+                                Project
+                            </div>
+                        </div>
+                        <div class="flex-[1.5]" style="min-width: 180px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words"
+                                 style="color: var(--text-primary);">
+                                Activity
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 110px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-right"
+                                 style="color: var(--text-primary);">
+                                Hours
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0" style="width: 110px;">
+                            <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-right"
+                                 style="color: var(--text-primary);">
+                                Total Hours
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Rows -->
+                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
+                    @forelse($results as $result)
+                            @php
+                                $activityCount = count($result['activities']);
+                                $rowSpan = max($activityCount, 1);
+                                $first = true;
+                            @endphp
+
+                            @if($activityCount > 0)
+                                @foreach($result['activities'] as $activityName => $hours)
+                                    <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-3"
+                                         style="background-color: var(--bg-card); border-color: var(--border-default);"
+                                         onmouseover="this.style.backgroundColor='var(--bg-hover)'"
+                                         onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                                        @if($first)
+                                            <div class="flex-1" style="min-width: 140px;">
+                                                <div class="text-xs break-words" style="color: var(--text-primary);">
+                                                    {{ $result['employee_name'] }}
+                                                </div>
+                                            </div>
+                                            <div class="flex-1" style="min-width: 140px;">
+                                                <div class="text-xs break-words" style="color: var(--text-primary);">
+                                                    {{ $result['project_name'] }}
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="flex-1" style="min-width: 140px;"></div>
+                                            <div class="flex-1" style="min-width: 140px;"></div>
+                                        @endif
+
+                                        <div class="flex-[1.5]" style="min-width: 180px;">
+                                            <div class="text-xs break-words" style="color: var(--text-primary);">
+                                                {{ $activityName }}
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" style="width: 110px;">
+                                            <div class="text-xs text-right break-words" style="color: var(--text-primary);">
+                                                {{ number_format($hours, 2) }}
+                                            </div>
+                                        </div>
+                                        @if($first)
+                                            <div class="flex-shrink-0" style="width: 110px;">
+                                                <div class="text-xs text-right break-words font-semibold"
+                                                     style="color: var(--text-primary);">
+                                                    {{ number_format($result['total_hours'], 2) }}
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="flex-shrink-0" style="width: 110px;"></div>
+                                        @endif
+                                        @php $first = false; @endphp
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-3"
+                                     style="background-color: var(--bg-card); border-color: var(--border-default);"
+                                     onmouseover="this.style.backgroundColor='var(--bg-hover)'"
+                                     onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                                    <div class="flex-1" style="min-width: 140px;">
+                                        <div class="text-xs break-words" style="color: var(--text-primary);">
+                                            {{ $result['employee_name'] }}
+                                        </div>
+                                    </div>
+                                    <div class="flex-1" style="min-width: 140px;">
+                                        <div class="text-xs break-words" style="color: var(--text-primary);">
+                                            {{ $result['project_name'] }}
+                                        </div>
+                                    </div>
+                                    <div class="flex-[1.5]" style="min-width: 180px;">
+                                        <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
+                                    </div>
+                                    <div class="flex-shrink-0" style="width: 110px;">
+                                        <div class="text-xs text-right break-words" style="color: var(--text-primary);">
+                                            0.00
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0" style="width: 110px;">
+                                        <div class="text-xs text-right break-words font-semibold"
+                                             style="color: var(--text-primary);">
+                                            {{ number_format($result['total_hours'], 2) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @empty
+                            <div class="px-4 py-10 text-center text-xs" style="color: var(--text-muted);">
+                                No Records Found
+                            </div>
+                        @endforelse
+                    </div>
+            </div>
         </section>
 
         <script>

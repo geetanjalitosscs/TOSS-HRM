@@ -56,69 +56,69 @@
             </div>
 
             <form method="GET" action="{{ route('time.reports.attendance-summary') }}" id="attendance-summary-search-form">
-                <!-- Form Fields -->
-                <div class="space-y-4">
+            <!-- Form Fields -->
+            <div class="space-y-4">
                     <!-- Row 1: Employee Name, Job Title -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Employee Name Input -->
-                        <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name</label>
-                            <input 
-                                type="text" 
-                                name="employee_name" 
+                    <!-- Employee Name Input -->
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name</label>
+                        <input 
+                            type="text" 
+                            name="employee_name" 
                                 value="{{ request('employee_name', '') }}"
-                                class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
-                                placeholder="Type for hints..."
-                            >
-                        </div>
+                            class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                            placeholder="Type for hints..."
+                        >
+                    </div>
 
-                        <!-- Job Title Dropdown -->
-                        <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Job Title</label>
-                            <div class="relative">
-                                <select 
-                                    name="job_title" 
-                                    class="hr-select appearance-none w-full px-3 py-2.5 text-sm rounded-lg pr-10"
-                                    style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
-                                >
-                                    <option value="">-- Select --</option>
+                    <!-- Job Title Dropdown -->
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Job Title</label>
+                        <div class="relative">
+                            <select 
+                                name="job_title" 
+                                class="hr-select appearance-none w-full px-3 py-2.5 text-sm rounded-lg pr-10"
+                                style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
+                            >
+                                <option value="">-- Select --</option>
                                     @foreach($jobTitles ?? [] as $jobTitle)
                                         <option value="{{ $jobTitle->name }}" {{ request('job_title') == $jobTitle->name ? 'selected' : '' }}>
                                             {{ $jobTitle->name }}
                                         </option>
                                     @endforeach
-                                </select>
-                                <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-3">
-                                    <i class="fas fa-chevron-down text-xs" style="color: var(--text-muted);"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Row 2: Date Range -->
-                    <div class="grid grid-cols-1 gap-4">
-                        <!-- Date Range -->
-                        <div>
-                            <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date Range</label>
-                            <div class="flex items-center gap-4">
-                                <div class="flex-1">
-                                    <x-date-picker 
-                                        name="date_from" 
-                                        value="{{ request('date_from') }}"
-                                        label="From"
-                                    />
-                                </div>
-                                <div class="flex-1">
-                                    <x-date-picker 
-                                        name="date_to" 
-                                        value="{{ request('date_to') }}"
-                                        label="To"
-                                    />
-                                </div>
+                            </select>
+                            <div class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-3">
+                                <i class="fas fa-chevron-down text-xs" style="color: var(--text-muted);"></i>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                    <!-- Row 2: Date Range -->
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Date Range -->
+                    <div>
+                        <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Date Range</label>
+                        <div class="flex items-center gap-4">
+                            <div class="flex-1">
+                                <x-date-picker 
+                                    name="date_from" 
+                                        value="{{ request('date_from') }}"
+                                    label="From"
+                                />
+                            </div>
+                            <div class="flex-1">
+                                <x-date-picker 
+                                    name="date_to" 
+                                        value="{{ request('date_to') }}"
+                                    label="To"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
                 <!-- Footer: Search and Reset Buttons -->
                 <div class="flex items-center justify-end gap-2 mt-6">
@@ -127,8 +127,8 @@
                     </button>
                     <button type="submit" class="hr-btn-primary">
                         Search
-                    </button>
-                </div>
+                </button>
+            </div>
             </form>
         </section>
 

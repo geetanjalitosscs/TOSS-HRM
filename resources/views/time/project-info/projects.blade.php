@@ -9,24 +9,23 @@
             <div class="flex items-center border-b border-[var(--border-default)] overflow-x-auto overflow-y-visible">
                 @php
                     $reportsItems = [
-                        // Reports HIDDEN
-                        // [
-                        //     'url' => route('time.reports.project-reports'),
-                        //     'label' => 'Project Reports',
-                        //     'active' => request()->routeIs('time.reports.project-reports')
-                        // ],
-                        // [
-                        //     'url' => route('time.reports.employee-reports'),
-                        //     'label' => 'Employee Reports',
-                        //     'active' => request()->routeIs('time.reports.employee-reports')
-                        // ],
-                        // [
-                        //     'url' => route('time.reports.attendance-summary'),
-                        //     'label' => 'Attendance Summary',
-                        //     'active' => request()->routeIs('time.reports.attendance-summary')
-                        // ],
+                        [
+                            'url' => route('time.reports.project-reports'),
+                            'label' => 'Project Reports',
+                            'active' => request()->routeIs('time.reports.project-reports')
+                        ],
+                        [
+                            'url' => route('time.reports.employee-reports'),
+                            'label' => 'Employee Reports',
+                            'active' => request()->routeIs('time.reports.employee-reports')
+                        ],
+                        [
+                            'url' => route('time.reports.attendance-summary'),
+                            'label' => 'Attendance Summary',
+                            'active' => request()->routeIs('time.reports.attendance-summary')
+                        ],
                     ];
-                    $reportsHasActive = false; // collect($reportsItems)->contains('active', true);
+                    $reportsHasActive = collect($reportsItems)->contains('active', true);
                 @endphp
                 <a href="{{ route('time.project-info.customers') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.customers') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                     <span class="text-sm {{ request()->routeIs('time.project-info.customers') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Customers</span>
@@ -34,8 +33,7 @@
                 <a href="{{ route('time.project-info.projects') }}" class="px-6 py-3 transition-all flex items-center {{ request()->routeIs('time.project-info.projects') ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                     <span class="text-sm {{ request()->routeIs('time.project-info.projects') ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Projects</span>
                 </a>
-                <!-- Reports Dropdown HIDDEN -->
-                <!-- <x-dropdown-menu 
+                <x-dropdown-menu 
                     :items="$reportsItems"
                     position="left"
                     width="w-56">
@@ -43,7 +41,7 @@
                         <span class="text-sm {{ $reportsHasActive ? 'font-semibold text-[var(--color-hr-primary-dark)]' : 'font-medium text-slate-700' }}">Reports</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
-                </x-dropdown-menu> -->
+                </x-dropdown-menu>
             </div>
         </div>
 
@@ -270,7 +268,7 @@
                 @csrf
                 <!-- Scrollable content area -->
                 <div class="overflow-y-auto pr-1" style="max-height: calc(90vh - 180px);">
-                    <div class="mb-4">
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Customer <span class="text-red-500">*</span>
                     </label>
@@ -285,8 +283,8 @@
                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                         @endforeach
                     </select>
-                    </div>
-                    <div class="mb-4">
+                </div>
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Project Name <span class="text-red-500">*</span>
                     </label>
@@ -298,8 +296,8 @@
                         required
                         maxlength="255"
                     >
-                    </div>
-                    <div class="mb-4">
+                </div>
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Description
                     </label>
@@ -310,7 +308,7 @@
                         style="background-color: var(--bg-input); color: var(--text-primary);"
                         maxlength="500"
                     ></textarea>
-                    </div>
+                </div>
                     <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Project Date Range
@@ -338,7 +336,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-4">
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Project Admin
                     </label>
@@ -353,7 +351,7 @@
                                 {{ $employee->display_name ?: $employee->first_name . ' ' . $employee->last_name }}
                             </option>
                         @endforeach
-                        </select>
+                    </select>
                     </div>
                 </div>
 
@@ -385,7 +383,7 @@
                 @csrf
                 <!-- Scrollable content area -->
                 <div class="overflow-y-auto pr-1" style="max-height: calc(90vh - 180px);">
-                    <div class="mb-4">
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Customer <span class="text-red-500">*</span>
                     </label>
@@ -401,8 +399,8 @@
                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                         @endforeach
                     </select>
-                    </div>
-                    <div class="mb-4">
+                </div>
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Project Name <span class="text-red-500">*</span>
                     </label>
@@ -415,8 +413,8 @@
                         required
                         maxlength="255"
                     >
-                    </div>
-                    <div class="mb-4">
+                </div>
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Description
                     </label>
@@ -428,7 +426,7 @@
                         style="background-color: var(--bg-input); color: var(--text-primary);"
                         maxlength="500"
                     ></textarea>
-                    </div>
+                </div>
                     <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Project Date Range
@@ -458,7 +456,7 @@
                         </div>
                         </div>
                     </div>
-                    <div class="mb-4">
+                <div class="mb-4">
                     <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">
                         Project Admin
                     </label>
@@ -474,7 +472,7 @@
                                 {{ $employee->display_name ?: $employee->first_name . ' ' . $employee->last_name }}
                             </option>
                         @endforeach
-                        </select>
+                    </select>
                     </div>
                 </div>
 

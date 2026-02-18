@@ -139,79 +139,79 @@
 
                         <!-- Table Header -->
                         <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                            <div class="flex-1" style="min-width: 0;">
+                    <div class="flex-1" style="min-width: 0;">
                                 <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch In</div>
-                            </div>
-                            <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch In Note</div>
-                            </div>
-                            <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out</div>
-                            </div>
-                            <div class="flex-1" style="min-width: 0;">
-                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out Note</div>
-                            </div>
-                            <div class="flex-shrink-0" style="width: 100px;">
-                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Duration (Hours)</div>
-                            </div>
-                            <div class="flex-shrink-0" style="width: 90px;">
-                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch In Note</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out</div>
+                    </div>
+                    <div class="flex-1" style="min-width: 0;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out Note</div>
+                    </div>
+                    <div class="flex-shrink-0" style="width: 100px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Duration (Hours)</div>
+                    </div>
+                    <div class="flex-shrink-0" style="width: 90px;">
+                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
+                    </div>
+                </div>
 
                         <!-- Table Rows for this date -->
                         <div class="border border-t-0 rounded-b-lg mb-4" style="border-color: var(--border-default);">
                             @foreach($dateGroup['records'] as $index => $record)
-                            <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
-                                <!-- Punch In -->
-                                <div class="flex-1" style="min-width: 0;">
+                    <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                        <!-- Punch In -->
+                        <div class="flex-1" style="min-width: 0;">
                                     <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in ?? '—' }}</div>
-                                </div>
+                        </div>
 
-                                <!-- Punch In Note -->
-                                <div class="flex-1" style="min-width: 0;">
-                                    @if($record->punch_in_note)
-                                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in_note }}</div>
-                                    @else
-                                        <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
-                                    @endif
-                                </div>
+                        <!-- Punch In Note -->
+                        <div class="flex-1" style="min-width: 0;">
+                            @if($record->punch_in_note)
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in_note }}</div>
+                            @else
+                                <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
+                            @endif
+                        </div>
 
-                                <!-- Punch Out -->
-                                <div class="flex-1" style="min-width: 0;">
+                        <!-- Punch Out -->
+                        <div class="flex-1" style="min-width: 0;">
                                     <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out ?? '—' }}</div>
-                                </div>
+                        </div>
 
-                                <!-- Punch Out Note -->
-                                <div class="flex-1" style="min-width: 0;">
-                                    @if($record->punch_out_note)
-                                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out_note }}</div>
-                                    @else
-                                        <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
-                                    @endif
-                                </div>
+                        <!-- Punch Out Note -->
+                        <div class="flex-1" style="min-width: 0;">
+                            @if($record->punch_out_note)
+                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out_note }}</div>
+                            @else
+                                <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
+                            @endif
+                        </div>
 
-                                <!-- Duration -->
-                                <div class="flex-shrink-0" style="width: 100px;">
-                                    <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record->duration, 2) }}</div>
-                                </div>
+                        <!-- Duration -->
+                        <div class="flex-shrink-0" style="width: 100px;">
+                            <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record->duration, 2) }}</div>
+                        </div>
 
-                                <!-- Actions -->
-                                <div class="flex-shrink-0" style="width: 90px;">
-                                    <div class="flex items-center justify-center gap-2">
+                        <!-- Actions -->
+                        <div class="flex-shrink-0" style="width: 90px;">
+                            <div class="flex items-center justify-center gap-2">
                                         <button 
                                             type="button" 
                                             class="hr-action-delete flex-shrink-0" 
                                             title="Delete"
                                             onclick="openAttendanceDeleteModal({{ $record->id }})"
                                         >
-                                            <i class="fas fa-trash-alt text-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                    <i class="fas fa-trash-alt text-sm"></i>
+                                </button>
                             </div>
-                            @endforeach
                         </div>
+                    </div>
+                    @endforeach
+                </div>
                     @endforeach
                 @else
                     <!-- Empty State -->

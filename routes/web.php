@@ -228,10 +228,10 @@ Route::middleware('auth.session')->group(function () {
     Route::post('/time/attendance/records/{id}/delete', [TimeController::class, 'deleteAttendanceRecord'])->whereNumber('id')->name('time.attendance.records.delete');
     Route::get('/time/attendance/configuration', [TimeController::class, 'attendanceConfiguration'])->name('time.attendance.configuration');
     
-    // Time - Reports routes (HIDDEN)
-    // Route::get('/time/reports/project-reports', [TimeController::class, 'projectReports'])->name('time.reports.project-reports');
-    // Route::get('/time/reports/employee-reports', [TimeController::class, 'employeeReports'])->name('time.reports.employee-reports');
-    // Route::get('/time/reports/attendance-summary', [TimeController::class, 'attendanceSummary'])->name('time.reports.attendance-summary');
+    // Time - Reports routes
+    Route::get('/time/reports/project-reports', [TimeController::class, 'projectReports'])->name('time.reports.project-reports');
+    Route::get('/time/reports/employee-reports', [TimeController::class, 'employeeReports'])->name('time.reports.employee-reports');
+    Route::get('/time/reports/attendance-summary', [TimeController::class, 'attendanceSummary'])->name('time.reports.attendance-summary');
     
     // Time - Project Info routes
     Route::get('/time/project-info/customers', [TimeController::class, 'projectInfoCustomers'])->name('time.project-info.customers');

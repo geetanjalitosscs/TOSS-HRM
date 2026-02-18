@@ -1103,19 +1103,16 @@ class TimeController extends Controller
             ->join('timesheets', 'timesheet_entries.timesheet_id', '=', 'timesheets.id')
             ->join('employees', 'timesheets.employee_id', '=', 'employees.id')
             ->leftJoin('time_projects', 'timesheet_entries.project_id', '=', 'time_projects.id')
-            ->leftJoin('time_customers', 'time_projects.customer_id', '=', 'time_customers.id')
             ->select(
-                'time_projects.id as project_id',
+                'employees.display_name as employee_name',
                 'time_projects.name as project_name',
-                'time_projects.description as project_description',
-                'time_projects.start_date as project_start_date',
-                'time_projects.end_date as project_end_date',
-                'time_customers.name as customer_name',
+                'timesheet_entries.activity_name',
+                'timesheet_entries.work_date',
                 'timesheet_entries.hours',
-                'employees.display_name as employee_name'
+                'timesheets.status'
             )
-            ->whereNotNull('timesheet_entries.project_id')
-            ->distinct();
+            // Only include entries that are linked to a project
+            ->whereNotNull('timesheet_entries.project_id');
 
         // Filter by project name
         if ($request->filled('project_name')) {
@@ -1135,42 +1132,31 @@ class TimeController extends Controller
             $query->where('timesheets.status', 'approved');
         }
 
-        $entries = $query->orderBy('time_projects.name')
-            ->orderBy('time_customers.name')
+        $entries = $query->orderBy('employees.display_name')
+            ->orderBy('time_projects.name')
+            ->orderBy('timesheet_entries.work_date')
             ->get();
 
-        // Group by project to match project-info page structure
+        // Group by employee and project
         $grouped = [];
         foreach ($entries as $entry) {
-            $projectKey = $entry->project_id ?? 'no-project';
-            if (!isset($grouped[$projectKey])) {
-                // Get project admins
-                $projectAdmins = DB::table('time_project_admins')
-                    ->join('employees', 'time_project_admins.employee_id', '=', 'employees.id')
-                    ->where('time_project_admins.project_id', $entry->project_id)
-                    ->pluck('employees.display_name')
-                    ->implode(', ');
-
-                // Format date range
-                $dateRange = '';
-                if ($entry->project_start_date && $entry->project_end_date) {
-                    $dateRange = Carbon::parse($entry->project_start_date)->format('d M Y') . ' - ' . Carbon::parse($entry->project_end_date)->format('d M Y');
-                }
-
-                $grouped[$projectKey] = [
-                    'project_id' => $entry->project_id,
-                    'customer_name' => $entry->customer_name ?? 'No Customer',
+            $key = $entry->employee_name . '|' . ($entry->project_name ?? 'No Project');
+            if (!isset($grouped[$key])) {
+                $grouped[$key] = [
+                    'employee_name' => $entry->employee_name,
                     'project_name' => $entry->project_name ?? 'No Project',
-                    'description' => $entry->project_description ?? '-',
-                    'project_date_range' => $dateRange,
-                    'project_admins' => $projectAdmins ?: '-',
+                    'activities' => [],
                     'total_hours' => 0,
-                    'employee_count' => 0,
                 ];
             }
 
-            $grouped[$projectKey]['total_hours'] += (float)$entry->hours;
-            $grouped[$projectKey]['employee_count']++;
+            $activityKey = $entry->activity_name ?? 'General';
+            if (!isset($grouped[$key]['activities'][$activityKey])) {
+                $grouped[$key]['activities'][$activityKey] = 0;
+            }
+
+            $grouped[$key]['activities'][$activityKey] += (float)$entry->hours;
+            $grouped[$key]['total_hours'] += (float)$entry->hours;
         }
 
         $results = array_values($grouped);

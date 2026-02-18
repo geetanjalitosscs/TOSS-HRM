@@ -30,8 +30,9 @@
                 const isLoginPage = window.location.pathname === '/' || window.location.pathname === '/login';
                 
                 if (isLoginPage) {
-                    // Force light mode on login page
-                    document.documentElement.setAttribute('data-theme', 'light');
+                    // Force dark mode on login page to prevent flicker
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('hr-theme', 'dark');
                 } else {
                     // For other pages, use stored theme or system preference
                     const storedTheme = localStorage.getItem('hr-theme');

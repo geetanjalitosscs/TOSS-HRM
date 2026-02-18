@@ -78,98 +78,227 @@ This project follows enterprise-grade **MVC (Model-View-Controller)** architectu
 
 ### Prerequisites
 
-- **PHP >= 8.2** (Required)
-- **MySQL/MariaDB** (Required for database functionality)
-- **Composer** (Required for PHP dependencies)
-- **Web Server** (Apache/Nginx or XAMPP)
-- **Node.js & NPM** (Optional - only needed for asset development)
+Before you begin, ensure you have the following installed on your system:
 
-### Installation (Production - Recommended)
+- **PHP >= 8.2** (Required) - Check with `php -v`
+- **MySQL/MariaDB** (Required) - Check with `mysql --version`
+- **Composer** (Required) - Check with `composer --version`
+- **Web Server** (Optional) - Apache/Nginx or XAMPP (Laravel includes built-in server)
+- **Node.js & NPM** (Optional) - Only needed for asset development, not required for production
+
+### Initial Setup & Run (Step-by-Step)
+
+Follow these steps to get the TOAI HRM Suite up and running:
+
+#### Step 1: Clone or Download the Project
+
+```bash
+# If using Git
+git clone <repository-url>
+cd TOAI-HRM
+
+# Or extract the project to your web server directory (e.g., C:\xampp\htdocs\TOAI-HRM)
+```
+
+#### Step 2: Install PHP Dependencies
+
+```bash
+# Navigate to project directory
+cd TOAI-HRM
+
+# Install PHP packages (Production - Recommended)
+composer install --optimize-autoloader --no-dev
+
+# OR for Development (includes dev dependencies)
+composer install
+```
+
+#### Step 3: Create Environment File
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+```
+
+#### Step 4: Setup Database
+
+**Option A: Using MySQL Command Line**
+```bash
+# Create database
+mysql -u root -p
+CREATE DATABASE toai_hrm CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
+
+# Import database schema
+mysql -u root -p toai_hrm < database/toai_hrm.sql
+```
+
+**Option B: Using phpMyAdmin**
+1. Open phpMyAdmin (usually at `http://localhost/phpmyadmin`)
+2. Create a new database named `toai_hrm`
+3. Select the database
+4. Go to "Import" tab
+5. Choose file: `database/toai_hrm.sql`
+6. Click "Go" to import
+
+#### Step 5: Configure Database Connection
+
+Edit the `.env` file and update the database settings:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=toai_hrm
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+**For XAMPP users:**
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=toai_hrm
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+#### Step 6: Create Storage Link (Required)
+
+This enables public access to uploaded files:
+
+```bash
+php artisan storage:link
+```
+
+#### Step 7: Verify Installation
+
+Test the database connection:
+
+```bash
+php artisan migrate:status
+```
+
+If you see "No migrations found" or migration status, the database connection is working correctly.
+
+#### Step 8: Start the Application
+
+**Using Laravel Built-in Server (Recommended for Development):**
+```bash
+# Default port (8000)
+php artisan serve
+
+# Custom port (e.g., 8001)
+php artisan serve --port=8001
+
+# Access from other devices on your network
+php artisan serve --host=0.0.0.0 --port=8000
+```
+
+**Using XAMPP/Apache:**
+1. Place project in `C:\xampp\htdocs\TOAI-HRM`
+2. Access via: `http://localhost/TOAI-HRM/public`
+
+**Using Nginx:**
+Configure your virtual host to point to `public/` directory.
+
+#### Step 9: Access the Application
+
+Open your browser and navigate to:
+- **Local**: [http://127.0.0.1:8000](http://127.0.0.1:8000) or [http://localhost:8000](http://localhost:8000)
+- **XAMPP**: [http://localhost/TOAI-HRM/public](http://localhost/TOAI-HRM/public)
+
+**Default Login Credentials:**
+- **Username**: `admin`
+- **Password**: `admin123`
+
+### Development Setup (With NPM - Optional)
+
+If you want to modify CSS/JS assets or develop new features:
+
+#### Step 1: Install Node.js Dependencies
+
+```bash
+npm install
+```
+
+#### Step 2: Start Development Servers
+
+**Option A: Run Both Together (Recommended)**
+```bash
+npm run dev
+```
+This starts both Laravel server and Vite dev server with hot reload.
+
+**Option B: Run Separately**
+```bash
+# Terminal 1: Laravel server
+php artisan serve
+
+# Terminal 2: Vite dev server
+npm run dev
+```
+
+#### Step 3: Build Assets for Production
+
+When ready to deploy:
+
+```bash
+npm run build
+```
+
+This creates optimized assets in `public/build/` directory.
+
+### Troubleshooting
+
+**Issue: "Class not found" or "Composer autoload error"**
+```bash
+composer dump-autoload
+```
+
+**Issue: "Storage link already exists"**
+```bash
+# Windows
+rmdir /s public\storage
+php artisan storage:link
+
+# Linux/Mac
+rm -rf public/storage
+php artisan storage:link
+```
+
+**Issue: "Permission denied" (Linux/Mac)**
+```bash
+chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+```
+
+**Issue: Database connection failed**
+- Verify MySQL service is running
+- Check `.env` file has correct credentials
+- Ensure database `toai_hrm` exists
+- Try: `php artisan config:clear`
+
+**Issue: Page shows "419 Page Expired"**
+```bash
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+```
+
+### Production Deployment
 
 **✅ Production Ready!** This project includes pre-built assets and can run **without npm** in production!
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd HR
-   ```
-
-2. **Install PHP dependencies**
-   ```bash
-   composer install --optimize-autoloader --no-dev
-   ```
-
-3. **Configure environment**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-4. **Setup database**
-   ```bash
-   # Import the database schema
-   mysql -u username -p database_name < database/toai_hrm.sql
-   
-   # Or use phpMyAdmin to import the SQL file
-   ```
-
-5. **Configure database connection** in `.env`:
-   ```env
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=toai_hrm
-   DB_USERNAME=your_username
-   DB_PASSWORD=your_password
-   ```
-
-6. **Start the application**
-  ```bash
-   # Default port (8000)
-   `php artisan serve`
-
-   # Custom port example (e.g., 8001)
-   `php artisan serve --port=8001`
-   7. **Enable public access to uploaded files (storage link)**
-  
-   `php artisan storage:link`
-   The `@vite` directive automatically uses the pre-built assets from `public/build/`. All features will work perfectly!
-   ```
-
-The `@vite` directive automatically uses the pre-built assets from `public/build/`. All features will work perfectly!
-
-### Installation (Development - With NPM)
-
-For development with hot reload and asset rebuilding:
-
-1. **Install all dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
-
-2. **Configure environment**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-3. **Setup database** (same as production)
-
-4. **Start development servers**
-   ```bash
-   # Run both Laravel and Vite in parallel
-   npm run dev
-   
-   # Or run separately
-   php artisan serve
-   npm run dev  # in another terminal
-   ```
-
-5. **Build for production**
-   ```bash
-   npm run build
-   ```
+1. Follow Steps 1-6 from Initial Setup
+2. Use `composer install --optimize-autoloader --no-dev` (no dev dependencies)
+3. Set `APP_ENV=production` and `APP_DEBUG=false` in `.env`
+4. Run `php artisan config:cache` and `php artisan route:cache`
+5. The `@vite` directive automatically uses pre-built assets from `public/build/`
 
 ## 🔐 Login Credentials
 
@@ -739,16 +868,4 @@ We welcome contributions to the TOAI HRM Suite! Please follow these guidelines:
 - Open GitHub Issues with "Feature Request" label
 - Describe the use case and expected behavior
 - Consider the impact on existing functionality
-
 ---
-
-**Built with ❤️ using Laravel 12 and modern web technologies**
-
-**TOAI HRM Suite - New Edition**
-*Enterprise-grade Human Resource Management System*
-
-For support and inquiries, please visit our [GitHub Repository](https://github.com/geetanjalitosscs/TOSS-HRM).
-
-
-
-
