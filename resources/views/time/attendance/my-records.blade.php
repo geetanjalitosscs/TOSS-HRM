@@ -80,19 +80,29 @@
 
             <!-- Date Filter Section -->
             <form method="GET" action="{{ route('time.attendance.my-records') }}" class="rounded-lg p-4 border mb-4" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                <div class="flex gap-4">
-                    <div class="w-full max-w-xs">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="w-full">
                         <x-date-picker 
-                            name="date" 
-                            value="{{ $selectedDate }}"
-                            label="Date"
+                            name="from_date" 
+                            value="{{ $fromDate }}"
+                            label="From Date"
                             required="true"
                         />
-                        <div class="text-xs text-gray-500 mt-1">* Required</div>
                     </div>
-                    <div class="flex items-start pt-6">
+                    <div class="w-full">
+                        <x-date-picker 
+                            name="to_date" 
+                            value="{{ $toDate }}"
+                            label="To Date"
+                            required="true"
+                        />
+                    </div>
+                    <div class="flex items-end gap-2">
                         <button type="submit" class="hr-btn-primary">
-                            View
+                            Search
+                        </button>
+                        <button type="button" onclick="resetFilters()" class="hr-btn-secondary">
+                            Reset
                         </button>
                     </div>
                 </div>
@@ -102,88 +112,115 @@
             <section class="hr-card mt-6">
                 <!-- Records Count + Total Duration -->
                 <div class="px-4 pt-4 pb-3 flex items-center justify-between border-b" style="border-color: var(--border-default);">
-                    <x-records-found :count="count($records)" />
+                    <x-records-found :count="count($groupedRecords)" />
                     <div class="text-sm font-medium" style="color: var(--text-primary);">
                         Total Duration (Hours): 
                         <span style="color: var(--text-primary);">{{ number_format($totalDuration, 2) }}</span>
                     </div>
                 </div>
 
-                <!-- Table Header -->
-                <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch In</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch In Note</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out</div>
-                    </div>
-                    <div class="flex-1" style="min-width: 0;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out Note</div>
-                    </div>
-                    <div class="flex-shrink-0" style="width: 100px;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Duration (Hours)</div>
-                    </div>
-                    <div class="flex-shrink-0" style="width: 90px;">
-                        <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
-                    </div>
-                </div>
-
-                <!-- Table Rows -->
-                <div class="border border-t-0 rounded-b-lg" style="border-color: var(--border-default);">
-                    @foreach($records as $index => $record)
-                    <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
-                        <!-- Punch In -->
-                        <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in }}</div>
-                        </div>
-
-                        <!-- Punch In Note -->
-                        <div class="flex-1" style="min-width: 0;">
-                            @if($record->punch_in_note)
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in_note }}</div>
-                            @else
-                                <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
-                            @endif
-                        </div>
-
-                        <!-- Punch Out -->
-                        <div class="flex-1" style="min-width: 0;">
-                            <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out }}</div>
-                        </div>
-
-                        <!-- Punch Out Note -->
-                        <div class="flex-1" style="min-width: 0;">
-                            @if($record->punch_out_note)
-                                <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out_note }}</div>
-                            @else
-                                <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
-                            @endif
-                        </div>
-
-                        <!-- Duration -->
-                        <div class="flex-shrink-0" style="width: 100px;">
-                            <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record->duration, 2) }}</div>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="flex-shrink-0" style="width: 90px;">
-                            <div class="flex items-center justify-center gap-2">
-                                <button 
-                                    type="button" 
-                                    class="hr-action-delete flex-shrink-0" 
-                                    title="Delete"
-                                    onclick="openAttendanceDeleteModal({{ $record->id }})"
-                                >
-                                    <i class="fas fa-trash-alt text-sm"></i>
-                                </button>
+                <!-- Daily Records -->
+                @if(count($groupedRecords) > 0)
+                    @foreach($groupedRecords as $dateGroup)
+                        <!-- Date Header -->
+                        <div class="px-4 py-2 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-semibold" style="color: var(--text-primary);">
+                                    {{ \Carbon\Carbon::parse($dateGroup['date'])->format('d M Y') }} 
+                                    <span class="text-xs font-normal" style="color: var(--text-muted);">
+                                        ({{ \Carbon\Carbon::parse($dateGroup['date'])->format('l') }})
+                                    </span>
+                                </div>
+                                <div class="text-xs font-medium" style="color: var(--text-primary);">
+                                    Total: {{ number_format($dateGroup['total_duration'], 2) }} hrs
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                        <!-- Table Header -->
+                        <div class="rounded-t-lg px-2 py-1.5 flex items-center gap-1 border-b" style="background-color: var(--bg-hover); border-color: var(--border-default);">
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch In</div>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch In Note</div>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out</div>
+                            </div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words" style="color: var(--text-primary);">Punch Out Note</div>
+                            </div>
+                            <div class="flex-shrink-0" style="width: 100px;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Duration (Hours)</div>
+                            </div>
+                            <div class="flex-shrink-0" style="width: 90px;">
+                                <div class="text-xs font-semibold uppercase tracking-wide leading-tight break-words text-center" style="color: var(--text-primary);">Actions</div>
+                            </div>
+                        </div>
+
+                        <!-- Table Rows for this date -->
+                        <div class="border border-t-0 rounded-b-lg mb-4" style="border-color: var(--border-default);">
+                            @foreach($dateGroup['records'] as $index => $record)
+                            <div class="border-b last:border-b-0 px-2 py-1.5 transition-colors flex items-center gap-1" style="background-color: var(--bg-card); border-color: var(--border-default);" onmouseover="this.style.backgroundColor='var(--bg-hover)'" onmouseout="this.style.backgroundColor='var(--bg-card)'">
+                                <!-- Punch In -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in ?? '—' }}</div>
+                                </div>
+
+                                <!-- Punch In Note -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    @if($record->punch_in_note)
+                                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_in_note }}</div>
+                                    @else
+                                        <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
+                                    @endif
+                                </div>
+
+                                <!-- Punch Out -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out ?? '—' }}</div>
+                                </div>
+
+                                <!-- Punch Out Note -->
+                                <div class="flex-1" style="min-width: 0;">
+                                    @if($record->punch_out_note)
+                                        <div class="text-xs break-words" style="color: var(--text-primary);">{{ $record->punch_out_note }}</div>
+                                    @else
+                                        <div class="text-xs break-words" style="color: var(--text-muted);">—</div>
+                                    @endif
+                                </div>
+
+                                <!-- Duration -->
+                                <div class="flex-shrink-0" style="width: 100px;">
+                                    <div class="text-xs text-center break-words" style="color: var(--text-primary);">{{ number_format($record->duration, 2) }}</div>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="flex-shrink-0" style="width: 90px;">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button 
+                                            type="button" 
+                                            class="hr-action-delete flex-shrink-0" 
+                                            title="Delete"
+                                            onclick="openAttendanceDeleteModal({{ $record->id }})"
+                                        >
+                                            <i class="fas fa-trash-alt text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
                     @endforeach
-                </div>
+                @else
+                    <!-- Empty State -->
+                    <div class="px-4 py-6 text-center">
+                        <div class="text-xs text-[var(--text-muted)]">
+                            No Records Found
+                        </div>
+                    </div>
+                @endif
             </section>
         </section>
 
@@ -343,6 +380,33 @@
                     form.action = attendanceDeleteUrlTemplate.replace(':id', currentDeleteRecordId);
                     closeAttendanceDeleteModal();
                     form.submit();
+                };
+
+                // Reset filters
+                window.resetFilters = function() {
+                    var today = new Date();
+                    var thirtyDaysAgo = new Date();
+                    thirtyDaysAgo.setDate(today.getDate() - 30);
+                    
+                    var formatDate = function(date) {
+                        var year = date.getFullYear();
+                        var month = String(date.getMonth() + 1).padStart(2, '0');
+                        var day = String(date.getDate()).padStart(2, '0');
+                        return year + '-' + month + '-' + day;
+                    };
+                    
+                    var fromDateInput = document.querySelector('input[name="from_date"]');
+                    var toDateInput = document.querySelector('input[name="to_date"]');
+                    
+                    if (fromDateInput) {
+                        fromDateInput.value = formatDate(thirtyDaysAgo);
+                    }
+                    if (toDateInput) {
+                        toDateInput.value = formatDate(today);
+                    }
+                    
+                    // Submit form to reload with reset dates
+                    document.querySelector('form[action="{{ route("time.attendance.my-records") }}"]').submit();
                 };
             });
         </script>

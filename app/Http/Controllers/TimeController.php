@@ -29,7 +29,7 @@ class TimeController extends Controller
         }
 
         return [$userId, $user->employee_id];
-    }
+                }
 
     /**
      * Get or create draft timesheet for current week.
@@ -99,10 +99,11 @@ class TimeController extends Controller
             $cursor->addDay();
         }
 
-        // Get all entries for this timesheet
+        // Get all entries for this employee (not just current week's timesheet)
         $entries = DB::table('timesheet_entries')
+            ->join('timesheets', 'timesheet_entries.timesheet_id', '=', 'timesheets.id')
             ->leftJoin('time_projects', 'timesheet_entries.project_id', '=', 'time_projects.id')
-            ->where('timesheet_entries.timesheet_id', $timesheet->id)
+            ->where('timesheets.employee_id', $employeeId)
             ->select(
                 'timesheet_entries.id',
                 'timesheet_entries.project_id',
@@ -141,6 +142,29 @@ class TimeController extends Controller
                 'work_date' => $entry->work_date,
                 'notes' => $entry->notes ?? '',
                 'hours' => (float)$entry->hours,
+            ];
+        }
+        
+        // Add today's date if no entry exists for today
+        $today = Carbon::now()->format('Y-m-d');
+        $hasTodayEntry = false;
+        foreach ($groupedEntries as $entry) {
+            if ($entry['work_date'] === $today) {
+                $hasTodayEntry = true;
+                break;
+            }
+        }
+        
+        if (!$hasTodayEntry) {
+            // Add today's date with empty description
+            $groupedEntries[] = [
+                'id' => null,
+                'project_id' => null,
+                'project_name' => '-',
+                'activity_name' => '-',
+                'work_date' => $today,
+                'notes' => '',
+                'hours' => 0,
             ];
         }
         
@@ -391,6 +415,7 @@ class TimeController extends Controller
         [$userId, $currentEmployeeId] = $this->resolveUserAndEmployee();
 
         // Get all timesheet entries for other employees (excluding logged-in user)
+        // Show ALL records by default, only filter when search is applied
         $query = DB::table('timesheet_entries')
             ->join('timesheets', 'timesheet_entries.timesheet_id', '=', 'timesheets.id')
             ->join('employees', 'timesheets.employee_id', '=', 'employees.id')
@@ -408,7 +433,9 @@ class TimeController extends Controller
                 'employees.id as employee_id',
                 'employees.display_name as employee_name',
                 'time_projects.name as project_name'
-            );
+            )
+            ->orderBy('timesheet_entries.work_date', 'desc')
+            ->orderBy('timesheet_entries.created_at', 'desc');
 
         // Filter by employee name
         if ($request->filled('employee_name')) {
@@ -423,9 +450,7 @@ class TimeController extends Controller
             $query->where('timesheet_entries.work_date', '<=', $request->to_date);
         }
 
-        $entries = $query->orderBy('timesheet_entries.work_date', 'desc')
-            ->orderBy('timesheet_entries.created_at', 'desc')
-            ->get();
+        $entries = $query->get();
 
         // Group entries by employee and date - only show latest entry per date per employee
         $groupedEntries = [];
@@ -658,7 +683,7 @@ class TimeController extends Controller
                 return back()->with('error', 'You have already completed your attendance for today. You can punch in again tomorrow.');
             }
             return back()->with('error', 'You have an open punch in. Please punch out first.');
-        }
+                }
 
         // Parse date and time
         $punchDateTime = Carbon::parse($data['date'] . ' ' . $data['time']);
@@ -697,7 +722,7 @@ class TimeController extends Controller
 
         if (!$openRecord) {
             return back()->with('error', 'No open punch in found. Please punch in first.');
-        }
+                }
 
         // Use current India time
         $punchOutDateTime = Carbon::now('Asia/Kolkata');
@@ -731,21 +756,35 @@ class TimeController extends Controller
         [$userId, $employeeId] = $this->resolveUserAndEmployee();
 
         $today = Carbon::now('Asia/Kolkata');
-        $selectedDate = $request->get('date', $today->format('Y-m-d'));
+        $fromDate = $request->get('from_date', $today->copy()->subDays(30)->format('Y-m-d'));
+        $toDate = $request->get('to_date', $today->format('Y-m-d'));
 
+        // Get all records within date range
         $records = DB::table('attendance_records')
             ->where('employee_id', $employeeId)
-            ->where(function($q) use ($selectedDate) {
-                $q->whereDate('date', $selectedDate)
-                  ->orWhereDate('punch_in', $selectedDate)
-                  ->orWhereDate('punch_in_at', $selectedDate);
+            ->where(function($q) use ($fromDate, $toDate) {
+                $q->where(function($subQ) use ($fromDate, $toDate) {
+                    $subQ->whereNotNull('date')
+                         ->whereBetween(DB::raw('DATE(date)'), [$fromDate, $toDate]);
+                })
+                ->orWhere(function($subQ) use ($fromDate, $toDate) {
+                    $subQ->whereNotNull('punch_in')
+                         ->whereBetween(DB::raw('DATE(punch_in)'), [$fromDate, $toDate]);
+                })
+                ->orWhere(function($subQ) use ($fromDate, $toDate) {
+                    $subQ->whereNotNull('punch_in_at')
+                         ->whereBetween(DB::raw('DATE(punch_in_at)'), [$fromDate, $toDate]);
+                });
             })
-            ->orderBy('punch_in')
-            ->orderBy('punch_in_at')
+            ->orderBy('punch_in', 'desc')
+            ->orderBy('punch_in_at', 'desc')
             ->get()
             ->map(function ($row) {
                 $punchIn = $row->punch_in ?? $row->punch_in_at;
                 $punchOut = $row->punch_out ?? $row->punch_out_at;
+                
+                // Get the date from punch_in or date field
+                $recordDate = $punchIn ? Carbon::parse($punchIn)->format('Y-m-d') : ($row->date ? Carbon::parse($row->date)->format('Y-m-d') : null);
                 
                 $duration = 0;
                 if ($punchIn && $punchOut) {
@@ -756,19 +795,43 @@ class TimeController extends Controller
 
                 return (object) [
                     'id' => $row->id,
-                    'punch_in' => $punchIn ? Carbon::parse($punchIn)->format('Y-m-d h:i A') : null,
+                    'date' => $recordDate,
+                    'punch_in' => $punchIn ? Carbon::parse($punchIn)->format('h:i A') : null,
+                    'punch_in_full' => $punchIn ? Carbon::parse($punchIn)->format('Y-m-d h:i A') : null,
                     'punch_in_note' => $row->punch_in_note ?? $row->remarks,
-                    'punch_out' => $punchOut ? Carbon::parse($punchOut)->format('Y-m-d h:i A') : null,
+                    'punch_out' => $punchOut ? Carbon::parse($punchOut)->format('h:i A') : null,
+                    'punch_out_full' => $punchOut ? Carbon::parse($punchOut)->format('Y-m-d h:i A') : null,
                     'punch_out_note' => $row->punch_out_note,
                     'duration' => $duration,
                 ];
             });
 
+        // Group records by date
+        $groupedByDate = [];
+        foreach ($records as $record) {
+            if (!$record->date) continue;
+            
+            if (!isset($groupedByDate[$record->date])) {
+                $groupedByDate[$record->date] = [
+                    'date' => $record->date,
+                    'records' => [],
+                    'total_duration' => 0,
+                ];
+            }
+            
+            $groupedByDate[$record->date]['records'][] = $record;
+            $groupedByDate[$record->date]['total_duration'] += $record->duration;
+        }
+
+        // Sort by date descending (newest first)
+        krsort($groupedByDate);
+
         $totalDuration = $records->sum('duration');
 
         return view('time.attendance.my-records', [
-            'selectedDate' => $selectedDate,
-            'records' => $records,
+            'fromDate' => $fromDate,
+            'toDate' => $toDate,
+            'groupedRecords' => array_values($groupedByDate),
             'totalDuration' => $totalDuration,
         ]);
     }
@@ -1017,35 +1080,54 @@ class TimeController extends Controller
     {
         $data = $request->validate([
             'project_name' => ['nullable', 'string', 'max:255'],
-            'from_date' => ['nullable', 'date'],
-            'to_date' => ['nullable', 'date'],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date'],
             'only_approved' => ['nullable', 'boolean'],
         ]);
+
+        // Determine if any filters are applied
+        $hasFilters = $request->filled('project_name')
+            || $request->filled('date_from')
+            || $request->filled('date_to')
+            || $request->has('only_approved');
+
+        // If no filters, show empty results (search-driven behaviour like other pages)
+        if (!$hasFilters) {
+            return view('time.reports.project-reports', [
+                'results' => [],
+                'filters' => $data,
+            ]);
+        }
 
         $query = DB::table('timesheet_entries')
             ->join('timesheets', 'timesheet_entries.timesheet_id', '=', 'timesheets.id')
             ->join('employees', 'timesheets.employee_id', '=', 'employees.id')
             ->leftJoin('time_projects', 'timesheet_entries.project_id', '=', 'time_projects.id')
+            ->leftJoin('time_customers', 'time_projects.customer_id', '=', 'time_customers.id')
             ->select(
-                'employees.display_name as employee_name',
+                'time_projects.id as project_id',
                 'time_projects.name as project_name',
-                'timesheet_entries.activity_name',
-                'timesheet_entries.work_date',
+                'time_projects.description as project_description',
+                'time_projects.start_date as project_start_date',
+                'time_projects.end_date as project_end_date',
+                'time_customers.name as customer_name',
                 'timesheet_entries.hours',
-                'timesheets.status'
-            );
+                'employees.display_name as employee_name'
+            )
+            ->whereNotNull('timesheet_entries.project_id')
+            ->distinct();
 
         // Filter by project name
         if ($request->filled('project_name')) {
             $query->where('time_projects.name', 'like', '%' . $request->project_name . '%');
         }
 
-        // Filter by date range
-        if ($request->filled('from_date')) {
-            $query->where('timesheet_entries.work_date', '>=', $request->from_date);
+        // Filter by entry work date range (like other report pages)
+        if ($request->filled('date_from')) {
+            $query->where('timesheet_entries.work_date', '>=', $request->date_from);
         }
-        if ($request->filled('to_date')) {
-            $query->where('timesheet_entries.work_date', '<=', $request->to_date);
+        if ($request->filled('date_to')) {
+            $query->where('timesheet_entries.work_date', '<=', $request->date_to);
         }
 
         // Filter by approved timesheets only
@@ -1053,31 +1135,42 @@ class TimeController extends Controller
             $query->where('timesheets.status', 'approved');
         }
 
-        $entries = $query->orderBy('employees.display_name')
-            ->orderBy('time_projects.name')
-            ->orderBy('timesheet_entries.work_date')
+        $entries = $query->orderBy('time_projects.name')
+            ->orderBy('time_customers.name')
             ->get();
 
-        // Group by employee and project
+        // Group by project to match project-info page structure
         $grouped = [];
         foreach ($entries as $entry) {
-            $key = $entry->employee_name . '|' . ($entry->project_name ?? 'No Project');
-            if (!isset($grouped[$key])) {
-                $grouped[$key] = [
-                    'employee_name' => $entry->employee_name,
+            $projectKey = $entry->project_id ?? 'no-project';
+            if (!isset($grouped[$projectKey])) {
+                // Get project admins
+                $projectAdmins = DB::table('time_project_admins')
+                    ->join('employees', 'time_project_admins.employee_id', '=', 'employees.id')
+                    ->where('time_project_admins.project_id', $entry->project_id)
+                    ->pluck('employees.display_name')
+                    ->implode(', ');
+
+                // Format date range
+                $dateRange = '';
+                if ($entry->project_start_date && $entry->project_end_date) {
+                    $dateRange = Carbon::parse($entry->project_start_date)->format('d M Y') . ' - ' . Carbon::parse($entry->project_end_date)->format('d M Y');
+                }
+
+                $grouped[$projectKey] = [
+                    'project_id' => $entry->project_id,
+                    'customer_name' => $entry->customer_name ?? 'No Customer',
                     'project_name' => $entry->project_name ?? 'No Project',
-                    'activities' => [],
+                    'description' => $entry->project_description ?? '-',
+                    'project_date_range' => $dateRange,
+                    'project_admins' => $projectAdmins ?: '-',
                     'total_hours' => 0,
+                    'employee_count' => 0,
                 ];
             }
 
-            $activityKey = $entry->activity_name ?? 'General';
-            if (!isset($grouped[$key]['activities'][$activityKey])) {
-                $grouped[$key]['activities'][$activityKey] = 0;
-            }
-
-            $grouped[$key]['activities'][$activityKey] += (float)$entry->hours;
-            $grouped[$key]['total_hours'] += (float)$entry->hours;
+            $grouped[$projectKey]['total_hours'] += (float)$entry->hours;
+            $grouped[$projectKey]['employee_count']++;
         }
 
         $results = array_values($grouped);
@@ -1471,10 +1564,12 @@ class TimeController extends Controller
                 'time_projects.customer_id',
                 'time_projects.name as project_name',
                 'time_projects.description',
+                'time_projects.start_date',
+                'time_projects.end_date',
                 'time_customers.name as customer_name',
                 DB::raw("GROUP_CONCAT(DISTINCT employees.display_name ORDER BY employees.display_name SEPARATOR ', ') as admins")
             )
-            ->groupBy('time_projects.id', 'time_projects.customer_id', 'time_projects.name', 'time_projects.description', 'time_customers.name');
+            ->groupBy('time_projects.id', 'time_projects.customer_id', 'time_projects.name', 'time_projects.description', 'time_projects.start_date', 'time_projects.end_date', 'time_customers.name');
 
         // Apply filters
         if ($request->filled('customer_name')) {
@@ -1525,6 +1620,8 @@ class TimeController extends Controller
             'customer_id' => ['nullable', 'exists:time_customers,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:500'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
             'project_admin_id' => ['nullable', 'exists:employees,id'],
         ]);
 
@@ -1533,6 +1630,8 @@ class TimeController extends Controller
             'customer_id' => $data['customer_id'] ?? null,
             'name' => $data['name'],
             'description' => $data['description'] ?? null,
+            'start_date' => $data['start_date'] ?? null,
+            'end_date' => $data['end_date'] ?? null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -1560,6 +1659,8 @@ class TimeController extends Controller
             'customer_id' => ['nullable', 'exists:time_customers,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:500'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
             'project_admin_id' => ['nullable', 'exists:employees,id'],
         ]);
 
@@ -1570,6 +1671,8 @@ class TimeController extends Controller
                 'customer_id' => $data['customer_id'] ?? null,
                 'name' => $data['name'],
                 'description' => $data['description'] ?? null,
+                'start_date' => $data['start_date'] ?? null,
+                'end_date' => $data['end_date'] ?? null,
                 'updated_at' => now(),
             ]);
 
@@ -1594,7 +1697,6 @@ class TimeController extends Controller
                     ->where('employee_id', $data['project_admin_id'])
                     ->update([
                         'role' => 'Project Admin',
-                        'updated_at' => now(),
                     ]);
             } else {
                 // Insert new assignment

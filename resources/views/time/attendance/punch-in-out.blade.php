@@ -156,9 +156,9 @@
                         <div class="text-xs font-medium mb-1" style="color: var(--text-primary);">Current Time:</div>
                         <div class="text-xs" style="color: var(--text-primary);">
                             <strong>Date:</strong> {{ \Carbon\Carbon::parse($currentDate)->format('M d, Y') }} | <strong>Time:</strong> {{ $currentTime }}
-                        </div>
-                    </div>
-                    
+            </div>
+        </div>
+
                     <form id="punchOutForm" method="POST" action="{{ route('time.attendance.punch-out') }}" class="space-y-5">
                         @csrf
                         

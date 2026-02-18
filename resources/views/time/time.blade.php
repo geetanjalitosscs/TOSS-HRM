@@ -4,85 +4,85 @@
 
 @section('body')
     <x-main-layout title="Time">
-        <!-- Top Navigation Tabs -->
-        <div class="hr-sticky-tabs">
-            <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
-                @php
-                    $timesheetsItems = [
-                        [
-                            'url' => route('time.my-timesheets'),
+                    <!-- Top Navigation Tabs -->
+                    <div class="hr-sticky-tabs">
+                        <div class="flex items-center border-b overflow-x-auto overflow-y-visible" style="border-color: var(--border-default);">
+                            @php
+                                $timesheetsItems = [
+                                    [
+                                        'url' => route('time.my-timesheets'),
                             'label' => 'My Worksheets',
-                            'active' => request()->routeIs('time.my-timesheets') || request()->routeIs('time.my-timesheets.edit')
-                        ],
-                        [
-                            'url' => route('time'),
+                                        'active' => request()->routeIs('time.my-timesheets') || request()->routeIs('time.my-timesheets.edit')
+                                    ],
+                                    [
+                                        'url' => route('time'),
                             'label' => 'Employee Worksheets',
-                            'active' => request()->routeIs('time')
-                        ]
-                    ];
-                    $timesheetsHasActive = collect($timesheetsItems)->contains('active', true);
-                    
-                    $attendanceItems = [
-                        [
-                            'url' => route('time.attendance.my-records'),
-                            'label' => 'My Records',
-                            'active' => request()->routeIs('time.attendance.my-records')
-                        ],
-                        [
-                            'url' => route('time.attendance.punch-in-out'),
-                            'label' => 'Punch In/Out',
-                            'active' => request()->routeIs('time.attendance.punch-in-out')
-                        ],
-                        [
-                            'url' => route('time.attendance.employee-records'),
-                            'label' => 'Employee Records',
-                            'active' => request()->routeIs('time.attendance.employee-records')
-                        ],
-                        [
-                            'url' => route('time.attendance.configuration'),
-                            'label' => 'Configuration',
-                            'active' => request()->routeIs('time.attendance.configuration'),
-                            'hidden' => true
-                        ],
-                    ];
-                    $attendanceHasActive = collect($attendanceItems)->contains('active', true);
-                @endphp
-                <x-dropdown-menu 
-                    :items="$timesheetsItems"
-                    position="left"
-                    width="w-48">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
+                                        'active' => request()->routeIs('time')
+                                    ]
+                                ];
+                                $timesheetsHasActive = collect($timesheetsItems)->contains('active', true);
+                                
+                                $attendanceItems = [
+                                    [
+                                        'url' => route('time.attendance.my-records'),
+                                        'label' => 'My Records',
+                                        'active' => request()->routeIs('time.attendance.my-records')
+                                    ],
+                                    [
+                                        'url' => route('time.attendance.punch-in-out'),
+                                        'label' => 'Punch In/Out',
+                                        'active' => request()->routeIs('time.attendance.punch-in-out')
+                                    ],
+                                    [
+                                        'url' => route('time.attendance.employee-records'),
+                                        'label' => 'Employee Records',
+                                        'active' => request()->routeIs('time.attendance.employee-records')
+                                    ],
+                                    [
+                                        'url' => route('time.attendance.configuration'),
+                                        'label' => 'Configuration',
+                                        'active' => request()->routeIs('time.attendance.configuration'),
+                                        'hidden' => true
+                                    ],
+                                ];
+                                $attendanceHasActive = collect($attendanceItems)->contains('active', true);
+                            @endphp
+                            <x-dropdown-menu 
+                                :items="$timesheetsItems"
+                                position="left"
+                                width="w-48">
+                                <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
                         <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Worksheets</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
+                                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
+                                </div>
+                            </x-dropdown-menu>
+                            <x-dropdown-menu 
+                                :items="$attendanceItems"
+                                position="left"
+                                width="w-56">
+                                <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
+                                    <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
+                                    <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
+                                </div>
+                            </x-dropdown-menu>
+                        </div>
                     </div>
-                </x-dropdown-menu>
-                <x-dropdown-menu 
-                    :items="$attendanceItems"
-                    position="left"
-                    width="w-56">
-                    <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $attendanceHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $attendanceHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $attendanceHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Attendance</span>
-                        <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
-                    </div>
-                </x-dropdown-menu>
-            </div>
-        </div>
 
         <!-- Filter Section -->
-        <section class="hr-card p-6 mb-6 border-t-0 rounded-t-none">
-            <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
+                    <section class="hr-card p-6 mb-6 border-t-0 rounded-t-none">
+                        <h2 class="text-sm font-bold flex items-baseline gap-2 mb-5" style="color: var(--text-primary);">
                 <i class="fas fa-filter" style="color: var(--color-hr-primary);"></i> <span class="mt-0.5">Filter Worksheets</span>
-            </h2>
+                        </h2>
             <form method="GET" action="{{ route('time') }}" id="employee-worksheets-search-form" class="rounded-lg p-4 border" style="background-color: var(--bg-hover); border-color: var(--border-default);">
-                <div class="flex gap-4">
-                    <div class="flex-1">
+                            <div class="flex gap-4">
+                                <div class="flex-1">
                         <label class="block text-xs font-medium mb-1" style="color: var(--text-primary);">Employee Name</label>
-                        <input 
-                            type="text" 
-                            name="employee_name"
+                                    <input 
+                                        type="text" 
+                                        name="employee_name"
                             value="{{ request('employee_name', '') }}"
-                            class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
-                            placeholder="Type for hints..."
+                                        class="hr-input w-full px-3 py-2.5 text-sm rounded-lg" 
+                                        placeholder="Type for hints..."
                         >
                     </div>
                     <div class="w-48">
@@ -98,18 +98,18 @@
                             value="{{ request('to_date') }}"
                             label="To Date"
                         />
-                    </div>
+                                </div>
                     <div class="flex items-start pt-6 gap-2">
                         <button type="button" onclick="resetEmployeeWorksheetsFilters()" class="hr-btn-secondary">
                             Reset
                         </button>
                         <button type="submit" class="hr-btn-primary">
                             Search
-                        </button>
-                    </div>
-                </div>
+                                    </button>
+                                </div>
+                            </div>
             </form>
-        </section>
+                    </section>
 
         <!-- Employee Worksheets Card -->
         <section class="hr-card p-6 border-t-0 rounded-t-none">
@@ -129,9 +129,9 @@
                 <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
                     <i class="fas fa-clock" style="color: var(--color-hr-primary);"></i>
                     <span class="mt-0.5">Employee Worksheets</span>
-                </h2>
+                        </h2>
             </div>
-
+                        
             <!-- Timesheet Grid -->
             <div class="overflow-x-auto">
                 <div class="min-w-max rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)]">
@@ -199,7 +199,7 @@
                     @else
                         <!-- Empty State Row -->
                         <div class="border-t border-[var(--border-default)]">
-                            <div class="px-4 py-6 text-xs text-[var(--text-muted)] text-center">
+                            <div class="px-4 py-6 text-xs text-[var(--text-muted)] text-center col-span-3">
                                 No Records Found
                             </div>
                         </div>
@@ -207,6 +207,8 @@
                 </div>
             </div>
         </section>
+                        </div>
+                    </section>
 
         @if($isMainUser)
         <!-- Edit Entry Modal (Only for Main User) -->

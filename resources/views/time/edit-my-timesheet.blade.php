@@ -112,7 +112,7 @@
                                 placeholder="Describe what work you did..."
                                 required
                             >{{ old('notes', $todayEntry->notes ?? 'Today\'s work') }}</textarea>
-                        </div>
+                </div>
             </div>
 
                     <!-- Save and Cancel Buttons -->

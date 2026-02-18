@@ -129,25 +129,36 @@
                                 <!-- Actions -->
                                 <div class="px-4 py-3">
                                     <div class="flex items-center justify-center gap-2">
-                                        <button 
-                                            type="button" 
-                                            class="hr-action-edit flex-shrink-0" 
-                                            title="Edit"
-                                            onclick="openEditEntryModal({{ $entry['id'] }}, '{{ \Carbon\Carbon::parse($entry['work_date'])->format('Y-m-d') }}', {{ json_encode($entry['notes']) }})"
-                                        >
-                                            <i class="fas fa-edit text-sm"></i>
-                                        </button>
+                                        @if($entry['id'])
+                                            <button 
+                                                type="button" 
+                                                class="hr-action-edit flex-shrink-0" 
+                                                title="Edit"
+                                                onclick="openEditEntryModal({{ $entry['id'] }}, '{{ \Carbon\Carbon::parse($entry['work_date'])->format('Y-m-d') }}', {{ json_encode($entry['notes']) }})"
+                                            >
+                                                <i class="fas fa-edit text-sm"></i>
+                                            </button>
+                                        @else
+                                            <button 
+                                                type="button" 
+                                                class="hr-action-edit flex-shrink-0" 
+                                                title="Add Entry"
+                                                onclick="window.location.href='{{ route('time.my-timesheets.edit') }}'"
+                                            >
+                                                <i class="fas fa-plus text-sm"></i>
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     @else
-                        <!-- Empty State Row -->
-                        <div class="border-t border-[var(--border-default)]">
-                            <div class="px-4 py-6 text-xs text-[var(--text-muted)] text-center">
-                                No Records Found
-                            </div>
+                    <!-- Empty State Row -->
+                    <div class="border-t border-[var(--border-default)]">
+                        <div class="px-4 py-6 text-xs text-[var(--text-muted)] text-center">
+                            No Records Found
                         </div>
+                    </div>
                     @endif
                 </div>
             </div>
