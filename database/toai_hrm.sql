@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2026 at 02:35 PM
+-- Generation Time: Feb 18, 2026 at 10:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,6 +46,12 @@ CREATE TABLE `activity_logs` (
 CREATE TABLE `attendance_records` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `date` date DEFAULT NULL,
+  `punch_in` datetime DEFAULT NULL,
+  `punch_out` datetime DEFAULT NULL,
+  `punch_in_note` text DEFAULT NULL,
+  `punch_out_note` text DEFAULT NULL,
+  `total_duration` decimal(8,2) DEFAULT NULL,
   `punch_in_at` datetime NOT NULL,
   `punch_out_at` datetime DEFAULT NULL,
   `punch_in_ip` varchar(45) DEFAULT NULL,
@@ -61,14 +67,18 @@ CREATE TABLE `attendance_records` (
 -- Dumping data for table `attendance_records`
 --
 
-INSERT INTO `attendance_records` (`id`, `employee_id`, `punch_in_at`, `punch_out_at`, `punch_in_ip`, `punch_out_ip`, `punch_in_source`, `punch_out_source`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 1, '2026-01-28 21:20:20', '2026-01-29 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
-(2, 1, '2026-01-27 21:20:20', '2026-01-28 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
-(3, 1, '2026-01-26 21:20:20', '2026-01-27 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
-(4, 1, '2026-01-25 21:20:20', '2026-01-26 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
-(5, 1, '2026-01-24 21:20:20', '2026-01-25 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
-(6, 1, '2026-01-23 21:20:20', '2026-01-24 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-01-28 12:20:20'),
-(7, 1, '2026-01-22 21:20:20', '2026-01-23 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-01-28 12:20:20');
+INSERT INTO `attendance_records` (`id`, `employee_id`, `date`, `punch_in`, `punch_out`, `punch_in_note`, `punch_out_note`, `total_duration`, `punch_in_at`, `punch_out_at`, `punch_in_ip`, `punch_out_ip`, `punch_in_source`, `punch_out_source`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 1, '2026-01-28', '2026-01-28 21:20:20', '2026-01-29 05:20:20', 'Seed attendance', NULL, NULL, '2026-01-28 21:20:20', '2026-01-29 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-02-14 12:52:08'),
+(2, 1, '2026-01-27', '2026-01-27 21:20:20', '2026-01-28 05:20:20', 'Seed attendance', NULL, NULL, '2026-01-27 21:20:20', '2026-01-28 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-02-14 12:52:08'),
+(3, 1, '2026-01-26', '2026-01-26 21:20:20', '2026-01-27 05:20:20', 'Seed attendance', NULL, NULL, '2026-01-26 21:20:20', '2026-01-27 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-02-14 12:52:08'),
+(4, 1, '2026-01-25', '2026-01-25 21:20:20', '2026-01-26 05:20:20', 'Seed attendance', NULL, NULL, '2026-01-25 21:20:20', '2026-01-26 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-02-14 12:52:08'),
+(5, 1, '2026-01-24', '2026-01-24 21:20:20', '2026-01-25 05:20:20', 'Seed attendance', NULL, NULL, '2026-01-24 21:20:20', '2026-01-25 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-02-14 12:52:08'),
+(6, 1, '2026-01-23', '2026-01-23 21:20:20', '2026-01-24 05:20:20', 'Seed attendance', NULL, NULL, '2026-01-23 21:20:20', '2026-01-24 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-02-14 12:52:08'),
+(7, 1, '2026-01-22', '2026-01-22 21:20:20', '2026-01-23 05:20:20', 'Seed attendance', NULL, NULL, '2026-01-22 21:20:20', '2026-01-23 05:20:20', '127.0.0.1', '127.0.0.1', 'web', 'web', 'Seed attendance', '2026-01-28 12:20:20', '2026-02-14 12:52:08'),
+(9, 1, '2026-02-14', '2026-02-14 13:21:00', '2026-02-14 14:35:52', NULL, NULL, -4.25, '2026-02-14 13:21:00', '2026-02-14 14:35:52', '127.0.0.1', '127.0.0.1', 'web', 'web', NULL, '2026-02-14 07:51:35', '2026-02-14 09:05:52'),
+(11, 1, '2026-02-16', '2026-02-16 11:04:00', NULL, NULL, NULL, NULL, '2026-02-16 11:04:00', NULL, '127.0.0.1', NULL, 'web', NULL, NULL, '2026-02-16 05:34:09', '2026-02-16 05:34:09'),
+(12, 1, '2026-02-17', '2026-02-17 10:59:00', '2026-02-17 17:26:18', NULL, NULL, 0.96, '2026-02-17 10:59:00', '2026-02-17 17:26:18', '127.0.0.1', '127.0.0.1', 'web', 'web', NULL, '2026-02-17 05:29:08', '2026-02-17 11:56:18'),
+(13, 1, '2026-02-18', '2026-02-18 11:31:00', NULL, NULL, NULL, NULL, '2026-02-18 11:31:00', NULL, '127.0.0.1', NULL, 'web', NULL, NULL, '2026-02-18 06:01:09', '2026-02-18 06:01:09');
 
 -- --------------------------------------------------------
 
@@ -153,7 +163,7 @@ INSERT INTO `buzz_posts` (`id`, `author_id`, `title`, `body`, `visibility`, `org
 (3, 1, 'Throwback Thursdays!!', 'Throwback Thursdays!!', 'employees', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL),
 (4, 1, 'Live SIMPLY Dream BIG', 'Live SIMPLY Dream BIG Be GREATFULL Give LOVE Laugh LOT.......', 'employees', NULL, '2026-01-27 17:06:39', '2026-01-27 17:06:39', NULL),
 (5, 1, 'hi', 'hi', 'employees', NULL, '2026-02-11 12:23:38', '2026-02-11 12:23:38', NULL),
-(6, 2, 'See this..', 'See this..', 'employees', NULL, '2026-02-12 06:31:45', '2026-02-12 06:31:45', NULL);
+(6, 2, 'See this..!!', 'See this..!!', 'employees', NULL, '2026-02-12 06:31:45', '2026-02-14 06:42:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -964,8 +974,8 @@ CREATE TABLE `file_uploads` (
 --
 
 INSERT INTO `file_uploads` (`id`, `stored_name`, `original_name`, `description`, `mime_type`, `size_bytes`, `path`, `uploaded_by`, `uploaded_at`) VALUES
-(4, '83d82c96-68ac-4173-a08a-858e6cb6709e.csv', '10th-result.csv', 'My 10th result', 'text/csv', 279, 'private/myinfo/83d82c96-68ac-4173-a08a-858e6cb6709e.csv', 1, '2026-02-12 05:17:17'),
-(5, '8f2afd9b-ce24-4010-9e20-7b5e1eaa9b73.csv', '12th-result.csv', 'My 12th result', 'text/csv', 279, 'private/myinfo/8f2afd9b-ce24-4010-9e20-7b5e1eaa9b73.csv', 1, '2026-02-12 05:17:55');
+(6, 'd7324b19-42c1-4317-816f-a79a7cb7abee.csv', '10th-result.csv', 'My 10th result', 'text/csv', 279, 'private/myinfo/d7324b19-42c1-4317-816f-a79a7cb7abee.csv', 1, '2026-02-14 08:31:22'),
+(7, '0a17721b-4880-44f7-8a2a-2c87f8b0ddff.csv', '12th-result.csv', 'My 12th result', 'text/csv', 279, 'private/myinfo/0a17721b-4880-44f7-8a2a-2c87f8b0ddff.csv', 1, '2026-02-14 08:31:38');
 
 -- --------------------------------------------------------
 
@@ -1430,7 +1440,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2026_02_11_000000_create_employee_qualification_tables', 5),
 (6, '2026_02_11_000100_add_deleted_at_to_vacancies_table', 6),
 (7, '2026_02_07_102355_create_theme_colors_table', 7),
-(8, '2026_02_11_000200_add_email_to_employee_emergency_contacts_table', 8);
+(8, '2026_02_11_000200_add_email_to_employee_emergency_contacts_table', 8),
+(9, '2026_02_15_000001_update_timesheets_table_for_time_management', 9),
+(10, '2026_02_15_000002_create_timesheet_entries_table', 10),
+(11, '2026_02_15_000003_update_attendance_records_table', 11),
+(12, '2026_02_17_064845_add_date_range_to_time_projects_table', 12);
 
 -- --------------------------------------------------------
 
@@ -1696,8 +1710,11 @@ CREATE TABLE `performance_reviews` (
 --
 
 INSERT INTO `performance_reviews` (`id`, `cycle_id`, `employee_id`, `reviewer_id`, `status`, `overall_rating`, `comments`, `created_at`, `updated_at`) VALUES
-(3, 1, 2, NULL, 'in_progress', NULL, NULL, '2026-02-12 11:03:40', '2026-02-12 11:03:40'),
-(4, 1, 11, NULL, 'not_started', NULL, NULL, '2026-02-12 13:14:12', '2026-02-12 13:19:41');
+(3, 1, 2, 1, 'completed', 74.04, 'Overall it is good', '2026-02-12 11:03:40', '2026-02-13 13:07:40'),
+(4, 1, 11, 5, 'approved', 63.60, 'Priority review', '2026-02-12 13:14:12', '2026-02-13 11:29:39'),
+(5, 1, 10, 11, 'completed', 89.65, 'Good one', '2026-02-13 09:13:15', '2026-02-13 11:30:36'),
+(6, 1, 1, 2, 'completed', 72.63, 'Overall is good.', '2026-02-13 11:31:30', '2026-02-13 12:39:04'),
+(7, 1, 5, 1, 'in_progress', NULL, NULL, '2026-02-13 12:52:08', '2026-02-14 08:57:43');
 
 -- --------------------------------------------------------
 
@@ -1714,6 +1731,22 @@ CREATE TABLE `performance_review_kpis` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Ratings per KPI within a review.';
+
+--
+-- Dumping data for table `performance_review_kpis`
+--
+
+INSERT INTO `performance_review_kpis` (`id`, `performance_review_id`, `kpi_id`, `rating`, `comments`, `created_at`, `updated_at`) VALUES
+(3, 4, 1, NULL, NULL, '2026-02-13 08:55:49', '2026-02-13 08:55:49'),
+(4, 4, 2, NULL, NULL, '2026-02-13 08:55:49', '2026-02-13 08:55:49'),
+(6, 3, 1, 78.95, 'Quality of code is impressive.', '2026-02-13 08:58:47', '2026-02-13 13:07:40'),
+(7, 3, 2, 65.86, 'Last project is late', '2026-02-13 08:58:47', '2026-02-13 13:07:40'),
+(9, 5, 1, NULL, NULL, '2026-02-13 09:13:15', '2026-02-13 09:13:15'),
+(10, 5, 2, NULL, NULL, '2026-02-13 09:13:15', '2026-02-13 09:13:15'),
+(11, 6, 1, 79.00, 'Code is structured', '2026-02-13 11:31:30', '2026-02-13 12:39:04'),
+(12, 6, 2, 62.00, 'Project is delayed last time.', '2026-02-13 11:31:30', '2026-02-13 12:39:04'),
+(13, 7, 1, NULL, NULL, '2026-02-13 12:52:08', '2026-02-13 12:52:08'),
+(14, 7, 2, NULL, NULL, '2026-02-13 12:52:08', '2026-02-13 12:52:08');
 
 -- --------------------------------------------------------
 
@@ -1898,13 +1931,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('9o64QrjXZA5eS8bkJXQ0chabecEvgb4DIyji6CRx', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoieHgxR0xZVk12bHdIMG54emFTUnVQdk85MFI3OVR0OVZxcjFwMndDYSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902012),
-('H9FGmhuki2lUzRXUO8Gdhgh3AjJSjHxTaNkxUT5X', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiT245RXJrdTNkdnRYeHNNNnpPS1lqU29QbmNLd0pIVEloUzZ3ZnhMSyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902012),
-('hzy7emwR2RCbyHtmc0iphraqFX0f5VU0tFCvvTK1', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNGJjSVc1aklza3lCTnhNcUhxb3M2N1VtblhyM0xrcU1NTlJMWFdONCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJhdXRoX3VzZXIiO2E6Mzp7czoyOiJpZCI7aToxO3M6NDoibmFtZSI7czo3OiJIUkBUT1NTIjtzOjg6InVzZXJuYW1lIjtzOjc6IkhSQFRPU1MiO31zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czo0MjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3BlcmZvcm1hbmNlL3RyYWNrZXJzIjtzOjU6InJvdXRlIjtzOjIwOiJwZXJmb3JtYW5jZS50cmFja2VycyI7fX0=', 1770903295),
-('IsKb76j6MOXGTVGRjw4MLUOt4YEDUyXHNfJuqoEI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiRXNaUGtnSzRuMDZVR01PSHFxT0NiN0d4eVgzd2ZPTVlRellsckhHbyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902016),
-('iwMB7i271eR9UcvO2wj73A22MvEVw0IsGRp9hUsm', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiNTRJM1k5ZVNKbHdPQUp0eGxieGpkOVlNdTJ2bzJNYlhxbWlnTWdRTSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902015),
-('QMwzRKmloGAb6h4xB1fx0UVO7btvO8WYE3K7hD9X', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiV1V4OE9zaHBlM0VaejBTancwRXN3M0Z5RnVJUkdiMGZXQVVXdEZsdyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902016),
-('uZ3sbxgVPwnjdBIx3mMOiB1cwFBJQU8tprWVBAjr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiWkVUYnFOaktOM282dFZEV1ZTOHlaZ2NDbWZvenlQbXZya044dGxnZCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319fQ==', 1770902013);
+('b8rG037pWIlu4HO6cKmR8jy47tQ4NiKfHjAyPt92', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNlZFclVvdXhicDNWMk9pSzN2QkM2cFpybU40MG94dFRYWTl5NFBPYyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJhdXRoX3VzZXIiO2E6Mzp7czoyOiJpZCI7aToxO3M6NDoibmFtZSI7czo3OiJIUkBUT1NTIjtzOjg6InVzZXJuYW1lIjtzOjc6IkhSQFRPU1MiO31zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czozODoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3BpbS9hZGQtZW1wbG95ZWUiO3M6NToicm91dGUiO3M6MTY6InBpbS5hZGQtZW1wbG95ZWUiO319', 1771405454);
 
 -- --------------------------------------------------------
 
@@ -2034,12 +2061,18 @@ INSERT INTO `theme_colors` (`id`, `variable_name`, `display_name`, `category`, `
 CREATE TABLE `timesheets` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `week_start_date` date DEFAULT NULL,
+  `week_end_date` date DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `status` enum('draft','submitted','approved','rejected','locked') DEFAULT 'draft',
+  `status` enum('draft','submitted','approved','rejected') DEFAULT 'draft',
+  `total_hours` decimal(8,2) NOT NULL DEFAULT 0.00,
   `submitted_at` datetime DEFAULT NULL,
   `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
   `approved_at` datetime DEFAULT NULL,
+  `rejected_at` datetime DEFAULT NULL,
+  `rejected_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `rejection_reason` text DEFAULT NULL,
   `remarks` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -2049,8 +2082,38 @@ CREATE TABLE `timesheets` (
 -- Dumping data for table `timesheets`
 --
 
-INSERT INTO `timesheets` (`id`, `employee_id`, `start_date`, `end_date`, `status`, `submitted_at`, `approved_by`, `approved_at`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 1, '2026-01-19', '2026-01-25', 'approved', '2026-01-27 17:06:39', 2, '2026-01-27 17:06:39', 'Week 3 demo timesheet', '2026-01-27 17:06:39', '2026-01-27 17:06:39');
+INSERT INTO `timesheets` (`id`, `employee_id`, `week_start_date`, `week_end_date`, `start_date`, `end_date`, `status`, `total_hours`, `submitted_at`, `approved_by`, `approved_at`, `rejected_at`, `rejected_by`, `rejection_reason`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 1, '2026-01-19', '2026-01-25', '2026-01-19', '2026-01-25', 'approved', 0.00, '2026-01-27 17:06:39', 2, '2026-01-27 17:06:39', NULL, NULL, NULL, 'Week 3 demo timesheet', '2026-01-27 17:06:39', '2026-02-14 12:51:56'),
+(2, 1, '2026-02-09', '2026-02-15', '2026-02-09', '2026-02-15', 'draft', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-14 07:23:11', '2026-02-14 07:23:11'),
+(3, 1, '2026-02-16', '2026-02-22', '2026-02-16', '2026-02-22', 'draft', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-16 04:52:24', '2026-02-16 04:52:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timesheet_entries`
+--
+
+CREATE TABLE `timesheet_entries` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `timesheet_id` bigint(20) UNSIGNED NOT NULL,
+  `project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `activity_name` varchar(255) DEFAULT NULL,
+  `work_date` date NOT NULL,
+  `hours` decimal(5,2) NOT NULL DEFAULT 0.00,
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `timesheet_entries`
+--
+
+INSERT INTO `timesheet_entries` (`id`, `timesheet_id`, `project_id`, `activity_name`, `work_date`, `hours`, `notes`, `created_at`, `updated_at`) VALUES
+(13, 2, NULL, NULL, '2026-02-14', 0.00, 'Making client sheets', '2026-02-14 04:42:12', '2026-02-14 05:03:33'),
+(14, 2, NULL, NULL, '2026-02-14', 0.00, 'Making client sheets', '2026-02-14 05:03:44', '2026-02-14 05:18:48'),
+(15, 3, NULL, NULL, '2026-02-16', 0.00, 'Making UGC', '2026-02-16 00:56:38', '2026-02-16 00:56:38'),
+(16, 3, NULL, NULL, '2026-02-17', 0.00, 'IBM research', '2026-02-17 06:26:59', '2026-02-17 06:26:59');
 
 -- --------------------------------------------------------
 
@@ -2114,6 +2177,8 @@ CREATE TABLE `time_projects` (
   `customer_id` bigint(20) UNSIGNED DEFAULT NULL,
   `name` varchar(191) NOT NULL,
   `description` text DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -2123,9 +2188,9 @@ CREATE TABLE `time_projects` (
 -- Dumping data for table `time_projects`
 --
 
-INSERT INTO `time_projects` (`id`, `customer_id`, `name`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Acme HR Implementation', 'Implementation project for Acme Corp', 1, '2026-01-27 17:06:39', '2026-01-27 17:06:39'),
-(2, 2, 'Computer Management', 'Manage multiple computers from website', 1, '2026-02-12 05:37:11', '2026-02-12 05:40:41');
+INSERT INTO `time_projects` (`id`, `customer_id`, `name`, `description`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Acme HR Implementation', 'Implementation project for Acme Corp', '2026-02-02', '2026-03-10', 1, '2026-01-27 17:06:39', '2026-02-17 10:55:11'),
+(2, 2, 'Computer Management', 'Manage multiple computers from website', '2026-02-11', '2026-04-14', 1, '2026-02-12 05:37:11', '2026-02-17 10:55:24');
 
 -- --------------------------------------------------------
 
@@ -2147,8 +2212,8 @@ CREATE TABLE `time_project_assignments` (
 --
 
 INSERT INTO `time_project_assignments` (`id`, `project_id`, `employee_id`, `role`, `hourly_rate`, `created_at`) VALUES
-(1, 1, 1, 'Developer', 75.00, '2026-01-27 17:06:39'),
-(6, 2, 10, 'Project Admin', NULL, '2026-02-12 05:40:41');
+(7, 1, 1, 'Project Admin', NULL, '2026-02-17 10:55:11'),
+(8, 2, 10, 'Project Admin', NULL, '2026-02-17 10:55:24');
 
 -- --------------------------------------------------------
 
@@ -2178,7 +2243,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `employee_id`, `is_active`, `is_main_user`, `created_by`, `page_permissions`, `last_login_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'HR@TOSS', 'hrtoss@gmail.com', '$2y$12$051MM95qGcbn8bHp05w7dOCnDgsP88Y3SJ8NX0kmi7Vayi5vlOlzG', 1, 1, 1, NULL, NULL, NULL, '2026-01-27 17:06:38', '2026-02-11 12:37:01', NULL),
-(2, 'neet', 'neet@gmail.com', '$2y$12$cAczoNQdtJBSIs/sU6piguTB0kUdlFAJ/B9fSvVdDVtxsyA/Mrfqa', 5, 0, 0, NULL, '[\"dashboard\",\"my-info\",\"pim\",\"directory\",\"buzz\"]', NULL, '2026-01-30 11:58:07', '2026-02-12 06:33:10', NULL),
+(2, 'neet', 'neet@gmail.com', '$2y$12$cAczoNQdtJBSIs/sU6piguTB0kUdlFAJ/B9fSvVdDVtxsyA/Mrfqa', 5, 1, 0, NULL, '[\"dashboard\",\"my-info\",\"pim\",\"performance\",\"directory\",\"buzz\"]', NULL, '2026-01-30 11:58:07', '2026-02-13 08:15:35', NULL),
 (3, 'jj', 'owner@sukrivineyard.com', '$2y$12$TzDfzLI24Q5HSzC0./BhO.ZXSRoscV1dIb8DO9V2Tr9Dc.pHX9yka', 11, 1, 0, 1, '[\"dashboard\",\"recruitment\",\"performance\"]', NULL, '2026-02-12 06:24:40', '2026-02-12 12:03:03', '2026-02-12 06:33:03');
 
 -- --------------------------------------------------------
@@ -2217,7 +2282,7 @@ CREATE TABLE `user_roles` (
 
 INSERT INTO `user_roles` (`user_id`, `role_id`, `created_at`) VALUES
 (1, 2, '2026-02-11 12:37:01'),
-(2, 1, '2026-02-12 06:33:10'),
+(2, 1, '2026-02-13 08:15:35'),
 (3, 1, '2026-02-12 06:24:40');
 
 -- --------------------------------------------------------
@@ -2930,6 +2995,14 @@ ALTER TABLE `timesheets`
   ADD KEY `fk_timesheets_approver` (`approved_by`);
 
 --
+-- Indexes for table `timesheet_entries`
+--
+ALTER TABLE `timesheet_entries`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `timesheet_entries_project_id_foreign` (`project_id`),
+  ADD KEY `timesheet_entries_timesheet_id_work_date_index` (`timesheet_id`,`work_date`);
+
+--
 -- Indexes for table `timesheet_rows`
 --
 ALTER TABLE `timesheet_rows`
@@ -3021,7 +3094,7 @@ ALTER TABLE `activity_logs`
 -- AUTO_INCREMENT for table `attendance_records`
 --
 ALTER TABLE `attendance_records`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `attendance_settings`
@@ -3237,7 +3310,7 @@ ALTER TABLE `enabled_modules`
 -- AUTO_INCREMENT for table `file_uploads`
 --
 ALTER TABLE `file_uploads`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `holidays`
@@ -3273,7 +3346,7 @@ ALTER TABLE `job_titles`
 -- AUTO_INCREMENT for table `kpis`
 --
 ALTER TABLE `kpis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `language_packages`
@@ -3351,7 +3424,7 @@ ALTER TABLE `login_attempts`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `nationalities`
@@ -3429,13 +3502,13 @@ ALTER TABLE `performance_cycles`
 -- AUTO_INCREMENT for table `performance_reviews`
 --
 ALTER TABLE `performance_reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `performance_review_kpis`
 --
 ALTER TABLE `performance_review_kpis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -3501,7 +3574,13 @@ ALTER TABLE `theme_colors`
 -- AUTO_INCREMENT for table `timesheets`
 --
 ALTER TABLE `timesheets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `timesheet_entries`
+--
+ALTER TABLE `timesheet_entries`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `timesheet_rows`
@@ -3525,7 +3604,7 @@ ALTER TABLE `time_projects`
 -- AUTO_INCREMENT for table `time_project_assignments`
 --
 ALTER TABLE `time_project_assignments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -3906,6 +3985,13 @@ ALTER TABLE `sessions`
 ALTER TABLE `timesheets`
   ADD CONSTRAINT `fk_timesheets_approver` FOREIGN KEY (`approved_by`) REFERENCES `employees` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_timesheets_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `timesheet_entries`
+--
+ALTER TABLE `timesheet_entries`
+  ADD CONSTRAINT `timesheet_entries_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `time_projects` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `timesheet_entries_timesheet_id_foreign` FOREIGN KEY (`timesheet_id`) REFERENCES `timesheets` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `timesheet_rows`
