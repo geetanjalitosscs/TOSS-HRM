@@ -55,6 +55,7 @@ TOAI HRM Suite is an **enterprise-grade Human Resource Management System** built
 **MVC Pattern Implementation:**
 - **Models**: `app/Models/` - Data logic and database interactions
 - **Views**: `resources/views/` - Blade templates with component system
+- **Layout**: `resources/views/layouts/app.blade.php` - Base HTML layout (head, assets, body sections)
 - **Controllers**: `app/Http/Controllers/` - HTTP request handling
 - **Routes**: `routes/web.php` - RESTful URL endpoints (318+ routes)
 - **Components**: `app/Components/` - Reusable Blade components with PHP backing
@@ -220,7 +221,7 @@ SESSION_LIFETIME=120             # Session timeout in minutes
 - **SSH Port**: (Default: 22)
 - **Username**: (Server username)
 - **Database Host**: (Production DB host)
-- **Database Name**: `toai_hrm_prod`
+- **Database Name**: `toai_hrm`
 
 ⚠️ **Security Note**: Never commit `.env` file to version control! It's already in `.gitignore`.
 
@@ -1050,6 +1051,7 @@ php artisan test
 | File/Directory | Purpose |
 |---------------|---------|
 | `routes/web.php` | All application routes (318+ routes) |
+| `resources/views/layouts/app.blade.php` | Base layout used by all pages (includes CSS/JS, Font Awesome) |
 | `app/Http/Controllers/` | All controllers (15 controllers) |
 | `app/Http/Middleware/AuthSession.php` | Custom authentication middleware |
 | `resources/views/` | All Blade templates |
