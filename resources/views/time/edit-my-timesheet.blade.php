@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Time - Edit Timesheet')
+@section('title', 'Time - Edit Worksheet')
 
 @section('body')
     <x-main-layout title="Time">
@@ -14,19 +14,19 @@
                     :items="[
                         [
                             'url' => route('time.my-timesheets'),
-                            'label' => 'My Timesheets',
+                            'label' => 'My Worksheets',
                             'active' => request()->routeIs('time.my-timesheets') || request()->routeIs('time.my-timesheets.edit')
                         ],
                         [
                             'url' => route('time'),
-                            'label' => 'Employee Timesheets',
+                            'label' => 'Employee Worksheets',
                             'active' => request()->routeIs('time')
                         ]
                     ]"
                     position="left"
                     width="w-48">
                     <div class="px-6 py-3 border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)] cursor-pointer transition-all flex items-center">
-                        <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Timesheets</span>
+                        <span class="text-sm font-semibold text-[var(--color-hr-primary-dark)]">Worksheets</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>
@@ -64,13 +64,13 @@
             </div>
         </div>
 
-        <!-- Edit Timesheet Card -->
+        <!-- Edit Worksheet Card -->
         <section class="hr-card p-6 border-t-0 rounded-t-none">
             <!-- Header Row -->
             <div class="flex items-center justify-between gap-6 mb-6">
                 <h2 class="text-sm font-bold flex items-baseline gap-2" style="color: var(--text-primary);">
                     <i class="fas fa-edit" style="color: var(--color-hr-primary);"></i>
-                    <span class="mt-0.5">Edit Timesheet</span>
+                    <span class="mt-0.5">Edit Worksheet</span>
                 </h2>
             </div>
 

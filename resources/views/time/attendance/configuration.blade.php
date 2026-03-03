@@ -11,12 +11,12 @@
                     $timesheetsItems = [
                         [
                             'url' => route('time.my-timesheets'),
-                            'label' => 'My Timesheets',
+                            'label' => 'My Worksheets',
                             'active' => request()->routeIs('time.my-timesheets') || request()->routeIs('time.my-timesheets.edit')
                         ],
                         [
                             'url' => route('time'),
-                            'label' => 'Employee Timesheets',
+                            'label' => 'Employee Worksheets',
                             'active' => request()->routeIs('time')
                         ]
                     ];
@@ -52,7 +52,7 @@
                     position="left"
                     width="w-48">
                     <div class="px-6 py-3 cursor-pointer transition-all flex items-center tab-trigger {{ $timesheetsHasActive ? 'border-b-2 border-[var(--color-hr-primary)] bg-[var(--color-primary-light)]' : 'hover:bg-[var(--color-primary-light)]' }}">
-                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Timesheets</span>
+                        <span class="text-sm {{ $timesheetsHasActive ? 'font-semibold' : 'font-medium' }}" style="color: {{ $timesheetsHasActive ? 'var(--color-hr-primary-dark)' : 'var(--text-primary)' }};">Worksheets</span>
                         <x-dropdown-arrow color="var(--color-hr-primary)" class="flex-shrink-0" />
                     </div>
                 </x-dropdown-menu>

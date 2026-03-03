@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Time - My Timesheets')
+@section('title', 'Time - My Worksheets')
 
 @section('body')
     <x-main-layout title="Time">
@@ -16,7 +16,7 @@
                         ],
                         [
                             'url' => route('time'),
-                            'label' => 'Employee Timesheets',
+                            'label' => 'Employee Worksheets',
                             'active' => request()->routeIs('time')
                         ]
                     ];
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <!-- My Timesheet Card -->
+        <!-- My Worksheet Card -->
         <section class="hr-card p-6 border-t-0 rounded-t-none">
             @if(session('status'))
                 <div class="mb-4 p-3 rounded-lg" style="background-color: #dcfce7; color: #166534; border: 1px solid #86efac;">
@@ -88,7 +88,7 @@
                     <span class="mt-0.5">My Worksheet</span>
             </div>
 
-            <!-- Timesheet Grid -->
+            <!-- Worksheet Grid -->
             <div class="overflow-x-auto">
                 <div class="min-w-max rounded-xl border border-[var(--border-default)] bg-[var(--bg-card)]">
                     <!-- Header -->

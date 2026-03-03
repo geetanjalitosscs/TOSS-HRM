@@ -59,7 +59,7 @@
         @endif
 
         @if($can('time'))
-            <a href="{{ route('time') }}" class="sidebar-link {{ request()->routeIs('time*') && !request()->routeIs('time.project-info*') && !request()->routeIs('time.reports*') ? 'sidebar-link--active' : '' }}">
+            <a href="{{ route('time.attendance.punch-in-out') }}" class="sidebar-link {{ request()->routeIs('time*') && !request()->routeIs('time.project-info*') && !request()->routeIs('time.reports*') ? 'sidebar-link--active' : '' }}">
                 <i class="fas fa-clock"></i> Time
             </a>
         @endif

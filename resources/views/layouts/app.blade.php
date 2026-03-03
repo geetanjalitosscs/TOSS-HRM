@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="app-url" content="{{ config('app.url') }}">
 
     <title>
         @hasSection('title')
@@ -11,6 +13,19 @@
             {{ config('app.name', 'TOAI HRM Suite') }}
         @endif
     </title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
+    <!-- Theme Initialization Script (Prevents Theme Flicker) -->
+    <script>
+        // Set theme immediately before page renders to prevent flicker
+        (function() {
+            const storedTheme = localStorage.getItem('hr-theme');
+            const theme = storedTheme || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -26,6 +41,9 @@
 </head>
 <body class="min-h-screen bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18]">
     @yield('body')
+
+    {{-- Global portal container for profile dropdown and other overlays --}}
+    <div id="hr-dropdown-portal"></div>
 
     @stack('scripts')
 </body>

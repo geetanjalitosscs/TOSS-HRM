@@ -1756,6 +1756,13 @@
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button
+                        type="button"
+                        class="hr-btn-secondary px-4 py-1.5 text-xs"
+                        onclick="closeAddAttachmentModal(true)"
+                    >
+                        Cancel
+                    </button>
+                    <button
                         type="submit"
                         class="hr-btn-primary px-4 py-1.5 text-xs"
                     >
