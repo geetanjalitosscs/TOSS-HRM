@@ -1317,4 +1317,3 @@ php artisan test
 ---
 
 **End of Knowledge Transfer Document**
-
